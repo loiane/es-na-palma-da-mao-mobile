@@ -1,0 +1,43 @@
+{
+  "name": "portal-do-cidadao",
+  "version": "1.0.0",
+  "description": "Portal do Cidadão",
+  "scripts": {
+    "serveit": "browser-sync start --index app/index.html --files \"src/app/**/*.html, src/app/**/*.css, src/app/**/*.js\" --server src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prodest/portal-do-cidadao.git"
+  },
+  "keywords": [
+    "PRODEST"
+  ],
+  "author": "daniel.hoisel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prodest/portal-do-cidadao/issues"
+  },
+  "homepage": "https://github.com/prodest/portal-do-cidadao#readme",
+  "devDependencies": {
+    "browser-sync": "^2.11.1",
+    "jspm": "^0.16.30"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "src"
+    },
+    "dependencies": {
+      "bootstrap": "github:twbs/bootstrap@^3.3.6",
+      "css": "github:systemjs/plugin-css@^0.1.20",
+      "font-awesome": "npm:font-awesome@^4.5.0",
+      "jquery": "npm:jquery@^2.2.1",
+      "json": "github:systemjs/plugin-json@^0.1.0",
+      "text": "github:systemjs/plugin-text@^0.0.7"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}
