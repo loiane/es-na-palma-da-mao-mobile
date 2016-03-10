@@ -1,0 +1,15 @@
+[
+  {
+    "name": "core",
+    "url": "/",
+    "type": "load",
+    "src": "src/app/client/core/index"
+  },
+  {
+    "name": "core.dashboard",
+    "url": "dashboard",
+    "type": "load",
+    "src": "src/app/client/dashboard/index"
+  } 
+]
+ 

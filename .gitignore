@@ -34,4 +34,7 @@ node_modules
 
 
 # jspm packages
-src/jspm_packages
+jspm_packages
+
+# build folder
+build
