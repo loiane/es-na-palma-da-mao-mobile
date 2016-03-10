@@ -22,7 +22,6 @@ const dependencies = [
     'ct.ui.router.extras.future'
 ];
 
-console.log(System.baseURL)
 
 const app = angular.module('app', dependencies)
     .run(appConfig)
