@@ -10,6 +10,12 @@
     "url": "dashboard",
     "type": "load",
     "src": "src/app/client/sections/dashboard/index"
-  } 
+  },
+  {
+    "name": "app.configurations",
+    "url": "configuracoes",
+    "type": "load",
+    "src": "src/app/client/sections/configurations/index"
+  }  
 ] 
  

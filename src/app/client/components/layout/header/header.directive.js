@@ -10,16 +10,7 @@ export default function pageHeaderDirective() {
             visible:'='
         },
         replace:true
-        // controller: PageHeaderDirectiveController,
-        // controllerAs: 'vm',
-        // bindToController: true
     };
 
     return directive;
 }
-
-// class PageHeaderDirectiveController {
-//     constructor() {
-//         'ngInject';
-//     }
-// }

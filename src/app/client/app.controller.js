@@ -1,4 +1,4 @@
-export default class AppController {
+ class AppController {
     constructor (logger) {
         'ngInject';
         this.activate();
@@ -15,3 +15,5 @@ export default class AppController {
         this.appName = 'Portal do Cidadão';
     } 
 }
+
+export default ['logger', AppController ];

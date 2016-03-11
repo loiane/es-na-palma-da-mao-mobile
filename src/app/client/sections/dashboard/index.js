@@ -1,5 +1,5 @@
 import 'angular-ui-router';
-import './css/dashboard.css!';
+import './dashboard.css!';
 import angular from 'angular';
 import DashBoardController from './dashboard.controller';
 import dashBoardRoutes from './dashboard.routes';

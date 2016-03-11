@@ -32,7 +32,7 @@ class ComponentLoaderService {
         }
        
         return this._$q.when(componentName);
-    }
+    } 
 
 }
 

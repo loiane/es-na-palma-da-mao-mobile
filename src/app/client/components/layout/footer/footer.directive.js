@@ -9,17 +9,8 @@ export default function pageFooterDirective() {
         replace:true,
         scope: {
             visible:'='
-        }//,
-        // controller: PageFooterDirectiveController,
-        // controllerAs: 'vm',
-        // bindToController: true
+        }
     };
 
     return directive;
 }
-// 
-// class PageFooterDirectiveController {
-//     constructor() {
-//         'ngInject';
-//     }
-// }

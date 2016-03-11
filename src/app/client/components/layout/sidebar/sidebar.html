@@ -36,21 +36,13 @@
                             <a>
                                 <i class="@menu.Icon"></i> Menu 1 <span class="fa fa-chevron-down"></span>
                             </a>
-                            <ul class="nav child_menu" style="display: none">
+                            <!--style="display: none"-->
+                            <ul class="nav child_menu">
                                 <li>
-                                    <a href="#">Item 1</a>
+                                    <a ui-sref="app.dashboard">DashBoard</a>
                                 </li>
                                 <li>
-                                    <a href="#">Item 2</a>
-                                </li>
-                                <li>
-                                    <a href="#">Item 3</a>
-                                </li>
-                                <li>
-                                    <a href="#">Item 4</a>
-                                </li>
-                                <li>
-                                    <a href="#">Item 5</a>
+                                    <a ui-sref="app.configurations">Configurações</a>
                                 </li>
                             </ul>
                         </li>
@@ -76,3 +68,4 @@
             </div>
         </div>
     </div>
+</div>
