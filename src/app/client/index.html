@@ -48,18 +48,19 @@
                               app-name="vm.appName">
             </pdc-page-sidebar> 
             <!-- /sidebar -->
-
+  
             <!-- top navigation -->
             <pdc-page-header visible="vm.showHeader"></pdc-page-header>
             <!-- /top navigation -->
-
-
+  
+ 
             <!-- Page Content -->
             <div class="right_col" role="main">
                 <div class="vertical-center">
+                    {{title}}
                     <ui-view name="page"></ui-view>
                 </div>
-
+   
                 <!-- footer content -->
                 <pdc-page-footer visible="vm.showFooter"></pdc-page-footer>
                 <!-- /footer content -->
