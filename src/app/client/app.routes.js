@@ -8,7 +8,7 @@ function routesConfig($stateProvider) {
             abstract: true,
             views: {
                 page: {
-                    controller: 'AppController as vm',
+                    //controller: 'AppController as vm',
                     template: '<ui-view name="content"></ui-view>'
                 }
             }
@@ -18,4 +18,4 @@ function routesConfig($stateProvider) {
 export default[
     '$stateProvider',
     routesConfig 
-];
+]; 

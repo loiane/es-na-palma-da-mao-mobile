@@ -1,7 +1,8 @@
 export default class AppController {
-    constructor () {
+    constructor (logger) {
         'ngInject';
         this.activate();
+        logger.info('Aplicação inicializada');
     }
 
     activate() {

@@ -28,8 +28,13 @@ System.config({
     "json": "github:systemjs/plugin-json@0.1.0",
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
     "text": "github:systemjs/plugin-text@0.0.7",
+    "toastr": "github:CodeSeven/toastr@2.1.2",
     "ui-router-extras": "github:christopherthielen/ui-router-extras@0.0.14",
     "zepto": "npm:zepto@1.0.1",
+    "github:CodeSeven/toastr@2.1.2": {
+      "css": "github:systemjs/plugin-css@0.1.20",
+      "jquery": "github:components/jquery@2.2.1"
+    },
     "github:angular-ui/ui-router@0.2.18": {
       "angular": "github:angular/bower-angular@1.5.0"
     },
