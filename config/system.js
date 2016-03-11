@@ -29,6 +29,7 @@ System.config({
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
     "text": "github:systemjs/plugin-text@0.0.7",
     "ui-router-extras": "github:christopherthielen/ui-router-extras@0.0.14",
+    "zepto": "npm:zepto@1.0.1",
     "github:angular-ui/ui-router@0.2.18": {
       "angular": "github:angular/bower-angular@1.5.0"
     },
@@ -79,6 +80,9 @@ System.config({
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:zepto@1.0.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     }
   }

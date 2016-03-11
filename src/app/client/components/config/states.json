@@ -1,0 +1,15 @@
+[
+  {
+    "name": "app",
+    "url": "/",
+    "type": "load",
+    "src": "src/app/client/index"
+  },
+  {
+    "name": "app.dashboard",
+    "url": "dashboard",
+    "type": "load",
+    "src": "src/app/client/sections/dashboard/index"
+  } 
+] 
+ 

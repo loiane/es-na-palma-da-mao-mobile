@@ -1,16 +1,15 @@
-import template from './core.html!text';
 
 function routesConfig($stateProvider) {
     'ngInject';
 
     $stateProvider
-        .state('core', {
+        .state('app', {
             url: '/',
             abstract: true,
             views: {
                 page: {
-                    controller: 'CoreController as vm',
-                    template: template
+                    controller: 'AppController as vm',
+                    template: '<ui-view name="content"></ui-view>'
                 }
             }
         });

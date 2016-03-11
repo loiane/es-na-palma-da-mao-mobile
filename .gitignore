@@ -38,3 +38,6 @@ jspm_packages
 
 # build folder
 build
+
+# webstorm temps
+.idea

@@ -2,10 +2,10 @@ import template from './dashboard.html!text';
 
 function dashBoardRoutes($stateProvider) {
     $stateProvider
-        .state('core.dashboard', {
+        .state('app.dashboard', {
             url: 'dashboard',
             views: {
-                core: {
+                content: {
                     controller: 'DashBoardController as vm',
                     template: template
                 }

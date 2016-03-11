@@ -1,8 +1,8 @@
 import 'angular-ui-router';
 import './css/dashboard.css!';
 import angular from 'angular';
-import DashBoardController from './dashboard-controller';
-import dashBoardRoutes from './dashboard-routes';
+import DashBoardController from './dashboard.controller';
+import dashBoardRoutes from './dashboard.routes';
 
 const dependencies = [
     'ui.router'

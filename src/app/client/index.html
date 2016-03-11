@@ -15,12 +15,11 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-     
 </head>
 
-<body class="nav-md">
+<body class="nav-md" ng-controller="AppController as vm" pdc-directive-loader>
     <div class="container body">
-        <div class="main_container" ng-app="app" ng-strict-di="true">
+        <div class="main_container">
             <!--<div class="row responsive-utilities-test visible-on" style="color:#fff;">
                     <div class="col-xs-6 col-sm-3">
                         <span class="hidden-xs">Extra small</span>
@@ -40,147 +39,35 @@
                         <span class="visible-lg-block">✔ Visible on large</span>
                     </div>
                 </div>-->
-            <div class="col-md-3 left_col">
-                <div class="left_col scroll-view">
+            <!-- sidebar -->
+            
+            <pdc-page-sidebar visible="vm.showSideBar"
+                              show-footer-controls="vm.showFooterControls" 
+                              show-user-info="vm.showUserInfo"
+                              user-name="vm.userName"
+                              app-name="vm.appName">
+            </pdc-page-sidebar>
+            <!-- /sidebar -->
 
-                    <!-- LOGO GOVERNO: start -->
-                    <div>
-                        <div id="logo-governo">
-                            <img src="/src/app/client/assets/images/Brasao_Governo_horizontal_white_left_small.png" ) " />
-                        </div>
-                        <div class="navbar nav_title text-center ">
-                            <a href="index.html " class="site_title ">
-                                <span>Portal do Cidadão</span>
-                            </a>
-                        </div> 
-                        <div class="clearfix "></div>
-                        <div class="profile clearfix ">
-                            <div class="profile_pic ">
-                                <img src="src/app/client/assets/images/img.jpg "" alt="app." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <span>Bem-vindo,</span>
-                            <h2>Daniel Hoisel</h2>
-                        </div>
-                    </div>
-                </div>
-                <!-- /LOGO GOVERNO: end -->
+            <!-- top navigation -->
+            <pdc-page-header visible="vm.showHeader"></pdc-page-header>
+            <!-- /top navigation -->
 
-                <br />
-                <!-- Menu lateral: start -->
-                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                    <div class="menu_section">
-                        <h3>Grupo 1</h3>
-                        <ul class="nav side-menu">
-                            <li>
-                                <a>
-                                    <i class="@menu.Icon"></i> Menu 1 <span class="fa fa-chevron-down"></span>
-                                </a>
-                                <ul class="nav child_menu" style="display: none">
-                                    <li>
-                                        <a href="#">Item 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Item 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Item 3</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Item 4</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Item 5</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /Menu lateral: end -->
 
-                <!-- menu footer buttons -->
-                <div class="sidebar-footer hidden-small">
-                    <a data-toggle="tooltip" data-placement="top" title="Configurações">
-                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                    </a>
-                    <a data-toggle="tooltip" data-placement="top" title="FullScreen" class="btn-window-fullscreen">
-                        <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                    </a>
-                    <a data-toggle="tooltip" data-placement="top" title="Bloquear">
-                        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                    </a>
-                    <a data-toggle="tooltip" data-placement="top" title="Sair">
-                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                    </a>
+            <!-- Page Content -->
+            <div class="right_col" role="main">
+                <div class="vertical-center">
+                    <ui-view name="page"></ui-view>
                 </div>
-                <!-- /menu footer buttons -->
+
+                <!-- footer content -->
+                <pdc-page-footer visible="vm.showFooter"></pdc-page-footer>
+                <!-- /footer content -->
             </div>
+            <!-- /Page Content -->
         </div>
-
-        <!-- top navigation -->
-        <div class="top_nav">
-            <div class="nav_menu">
-                <nav class="" role="navigation">
-                    <div class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                    </div>
-                    <a href="index.html" class="site_title">
-                        <span>Portal do Cidadão</span>
-                    </a>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="">
-                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="src/app/client/assets/images/img.jpg" alt="">Daniel Hoisel
-                                <span class=" fa fa-angle-down"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-                                <li>
-                                    <a href="javascript:;">  Perfil</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Configurações</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">Ajuda</a>
-                                </li>
-                                <li>
-                                    <a href="">Reiniciar</a>
-                                </li>
-                                <li>
-                                    <a href="login.html"><i class="fa fa-sign-out pull-right"></i> Sair</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <!-- /top navigation -->
-
-
-        <!-- Page Content -->
-        <div class="right_col" role="main">
-            <div class="vertical-center">
-                   <ui-view name="page"></ui-view>
-            </div> 
-
-            <!-- footer content -->
-            <footer>
-                <div class="clearfix" style="margin: auto;width: 310px;padding:20px 0;">
-                    <span id="copyright">&copy; 2016 - Portal do Cidadão | ES </span>
-                </div>
-            </footer>
-            <!-- /footer content -->
-
-        </div>
-        <!-- /Page Content -->
     </div>
-    </div> 
-    <script src="jspm_packages/system.src.js"></script>
+    <script src="jspm_packages/system.js"></script>
     <script src="system.yuml.js"></script>
     <script>
         System.config({
@@ -189,7 +76,7 @@
     </script>
     <script src="config/system.js"></script>
     <script>
-        System['import']('src/app/client/core/index')['catch'](console.error.bind(console));
+        System['import']('src/app/client/index')['catch'](console.error.bind(console));
     </script>
 </body>
 

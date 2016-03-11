@@ -9,4 +9,4 @@ class DashBoardController {
 export default [
     DashBoardController
 ];
- 
+  
