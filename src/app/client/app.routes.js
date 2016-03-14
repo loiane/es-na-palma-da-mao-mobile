@@ -13,9 +13,10 @@ function routesConfig($stateProvider) {
                 }
             }
         });
+
 }
 
 export default[
     '$stateProvider',
-    routesConfig 
+    routesConfig
 ]; 

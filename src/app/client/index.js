@@ -5,54 +5,45 @@ import angular from 'angular/angular';
 import 'angular-ui-router';
 import 'ui-router-extras';
 import ocLazyLoad from 'oclazyload';
-import routingProvider from './components/config/routing';
+import RouterHelperProvider from './components/config/router-helper.provider';
 import routesConfig from './app.routes';
 import AppController from './app.controller';
 import loggerModule from './components/logger/index';
 import loaderModule from './components/loader/index';
-import appConfig from './app.config';
+import appRun from './app.run';
+
+import updateTitleDirective from './components/directives/update-title.directive';
 
 System.import('bootstrap/css/bootstrap.css!').then(() => {
     System.import('src/app/client/app-bootstrap-overrides.css!');
     System.import('src/app/client/app.css!');
-}); 
- 
+});
+
 let layoutModule = angular.module('layout', []);
-  
-const dependencies = [ 
+
+const dependencies = [
     ocLazyLoad,
-    layoutModule.name, 
-    loaderModule.name, 
-    loggerModule.name, 
-    'ui.router',
+    layoutModule.name,
+    loaderModule.name,
+    loggerModule.name,
+    'ui.router', 
     'ct.ui.router.extras',
     'ct.ui.router.extras.future'
-];   
+];
 
- 
 let app = angular.module('app', dependencies)
-                .provider('unicornLauncher', function UnicornLauncherProvider() {
-                    var useTinfoilShielding = false;
-
-                    this.useTinfoilShielding = function(value) {
-                        useTinfoilShielding = !!value;
-                    }; 
-
-                    this.$get = ["apiToken", function unicornLauncherFactory(apiToken) {
-
-                        console.log('tete')
-                    }];
-                 })
+                .provider('routerHelper', RouterHelperProvider)
+                .directive('updateTitle',updateTitleDirective)
                 .config(routesConfig)
                 .controller('AppController', AppController)
-                .run(appConfig);
+                .run(appRun);
 
  
 // bootstrap app
 angular.element(document).ready(function () {
-    angular.bootstrap(document.body, [app.name], {
+    angular.bootstrap(document, [app.name], {
         strictDi: true
     });
-}); 
+});
 
 export default app; 
