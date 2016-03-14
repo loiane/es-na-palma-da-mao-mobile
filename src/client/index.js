@@ -15,8 +15,8 @@ import appRun from './app.run';
 import updateTitleDirective from './components/directives/update-title.directive';
 
 System.import('bootstrap/css/bootstrap.css!').then(() => {
-    System.import('src/app/client/app-bootstrap-overrides.css!');
-    System.import('src/app/client/app.css!');
+    System.import('src/client/app-bootstrap-overrides.css!');
+    System.import('src/client/app.css!');
 });
 
 let layoutModule = angular.module('layout', []);

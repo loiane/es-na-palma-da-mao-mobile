@@ -3,19 +3,19 @@
     "name": "app",
     "url": "/",
     "type": "load",
-    "src": "src/app/client/index"
+    "src": "src/client/index"
   },
   {
     "name": "app.dashboard",
     "url": "dashboard",
     "type": "load",
-    "src": "src/app/client/sections/dashboard/index"
+    "src": "src/client/sections/dashboard/index"
   },
   {
     "name": "app.configurations",
     "url": "configuracoes",
     "type": "load",
-    "src": "src/app/client/sections/configurations/index"
+    "src": "src/client/sections/configurations/index"
   }  
 ] 
  

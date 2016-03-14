@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Portal do Cidadão",
   "scripts": {
-    "serveit": "browser-sync start --index src/app/client/index.html --files \"src/app/client/**/*.html, src/app/client/**/*.json, src/app/client/**/*.html, src/app/client/**/*.css, src/app/client/**/*.js\" --server .",
+    "serveit": "browser-sync start --index src/client/index.html --files \"src/client/**/*.html, src/client/**/*.json, src/client/**/*.html, src/client/**/*.css, src/client/**/*.js\" --server .",
     "setup": "npm install && jspm install",
     "build": "gulp build",
     "dist": "gulp dist",
@@ -82,5 +82,11 @@
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4"
     }
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "morgan": "^1.7.0",
+    "serve-favicon": "^2.3.0"
   }
 }
