@@ -191,6 +191,7 @@ taskMaker.defineTask('copy', { taskName: 'json', debug: debugOptions, src: path.
 taskMaker.defineTask('copy', { taskName: 'index.html', src: path.index, dest: path.output, debug: debugOptions, rename: 'index.html' });
 taskMaker.defineTask('copy', {taskName: 'cache-bust-index.html', src: path.index, dest: path.output,debug: debugOptions, rename: 'index.html', replace: cacheBustConfig });
 taskMaker.defineTask('htmlMinify', {taskName: 'htmlMinify-index.html', taskDeps: ['cache-bust-index.html'], src: path.output, dest: path.output, debug: debugOptions, minimize: htmlMinOptions});   
+taskMaker.defineTask('htmlHint', { taskName: 'html-hint', debug: debugOptions, src: path.html});
 taskMaker.defineTask('minify', { taskName: 'minify', debug: debugOptions, src: path.minify, dest: path.output });
 taskMaker.defineTask('jshint', { taskName: 'lint', debug: debugOptions, src: path.allJs });
 taskMaker.defineTask('jshint', { taskName: 'jshint-gulp', debug: debugOptions, src: ['./gulpfile.babel.js','./gulp/**/*.js'] });
