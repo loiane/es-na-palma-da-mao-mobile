@@ -24,8 +24,7 @@ class ComponentLoaderService {
      */
     loadComponent(componentName) {
         if (!this._$ocLazyLoad.isLoaded(componentName)) {
-            
-            return this._system.import('src/client/components/layout/' + componentName + '/index').then(loadedComponent => {
+            return this._system.import('dist/components/layout/' + componentName + '/index').then(loadedComponent => {
                 const componentName = loadedComponent.name || loadedComponent.default.name || loadedComponent;
                 return this._$ocLazyLoad.inject(componentName);
             });

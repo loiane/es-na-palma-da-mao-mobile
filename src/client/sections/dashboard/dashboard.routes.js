@@ -1,10 +1,10 @@
-import template from './dashboard.html!text';
+import template from './dashboard.tpl.html!text';
 
 function dashBoardRoutes($stateProvider) {
     $stateProvider
         .state('app.dashboard', {
             url: 'dashboard',
-            data:{title: "Dashboard"},
+            data: { title: 'Dashboard' },
             views: {
                 content: {
                     controller: 'DashBoardController as vm',
@@ -14,7 +14,7 @@ function dashBoardRoutes($stateProvider) {
         });
 }
 
-export default [
+export default[
     '$stateProvider',
     dashBoardRoutes
 ];

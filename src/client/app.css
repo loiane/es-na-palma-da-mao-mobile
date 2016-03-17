@@ -10,30 +10,30 @@ body.nav-sm .container.body .right_col {
     padding: 10px 20px;
     margin-left: 70px;
     z-index: 2;
-}
+} 
 
 .right_col {
     /*min-height: 1000px;*/
-}
-
+} 
+    
 body.nav-sm .navbar.nav_title {
     width: 70px;
-}
+}  
 
     body.nav-sm .navbar.nav_title a span {
-        display: none;
+        display: none;  
     }
 
     body.nav-sm .navbar.nav_title a i {
         font-size: 27px;
-        margin: 13px 0 0 3px;
-    }
-
+        margin: 13px 0 0 3px; 
+    }  
+     
 /*.site_title i {
     border: 1px solid #EAEAEA;
     padding: 5px 6px;
     border-radius: 50%;
-}*/
+}*/   
 
 /*body.nav-sm .main_container .top_nav {
     padding: 0 !important;
@@ -6433,34 +6433,33 @@ ul.notifications {
     text-overflow: ellipsis;
     overflow: hidden;
     display: block;
-}
-
+}   
+  
 .tabbed_notifications .close {
     padding: 5px;
     color: #E9EDEF;
-    float: right;
+    float: right;  
     opacity: 1;
-}
-
-
-#logo-prodest {
-    fill: #1e7329;
+}  
+       
+#logo-prodest { 
+    fill: #1e7329; 
     max-height: 40px;
     float: left;
     width: 100px;
     display: inline;
-}
-
-#copyright {
+}  
+        
+#copyright {  
     display: inline;
     float: left;
     padding: 0;
-}
-
-
+} 
+ 
 /*https://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content/17863685#17863685*/
 @-moz-document url-prefix() {
     fieldset {
         display: table-cell;
     }
-}
+}  
+  

@@ -10,7 +10,7 @@ function UpdateTitle($rootScope, $timeout) {
     return {
         scope: {
             titlePrefix: '@'
-        },
+        },  
         link: function (scope, element) {
 
             $rootScope.$on('$stateChangeSuccess', onstateChangeSuccess);
@@ -28,7 +28,7 @@ function UpdateTitle($rootScope, $timeout) {
                 }, 0, false);
             };
         }
-    };
+    }
 }
 
 export default['$rootScope', '$timeout', UpdateTitle];

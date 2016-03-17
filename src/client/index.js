@@ -1,6 +1,5 @@
-/* global $compile */
 /* global angular:false, System:false */
-import 'jquery'
+import 'jquery';
 import angular from 'angular/angular';
 import 'angular-ui-router';
 import 'ui-router-extras';
@@ -11,14 +10,15 @@ import AppController from './app.controller';
 import loggerModule from './components/logger/index';
 import loaderModule from './components/loader/index';
 import appRun from './app.run';
+import fontAwsome from 'font-awesome';
 
 import updateTitleDirective from './components/directives/update-title.directive';
 
 System.import('bootstrap/css/bootstrap.css!').then(() => {
-    System.import('src/client/app-bootstrap-overrides.css!');
-    System.import('src/client/app.css!');
+    System.import('dist/app-bootstrap-overrides.css!');
+    System.import('dist/app.css!');
 });
-
+  
 let layoutModule = angular.module('layout', []);
 
 const dependencies = [

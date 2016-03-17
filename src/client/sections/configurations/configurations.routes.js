@@ -1,10 +1,10 @@
-import template from './configurations.html!text';
+import template from './configurations.tpl.html!text';
 
 function configurationsRoutes($stateProvider) {
     $stateProvider
         .state('app.configurations', {
             url: 'configuracoes',
-            data:{title: "Configurações"},
+            data: { title: 'Configurações' },
             views: {
                 content: {
                     controller: 'ConfigurationsController as vm',
@@ -14,7 +14,7 @@ function configurationsRoutes($stateProvider) {
         });
 }
 
-export default [
+export default[
     '$stateProvider',
     configurationsRoutes
 ];

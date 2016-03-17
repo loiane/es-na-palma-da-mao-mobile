@@ -115,7 +115,8 @@ class RouterHelperProvider {
                             
             
             // Trata o erro. Provêm uma clausula de exit caso tente executar 2 vezes                         
-            function onError(event, toState, toParams, fromState, fromParams, error) { logger.warning('Erro', [toState]);
+            function onError(event, toState, toParams, fromState, fromParams, error) { 
+                
                 if (handlingStateChangeError) {
                     return;
                 }
@@ -140,7 +141,7 @@ class RouterHelperProvider {
         * Obtém a lista de states da app                   
         */
         function getStates() { return $state.get(); }
-    };
+    }
 }
 
 export default[

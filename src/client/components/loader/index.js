@@ -8,7 +8,3 @@ export default angular.module('angular-lazy', [ocLazyLoad])
                       .service('componentLoader', ComponentLoaderService)
                       .service('system', SystemService)
                       .directive('pdcDirectiveLoader', DirectiveLoader);
-    
-    
-    
-

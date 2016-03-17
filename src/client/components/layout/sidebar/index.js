@@ -3,3 +3,4 @@ import pageSidebarDirective from './sidebar.directive';
 import './sidebar.css!';
 
 export default angular.module('layout').directive('pdcPageSidebar', pageSidebarDirective);
+  

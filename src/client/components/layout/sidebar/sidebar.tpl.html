@@ -1,0 +1,71 @@
+<div ng-show="visible">
+    <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+
+            <!-- LOGO GOVERNO: start -->
+            <div>
+                <div id="logo-governo">
+                    <img src="components/layout/sidebar/img/brasao-governo-horizontal.png" />
+                </div>
+                <div class="navbar nav_title text-center ">
+                    <a href="index.html " class="site_title ">
+                        <span>{{appName}}</span> 
+                    </a>
+                </div>
+                <div class="clearfix "></div>
+                <div class="profile clearfix" ng-if="showUserInfo">
+                    <div class="profile_pic ">
+                        <img src="assets/images/img.jpg" alt="" class="img-circle profile_img">
+                    </div>
+                    <div class="profile_info">
+                        <span>Bem-vindo,</span>
+                        <h2>{{userName}} </h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /LOGO GOVERNO: end -->
+
+            <br />
+            <!-- Menu lateral: start -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <div class="menu_section">
+                    <h3>Grupo 1</h3>
+                    <ul class="nav side-menu">
+                        <li>
+                            <a>
+                                <i class="@menu.Icon"></i> Menu 1 <span class="fa fa-chevron-down"></span>
+                            </a>
+                            <!--style="display: none"-->
+                            <ul class="nav child_menu">
+                                <li>
+                                    <a ui-sref="app.dashboard">DashBoard</a>
+                                </li>
+                                <li>
+                                    <a ui-sref="app.configurations">Configurações</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /Menu lateral: end -->
+
+            <!-- menu footer buttons -->
+            <div class="sidebar-footer hidden-small" ng-if="showFooterControls">
+                <a data-toggle="tooltip" data-placement="top" title="Configurações">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="FullScreen" class="btn-window-fullscreen">
+                    <span class="glyphicon glyphicon-fullscreen"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Bloquear">
+                    <span class="glyphicon glyphicon-eye-close"></span>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Sair">
+                    <span class="glyphicon glyphicon-off"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

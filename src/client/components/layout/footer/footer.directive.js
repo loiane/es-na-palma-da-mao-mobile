@@ -1,4 +1,4 @@
-import template from './footer.html!text';
+import template from './footer.tpl.html!text';
 
 export default function pageFooterDirective() {
     'ngInject';
@@ -11,6 +11,7 @@ export default function pageFooterDirective() {
             visible:'='
         }
     };
-
+ 
     return directive;
 }
+ 
