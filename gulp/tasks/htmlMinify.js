@@ -38,7 +38,7 @@ class HtmlMinifyTask {
             }
         };
         
-        gulp.task(options.taskName,taskMetadata.description,  options.taskDeps, () => {
+        gulp.task(options.taskName, taskMetadata.description,  options.taskDeps, () => {
             let chain = gulp.src(options.src);
 
             if (options.debug.active) {

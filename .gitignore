@@ -41,3 +41,6 @@ build
 
 # webstorm temps
 .idea
+
+#pasta antiga de gulp tasks
+gulp-tasks

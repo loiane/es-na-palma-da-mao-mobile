@@ -4,13 +4,11 @@
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
-let favicon = require('serve-favicon');
 let logger = require('morgan');
 let port = process.env.PORT || 8001;
 let four0four = require('./utils/404')();
 let environment = process.env.NODE_ENV;
 
-app.use(favicon(__dirname + '/favicon.ico'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(logger('dev')); 

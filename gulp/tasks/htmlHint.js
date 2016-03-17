@@ -17,7 +17,7 @@ class HtmlHintTask {
         let options = this.options;
         
         let taskMetadata = {
-            description: 'Analiza arquivos .html com jshint e reporta resultado.',
+            description: 'Analiza arquivos .html com htmlhint e reporta resultado.',
             options: {
                 options: {
                     src: 'Arquivos source (glob)',

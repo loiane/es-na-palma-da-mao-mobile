@@ -29,6 +29,9 @@ body.nav-sm .navbar.nav_title {
         margin: 13px 0 0 3px; 
     }  
      
+     
+a[ui-sref]{cursor:pointer;}
+
 /*.site_title i {
     border: 1px solid #EAEAEA;
     padding: 5px 6px;

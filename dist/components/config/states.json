@@ -1,21 +1,32 @@
 [
-  {
-    "name": "app",
-    "url": "/",
-    "type": "load",
-    "src": "dist/index"
-  },
-  {
-    "name": "app.dashboard",
-    "url": "dashboard",
-    "type": "load",
-    "src": "dist/sections/dashboard/index"
-  },
-  {
-    "name": "app.configurations",
-    "url": "configuracoes",
-    "type": "load",
-    "src": "dist/sections/configurations/index"
-  }  
-] 
- 
+    {
+        "name": "app",
+        "url": "/",
+        "type": "load",
+        "src": "dist/index"
+    },
+    {
+        "name": "app.dashboard",
+        "url": "dashboard",
+        "type": "load",
+        "src": "dist/sections/dashboard/index"
+    },
+    {
+        "name": "app.configurations",
+        "url": "configuracoes",
+        "type": "load",
+        "src": "dist/sections/configurations/index"
+    },
+    {
+        "name": "app.tabelas",
+        "url": "tabelas",
+        "type": "load",
+        "src": "dist/sections/tabelas/index"
+    },
+    {
+        "name": "app.diversos",
+        "url": "diversos",
+        "type": "load",
+        "src": "dist/sections/diversos/index"
+    }
+]
