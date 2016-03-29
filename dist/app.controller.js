@@ -49,8 +49,8 @@ System.register([], function (_export, _context) {
                         this.showSideBar = true;
                         this.showFooterControls = true;
                         this.showUserInfo = true;
-                        this.userName = 'Daniel Hoisel';
-                        this.appName = 'Portal do Cidadão';
+                        this.userName = 'Renzo';
+                        this.appName = 'Sejus';
                     }
                 }]);
 

@@ -193,8 +193,8 @@ taskMaker.defineTask('copy', {taskName: 'cache-bust-index.html', src: path.index
 taskMaker.defineTask('htmlMinify', {taskName: 'htmlMinify-index.html', taskDeps: ['cache-bust-index.html'], src: path.output, dest: path.output, debug: debugOptions, minimize: htmlMinOptions});   
 taskMaker.defineTask('htmlHint', { taskName: 'html-hint', debug: debugOptions, src: path.html});
 taskMaker.defineTask('minify', { taskName: 'minify', debug: debugOptions, src: path.minify, dest: path.output });
-taskMaker.defineTask('jshint', { taskName: 'lint', debug: debugOptions, src: path.allJs });
-taskMaker.defineTask('jshint', { taskName: 'jshint-gulp', debug: debugOptions, src: ['./gulpfile.babel.js','./gulp/**/*.js'] });
+taskMaker.defineTask('eslint', { taskName: 'eslint', debug: debugOptions, src: path.allJs, dest:'.' });
+taskMaker.defineTask('eslint', { taskName: 'eslint-gulp', debug: debugOptions, src: ['./gulpfile.babel.js','./gulp/**/*.js'], dest:'.' });
 taskMaker.defineTask('watch', { taskName: 'watch', src: path.watch, tasks: ['compile', 'index.html', 'lint'] });
 taskMaker.defineTask('nodemon', { taskName: 'serve', browserSyncConfig: browserSyncConfig, nodemonConfig: nodemonConfig});
 // taskMaker.defineTask('karma', { taskName: 'karma', configFile: path.karmaConfig });

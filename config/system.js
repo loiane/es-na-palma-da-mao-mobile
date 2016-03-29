@@ -1,6 +1,6 @@
 System.config({
+  baseURL: ".",
   defaultJSExtensions: true,
-  baseURL: '.',
   transpiler: "babel",
   babelOptions: {
     "optional": [
@@ -16,6 +16,7 @@ System.config({
 
   map: {
     "angular": "github:angular/bower-angular@1.5.0",
+    "angular-bootstrap": "github:angular-ui/bootstrap-bower@1.2.4",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.0",
     "angular-ui-bootstrap": "npm:angular-ui-bootstrap@1.2.4",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.18",

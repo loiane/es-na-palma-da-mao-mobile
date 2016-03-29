@@ -30,8 +30,8 @@ body.nav-sm .navbar.nav_title {
     }  
      
      
-a[ui-sref]{cursor:pointer;}
-
+ a[ui-sref]{cursor:pointer;}    
+     
 /*.site_title i {
     border: 1px solid #EAEAEA;
     padding: 5px 6px;
@@ -3689,7 +3689,7 @@ ul.bar_tabs {
         border-bottom: none;
         border-radius: 4px 4px 0 0;
     }
-
+ 
         ul.bar_tabs > li.active {
             border-right: 6px solid #D3D6DA;
             border-top: 0;

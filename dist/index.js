@@ -1,12 +1,16 @@
 'use strict';
 
-System.register(['jquery', 'angular/angular', 'angular-ui-router', 'ui-router-extras', 'oclazyload', './components/config/router-helper.provider', './app.routes', './app.controller', './components/logger/index', './components/loader/index', './app.run', 'font-awesome', './components/directives/update-title.directive'], function (_export, _context) {
-    var angular, ocLazyLoad, RouterHelperProvider, routesConfig, AppController, loggerModule, loaderModule, appRun, fontAwsome, updateTitleDirective, layoutModule, dependencies, app;
+System.register(['jquery', 'angular/angular', 'angular-ui-router', 'ui-router-extras', 'font-awesome', 'oclazyload', 'angular-bootstrap', './components/config/router-helper.provider', './app.routes', './app.controller', './components/logger/index', './components/loader/index', './app.run', './components/directives/update-title.directive'], function (_export, _context) {
+    var angular, fontAwsome, ocLazyLoad, angularBootstrap, RouterHelperProvider, routesConfig, AppController, loggerModule, loaderModule, appRun, updateTitleDirective, layoutModule, dependencies, app;
     return {
         setters: [function (_jquery) {}, function (_angularAngular) {
             angular = _angularAngular.default;
-        }, function (_angularUiRouter) {}, function (_uiRouterExtras) {}, function (_oclazyload) {
+        }, function (_angularUiRouter) {}, function (_uiRouterExtras) {}, function (_fontAwesome) {
+            fontAwsome = _fontAwesome.default;
+        }, function (_oclazyload) {
             ocLazyLoad = _oclazyload.default;
+        }, function (_angularBootstrap) {
+            angularBootstrap = _angularBootstrap.default;
         }, function (_componentsConfigRouterHelperProvider) {
             RouterHelperProvider = _componentsConfigRouterHelperProvider.default;
         }, function (_appRoutes) {
@@ -19,8 +23,6 @@ System.register(['jquery', 'angular/angular', 'angular-ui-router', 'ui-router-ex
             loaderModule = _componentsLoaderIndex.default;
         }, function (_appRun) {
             appRun = _appRun.default;
-        }, function (_fontAwesome) {
-            fontAwsome = _fontAwesome.default;
         }, function (_componentsDirectivesUpdateTitleDirective) {
             updateTitleDirective = _componentsDirectivesUpdateTitleDirective.default;
         }],
@@ -32,7 +34,7 @@ System.register(['jquery', 'angular/angular', 'angular-ui-router', 'ui-router-ex
             });
 
             layoutModule = angular.module('layout', []);
-            dependencies = [ocLazyLoad, layoutModule.name, loaderModule.name, loggerModule.name, 'ui.router', 'ct.ui.router.extras', 'ct.ui.router.extras.future'];
+            dependencies = [ocLazyLoad, layoutModule.name, loaderModule.name, loggerModule.name, angularBootstrap, 'ui.router', 'ct.ui.router.extras', 'ct.ui.router.extras.future'];
             app = angular.module('app', dependencies).provider('routerHelper', RouterHelperProvider).directive('updateTitle', updateTitleDirective).config(routesConfig).controller('AppController', AppController).run(appRun);
 
             angular.element(document).ready(function () {

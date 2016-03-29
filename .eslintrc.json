@@ -1,0 +1,62 @@
+// legenda eslint:
+// 0 - off
+// 1 - warn
+// 2 - error
+{
+  "extends": [ "idiomatic" ],
+  "env": {
+    "jasmine": true,
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "require-jsdoc": 0,
+    "valid-jsdoc": 0,
+    /*************************************
+    * Estendendo idiomatic style
+    **************************************/
+    "linebreak-style": [ 2, "windows" ],
+    "indent": [ 2, 4 ],
+    "no-inline-comments": 0,
+    "func-names": 0,
+    "semi": [ 2, "always" ],
+    "one-var": [
+      2,
+      {
+        "uninitialized": "never",
+        "initialized": "never"
+      }
+    ],
+    "no-unused-expressions": [
+      2,
+      { "allowShortCircuit": true }
+    ]
+
+    /*************************************
+    * Estendendo angular style
+    **************************************/
+    //"angular/controller-name": [ 2, "/[a-z].*Controller$/" ],
+    //"angular/deferred": 2,
+    //"angular/di": [ 2, "$inject" ],
+    //"angular/directive-name": [ 2, "itx" ],
+    //"angular/component-limit": [ 2, 1 ],
+    //"angular/file-name": [
+    //  2,
+    //  { "typeSeparator": "dot", "ignoreTypeSuffix": true, "ignorePrefix": "itx" }
+    //],
+    //"angular/function-type": [2,"named"]
+  },
+  "globals": {
+    "_": true,
+    "Layout": true,
+    "app": true,
+    "App": true,
+    "abp": true,
+    "moment": true,
+    "bard": true,
+    "sinon": true
+  }
+}

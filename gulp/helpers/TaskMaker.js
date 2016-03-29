@@ -54,8 +54,8 @@ class TaskMaker {
         this.log('reloading all browserSync now ...', 'yellow');
         
         _forEach(this.globalBrowserSyncs, (bs) => {
-             bs.notify('reloading now ...');
-             bs.reload(opts);
+            bs.notify('reloading now ...');
+            bs.reload(opts);
         });
     }
     
@@ -86,7 +86,7 @@ class TaskMaker {
         if(options.debug.active){
             gutil.log(gutil.colors.yellow('Debuging Task:', name));
         }
-
+    
         try {
             let TaskClass = require(`../tasks/${name}.js`).default;
             let task = new TaskClass();
@@ -110,7 +110,7 @@ class TaskMaker {
         }
     }
 
-	/**
+    /**
 	 * The author was stupid and made a bad naming decision.
 	 *
 	 * @private
@@ -124,7 +124,7 @@ class TaskMaker {
     }
     
     
-	/**
+    /**
 	 * Cria um logger para uma task
 	 *
 	 * @private
@@ -134,9 +134,9 @@ class TaskMaker {
         return function log(msg, color = 'gray') {
             gutil.log(gutil.colors[color](`[${loggerName}]`, JSON.stringify(msg, null, 2) )); 
         };
+        }
     }
-}
 
 
 
-export default TaskMaker;
+    export default TaskMaker;

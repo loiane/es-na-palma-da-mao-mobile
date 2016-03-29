@@ -1,24 +1,28 @@
 /* global angular:false, System:false */
+
+// packages
 import 'jquery';
 import angular from 'angular/angular';
 import 'angular-ui-router';
 import 'ui-router-extras';
+import fontAwsome from 'font-awesome';
 import ocLazyLoad from 'oclazyload';
+import angularBootstrap from 'angular-bootstrap';
+
+// app
 import RouterHelperProvider from './components/config/router-helper.provider';
 import routesConfig from './app.routes';
 import AppController from './app.controller';
 import loggerModule from './components/logger/index';
 import loaderModule from './components/loader/index';
 import appRun from './app.run';
-import fontAwsome from 'font-awesome';
-
 import updateTitleDirective from './components/directives/update-title.directive';
 
 System.import('bootstrap/css/bootstrap.css!').then(() => {
     System.import('dist/app-bootstrap-overrides.css!');
     System.import('dist/app.css!');
-});
-  
+}); 
+
 let layoutModule = angular.module('layout', []);
 
 const dependencies = [
@@ -26,18 +30,19 @@ const dependencies = [
     layoutModule.name,
     loaderModule.name,
     loggerModule.name,
-    'ui.router', 
+    angularBootstrap,
+    'ui.router',
     'ct.ui.router.extras',
     'ct.ui.router.extras.future'
 ];
 
-let app = angular.module('app', dependencies)
-                .provider('routerHelper', RouterHelperProvider)
-                .directive('updateTitle',updateTitleDirective)
-                .config(routesConfig)
-                .controller('AppController', AppController)
-                .run(appRun);
-
+let app = angular.module('app', dependencies )
+                 .provider('routerHelper', RouterHelperProvider)
+                 .directive('updateTitle', updateTitleDirective)
+                 .config(routesConfig)
+                 .controller('AppController', AppController)
+                 .run(appRun);
+ 
  
 // bootstrap app
 angular.element(document).ready(function () {

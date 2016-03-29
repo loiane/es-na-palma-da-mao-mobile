@@ -37,7 +37,7 @@ node_modules
 jspm_packages
 
 # build folder
-build
+build, dist
 
 # webstorm temps
 .idea
