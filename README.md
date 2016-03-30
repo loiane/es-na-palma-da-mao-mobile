@@ -1,7 +1,7 @@
+
 # ES na palma da mão
 
-> O **ES na palma da mão** é uma plataforma web do **Governo do Estado do Espírito Santo** que reune serviços ao cidadão com **unidade de experiência do usuário**. Integrado ao sistema de login único chamado **Acesso ES**, o cidadão passa a ter apenas um login para
-transacionar nas diversas aplicações do Governo do Estado.
+> O **ES NA PALMA DA MÃO** é um programa do **Governo do Estado do Espírito Santo** que reune **iniciativas e serviços do Governo em plataforma móvel (aplicativo) e web, com unidade de experiência do cidadão**. Por meio do **ES NA PALMA DA MÃO**, diversos serviços governamentais podem ser acessados através da web e dispositivos móveis (sistemas operacionais iOS e Android) utilizando uma interface comun.
 
 ==================================================================================
 ## Tabela de Conteúdo
