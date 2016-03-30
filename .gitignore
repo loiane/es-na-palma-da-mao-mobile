@@ -37,10 +37,12 @@ node_modules
 jspm_packages
 
 # build folder
-build, dist
+build
+dist
 
 # webstorm temps
 .idea
 
 #pasta antiga de gulp tasks
 gulp-tasks
+
