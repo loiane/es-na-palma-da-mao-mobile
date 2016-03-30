@@ -10,7 +10,7 @@ System.register(['./dashboard.tpl.html!text'], function (_export, _context) {
             data: { title: 'Dashboard' },
             views: {
                 content: {
-                    controller: 'DashBoardController as vm',
+                    controller: 'dashBoardController as vm',
                     template: template
                 }
             }

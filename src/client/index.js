@@ -1,11 +1,10 @@
-/* global angular:false, System:false */
 
 // packages
 import 'jquery';
 import angular from 'angular/angular';
 import 'angular-ui-router';
 import 'ui-router-extras';
-import fontAwsome from 'font-awesome';
+import fontAwsome from 'font-awesome'; //eslint-disable-line no-unused-vars
 import ocLazyLoad from 'oclazyload';
 import angularBootstrap from 'angular-bootstrap';
 
@@ -18,12 +17,12 @@ import loaderModule from './components/loader/index';
 import appRun from './app.run';
 import updateTitleDirective from './components/directives/update-title.directive';
 
-System.import('bootstrap/css/bootstrap.css!').then(() => {
-    System.import('dist/app-bootstrap-overrides.css!');
-    System.import('dist/app.css!');
-}); 
+System.import( 'bootstrap/css/bootstrap.css!' ).then( () => {
+    System.import( 'dist/app-bootstrap-overrides.css!' );
+    System.import( 'dist/app.css!' );
+} );
 
-let layoutModule = angular.module('layout', []);
+let layoutModule = angular.module( 'layout', [] );
 
 const dependencies = [
     ocLazyLoad,
@@ -36,19 +35,19 @@ const dependencies = [
     'ct.ui.router.extras.future'
 ];
 
-let app = angular.module('app', dependencies )
-                 .provider('routerHelper', RouterHelperProvider)
-                 .directive('updateTitle', updateTitleDirective)
-                 .config(routesConfig)
-                 .controller('AppController', AppController)
-                 .run(appRun);
- 
- 
-// bootstrap app
-angular.element(document).ready(function () {
-    angular.bootstrap(document, [app.name], {
-        strictDi: true
-    });
-});
+let app = angular.module( 'app', dependencies )
+                 .provider( 'routerHelper', RouterHelperProvider )
+                 .directive( 'updateTitle', updateTitleDirective )
+                 .config( routesConfig )
+                 .controller( 'appController', AppController )
+                 .run( appRun );
 
-export default app; 
+
+// bootstrap app
+angular.element( document ).ready( function() {
+    angular.bootstrap( document, [ app.name ], {
+        strictDi: true
+    } );
+} );
+
+export default app;

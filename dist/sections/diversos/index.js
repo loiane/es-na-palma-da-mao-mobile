@@ -13,7 +13,7 @@ System.register(['angular-ui-router', './diversos.css!', 'angular', './diversos.
                                             execute: function () {
                                                                   dependencies = ['ui.router'];
 
-                                                                  _export('default', angular.module('app', dependencies).controller('DiversosController', DiversosController).config(diversosRoutes));
+                                                                  _export('default', angular.module('diversos-state', dependencies).controller('diversosController', DiversosController).config(diversosRoutes));
                                             }
                       };
 });

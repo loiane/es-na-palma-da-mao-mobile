@@ -9,10 +9,10 @@ const dependencies = [
     'ui.router'
 ];
 
-export default angular.module('app', dependencies)
-                      .controller('ConfigurationsController', ConfigurationsController)
-                      .config(configurationsRoutes);
+export default angular.module( 'configurations-state', dependencies )
+                      .controller( 'configurationsController', ConfigurationsController )
+                      .config( configurationsRoutes );
 
 
-  
-     
+
+

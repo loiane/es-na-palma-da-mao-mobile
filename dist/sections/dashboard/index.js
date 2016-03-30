@@ -13,7 +13,7 @@ System.register(['angular-ui-router', './dashboard.css!', 'angular', './dashboar
                                             execute: function () {
                                                                   dependencies = ['ui.router'];
 
-                                                                  _export('default', angular.module('app', dependencies).controller('DashBoardController', DashBoardController).config(dashBoardRoutes));
+                                                                  _export('default', angular.module('dashBoard-state', dependencies).controller('dashBoardController', DashBoardController).config(dashBoardRoutes));
                                             }
                       };
 });

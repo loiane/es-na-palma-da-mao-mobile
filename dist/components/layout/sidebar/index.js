@@ -9,7 +9,7 @@ System.register(['angular', './sidebar.directive', './sidebar.css!'], function (
       pageSidebarDirective = _sidebarDirective.default;
     }, function (_sidebarCss) {}],
     execute: function () {
-      _export('default', angular.module('layout').directive('pdcPageSidebar', pageSidebarDirective));
+      _export('default', angular.module('layout').directive('pdcSidebar', pageSidebarDirective));
     }
   };
 });

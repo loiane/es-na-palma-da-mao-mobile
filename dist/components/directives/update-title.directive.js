@@ -10,7 +10,7 @@ System.register([], function (_export, _context) {
 
                 $rootScope.$on('$stateChangeSuccess', onstateChangeSuccess);
 
-                function onstateChangeSuccess(event, toState, toParams, fromState, fromParams) {
+                function onstateChangeSuccess(event, toState, toParams, fromState) {
                     var prefix = scope.titlePrefix || 'Portal do Cidadão | ES';
                     var pageTitle = '';
 
@@ -21,7 +21,7 @@ System.register([], function (_export, _context) {
                     $timeout(function () {
                         element.text(prefix + ' - ' + pageTitle);
                     }, 0, false);
-                };
+                }
             }
         };
     }

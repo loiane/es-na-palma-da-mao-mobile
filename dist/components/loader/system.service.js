@@ -31,15 +31,19 @@ System.register([], function (_export, _context) {
             }();
 
             SystemService = function () {
-                function SystemService() {
+                function SystemService($log) {
                     _classCallCheck(this, SystemService);
+
+                    this.$log = $log;
                 }
 
                 _createClass(SystemService, [{
                     key: "import",
                     value: function _import(path) {
+                        var _this = this;
+
                         return System.import(path).catch(function (err) {
-                            console.error(err.stack);
+                            return _this.$log.error(err.stack);
                         });
                     }
                 }]);

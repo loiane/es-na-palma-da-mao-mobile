@@ -13,13 +13,13 @@ module.exports = router;
 // function getPeople(req, res, next) {
 //     res.status(200).send(data.people);
 // }
-// 
+//
 // function getPerson(req, res, next) {
 //     var id = +req.params.id;
 //     var person = data.people.filter(function(p) {
 //         return p.id === id;
 //     })[0];
-// 
+//
 //     if (person) {
 //         res.status(200).send(person);
 //     } else {

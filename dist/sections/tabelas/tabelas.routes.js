@@ -10,7 +10,7 @@ System.register(['./tabelas.tpl.html!text'], function (_export, _context) {
             data: { title: 'Tabelas' },
             views: {
                 content: {
-                    controller: 'TabelasController as vm',
+                    controller: 'tabelasController as vm',
                     template: template
                 }
             }

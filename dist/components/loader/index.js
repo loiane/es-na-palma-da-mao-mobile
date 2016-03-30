@@ -15,7 +15,7 @@ System.register(['angular', 'oclazyload', './component-loader.service', './syste
                                                                   DirectiveLoader = _directiveLoaderDirectiveJs.default;
                                             }],
                                             execute: function () {
-                                                                  _export('default', angular.module('angular-lazy', [ocLazyLoad]).service('componentLoader', ComponentLoaderService).service('system', SystemService).directive('pdcDirectiveLoader', DirectiveLoader));
+                                                                  _export('default', angular.module('loader', [ocLazyLoad]).service('componentLoader', ComponentLoaderService).service('system', SystemService).directive('pdcDirectiveLoader', DirectiveLoader));
                                             }
                       };
 });

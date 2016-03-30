@@ -1,9 +1,9 @@
 
-function routesConfig($stateProvider) {
+function routesConfig( $stateProvider ) {
     'ngInject';
 
     $stateProvider
-        .state('app', {
+        .state( 'app', {
             url: '/',
             abstract: true,
             views: {
@@ -12,11 +12,11 @@ function routesConfig($stateProvider) {
                     template: '<ui-view name="content"></ui-view>'
                 }
             }
-        });
+        } );
 
 }
 
 export default[
     '$stateProvider',
     routesConfig
-];  
+];

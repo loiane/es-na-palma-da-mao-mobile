@@ -1,40 +1,40 @@
 // ES6 gulpfile
 // ref: https://markgoodyear.com/2015/06/using-es6-with-gulp/
-import innerGulp    from 'gulp';
-import gulpHelpers  from './gulp/helpers';
-import gulpHelp     from 'gulp-help';
+import innerGulp from 'gulp';
+import gulpHelpers from './gulp/helpers';
+import gulpHelp from 'gulp-help';
 
-let gulp        = gulpHelp(innerGulp); // wrap in gulp help
-let taskMaker   = gulpHelpers.taskMaker(gulp);
-let situation   = gulpHelpers.situation();
-let _           = gulpHelpers.framework('_');
-let runSequence = gulpHelpers.framework('run-sequence');
-let port        = process.env.PORT || '8001';
+let gulp = gulpHelp( innerGulp ); // wrap in gulp help
+let taskMaker = gulpHelpers.taskMaker( gulp );
+let situation = gulpHelpers.situation();
+let _ = gulpHelpers.framework( '_' );
+let runSequence = gulpHelpers.framework( 'run-sequence' );
+let port = process.env.PORT || '8001';
 
 let path = {
-    
+
     //tests
     e2e: 'test-e2e/**/*.js',
     e2eOutput: 'test-e2e-compile/',
-    
+
     //src
     allJs:'src/**/*.js',
     clientJs: 'src/client/**/*.js',
-    html: ['src/client/**/*.html','!src/client/index.tpl.html'],
-    templates: ['src/client/**/*.tpl.html', '!src/client/index.tpl.html'],
-    css: ['src/client/**/*.css'],
-    assets: ['./src/client/**/*.svg', 
-    './src/client/**/*.woff', 
-    './src/client/**/*.ttf', 
-    './src/client/**/*.png', 
-    './src/client/**/*.ico', 
-    './src/client/**/*.gif', 
-    './src/client/**/*.jpg', 
+    html: [ 'src/client/**/*.html', '!src/client/index.tpl.html' ],
+    templates: [ 'src/client/**/*.tpl.html', '!src/client/index.tpl.html' ],
+    css: [ 'src/client/**/*.css' ],
+    assets: [ './src/client/**/*.svg',
+    './src/client/**/*.woff',
+    './src/client/**/*.ttf',
+    './src/client/**/*.png',
+    './src/client/**/*.ico',
+    './src/client/**/*.gif',
+    './src/client/**/*.jpg',
     './src/client/**/*.eot'
     ],
     json: './src/client/**/*.json',
     index: './src/client/index.tpl.html',
-    
+
     // html que não será compilado em templateCache pois será u
     // startupHtml: [
     //      'src/client/**/layout/**/*.tpl.html',
@@ -44,16 +44,16 @@ let path = {
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './system.config.js',
     //routes: './src/app/routes.json',
-    
+
     // output
     output: 'dist/',
     minify: 'dist/**/*.js',
-    
+
     //server
     server: 'src/server/',
     nodeServer:  'src/server/app.js'
 };
-// 
+//
 // let routes = require(path.routes);
 // let routesSrc = routes.map(function(r) { return r.src; });
 
@@ -71,7 +71,7 @@ let htmlMinOptions = {
     minifyCSS: true
 };
 
- 
+
 let nodemonConfig = {
     script: path.nodeServer,
     delayTime: 1,
@@ -100,8 +100,8 @@ let browserSyncConfig = {
     open: true
 };
 
-// 
-// 
+//
+//
 // {
 //     open: false,
 //     ui: false,
@@ -117,8 +117,8 @@ let browserSyncConfig = {
 //     }
 // };
 
-if (situation.isProduction()) {
-    browserSyncConfig = _.merge(browserSyncConfig, {
+if ( situation.isProduction() ) {
+    browserSyncConfig = _.merge( browserSyncConfig, {
         codeSync: false,
         reloadOnRestart: false,
         server: {
@@ -128,11 +128,11 @@ if (situation.isProduction()) {
                 }
             }
         }
-    });
-    
-    nodemonConfig = _.merge(nodemonConfig,{
+    } );
+
+    nodemonConfig = _.merge( nodemonConfig, {
         'NODE_ENV':'build'
-    });
+    } );
 }
 
 let cacheBustConfig = {
@@ -146,7 +146,7 @@ let cacheBustConfig = {
             replacement: ''
         }, {
             match: '{{hash}}',
-            replacement: Math.round(new Date() / 1000)
+            replacement: Math.round( new Date() / 1000 )
         }
     ]
 };
@@ -164,7 +164,7 @@ let cacheBustConfig = {
 // };
 
 let babelOptions = {
-    plugins: ['transform-es2015-modules-systemjs']
+    plugins: [ 'transform-es2015-modules-systemjs' ]
 };
 
 let debugOptions = { active:false };
@@ -179,49 +179,87 @@ let debugOptions = { active:false };
  * --debug-brk: Launch debugger and break on 1st line with node-inspector.
  * --startServers: Will start servers for midway tests on the test task.
  */
-taskMaker.defineTask('clean', { taskName: 'clean', debug: debugOptions, taskDeps: ['clean-e2e'], src: path.output });
-taskMaker.defineTask('clean', { taskName: 'clean-e2e', debug: debugOptions, src: path.e2eOutput });
-taskMaker.defineTask('css', { taskName: 'css', debug:debugOptions, src: path.css, dest: path.output });
-taskMaker.defineTask('babel', { taskName: 'babel', debug: debugOptions, src: path.clientJs, dest: path.output, ngAnnotate: true, compilerOptions: babelOptions });
-taskMaker.defineTask('babel', { taskName: 'babel-e2e', debug: debugOptions, src: path.e2e, dest: path.e2eOutput, compilerOptions: babelOptions, taskDeps: ['clean-e2e'] });
-taskMaker.defineTask('copy', { taskName: 'html', debug: debugOptions, src: path.html, dest: path.output, compilerOptions: babelOptions });
-taskMaker.defineTask('copy', { taskName: 'systemConfig', debug: debugOptions, src: path.systemConfig, dest: path.output });
-taskMaker.defineTask('copy', { taskName: 'assets', debug: debugOptions, src: path.assets, dest: path.output });
-taskMaker.defineTask('copy', { taskName: 'json', debug: debugOptions, src: path.json, dest: path.output, changed: { extension: '.json' } });
-taskMaker.defineTask('copy', { taskName: 'index.html', src: path.index, dest: path.output, debug: debugOptions, rename: 'index.html' });
-taskMaker.defineTask('copy', {taskName: 'cache-bust-index.html', src: path.index, dest: path.output,debug: debugOptions, rename: 'index.html', replace: cacheBustConfig });
-taskMaker.defineTask('htmlMinify', {taskName: 'htmlMinify-index.html', taskDeps: ['cache-bust-index.html'], src: path.output, dest: path.output, debug: debugOptions, minimize: htmlMinOptions});   
-taskMaker.defineTask('htmlHint', { taskName: 'html-hint', debug: debugOptions, src: path.html});
-taskMaker.defineTask('minify', { taskName: 'minify', debug: debugOptions, src: path.minify, dest: path.output });
-taskMaker.defineTask('eslint', { taskName: 'eslint', debug: debugOptions, src: path.allJs, dest:'.' });
-taskMaker.defineTask('eslint', { taskName: 'eslint-gulp', debug: debugOptions, src: ['./gulpfile.babel.js','./gulp/**/*.js'], dest:'.' });
-taskMaker.defineTask('watch', { taskName: 'watch', src: path.watch, tasks: ['compile', 'index.html', 'lint'] });
-taskMaker.defineTask('nodemon', { taskName: 'serve', browserSyncConfig: browserSyncConfig, nodemonConfig: nodemonConfig});
+taskMaker.defineTask( 'clean', { taskName: 'clean', debug: debugOptions, taskDeps: [ 'clean-e2e' ], src: path.output } );
+taskMaker.defineTask( 'clean', { taskName: 'clean-e2e', debug: debugOptions, src: path.e2eOutput } );
+taskMaker.defineTask( 'css', { taskName: 'css', debug:debugOptions, src: path.css, dest: path.output } );
+taskMaker.defineTask( 'babel', { taskName: 'babel', debug: debugOptions, src: path.clientJs, dest: path.output, ngAnnotate: true, compilerOptions: babelOptions } );
+taskMaker.defineTask( 'babel', { taskName: 'babel-e2e', debug: debugOptions, src: path.e2e, dest: path.e2eOutput, compilerOptions: babelOptions, taskDeps: [ 'clean-e2e' ] } );
+taskMaker.defineTask( 'copy', { taskName: 'html', debug: debugOptions, src: path.html, dest: path.output, compilerOptions: babelOptions } );
+taskMaker.defineTask( 'copy', { taskName: 'systemConfig', debug: debugOptions, src: path.systemConfig, dest: path.output } );
+taskMaker.defineTask( 'copy', { taskName: 'assets', debug: debugOptions, src: path.assets, dest: path.output } );
+taskMaker.defineTask( 'copy', { taskName: 'json', debug: debugOptions, src: path.json, dest: path.output, changed: { extension: '.json' } } );
+taskMaker.defineTask( 'copy', { taskName: 'index.html', src: path.index, dest: path.output, debug: debugOptions, rename: 'index.html' } );
+taskMaker.defineTask( 'copy', { taskName: 'cache-bust-index.html', src: path.index, dest: path.output, debug: debugOptions, rename: 'index.html', replace: cacheBustConfig } );
+taskMaker.defineTask( 'htmlMinify', { taskName: 'htmlMinify-index.html', taskDeps: [ 'cache-bust-index.html' ], src: path.output, dest: path.output, debug: debugOptions, minimize: htmlMinOptions } );
+taskMaker.defineTask( 'htmlHint', { taskName: 'html-hint', debug: debugOptions, src: path.html } );
+taskMaker.defineTask( 'minify', { taskName: 'minify', debug: debugOptions, src: path.minify, dest: path.output } );
+taskMaker.defineTask( 'eslint', { taskName: 'eslint', debug: { active:true }, src: path.allJs, dest:'src/' } );
+//taskMaker.defineTask( 'eslint', { taskName: 'eslint-gulp', debug: debugOptions, src: [ './gulpfile.babel.js', './gulp/**/*.js' ], dest:'.' } );
+taskMaker.defineTask( 'watch', { taskName: 'watch', src: path.watch, tasks: [ 'compile', 'index.html', 'eslint' ] } );
+taskMaker.defineTask( 'nodemon', { taskName: 'serve', browserSyncConfig: browserSyncConfig, nodemonConfig: nodemonConfig } );
 // taskMaker.defineTask('karma', { taskName: 'karma', configFile: path.karmaConfig });
 // //taskMaker.defineTask('routeBundler', {taskName: 'routeBundler', config: routeBundleConfig});
-// 
- 
-gulp.task('compile', 'Compila a aplicação executanto: [css, html, babel, json, assets] tasks paralelamente.', function (callback) {
-    return runSequence(['css', 'html', 'babel', 'json', 'assets'], callback);
-});
+//
 
-gulp.task('recompile', 'Limpa diretório destino e compila aplicação.', function (callback) {
-    return runSequence('clean', ['compile'], callback);
-});
-// 
+gulp.task( 'compile', 'Compila a aplicação executanto: [css, html, babel, json, assets] tasks paralelamente.', function( callback ) {
+    return runSequence( [ 'css', 'html', 'babel', 'json', 'assets' ], callback );
+} );
+
+gulp.task( 'recompile', 'Limpa diretório destino e compila aplicação.', function( callback ) {
+    return runSequence( 'clean', [ 'compile' ], callback );
+} );
+//
 // gulp.task('test', function (callback) {
 //     return runSequence('recompile', 'karma', callback);
 // });
-//  
+//
 
 
-gulp.task('run', 'Executa a aplicação no ambiente configurado: dev, prod, etc.', function (callback) {
-    if (situation.isProduction()) {
-        return runSequence('recompile', 'routeBundler', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback);
-    } else if (situation.isDevelopment()) {
-            return runSequence('recompile', 'lint', 'index.html', 'serve', 'watch', callback);
-        }
-});
+gulp.task( 'run', 'Executa a aplicação no ambiente configurado: dev, prod, etc.', function( callback ) {
+    if ( situation.isProduction() ) {
+        return runSequence( 'recompile', 'routeBundler', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback );
+    } else if ( situation.isDevelopment() ) {
+        return runSequence( 'recompile', 'eslint', 'index.html', 'serve', 'watch', callback );
+    }
+} );
 
 // executa a tarefa default
-gulp.task('default', 'Executa task \'run\'', ['run']);
+gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
+
+
+
+
+
+
+
+
+//+src
+//|  +components
+//|  |  +states
+//|  |  |  +componentA
+//|  |  |  |  stylesheets
+//|  |  |  |  componentA.html
+//|  |  |  |  componentA-controller.js
+//|  |  |  |  componentA-route.js
+//|  |  |  |  componentA-spec.js
+//|  |  |  |  componentA-test
+//|  |  |  |  index.js
+//|  |  |  +componentB
+//|  |  |  |  stylesheets
+//|  |  |  |  componentB.html
+//|  |  |  |  componentB-controller.js
+//|  |  |  |  componentB-route.js
+//|  |  |  |  componentB-spec.js
+//|  |  |  |  componentB-test
+//|  |  |  |  index.js
+//|  |  +directives
+//|  |  |  +directiveA
+//|  |  |  |  directiveA-controller.js
+//|  |  |  |  directiveA-spec.js
+//|  |  |  |  directiveA-test
+//|  |  |  |  index.js
+//|  |  |  +directiveB
+//|  |  |  |  directiveB-controller.js
+//|  |  |  |  directiveB-spec.js
+//|  |  |  |  directiveB-test
+//|  |  |  |  index.js

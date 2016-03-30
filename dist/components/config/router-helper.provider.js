@@ -1,7 +1,7 @@
 'use strict';
 
-System.register(['./states.json!', 'angular'], function (_export, _context) {
-    var futureStates, angular, _createClass, RouterHelperProvider;
+System.register(['./states.json!'], function (_export, _context) {
+    var futureStates, _createClass, RouterHelperProvider;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -12,8 +12,6 @@ System.register(['./states.json!', 'angular'], function (_export, _context) {
     return {
         setters: [function (_statesJson) {
             futureStates = _statesJson.default;
-        }, function (_angular) {
-            angular = _angular.default;
         }],
         execute: function () {
             _createClass = function () {
@@ -103,7 +101,7 @@ System.register(['./states.json!', 'angular'], function (_export, _context) {
 
                                 var destination = toState && (toState.title || toState.name || toState.loadedTemplateUrl) || 'destino desconhecido';
 
-                                var msg = 'Erro de roteamento ao acessar ' + destination + '. ' + (error.data || '') + ' <br/>\n                                            ' + (error.statusText || '') + ' : ' + (error.status || '');
+                                var msg = 'Erro de roteamento ao acessar ' + destination + '. ' + (error.data || '') + ' <br/> ' + (error.statusText || '') + ' : ' + (error.status || '');
 
                                 logger.warning(msg, [toState]);
 

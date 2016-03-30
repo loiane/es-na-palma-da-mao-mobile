@@ -1,14 +1,14 @@
 class DashBoardController {
 
-    constructor (logger) {
+    constructor( logger ) {
         this.logger = logger;
         this.activate();
-    } 
-      
-    activate(){
-        this.logger.info('DashBoard Controller ativado');
-    }  
-}   
-  
-export default [ 'logger', DashBoardController ];  
-  
+    }
+
+    activate() {
+        this.logger.info( 'DashBoard Controller ativado' );
+    }
+}
+
+export default [ 'logger', DashBoardController ];
+

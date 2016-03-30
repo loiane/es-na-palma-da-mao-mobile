@@ -1,20 +1,20 @@
 import template from './tabelas.tpl.html!text';
 
-function tabelasRoutes($stateProvider) {
+function tabelasRoutes( $stateProvider ) {
     $stateProvider
-        .state('app.tabelas', {
+        .state( 'app.tabelas', {
             url: 'tabelas',
             data: { title: 'Tabelas' },
             views: {
                 content: {
-                    controller: 'TabelasController as vm',
+                    controller: 'tabelasController as vm',
                     template: template
                 }
             }
-        });
+        } );
 }
 
 export default[
     '$stateProvider',
-    tabelasRoutes 
+    tabelasRoutes
 ];

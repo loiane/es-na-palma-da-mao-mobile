@@ -8,10 +8,10 @@ const dependencies = [
     'ui.router'
 ];
 
-export default angular.module('app', dependencies)
-                      .controller('TabelasController', TabelasController)
-                      .config(tabelasRoutes);
+export default angular.module( 'tabelas-state', dependencies )
+                      .controller( 'tabelasController', TabelasController )
+                      .config( tabelasRoutes );
 
 
-  
-     
+
+

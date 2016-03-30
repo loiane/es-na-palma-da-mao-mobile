@@ -16,7 +16,7 @@ class EslintTask {
     setOptions(options) {
         this.options = options;
 
-        this.options.lintConfig = _merge({ quiet: false, fix: false, failOnError: false }, this.options.lintConfig || {});
+        this.options.lintConfig = _merge({ quiet: true, fix: true, failOnError: false }, this.options.lintConfig || {});
 
         if (this.options.lintConfig.failOnError && this.options.lintConfig.failAfterError) {
             throw new Error('EslintTask: Please choose either failOnError or failAfterError option!');

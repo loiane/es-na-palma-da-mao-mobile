@@ -6,12 +6,12 @@ export default function pageFooterDirective() {
     let directive = {
         restrict: 'E',
         template: template,
-        replace:true,
+        replace: true,
         scope: {
-            visible:'='
+            visible: '='
         }
     };
- 
+
     return directive;
 }
- 
+

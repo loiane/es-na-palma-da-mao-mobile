@@ -35,7 +35,7 @@ System.register(['jquery', 'angular/angular', 'angular-ui-router', 'ui-router-ex
 
             layoutModule = angular.module('layout', []);
             dependencies = [ocLazyLoad, layoutModule.name, loaderModule.name, loggerModule.name, angularBootstrap, 'ui.router', 'ct.ui.router.extras', 'ct.ui.router.extras.future'];
-            app = angular.module('app', dependencies).provider('routerHelper', RouterHelperProvider).directive('updateTitle', updateTitleDirective).config(routesConfig).controller('AppController', AppController).run(appRun);
+            app = angular.module('app', dependencies).provider('routerHelper', RouterHelperProvider).directive('updateTitle', updateTitleDirective).config(routesConfig).controller('appController', AppController).run(appRun);
 
             angular.element(document).ready(function () {
                 angular.bootstrap(document, [app.name], {

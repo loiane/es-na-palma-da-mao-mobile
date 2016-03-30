@@ -1,14 +1,14 @@
 class TabelasController {
 
-    constructor (logger) {
+    constructor( logger ) {
         this.logger = logger;
         this.activate();
-    } 
-      
-    activate(){
-        this.logger.info('Tabelas Controller ativado');
-    }  
-}   
-  
-export default [ 'logger', TabelasController ];  
-  
+    }
+
+    activate() {
+        this.logger.info( 'Tabelas Controller ativado' );
+    }
+}
+
+export default [ 'logger', TabelasController ];
+

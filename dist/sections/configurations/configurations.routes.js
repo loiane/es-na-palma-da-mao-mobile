@@ -10,7 +10,7 @@ System.register(['./configurations.tpl.html!text'], function (_export, _context)
             data: { title: 'Configurações' },
             views: {
                 content: {
-                    controller: 'ConfigurationsController as vm',
+                    controller: 'configurationsController as vm',
                     template: template
                 }
             }

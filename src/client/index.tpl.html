@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -20,7 +20,7 @@
      <base href="/" /> 
 </head>
 
-<body class="nav-md" ng-controller="AppController as vm" pdc-directive-loader>
+<body class="nav-md" ng-controller="appController as vm" pdc-directive-loader>
     <div class="container body">
         <div class="main_container">
             <!--<div class="row responsive-utilities-test visible-on" style="color:#fff;">
@@ -44,16 +44,16 @@
                 </div>-->
             <!-- sidebar -->
             
-            <pdc-page-sidebar visible="vm.showSideBar"
-                              show-footer-controls="vm.showFooterControls" 
-                              show-user-info="vm.showUserInfo"
-                              user-name="vm.userName"
-                              app-name="vm.appName">
-            </pdc-page-sidebar> 
+            <pdc-sidebar visible="vm.showSideBar"
+                         show-footer-controls="vm.showFooterControls" 
+                         show-user-info="vm.showUserInfo"
+                         user-name="vm.userName"
+                         app-name="vm.appName">
+            </pdc-sidebar> 
             <!-- /sidebar -->
   
             <!-- top navigation -->
-            <pdc-page-header visible="vm.showHeader"></pdc-page-header>
+            <pdc-header visible="vm.showHeader"></pdc-header>
             <!-- /top navigation -->
   
  
@@ -64,7 +64,7 @@
                 </div>
    
                 <!-- footer content -->
-                <pdc-page-footer visible="vm.showFooter"></pdc-page-footer>
+                <pdc-footer visible="vm.showFooter"></pdc-footer>
                 <!-- /footer content -->
             </div>
             <!-- /Page Content -->

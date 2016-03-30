@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function() {
     var service = {
         notFoundMiddleware: notFoundMiddleware,
         send404: send404
@@ -6,7 +6,7 @@ module.exports = function () {
     return service;
 
 
-    function notFoundMiddleware( req, res, next ) {
+    function notFoundMiddleware( req, res, next ) { // eslint-disable-line no-unused-vars
         send404( req, res, 'API endpoint not found' );
     }
 

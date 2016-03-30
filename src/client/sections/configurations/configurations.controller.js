@@ -1,16 +1,16 @@
 class ConfigurationsController {
 
-    constructor (logger) {
-       this.logger = logger;
-       
-       this.activate();
-    }
-    
+    constructor( logger ) {
+        this.logger = logger;
 
-    activate(){
-        this.logger.info('Configuração Controller ativado');
+        this.activate();
+    }
+
+
+    activate() {
+        this.logger.info( 'Configuração Controller ativado' );
     }
 }
 
-export default ['logger', ConfigurationsController ];
-  
+export default [ 'logger', ConfigurationsController ];
+

@@ -8,10 +8,10 @@ const dependencies = [
     'ui.router'
 ];
 
-export default angular.module('app', dependencies)
-                      .controller('DiversosController', DiversosController)
-                      .config(diversosRoutes);
+export default angular.module( 'diversos-state', dependencies )
+                      .controller( 'diversosController', DiversosController )
+                      .config( diversosRoutes );
 
 
-  
-     
+
+

@@ -10,7 +10,7 @@ System.register(['./diversos.tpl.html!text'], function (_export, _context) {
             data: { title: 'Diversos' },
             views: {
                 content: {
-                    controller: 'DiversosController as vm',
+                    controller: 'diversosController as vm',
                     template: template
                 }
             }

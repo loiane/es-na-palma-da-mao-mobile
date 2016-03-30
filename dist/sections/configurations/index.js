@@ -13,7 +13,7 @@ System.register(['angular-ui-router', 'angular', './configurations.css!', './con
                                             execute: function () {
                                                                   dependencies = ['ui.router'];
 
-                                                                  _export('default', angular.module('app', dependencies).controller('ConfigurationsController', ConfigurationsController).config(configurationsRoutes));
+                                                                  _export('default', angular.module('configurations-state', dependencies).controller('configurationsController', ConfigurationsController).config(configurationsRoutes));
                                             }
                       };
 });

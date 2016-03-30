@@ -1,20 +1,20 @@
 import template from './diversos.tpl.html!text';
 
-function diversosRoutes($stateProvider) {
+function diversosRoutes( $stateProvider ) {
     $stateProvider
-        .state('app.diversos', {
+        .state( 'app.diversos', {
             url: 'diversos',
             data: { title: 'Diversos' },
             views: {
                 content: {
-                    controller: 'DiversosController as vm',
+                    controller: 'diversosController as vm',
                     template: template
                 }
             }
-        });
+        } );
 }
 
 export default[
     '$stateProvider',
-    diversosRoutes 
+    diversosRoutes
 ];

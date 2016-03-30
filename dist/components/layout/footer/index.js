@@ -9,7 +9,7 @@ System.register(['angular', './footer.directive', './footer.css!'], function (_e
       pageFooterDirective = _footerDirective.default;
     }, function (_footerCss) {}],
     execute: function () {
-      _export('default', angular.module('layout').directive('pdcPageFooter', pageFooterDirective));
+      _export('default', angular.module('layout').directive('pdcFooter', pageFooterDirective));
     }
   };
 });

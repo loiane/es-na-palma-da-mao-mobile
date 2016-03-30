@@ -9,7 +9,7 @@ System.register(['angular', './header.directive', './header.css!'], function (_e
       pageHeaderDirective = _headerDirective.default;
     }, function (_headerCss) {}],
     execute: function () {
-      _export('default', angular.module('layout').directive('pdcPageHeader', pageHeaderDirective));
+      _export('default', angular.module('layout').directive('pdcHeader', pageHeaderDirective));
     }
   };
 });

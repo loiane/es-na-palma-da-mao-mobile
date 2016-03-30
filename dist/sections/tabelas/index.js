@@ -13,7 +13,7 @@ System.register(['angular-ui-router', './tabelas.css!', 'angular', './tabelas.co
                                             execute: function () {
                                                                   dependencies = ['ui.router'];
 
-                                                                  _export('default', angular.module('app', dependencies).controller('TabelasController', TabelasController).config(tabelasRoutes));
+                                                                  _export('default', angular.module('tabelas-state', dependencies).controller('tabelasController', TabelasController).config(tabelasRoutes));
                                             }
                       };
 });

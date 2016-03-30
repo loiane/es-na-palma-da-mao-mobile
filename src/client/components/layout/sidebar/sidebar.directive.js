@@ -7,13 +7,13 @@ export default function sidebarDirective() {
         restrict: 'E',
         template: template,
         scope: {
-            visible:'=',
-            showFooterControls:'=',
-            showUserInfo:'=',
-            appName:'=',
-            userName:'='
+            visible: '=',
+            showFooterControls: '=',
+            showUserInfo: '=',
+            appName: '=',
+            userName: '='
         },
-        replace:true
+        replace: true
     };
 
     return directive;

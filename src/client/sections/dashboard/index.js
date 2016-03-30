@@ -8,10 +8,10 @@ const dependencies = [
     'ui.router'
 ];
 
-export default angular.module('app', dependencies)
-                      .controller('DashBoardController', DashBoardController)
-                      .config(dashBoardRoutes);
+export default angular.module( 'dashBoard-state', dependencies )
+                      .controller( 'dashBoardController', DashBoardController )
+                      .config( dashBoardRoutes );
 
 
-  
-     
+
+

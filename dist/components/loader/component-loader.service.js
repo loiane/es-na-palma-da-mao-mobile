@@ -46,8 +46,8 @@ System.register([], function (_export, _context) {
 
                         if (!this._$ocLazyLoad.isLoaded(componentName)) {
                             return this._system.import('dist/components/layout/' + componentName + '/index').then(function (loadedComponent) {
-                                var componentName = loadedComponent.name || loadedComponent.default.name || loadedComponent;
-                                return _this._$ocLazyLoad.inject(componentName);
+                                var name = loadedComponent.name || loadedComponent.default.name || loadedComponent;
+                                return _this._$ocLazyLoad.inject(name);
                             });
                         }
 

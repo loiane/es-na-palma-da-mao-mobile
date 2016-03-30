@@ -6,8 +6,8 @@ System.register(['angular'], function (_export, _context) {
     function directiveLoader($rootScope, $compile, componentLoader) {
         var directive = {
             restrict: 'A',
-            link: function link($scope, el) {
-                var lazyDirectivesNames = ['pdc-page-header', 'pdc-page-footer', 'pdc-page-sidebar'];
+            link: function link($scope) {
+                var lazyDirectivesNames = ['pdc-header', 'pdc-footer', 'pdc-sidebar'];
 
                 angular.forEach(lazyDirectivesNames, loadDirectiveIfExistsOnPage);
 

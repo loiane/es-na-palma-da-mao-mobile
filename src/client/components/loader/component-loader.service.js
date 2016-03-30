@@ -9,7 +9,7 @@ class ComponentLoaderService {
      * @param $injector
      * @param system
      */
-    constructor($q, $ocLazyLoad, system) {
+    constructor( $q, $ocLazyLoad, system ) {
         this._$q = $q;
         this._$ocLazyLoad = $ocLazyLoad;
         this._system = system;
@@ -22,16 +22,16 @@ class ComponentLoaderService {
      * @param {String} componentName
      * @returns {Promise}
      */
-    loadComponent(componentName) {
-        if (!this._$ocLazyLoad.isLoaded(componentName)) {
-            return this._system.import('dist/components/layout/' + componentName + '/index').then(loadedComponent => {
-                const componentName = loadedComponent.name || loadedComponent.default.name || loadedComponent;
-                return this._$ocLazyLoad.inject(componentName);
-            });
+    loadComponent( componentName ) {
+        if ( !this._$ocLazyLoad.isLoaded( componentName ) ) {
+            return this._system.import( 'dist/components/layout/' + componentName + '/index' ).then( loadedComponent => {
+                const name = loadedComponent.name || loadedComponent.default.name || loadedComponent;
+                return this._$ocLazyLoad.inject( name );
+            } );
         }
-       
-        return this._$q.when(componentName);
-    } 
+
+        return this._$q.when( componentName );
+    }
 
 }
 

@@ -7,9 +7,9 @@ export default function pageHeaderDirective() {
         restrict: 'E',
         template: template,
         scope: {
-            visible:'='
+            visible: '='
         },
-        replace:true
+        replace: true
     };
 
     return directive;
