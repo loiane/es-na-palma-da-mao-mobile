@@ -1,0 +1,99 @@
+
+body.nav-sm .main_container .top_nav {
+    padding: 0 !important;
+    display: block;
+    margin-left: 70px;
+    z-index: 2;
+}
+
+@media (max-width: 991px) {
+    body.nav-md .container.body .top_nav {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+
+.main_container .top_nav {
+    padding: 0 !important;
+    display: block;
+    padding: 10px 20px 0;
+    margin-left: 230px;
+}
+
+
+
+
+.top_nav .navbar-right {
+    margin: 0;
+    width: 50%;
+    float: right;
+}
+
+    .top_nav .navbar-right li {
+        display: inline-block;
+        float: right;
+    }
+
+.top_nav .dropdown-menu {
+    min-width: 220px;
+}
+
+    .top_nav .dropdown-menu li {
+        width: 100%;
+    }
+
+        .top_nav .dropdown-menu li a {
+            width: 100%;
+            padding: 12px 20px;
+        }
+
+.top_nav li a i {
+    font-size: 15px;
+}
+ 
+ .nav.navbar-nav > li > a {
+    color: #515356 !important;
+}
+
+.nav.top_menu > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #34495E !important;
+}
+ 
+
+.nav_menu {
+    float: left;
+    background: #EDEDED url('./img/diamond-effect.png');
+    background-size: 130%;
+    border-bottom: 1px solid #D9DEE4;
+    margin-bottom: 10px;
+    width: 100%; 
+}
+
+
+a.user-profile {
+    color: #5E6974 !important;
+}
+
+.user-profile img {
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+ 
+.nav-md .top_nav .site_title {
+    display: none;
+}
+
+.nav-sm .top_nav .site_title {
+    font-size: 24px;
+    width: 40%;
+    float: left;
+    color: #057696 !important;
+}

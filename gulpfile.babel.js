@@ -20,8 +20,8 @@ let path = {
     //src
     allJs:'src/**/*.js',
     clientJs: 'src/client/**/*.js',
-    html: [ 'src/client/**/*.html', '!src/client/index.tpl.html' ],
-    templates: [ 'src/client/**/*.tpl.html', '!src/client/index.tpl.html' ],
+    html: [ 'src/client/**/*.html', '!src/client/components/app-core/index.tpl.html' ],
+    templates: [ 'src/client/**/*.tpl.html', '!src/client/components/app-core/index.tpl.html' ],
     css: [ 'src/client/**/*.css' ],
     assets: [ './src/client/**/*.svg',
     './src/client/**/*.woff',
@@ -33,7 +33,7 @@ let path = {
     './src/client/**/*.eot'
     ],
     json: './src/client/**/*.json',
-    index: './src/client/index.tpl.html',
+    index: './src/client/components/app-core/index.tpl.html',
 
     // html que não será compilado em templateCache pois será u
     // startupHtml: [

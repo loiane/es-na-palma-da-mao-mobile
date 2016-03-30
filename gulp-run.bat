@@ -1,1 +1,0 @@
-cls && gulp run
