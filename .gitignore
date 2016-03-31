@@ -50,3 +50,6 @@ gulp-tasks
 #tarefas incompletas
 gulp/tasks/_*.js
 
+#sln
+*.sln
+
