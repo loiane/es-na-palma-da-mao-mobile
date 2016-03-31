@@ -76,8 +76,8 @@ class TaskMaker {
         }
         if ( !options.defaultErrorHandler ) {
             options.defaultErrorHandler = {
-            errorHandler: notify.onError( '<%= error.message %>' )
-        };
+                errorHandler: notify.onError( '<%= error.message %>' )
+            };
         }
 
         options.debug = _merge( { active: false, title: `[debug:${name}]` }, options.debug || {} );

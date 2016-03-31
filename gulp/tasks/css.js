@@ -1,4 +1,3 @@
-/*jshint esnext: true*/
 import _isUndefined from 'lodash/isUndefined';
 import _forEach from 'lodash/forEach';
 import plumber from 'gulp-plumber';
@@ -22,6 +21,7 @@ class CssTask {
         if ( this.options.notify ) {
             this.options.plumberOptions = this.options.defaultErrorHandler;
         }
+
         return this;
     }
 

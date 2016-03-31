@@ -25,7 +25,8 @@
     - [babel](#babel)
     - [json](#json)
     - [assets](#assets)
-    - [eslint](#eslint)
+    - [eslint-src](#eslint-src)
+    - [eslint-gulp](#eslint-gulp)
     - [index.html](#index.html)
     - [serve](#serve)
     - [watch](#watch)
@@ -159,11 +160,18 @@ Copia arquivos .json para pasta destino.
 Copia imagens e fontes para pasta destino.
 
 
-### eslint
+### eslint-src
 
-> $: gulp eslint
+> $: gulp eslint-src
 
-Realiza uma análize de qualdade de código Javascript usando [ESLint](http://eslint.org/). Verifica se o código se conforma
+Realiza uma análize de qualdade de código Javascript da aplicação usando [ESLint](http://eslint.org/). Verifica se o código se conforma
+com o *code style* [Idiomatic Code Style](https://github.com/rwaldron/idiomatic.js/) e exibe erros e warnings.
+
+### eslint-gulp
+
+> $: gulp eslint-gulp
+
+Realiza uma análize de qualdade do código relacionado a automação de build (gulpfile,  gulp tasks, etc) usando [ESLint](http://eslint.org/). Verifica se o código se conforma
 com o *code style* [Idiomatic Code Style](https://github.com/rwaldron/idiomatic.js/) e exibe erros e warnings.
 
 

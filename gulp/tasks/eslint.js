@@ -25,7 +25,6 @@ class EslintTask {
         if ( _isUndefined( this.options.src ) ) {
             throw new Error( 'EslintTask: src é obrigatório!' );
         }
-
         return this;
     }
 
@@ -42,7 +41,6 @@ class EslintTask {
                 }
             }
         };
-
         let lintConfig = this.options.lintConfig;
 
         // O ESlint corrigiu o conteúdo do arquivo?
@@ -50,13 +48,17 @@ class EslintTask {
             return file.eslint !== null && file.eslint.fixed;
         }
 
+
         gulp.task( this.options.taskName, taskMetadata.description, this.options.taskDeps, () => {
 
-            var chain = gulp.src( this.options.src )
-                            .pipe( cached( this.options.taskName ) )
-                            .pipe( plumber() )
-                            .pipe( eslint( lintConfig ) )
-                            .pipe( eslint.format() );
+            let chain = this.options.base
+                            ? gulp.src( this.options.src, { base: this.options.base } )
+                            : gulp.src( this.options.src );
+
+            chain = chain.pipe( cached( this.options.taskName ) )
+                         .pipe( plumber() )
+                         .pipe( eslint( lintConfig ) )
+                         .pipe( eslint.format() );
 
             if ( this.options.debug.active ) {
                 chain = chain.pipe( debug( this.options.debug ) );
