@@ -18,7 +18,7 @@ taskMaker.defineTask( 'clean', { taskName: 'clean-e2e', src: config.path.e2eOutp
 taskMaker.defineTask( 'babel', { taskName: 'babel', src: config.path.clientJs, dest: config.path.output, debug: config.debugOptions, ngAnnotate: true, compilerOptions: config.babelOptions } );
 taskMaker.defineTask( 'babel', { taskName: 'babel-e2e', src: config.path.e2e, dest: config.path.e2eOutput, compilerOptions: config.babelOptions, taskDeps: [ 'clean-e2e' ], debug: config.debugOptions } );
 taskMaker.defineTask( 'copy', { taskName: 'html', debug: config.debugOptions, src: config.path.html, dest: config.path.output, compilerOptions: config.babelOptions } );
-taskMaker.defineTask( 'copy', { taskName: 'systemConfig', debug: debugOptions, src: config.path.systemConfig, dest: config.path.output } );
+taskMaker.defineTask( 'copy', { taskName: 'systemConfig', debug: config.debugOptions, src: config.path.systemConfig, dest: config.path.output } );
 taskMaker.defineTask( 'copy', { taskName: 'assets', debug: config.debugOptions, src: config.path.assets, dest: config.path.output } );
 taskMaker.defineTask( 'copy', { taskName: 'json', debug: config.debugOptions, src: config.path.json, dest: config.path.output, changed: { extension: '.json' } } );
 taskMaker.defineTask( 'copy', { taskName: 'index.html', src: config.path.index, dest: config.path.output, debug: config.debugOptions, rename: 'index.html' } );
