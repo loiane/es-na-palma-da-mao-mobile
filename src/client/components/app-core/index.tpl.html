@@ -70,9 +70,9 @@
             <!-- /Page Content -->
         </div>
     </div>
-    <script src="jspm_packages/system.js"></script>
-    <script src="config/system.js"></script>
-    <script src="system.yuml.js"></script> 
+    <script src="system.js"></script>
+    <script src="system.config.js"></script>
+    <script src="system.yuml.js"></script>  
     
     <!-- PROD
 	<script>
@@ -96,7 +96,7 @@
         });
     </script>-->
     <script>
-        System['import']('.dist/components/app-core/index')['catch'](console.error.bind(console));
+        System['import']('components/app-core/index')['catch'](console.error.bind(console));
     </script>
 </body>
 

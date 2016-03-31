@@ -35,7 +35,7 @@ let path = {
     index: './src/client/components/app-core/index.tpl.html',
     watch: './src/client/**',
     karmaConfig: `${__dirname}/karma.conf.js`,
-    systemConfig: './system.config.js',
+    systemConfig: './config/system.config.js',
 
     // output
     output: '.dist/',
@@ -107,7 +107,7 @@ let config = {
     babelOptions: {
         plugins: [ 'transform-es2015-modules-systemjs' ]
     },
-    debugOptions: { active: true }
+    debugOptions: { active: false }
 };
 
 // sobrescreve conigura��es se estiver em produ��o

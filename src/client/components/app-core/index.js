@@ -18,8 +18,8 @@ import appRun from './app.run';
 import updateTitleDirective from '../directives/update-title.directive';
 
 System.import( 'bootstrap/css/bootstrap.css!' ).then( () => {
-    System.import( '.dist/components/app-core/app-bootstrap-overrides.css!' );
-    System.import( '.dist/components/app-core/app.css!' );
+    System.import( 'components/app-core/app-bootstrap-overrides.css!' );
+    System.import( 'components/app-core/app.css!' );
 } );
 
 let layoutModule = angular.module( 'layout', [] );

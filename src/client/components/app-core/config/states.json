@@ -3,30 +3,30 @@
         "name": "app",
         "url": "/",
         "type": "load",
-        "src": ".dist/components/app-core/index"
+        "src": "components/app-core/index"
     },
     {
         "name": "app.dashboard",
         "url": "dashboard",
         "type": "load",
-        "src": ".dist/components/app-states/dashboard/index"
+        "src": "components/app-states/dashboard/index"
     },
     {
         "name": "app.configuracoes",
         "url": "configuracoes",
         "type": "load",
-        "src": ".dist/components/app-states/configuracoes/index"
+        "src": "components/app-states/configuracoes/index"
     },
-    {
+    { 
         "name": "app.tabelas",
         "url": "tabelas",
         "type": "load",
-        "src": ".dist/components/app-states/tabelas/index"
+        "src": "components/app-states/tabelas/index"
     },
     {
         "name": "app.diversos",
         "url": "diversos",
         "type": "load",
-        "src": ".dist/components/app-states/diversos/index"
+        "src": "components/app-states/diversos/index"
     }
 ]
