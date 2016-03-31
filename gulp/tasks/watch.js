@@ -4,22 +4,22 @@ import gutil from 'gulp-util';
 import _isUndefined from 'lodash/isUndefined';
 
 class WatchTask {
-	setOptions(options) {
-		this.options = options;
+    setOptions( options ) {
+        this.options = options;
 
-		if (_isUndefined(this.options.src)) {
-			throw new Error('WatchTask: src is missing from configuration!');
-		}
+        if ( _isUndefined( this.options.src ) ) {
+            throw new Error( 'WatchTask: src é obrigatório!' );
+        }
 
-		if (_isUndefined(this.options.tasks)) {
-			throw new Error('WatchTask: Tasks is missing from configuration!');
-		}
+        if ( _isUndefined( this.options.tasks ) ) {
+            throw new Error( 'WatchTask: tasks é obrigatório!' );
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	defineTask(gulp) {
-		let options = this.options;
+    defineTask( gulp ) {
+        let options = this.options;
 
         let taskMetadata = {
             description: 'Monitora arquivos e executa tarefas especificadas.',
@@ -32,27 +32,27 @@ class WatchTask {
                 }
             }
         };
-        
-		gulp.task(options.taskName, taskMetadata.description, options.taskDeps, () => {
-			this.watch(gulp);
-            this.log(`Escutando arquivos: \'${options.src}\'`);
-		}, taskMetadata.options);
-	}
 
-	watch(gulp) {
-		let options = this.options;
-		let watcher = gulp.watch(options.src, options.tasks);
-		watcher.on('change', (event) => {
-			gutil.log(gutil.colors.magenta(`File ${event.path} was ${event.type}, running tasks: ${options.tasks}`));
+        gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
+            this.watch( gulp );
+            this.log( `Escutando arquivos: \'${options.src}\'` );
+        }, taskMetadata.options );
+    }
 
-			// https://github.com/gulpjs/gulp/blob/master/docs/recipes/handling-the-delete-event-on-watch.md
-			if (event.type === 'deleted' && !_isUndefined(options.dest)) {
-				var filePathFromSrc = path.relative(path.resolve(options.src), event.path);
-				var destFilePath = path.resolve(options.dest, filePathFromSrc);
-				del.sync(destFilePath);
-			}
-		});
-	}
+    watch( gulp ) {
+        let options = this.options;
+        let watcher = gulp.watch( options.src, options.tasks );
+        watcher.on( 'change', ( event ) => {
+            gutil.log( gutil.colors.magenta( `File ${event.path} was ${event.type}, running tasks: ${options.tasks}` ) );
+
+            // https://github.com/gulpjs/gulp/blob/master/docs/recipes/handling-the-delete-event-on-watch.md
+            if ( event.type === 'deleted' && !_isUndefined( options.dest ) ) {
+                let filePathFromSrc = path.relative( path.resolve( options.src ), event.path );
+                let destFilePath = path.resolve( options.dest, filePathFromSrc );
+                del.sync( destFilePath );
+            }
+        } );
+    }
 }
 
 export default WatchTask;

@@ -12,4 +12,4 @@ class DashBoardController {
 
 export default [ 'logger', DashBoardController ];
 
- 
+

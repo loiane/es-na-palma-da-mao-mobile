@@ -12,7 +12,7 @@ import debug from 'gulp-debug';
 let defaultCompilerOptions = {
     comments: false,
     //compact: true,
-    presets: ['es2015']
+    presets: [ 'es2015' ]
 };
 
 let defaultUglifyOptions = {
@@ -20,33 +20,33 @@ let defaultUglifyOptions = {
 };
 
 class BabelTask {
-    setOptions(options) {
+    setOptions( options ) {
         this.options = options;
 
-        if (_isUndefined(this.options.src)) {
-            throw new Error('BabelTask: src is missing from configuration!');
+        if ( _isUndefined( this.options.src ) ) {
+            throw new Error( 'BabelTask: src é obrigatório!' );
         }
 
-        if (_isUndefined(this.options.dest)) {
-            throw new Error('BabelTask: dest is missing from configuration!');
+        if ( _isUndefined( this.options.dest ) ) {
+            throw new Error( 'BabelTask: dest é obrigatório!' );
         }
 
-        if (this.options.notify) {
+        if ( this.options.notify ) {
             this.options.plumberOptions = this.options.defaultErrorHandler;
         }
 
         // Handle defaults
-        this.options.compilerOptions = _merge({}, defaultCompilerOptions, this.options.compilerOptions);
-        this.options.ngAnnotateOptions = _merge({ sourceMap: true }, this.options.ngAnnotateOptions);
-        this.options.plumberOptions = _merge({}, this.options.plumberOptions);
-        this.options.uglifyOptions = _merge({}, defaultUglifyOptions, this.options.uglifyOptions);
+        this.options.compilerOptions = _merge( {}, defaultCompilerOptions, this.options.compilerOptions );
+        this.options.ngAnnotateOptions = _merge( { sourceMap: true }, this.options.ngAnnotateOptions );
+        this.options.plumberOptions = _merge( {}, this.options.plumberOptions );
+        this.options.uglifyOptions = _merge( {}, defaultUglifyOptions, this.options.uglifyOptions );
 
         return this;
     }
 
-    defineTask(gulp) {
+    defineTask( gulp ) {
         let options = this.options;
-        
+
         let taskMetadata = {
             description: 'Compila ES6 => ES5.',
             options: {
@@ -57,40 +57,40 @@ class BabelTask {
                     plumberOptions: 'Opções para o plugin gulp-plumber',
                     compilerOptions: 'Opções para o plugin gulp-babel',
                     uglifyOptions: 'Opções para o plugin gulp-uglify',
-                    ngAnnotate: 'Opções para o plugin gulp-ng-annotate',
+                    ngAnnotate: 'Opções para o plugin gulp-ng-annotate'
                 }
             }
         };
-        
-        gulp.task(options.taskName, taskMetadata.description, options.taskDeps, () => {
-            let chain = gulp.src(options.src);
+
+        gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
+            let chain = gulp.src( options.src );
 
             chain = chain
-                .pipe(cache(options.taskName))
-                .pipe(plumber(options.plumberOptions))
-                .pipe(changed(options.dest, { extension: '.js' }));
+                .pipe( cache( options.taskName ) )
+                .pipe( plumber( options.plumberOptions ) )
+                .pipe( changed( options.dest, { extension: '.js' } ) );
 
-            chain = chain.pipe(toES5(options.compilerOptions));
+            chain = chain.pipe( toES5( options.compilerOptions ) );
 
-            if (options.ngAnnotate) {
-                chain = chain.pipe(ngAnnotate(options.ngAnnotateOptions));
+            if ( options.ngAnnotate ) {
+                chain = chain.pipe( ngAnnotate( options.ngAnnotateOptions ) );
             }
 
-            if (options.uglify) {
-                chain = chain.pipe(uglify(options.uglifyOptions));
+            if ( options.uglify ) {
+                chain = chain.pipe( uglify( options.uglifyOptions ) );
             }
 
-            chain = chain.pipe(gulp.dest(options.dest));
+            chain = chain.pipe( gulp.dest( options.dest ) );
 
-            if (options.debug.active) {
-                chain = chain.pipe(debug(options.debug));
+            if ( options.debug.active ) {
+                chain = chain.pipe( debug( options.debug ) );
             }
-            _forEach(options.globalBrowserSyncs, (bs) => {
-                chain = chain.pipe(bs.stream());
-            });
+            _forEach( options.globalBrowserSyncs, ( bs ) => {
+                chain = chain.pipe( bs.stream() );
+            } );
 
             return chain;
-        }, taskMetadata.options);
+        }, taskMetadata.options );
     }
 }
 

@@ -20,10 +20,10 @@ console.log( `  PORT=${port}` );
 console.log( `  NODE_ENV=${environment}` );
 
 app.use( express.static( '.' ) );
-app.use( express.static( './dist' ) );
+app.use( express.static( './.dist' ) );
 app.use( express.static( './config/' ) );
 app.use( express.static( './jspm_packages' ) );
-app.use( '/index.html', express.static( './dist/index.html' ) );                      // Any deep link calls should return index.html
+app.use( '/index.html', express.static( './.dist/index.html' ) );                      // Any deep link calls should return index.html
 
 //app.use('/**/*', (req, res, next) => four0four.send404(req, res));    // Any invalid calls for templateUrls are under app/* and should return 404
 

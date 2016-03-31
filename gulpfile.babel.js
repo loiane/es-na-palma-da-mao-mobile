@@ -18,7 +18,7 @@ let path = {
     e2eOutput: 'test-e2e-compile/',
 
     //src
-    allJs:'src/**/*.js',
+    allJs: 'src/**/*.js',
     clientJs: 'src/client/**/*.js',
     html: [ 'src/client/**/*.html', '!src/client/components/app-core/index.tpl.html' ],
     templates: [ 'src/client/**/*.tpl.html', '!src/client/components/app-core/index.tpl.html' ],
@@ -34,28 +34,18 @@ let path = {
     ],
     json: './src/client/**/*.json',
     index: './src/client/components/app-core/index.tpl.html',
-
-    // html que não será compilado em templateCache pois será u
-    // startupHtml: [
-    //      'src/client/**/layout/**/*.tpl.html',
-    //      'src/client/sections/dashboard/dashboard.tpl.html'
-    // ],
     watch: './src/client/**',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './system.config.js',
-    //routes: './src/app/routes.json',
 
     // output
-    output: 'dist/',
-    minify: 'dist/**/*.js',
+    output: '.dist/',
+    minify: '.dist/**/*.js',
 
     //server
     server: 'src/server/',
-    nodeServer:  'src/server/app.js'
+    nodeServer: 'src/server/app.js'
 };
-//
-// let routes = require(path.routes);
-// let routesSrc = routes.map(function(r) { return r.src; });
 
 //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
 let htmlMinOptions = {
@@ -78,14 +68,14 @@ let nodemonConfig = {
     ext: 'js html json',
     env: {
         'PORT': port,
-        'NODE_ENV':'dev'
+        'NODE_ENV': 'dev'
     },
     watch: path.server
 };
 
 let browserSyncConfig = {
     proxy: `localhost:${port}`,
-    port:'3000',
+    port: '3000',
     ghostMode: { // these are the defaults t,f,t,t
         clicks: true,
         location: false,
@@ -131,7 +121,7 @@ if ( situation.isProduction() ) {
     } );
 
     nodemonConfig = _.merge( nodemonConfig, {
-        'NODE_ENV':'build'
+        'NODE_ENV': 'build'
     } );
 }
 
@@ -151,37 +141,18 @@ let cacheBustConfig = {
     ]
 };
 
-// let routeBundleConfig = {
-// 	baseURL: path.output,
-// 	main: 'app/app',
-// 	routes: routesSrc,
-// 	bundleThreshold: 0.6,
-// 	config: path.systemConfig,
-// 	sourceMaps: true,
-// 	minify: false,
-// 	dest: 'dist/app',
-// 	destJs: 'dist/app/app.js'
-// };
-
 let babelOptions = {
     plugins: [ 'transform-es2015-modules-systemjs' ]
 };
 
-let debugOptions = { active:false };
+let debugOptions = { active: true };
 
 /**
- * yargs variables can be passed in to alter the behavior, when present.
- * Example: gulp serve-dev
- *
- * --verbose  : Various tasks will produce more output to the console.
- * --nosync   : Don't launch the browser with browser-sync when serving code.
- * --debug    : Launch debugger with node-inspector.
- * --debug-brk: Launch debugger and break on 1st line with node-inspector.
- * --startServers: Will start servers for midway tests on the test task.
+ * todo: yargs variables
  */
 taskMaker.defineTask( 'clean', { taskName: 'clean', debug: debugOptions, taskDeps: [ 'clean-e2e' ], src: path.output } );
 taskMaker.defineTask( 'clean', { taskName: 'clean-e2e', debug: debugOptions, src: path.e2eOutput } );
-taskMaker.defineTask( 'css', { taskName: 'css', debug:debugOptions, src: path.css, dest: path.output } );
+taskMaker.defineTask( 'css', { taskName: 'css', debug: debugOptions, src: path.css, dest: path.output } );
 taskMaker.defineTask( 'babel', { taskName: 'babel', debug: debugOptions, src: path.clientJs, dest: path.output, ngAnnotate: true, compilerOptions: babelOptions } );
 taskMaker.defineTask( 'babel', { taskName: 'babel-e2e', debug: debugOptions, src: path.e2e, dest: path.e2eOutput, compilerOptions: babelOptions, taskDeps: [ 'clean-e2e' ] } );
 taskMaker.defineTask( 'copy', { taskName: 'html', debug: debugOptions, src: path.html, dest: path.output, compilerOptions: babelOptions } );
@@ -193,8 +164,9 @@ taskMaker.defineTask( 'copy', { taskName: 'cache-bust-index.html', src: path.ind
 taskMaker.defineTask( 'htmlMinify', { taskName: 'htmlMinify-index.html', taskDeps: [ 'cache-bust-index.html' ], src: path.output, dest: path.output, debug: debugOptions, minimize: htmlMinOptions } );
 taskMaker.defineTask( 'htmlHint', { taskName: 'html-hint', debug: debugOptions, src: path.html } );
 taskMaker.defineTask( 'minify', { taskName: 'minify', debug: debugOptions, src: path.minify, dest: path.output } );
-taskMaker.defineTask( 'eslint', { taskName: 'eslint', debug: { active:true }, src: path.allJs, dest:'src/' } );
-//taskMaker.defineTask( 'eslint', { taskName: 'eslint-gulp', debug: debugOptions, src: [ './gulpfile.babel.js', './gulp/**/*.js' ], dest:'.' } );
+taskMaker.defineTask( 'eslint', { taskName: 'eslint', debug: debugOptions, src: path.allJs, dest: 'src/', taskDeps: [ 'eslint-gulp', 'eslint-gulp-tasks' ] } );
+taskMaker.defineTask( 'eslint', { taskName: 'eslint-gulp', debug: debugOptions, src: './gulpfile.babel.js', dest: './gulpfile.babel.js' } );
+taskMaker.defineTask( 'eslint', { taskName: 'eslint-gulp-tasks', debug: debugOptions, src: './gulp/**/*.js', dest: './gulp/', watchTask: true } );
 taskMaker.defineTask( 'watch', { taskName: 'watch', src: path.watch, tasks: [ 'compile', 'index.html', 'eslint' ] } );
 taskMaker.defineTask( 'nodemon', { taskName: 'serve', browserSyncConfig: browserSyncConfig, nodemonConfig: nodemonConfig } );
 // taskMaker.defineTask('karma', { taskName: 'karma', configFile: path.karmaConfig });
@@ -225,41 +197,3 @@ gulp.task( 'run', 'Executa a aplicação no ambiente configurado: dev, prod, etc
 
 // executa a tarefa default
 gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
-
-
-
-
-
-
-
-
-//+src
-//|  +components
-//|  |  +states
-//|  |  |  +componentA
-//|  |  |  |  stylesheets
-//|  |  |  |  componentA.html
-//|  |  |  |  componentA-controller.js
-//|  |  |  |  componentA-route.js
-//|  |  |  |  componentA-spec.js
-//|  |  |  |  componentA-test
-//|  |  |  |  index.js
-//|  |  |  +componentB
-//|  |  |  |  stylesheets
-//|  |  |  |  componentB.html
-//|  |  |  |  componentB-controller.js
-//|  |  |  |  componentB-route.js
-//|  |  |  |  componentB-spec.js
-//|  |  |  |  componentB-test
-//|  |  |  |  index.js
-//|  |  +directives
-//|  |  |  +directiveA
-//|  |  |  |  directiveA-controller.js
-//|  |  |  |  directiveA-spec.js
-//|  |  |  |  directiveA-test
-//|  |  |  |  index.js
-//|  |  |  +directiveB
-//|  |  |  |  directiveB-controller.js
-//|  |  |  |  directiveB-spec.js
-//|  |  |  |  directiveB-test
-//|  |  |  |  index.js

@@ -1,4 +1,4 @@
-import _isUndefined from 'lodash/isUndefined';
+﻿import _isUndefined from 'lodash/isUndefined';
 import _merge from 'lodash/merge';
 import eslint from 'gulp-eslint';
 import plumber from 'gulp-plumber';
@@ -9,80 +9,73 @@ import gIf from 'gulp-if';
 * ESLint Task.
 *
 * Mais em: http://eslint.org/
-* 
+*
 * @returns {void}
 */
 class EslintTask {
-    setOptions(options) {
+    setOptions( options ) {
         this.options = options;
 
-        this.options.lintConfig = _merge({ quiet: true, fix: true, failOnError: false }, this.options.lintConfig || {});
+        this.options.lintConfig = _merge( { quiet: false, fix: true, failOnError: false }, this.options.lintConfig || {} );
 
-        if (this.options.lintConfig.failOnError && this.options.lintConfig.failAfterError) {
-            throw new Error('EslintTask: Please choose either failOnError or failAfterError option!');
+        if ( this.options.lintConfig.failOnError && this.options.lintConfig.failAfterError ) {
+            throw new Error( 'EslintTask: Por favor escolha somente uma das opções: failOnError ou failAfterError!' );
         }
 
-        if (_isUndefined(this.options.src)) {
-            throw new Error('EslintTask: src is missing from configuration!');
+        if ( _isUndefined( this.options.src ) ) {
+            throw new Error( 'EslintTask: src é obrigatório!' );
         }
 
         return this;
     }
 
-    defineTask(gulp) {
+    defineTask( gulp ) {
+
+        let taskMetadata = {
+            description: 'Realiza uma análize de qualdade de código Javascript usando [ESLint](http://eslint.org/) e reporta o resultado.',
+            options: {
+                options: {
+                    src: 'Source (glob)',
+                    dest: 'Destino (glob)',
+                    debug: 'Indica se debug está habilitado para a task',
+                    lintConfig: 'Opções para o plugin gulp-eslint'
+                }
+            }
+        };
 
         let lintConfig = this.options.lintConfig;
 
-        // O ESlint corrigiu o conte�do do arquivo?
+        // O ESlint corrigiu o conteúdo do arquivo?
         function isFixed( file ) {
-            return file.eslint != null && file.eslint.fixed;
+            return file.eslint !== null && file.eslint.fixed;
         }
 
-        gulp.task(this.options.taskName, this.options.taskDeps, () => {
+        gulp.task( this.options.taskName, taskMetadata.description, this.options.taskDeps, () => {
 
             var chain = gulp.src( this.options.src )
-                            .pipe( cached( this.options.taskName) )
+                            .pipe( cached( this.options.taskName ) )
                             .pipe( plumber() )
-                            .pipe( eslint(lintConfig ) )
+                            .pipe( eslint( lintConfig ) )
                             .pipe( eslint.format() );
 
             if ( this.options.debug.active ) {
                 chain = chain.pipe( debug( this.options.debug ) );
             }
 
-            // s� escreve no arquivo se tiver sido "fixed"
+            // só escreve no arquivo se tiver sido "fixed"
             // ref: https://github.com/adametry/gulp-eslint/blob/master/example/fix.js
             chain = chain.pipe( gIf( isFixed, gulp.dest( this.options.dest ) ) );
 
             if ( lintConfig.failOnError ) {
-                chain = chain.pipe( $.eslint.failOnError() );
+                chain = chain.pipe( eslint.failOnError() );
             } else if ( lintConfig.failAfterError ) {
-                chain = chain.pipe( $.eslint.failAfterError() );
+                chain = chain.pipe( eslint.failAfterError() );
             }
 
-            //var chain = gulp.src(options.src).pipe(eslint());
-
-            //if (options.quiet) {
-            //	chain = chain.pipe(eslint.format((reports) => {
-            //		reports.forEach((report) => {
-            //			report.messages = report.messages.filter((message) => {
-            //				return message.fatal || message.severity > 1;
-            //			});
-            //		});
-            //		return '( *** Eslint runs in quite mode *** )';
-            //	}));
-            //}
-
-            //chain = chain.pipe(eslint.format());
-
-            //if (options.failOnError) {
-            //	chain = chain.pipe(eslint.failOnError());
-            //} else if (options.failAfterError) {
-            //	chain = chain.pipe(eslint.failAfterError());
-            //}
+            return chain;
 
             //return chain;
-        });
+        }, taskMetadata.options );
     }
 }
 

@@ -15,6 +15,7 @@
     - [Babel](#babel)
     - [Gulp](#gulp)
 - [Gulp tasks](#gulp-tasks)
+    - [help](#help)
     - [default](#default)
     - [run](#run)
     - [recompile](#recompile)
@@ -82,6 +83,12 @@ O automatizador de tarefas de build da aplicação. Veja as tarefas definidas pa
 
 Cada gulp task é implementada como uma *receita* que pode ser reaproveitada. Cada uma dessas *receitas* reside no seu próprio arquivo, tornando mais
 fácil a navegação até seu código fonte, melhorando a mantenabilidade, bem como clarificando quais as dependências cada task possui.
+
+### help
+
+> $: gulp help
+
+Exibe a lista de tasks definidas na aplicação, bem como suas descrições e opções de configuração.
 
 ### default
 

@@ -10,7 +10,7 @@ import _isUndefined from 'lodash/isUndefined';
 import _merge from 'lodash/merge';
 import _forEach from 'lodash/forEach';
 import debug from 'gulp-debug';
-import {compilerOptions} from './babel';
+import { compilerOptions } from './babel';
 
 let defaultUglifyOptions = {
     mangle: true
@@ -21,32 +21,32 @@ let defaultHtmlMinOptions = {
 };
 
 class NgHtml2JsTask {
-    setOptions(options) {
+    setOptions( options ) {
         this.options = options;
 
-        if (_isUndefined(this.options.src)) {
-            throw new Error('NgHtml2JsTask: src is missing from configuration!');
+        if ( _isUndefined( this.options.src ) ) {
+            throw new Error( 'NgHtml2JsTask: src é obrigatório!' );
         }
 
-        if (_isUndefined(this.options.dest)) {
-            throw new Error('NgHtml2JsTask: dest is missing from configuration!');
+        if ( _isUndefined( this.options.dest ) ) {
+            throw new Error( 'NgHtml2JsTask: dest é obrigatório!' );
         }
 
-        if (_isUndefined(this.options.prepend)) {
+        if ( _isUndefined( this.options.prepend ) ) {
             this.options.prepend = 'import angular from \'angular\';\n';
         }
 
-        this.options.ngHtml2Js = _merge({}, { export: 'system' }, this.options.ngHtml2Js);
-        this.options.compilerOptions = _merge({}, compilerOptions, this.options.compilerOptions);
-        this.options.uglifyOptions = _merge({}, defaultUglifyOptions, this.options.uglifyOptions);
-        this.options.minimize = _merge({}, defaultHtmlMinOptions, this.options.minimize);
+        this.options.ngHtml2Js = _merge( {}, { export: 'system' }, this.options.ngHtml2Js );
+        this.options.compilerOptions = _merge( {}, compilerOptions, this.options.compilerOptions );
+        this.options.uglifyOptions = _merge( {}, defaultUglifyOptions, this.options.uglifyOptions );
+        this.options.minimize = _merge( {}, defaultHtmlMinOptions, this.options.minimize );
 
         return this;
     }
 
-    defineTask(gulp) {
+    defineTask( gulp ) {
         let options = this.options;
-        
+
         let taskMetadata = {
             description: 'Converte html em js(angular modules) e salva em $templateCache.',
             options: {
@@ -61,37 +61,37 @@ class NgHtml2JsTask {
                 }
             }
         };
-        
-        gulp.task(options.taskName,taskMetadata.description, options.taskDeps, () => {
+
+        gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             let chain;
 
-            chain = gulp.src(options.src);
+            chain = gulp.src( options.src );
 
-            if (options.debug.active) {
-                chain = chain.pipe(debug(options.debug));
+            if ( options.debug.active ) {
+                chain = chain.pipe( debug( options.debug ) );
             }
 
-            chain = chain.pipe(cache(options.taskName))
-                         .pipe(plumber())
-                         .pipe(changed(options.dest, { extension: '.html' }))
-                         .pipe(gulp.dest(options.dest)) // salva no formato .html
-                         .pipe(htmlMin(options.minimize))
-                         .pipe(ngHtml2Js(options.ngHtml2Js))
-                         .pipe(insert.prepend(options.prepend))
-                         .pipe(toES5(options.compilerOptions)); // salva no formato .html
-            
-            if (options.uglify) {
-                chain = chain.pipe(uglify(options.uglifyOptions));
+            chain = chain.pipe( cache( options.taskName ) )
+                         .pipe( plumber() )
+                         .pipe( changed( options.dest, { extension: '.html' } ) )
+                         .pipe( gulp.dest( options.dest ) ) // salva no formato .html
+                         .pipe( htmlMin( options.minimize ) )
+                         .pipe( ngHtml2Js( options.ngHtml2Js ) )
+                         .pipe( insert.prepend( options.prepend ) )
+                         .pipe( toES5( options.compilerOptions ) ); // salva no formato .html
+
+            if ( options.uglify ) {
+                chain = chain.pipe( uglify( options.uglifyOptions ) );
             }
 
-            chain = chain.pipe(gulp.dest(options.dest)); // salva html convertido para .js
+            chain = chain.pipe( gulp.dest( options.dest ) ); // salva html convertido para .js
 
-            _forEach(options.globalBrowserSyncs, (bs) => {
-                chain = chain.pipe(bs.stream());
-            });
+            _forEach( options.globalBrowserSyncs, ( bs ) => {
+                chain = chain.pipe( bs.stream() );
+            } );
 
             return chain;
-        }, taskMetadata.options);
+        }, taskMetadata.options );
     }
 }
 

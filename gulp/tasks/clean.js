@@ -5,19 +5,19 @@ import _isArray from 'lodash/isArray';
 import debug from 'gulp-debug';
 
 class CleanTask {
-    setOptions(options) {
+    setOptions( options ) {
         this.options = options;
 
-        if (_isUndefined(this.options.src)) {
-            throw new Error('CleanTask: src is missing from configuration!');
+        if ( _isUndefined( this.options.src ) ) {
+            throw new Error( 'CleanTask: src é obrigatório!' );
         }
 
         return this;
     }
 
-    defineTask(gulp) {
+    defineTask( gulp ) {
         let options = this.options;
-        
+
         let taskMetadata = {
             description: 'Apaga diretório/arquivos',
             options: {
@@ -28,20 +28,20 @@ class CleanTask {
                 }
             }
         };
-        
-        gulp.task(options.taskName, taskMetadata.description, options.taskDeps, () => {
-            if (!_isArray(options.src)) {
-                options.src = [options.src];
+
+        gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
+            if ( !_isArray( options.src ) ) {
+                options.src = [ options.src ];
             }
-            
-            var chain = gulp.src(options.src);
-            
-            if (options.debug.active) {
-                chain = chain.pipe(debug(options.debug));
+
+            let chain = gulp.src( options.src );
+
+            if ( options.debug.active ) {
+                chain = chain.pipe( debug( options.debug ) );
             }
-            
-            return chain.pipe(vinylPaths(del));
-        }, taskMetadata.options);
+
+            return chain.pipe( vinylPaths( del ) );
+        }, taskMetadata.options );
     }
 }
 

@@ -12,7 +12,7 @@
          this.showFooterControls = true;
          this.showUserInfo = true;
          this.userName = 'Renzo';
-         this.appName = 'Sejus';
+         this.appName = 'PRODEST';
      }
 }
 

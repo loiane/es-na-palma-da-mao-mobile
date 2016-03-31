@@ -9,7 +9,7 @@ export default[ '$rootScope', '$compile', 'componentLoader', directiveLoader ];
     *
     * @param {obj} $rootScope
     * @param {obj} $compile Serviço do angular para compilar html
-    * @returns {obj} componentLoader O serviço que carrega componentes e insere e injeta no angular 
+    * @returns {obj} componentLoader O serviço que carrega componentes e insere e injeta no angular
     */
 function directiveLoader( $rootScope, $compile, componentLoader ) {
     let directive = {
@@ -31,7 +31,7 @@ function directiveLoader( $rootScope, $compile, componentLoader ) {
             function loadDirectiveIfExistsOnPage( name ) {
                 var elems = angular.element( name );
 
-                if ( elems.size() > 0 ) { 
+                if ( elems.size() > 0 ) {
 
                     let componentName = name.replace( 'pdc-', '' ).replace( 'page-', '' );
 

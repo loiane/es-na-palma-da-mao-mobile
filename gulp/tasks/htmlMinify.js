@@ -5,27 +5,27 @@ import _merge from 'lodash/merge';
 import debug from 'gulp-debug';
 
 class HtmlMinifyTask {
-    setOptions(options) {
+    setOptions( options ) {
         this.options = options;
 
-        if (_isUndefined(this.options.src)) {
-            throw new Error('HtmlMinifyTask: src is missing from configuration!');
+        if ( _isUndefined( this.options.src ) ) {
+            throw new Error( 'HtmlMinifyTask: src é obrigatório!' );
         }
 
-        if (_isUndefined(this.options.dest)) {
-            throw new Error('HtmlMinifyTask: dest is missing from configuration!');
+        if ( _isUndefined( this.options.dest ) ) {
+            throw new Error( 'HtmlMinifyTask: dest é obrigatório!' );
         }
 
-        this.options.minimize = _merge({
+        this.options.minimize = _merge( {
             keepClosingSlash: true
-        }, this.options.minimize);
+        }, this.options.minimize );
 
         return this;
     }
 
-    defineTask(gulp) {
+    defineTask( gulp ) {
         let options = this.options;
-        
+
         let taskMetadata = {
             description: 'minimiza Htmls e copia para pasta detino.',
             options: {
@@ -37,19 +37,19 @@ class HtmlMinifyTask {
                 }
             }
         };
-        
-        gulp.task(options.taskName, taskMetadata.description,  options.taskDeps, () => {
-            let chain = gulp.src(options.src);
 
-            if (options.debug.active) {
-                chain = chain.pipe(debug(options.debug));
+        gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
+            let chain = gulp.src( options.src );
+
+            if ( options.debug.active ) {
+                chain = chain.pipe( debug( options.debug ) );
             }
-            chain = chain.pipe(plumber())
-                         .pipe(htmlMin(options.minimize))
-                         .pipe(gulp.dest(options.dest));
+            chain = chain.pipe( plumber() )
+                         .pipe( htmlMin( options.minimize ) )
+                         .pipe( gulp.dest( options.dest ) );
 
             return chain;
-        }, taskMetadata.options);
+        }, taskMetadata.options );
     }
 }
 

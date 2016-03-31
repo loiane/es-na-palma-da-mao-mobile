@@ -11,25 +11,25 @@ let defaultUglifyOptions = {
 };
 
 class MinifyTask {
-    setOptions(options) {
+    setOptions( options ) {
         this.options = options;
 
-        if (_isUndefined(this.options.src)) {
-            throw new Error('MinifyTask: src is missing from configuration!');
+        if ( _isUndefined( this.options.src ) ) {
+            throw new Error( 'MinifyTask: src é obrigatório!' );
         }
 
-        if (_isUndefined(this.options.dest)) {
-            throw new Error('MinifyTask: dest is missing from configuration!');
+        if ( _isUndefined( this.options.dest ) ) {
+            throw new Error( 'MinifyTask: dest é obrigatório!' );
         }
 
-        this.options.uglifyOptions = _merge({}, defaultUglifyOptions, this.options.uglifyOptions);
+        this.options.uglifyOptions = _merge( {}, defaultUglifyOptions, this.options.uglifyOptions );
 
         return this;
     }
 
-    defineTask(gulp) {
+    defineTask( gulp ) {
         let options = this.options;
-        
+
         let taskMetadata = {
             description: 'Minimiza arquivos .js.',
             options: {
@@ -41,26 +41,26 @@ class MinifyTask {
                 }
             }
         };
-        
-        gulp.task(options.taskName, taskMetadata.description, options.taskDeps, () => {
-            let chain = gulp.src(options.src)
-                .pipe(plumber())
-                .pipe(sourcemaps.init({ loadMaps: true }))
-                .pipe(uglify(options.uglifyOptions))
-                .pipe(sourcemaps.write('.'));
-                
-            if (!_isUndefined(options.chmod)) {
-                chain = chain.pipe(chmod(options.chmod));
+
+        gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
+            let chain = gulp.src( options.src )
+                            .pipe( plumber() )
+                            .pipe( sourcemaps.init( { loadMaps: true } ) )
+                            .pipe( uglify( options.uglifyOptions ) )
+                            .pipe( sourcemaps.write( '.' ) );
+
+            if ( !_isUndefined( options.chmod ) ) {
+                chain = chain.pipe( chmod( options.chmod ) );
             }
 
-            if (options.debug.active) {
-                chain = chain.pipe(debug(options.debug));
+            if ( options.debug.active ) {
+                chain = chain.pipe( debug( options.debug ) );
             }
 
-            chain = chain.pipe(gulp.dest(options.dest));
+            chain = chain.pipe( gulp.dest( options.dest ) );
 
             return chain;
-        }, taskMetadata.options);
+        }, taskMetadata.options );
     }
 }
 
