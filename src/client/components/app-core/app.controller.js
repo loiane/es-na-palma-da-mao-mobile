@@ -1,4 +1,4 @@
- class AppController {
+﻿ class AppController {
      constructor( logger ) {
          'ngInject';
          this.activate();

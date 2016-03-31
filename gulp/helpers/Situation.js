@@ -1,4 +1,4 @@
-import gutil from 'gulp-util';
+﻿import gutil from 'gulp-util';
 
 class Situation {
     constructor() {

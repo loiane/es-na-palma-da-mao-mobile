@@ -1,4 +1,4 @@
-import vinylPaths from 'vinyl-paths';
+﻿import vinylPaths from 'vinyl-paths';
 import del from 'del';
 import _isUndefined from 'lodash/isUndefined';
 import _isArray from 'lodash/isArray';

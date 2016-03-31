@@ -1,4 +1,4 @@
-class TabelasController {
+﻿class TabelasController {
 
     constructor( logger ) {
         this.logger = logger;

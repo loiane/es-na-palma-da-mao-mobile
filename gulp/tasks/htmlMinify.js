@@ -1,4 +1,4 @@
-import htmlMin from 'gulp-htmlmin';
+﻿import htmlMin from 'gulp-htmlmin';
 import plumber from 'gulp-plumber';
 import _isUndefined from 'lodash/isUndefined';
 import _merge from 'lodash/merge';

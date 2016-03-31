@@ -1,4 +1,4 @@
-
+﻿
 function appRun( $rootScope, $state, routerHelper ) {
     $rootScope.$state = $state;
 

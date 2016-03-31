@@ -1,4 +1,4 @@
-import angular from 'angular';
+﻿import angular from 'angular';
 
 export default[ '$rootScope', '$compile', 'componentLoader', directiveLoader ];
 

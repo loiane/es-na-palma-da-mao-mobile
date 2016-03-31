@@ -1,4 +1,4 @@
-import template from './Configuracoes.tpl.html!text';
+﻿import template from './Configuracoes.tpl.html!text';
 
 function configuracoesRoutes( $stateProvider ) {
     $stateProvider

@@ -1,4 +1,4 @@
-import template from './footer.tpl.html!text';
+﻿import template from './footer.tpl.html!text';
 
 export default function pageFooterDirective() {
     'ngInject';

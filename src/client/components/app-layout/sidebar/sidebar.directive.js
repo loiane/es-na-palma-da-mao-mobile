@@ -1,4 +1,4 @@
-import template from './sidebar.tpl.html!text';
+﻿import template from './sidebar.tpl.html!text';
 
 export default function sidebarDirective() {
     'ngInject';

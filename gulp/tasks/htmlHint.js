@@ -1,4 +1,4 @@
-import htmlhint from 'gulp-htmlhint';
+﻿import htmlhint from 'gulp-htmlhint';
 import plumber from 'gulp-plumber';
 import _isUndefined from 'lodash/isUndefined';
 import debug from 'gulp-debug';

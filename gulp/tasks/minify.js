@@ -1,4 +1,4 @@
-import sourcemaps from 'gulp-sourcemaps';
+﻿import sourcemaps from 'gulp-sourcemaps';
 import uglify from 'gulp-uglify';
 import plumber from 'gulp-plumber';
 import chmod from 'gulp-chmod';

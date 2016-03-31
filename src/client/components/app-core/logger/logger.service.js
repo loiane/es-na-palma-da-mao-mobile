@@ -1,4 +1,4 @@
-import toastr from 'toastr';
+﻿import toastr from 'toastr';
 import 'toastr/build/toastr.css!';
 
 export default [ '$log', logger ];

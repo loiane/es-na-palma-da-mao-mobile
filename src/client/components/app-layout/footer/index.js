@@ -1,4 +1,4 @@
-import angular from 'angular';
+﻿import angular from 'angular';
 import pageFooterDirective from './footer.directive';
 import './footer.css!';
 

@@ -8,8 +8,17 @@ let path = {
     e2eOutput: 'test-e2e-compile/',
 
     //src
-    allJs: 'src/**/*.js',
+    srcJs: 'src/**/*.js',
+    allJs: [
+        './**/*.js',
+        '!./node_modules/**/*.js',
+        '!./jspm_packages/**/*.js',
+        '!./gulp-tasks/**/*.js',  // todo: temporário - remover
+        '!./config/system.js',
+        '!system.yuml.js'
+    ],
     clientJs: 'src/client/**/*.js',
+    serverJs: 'src/server/**/*.js',
     html: [ 'src/client/**/*.html', '!src/client/components/app-core/index.tpl.html' ],
     templates: [ 'src/client/**/*.tpl.html', '!src/client/components/app-core/index.tpl.html' ],
     css: [ 'src/client/**/*.css' ],

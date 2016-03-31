@@ -1,4 +1,4 @@
-import 'angular-ui-router';
+﻿import 'angular-ui-router';
 import './tabelas.css!';
 import angular from 'angular';
 import TabelasController from './tabelas.controller';

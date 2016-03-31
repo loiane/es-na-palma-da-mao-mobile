@@ -1,4 +1,4 @@
-import angular from 'angular';
+﻿import angular from 'angular';
 import pageHeaderDirective from './header.directive';
 import './header.css!';
 

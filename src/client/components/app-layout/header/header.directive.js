@@ -1,4 +1,4 @@
-import template from './header.tpl.html!text';
+﻿import template from './header.tpl.html!text';
 
 export default function pageHeaderDirective() {
     'ngInject';

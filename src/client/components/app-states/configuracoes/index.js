@@ -1,4 +1,4 @@
-import 'angular-ui-router';
+﻿import 'angular-ui-router';
 import angular from 'angular';
 
 import './configuracoes.css!';

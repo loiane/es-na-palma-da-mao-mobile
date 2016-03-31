@@ -1,4 +1,4 @@
-import template from './dashboard.tpl.html!text';
+﻿import template from './dashboard.tpl.html!text';
 
 function dashBoardRoutes( $stateProvider ) {
     $stateProvider

@@ -1,4 +1,4 @@
-import 'angular-ui-router';
+﻿import 'angular-ui-router';
 import './diversos.css!';
 import angular from 'angular';
 import DiversosController from './diversos.controller';

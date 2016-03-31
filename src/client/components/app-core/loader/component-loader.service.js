@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Provides functionality to load components at runtime.
  */
 class ComponentLoaderService {

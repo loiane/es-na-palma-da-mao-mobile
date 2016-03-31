@@ -1,4 +1,4 @@
-// ES6 gulpfile
+﻿// ES6 gulpfile
 // ref: https://markgoodyear.com/2015/06/using-es6-with-gulp/
 import innerGulp from 'gulp';
 import gulpHelpers from './gulp/helpers';
@@ -26,10 +26,12 @@ taskMaker.defineTask( 'copy', { taskName: 'cache-bust-index.html', src: config.p
 taskMaker.defineTask( 'htmlMinify', { taskName: 'htmlMinify-index.html', taskDeps: [ 'cache-bust-index.html' ], src: config.path.output, dest: config.path.output, debug: config.debugOptions, minimize: config.htmlMinOptions } );
 taskMaker.defineTask( 'htmlHint', { taskName: 'html-hint', debug: config.debugOptions, src: config.path.html } );
 taskMaker.defineTask( 'minify', { taskName: 'minify', debug: config.debugOptions, src: config.path.minify, dest: config.path.output } );
-taskMaker.defineTask( 'eslint', { taskName: 'eslint-src', debug: config.debugOptions, src: config.path.allJs, dest: 'src/' } );
+taskMaker.defineTask( 'eslint', { taskName: 'eslint', debug: config.debugOptions, src: config.path.allJs, dest: './' } );
+taskMaker.defineTask( 'eslint', { taskName: 'eslint-src', debug: config.debugOptions, src: config.path.srcJs, dest: 'src/' } );
 taskMaker.defineTask( 'eslint', { taskName: 'eslint-gulp', debug: config.debugOptions, src: config.path.gulp, base: './', dest: './' } );
 taskMaker.defineTask( 'watch', { taskName: 'watch', src: config.path.watch, tasks: [ 'compile', 'index.html', 'eslint-src' ] } );
 taskMaker.defineTask( 'nodemon', { taskName: 'serve', browserSyncConfig: config.browserSyncConfig, nodemonConfig: config.nodemonConfig } );
+
 
 gulp.task( 'compile', 'Compila a aplicação executanto: [css, html, babel, json, assets] tasks paralelamente.', function( callback ) {
     return runSequence( [ 'css', 'html', 'babel', 'json', 'assets' ], callback );

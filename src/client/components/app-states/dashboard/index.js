@@ -1,4 +1,4 @@
-import 'angular-ui-router';
+﻿import 'angular-ui-router';
 import './dashboard.css!';
 import angular from 'angular';
 import DashBoardController from './dashboard.controller';

@@ -1,4 +1,4 @@
-/* eslint no-invalid-this: 1*/
+﻿/* eslint no-invalid-this: 1*/
 
 import _isUndefined from 'lodash/isUndefined';
 import _merge from 'lodash/merge';

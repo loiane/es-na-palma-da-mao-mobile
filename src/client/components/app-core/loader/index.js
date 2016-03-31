@@ -1,4 +1,4 @@
-import angular from 'angular';
+﻿import angular from 'angular';
 import ocLazyLoad from 'oclazyload';
 import ComponentLoaderService from './component-loader.service';
 import SystemService from './system.service';

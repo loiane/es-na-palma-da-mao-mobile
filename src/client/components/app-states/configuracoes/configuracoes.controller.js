@@ -1,4 +1,4 @@
-class ConfiguracoesController {
+﻿class ConfiguracoesController {
 
     constructor( logger ) {
         this.logger = logger;

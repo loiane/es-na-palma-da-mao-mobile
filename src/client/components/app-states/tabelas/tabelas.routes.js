@@ -1,4 +1,4 @@
-import template from './tabelas.tpl.html!text';
+﻿import template from './tabelas.tpl.html!text';
 
 function tabelasRoutes( $stateProvider ) {
     $stateProvider

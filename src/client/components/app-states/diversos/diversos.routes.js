@@ -1,4 +1,4 @@
-import template from './diversos.tpl.html!text';
+﻿import template from './diversos.tpl.html!text';
 
 function diversosRoutes( $stateProvider ) {
     $stateProvider

@@ -1,4 +1,4 @@
-class DiversosController {
+﻿class DiversosController {
 
     constructor( logger ) {
         this.logger = logger;

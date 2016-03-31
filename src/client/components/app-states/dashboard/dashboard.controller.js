@@ -1,4 +1,4 @@
-class DashBoardController {
+﻿class DashBoardController {
 
     constructor( logger ) {
         this.logger = logger;
