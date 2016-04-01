@@ -3,59 +3,11 @@
 // 1 - warn
 // 2 - error
 {
-  "extends": [ "idiomatic", "angular" ],
+  "extends": [ "prodest", "prodest-angular" ],
   "env": {
     "jasmine": true,
     "es6": true,
-    "browser": true,
-    "commonjs": true,
-    "node": true
-  },
-  "parserOptions": {
-    "sourceType": "module"
-  }, 
-  "rules": {
-    "require-jsdoc": 0,
-    "valid-jsdoc": 0,
-
-    /*************************************
-    * Estendendo idiomatic style
-    **************************************/
-    "dot-notation": [
-      2,
-      { "allowKeywords": true }
-    ],
-    "linebreak-style": [ 2, "windows" ],
-    "indent": [ 2, 4 ],
-    "no-inline-comments": 0,
-    "func-names": 0,
-    "semi": [ 2, "always" ],
-    "one-var": [
-      2,
-      {
-        "uninitialized": "never",
-        "initialized": "never"
-      }
-    ],
-    "no-unused-expressions": [
-      2,
-      { "allowShortCircuit": true }
-    ],
-
-    /*************************************
-    * Estendendo angular style
-    **************************************/
-    "angular/controller-name": [ 2, "/^[a-z].*Controller$/" ],
-    "angular/deferred": 2,
-    "angular/component-limit": [ 1, 1 ],
-    "angular/function-type": [2,"named"],
-    "angular/no-service-method": 1,
-    "angular/directive-name": [ 2, "pdc" ],
-    "angular/di": [2,"$inject"]
-    //"angular/file-name": [
-    //  2,
-    //  { "typeSeparator": "dot", "ignoreTypeSuffix": true, "ignorePrefix": "pdc" }
-    //]
+    "commonjs": true
   },
   "globals": {
     "_": true,

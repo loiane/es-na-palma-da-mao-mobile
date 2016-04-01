@@ -9,7 +9,7 @@ import config from './config/gulp.config';
 let gulp = gulpHelp( innerGulp ); // wrap in gulp help
 let taskMaker = gulpHelpers.taskMaker( gulp );
 
-/** 
+/**
  * todo: yargs variables
  */
 taskMaker.defineTask( 'css', { taskName: 'css', src: config.path.css, dest: config.path.output, debug: config.debugOptions } );
