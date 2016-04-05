@@ -31,7 +31,7 @@
     "browser-sync": "^2.11.2",
     "connect-history-api-fallback": "^1.1.0",
     "del": "^2.2.0",
-    "eslint-config-prodest": "^1.0.5",
+    "eslint-config-prodest": "^1.0.12",
     "eslint-config-prodest-angular": "^1.0.2",
     "eslint-plugin-angular": "^1.0.0",
     "express-history-api-fallback": "^2.0.0",

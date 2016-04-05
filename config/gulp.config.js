@@ -8,7 +8,7 @@ let path = {
     e2eOutput: 'test-e2e-compile/',
 
     //src
-    srcJs: 'src/**/*.js',
+    srcJs: './src/**/*.js',
     allJs: [
         './**/*.js',
         '!./node_modules/**/*.js',

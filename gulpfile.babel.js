@@ -28,7 +28,7 @@ taskMaker.defineTask( 'htmlMinify', { taskName: 'htmlMinify-index.html', taskDep
 taskMaker.defineTask( 'htmlHint', { taskName: 'html-hint', debug: config.debugOptions, src: config.path.html } );
 taskMaker.defineTask( 'minify', { taskName: 'minify', debug: config.debugOptions, src: config.path.minify, dest: config.path.output } );
 taskMaker.defineTask( 'eslint', { taskName: 'eslint', debug: config.debugOptions, src: config.path.allJs, dest: './' } );
-taskMaker.defineTask( 'eslint', { taskName: 'eslint-src', debug: config.debugOptions, src: config.path.srcJs, dest: 'src/' } );
+taskMaker.defineTask( 'eslint', { taskName: 'eslint-src', debug: config.debugOptions, src: config.path.srcJs, dest: './src/' } );
 taskMaker.defineTask( 'eslint', { taskName: 'eslint-gulp', debug: config.debugOptions, src: config.path.gulp, base: './', dest: './' } );
 taskMaker.defineTask( 'watch', { taskName: 'watch', src: config.path.watch, tasks: [ 'compile', 'index.html', 'eslint-src' ] } );
 taskMaker.defineTask( 'nodemon', { taskName: 'serve', browserSyncConfig: config.browserSyncConfig, nodemonConfig: config.nodemonConfig } );
