@@ -21,12 +21,12 @@ console.log( `  NODE_ENV=${environment}` );
 
 switch ( environment ) {
 case 'build':
-        //console.log('\n================== ENV:BUILD ==================');
-        //app.use(express.static('./dist/'));
-        //app.use('/app/*', (req, res, next) => four0four.send404(req, res));    // Any invalid
-        // calls for templateUrls are under app/* and should return 404 app.use('/*',
-        // express.static('./build/index.html'));                   // Any deep link calls should
-        // return index.html
+    //console.log('\n================== ENV:BUILD ==================');
+    //app.use(express.static('./dist/'));
+    //app.use('/app/*', (req, res, next) => four0four.send404(req, res));    // Any invalid
+    // calls for templateUrls are under app/* and should return 404 app.use('/*',
+    // express.static('./build/index.html'));                   // Any deep link calls should
+    // return index.html
 
     break;
 
