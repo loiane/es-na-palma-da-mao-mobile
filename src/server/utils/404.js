@@ -5,11 +5,9 @@
     };
     return service;
 
-
     function notFoundMiddleware( req, res, next ) { // eslint-disable-line no-unused-vars
         send404( req, res, 'API endpoint not found' );
     }
-
 
     function send404( req, res, description ) {
         var data = {
@@ -19,7 +17,7 @@
             url: req.url
         };
         res.status( 404 )
-            .send( data )
-            .end();
+           .send( data )
+           .end();
     }
 };
