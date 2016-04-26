@@ -33,7 +33,6 @@ class Utf8Task {
             }
         };
 
-
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             let chain = gulp.src( options.src )
                             .pipe( plumber() )

@@ -10,8 +10,7 @@ import _forEach from 'lodash/forEach';
 import debug from 'gulp-debug';
 
 let defaultCompilerOptions = {
-    comments: false,
-    //compact: true,
+    comments: false, //compact: true,
     presets: [ 'es2015' ]
 };
 
@@ -53,11 +52,11 @@ class BabelTask {
                 options: {
                     src: 'Source (glob)',
                     dest: 'Destino (glob)',
-                    debug: 'Indica se debug está habilitado para a task',
                     plumberOptions: 'Opções para o plugin gulp-plumber',
                     compilerOptions: 'Opções para o plugin gulp-babel',
                     uglifyOptions: 'Opções para o plugin gulp-uglify',
-                    ngAnnotate: 'Opções para o plugin gulp-ng-annotate'
+                    ngAnnotate: 'Opções para o plugin gulp-ng-annotate',
+                    debug: 'Indica se debug está habilitado para a task'
                 }
             }
         };

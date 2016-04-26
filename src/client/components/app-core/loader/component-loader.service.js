@@ -16,8 +16,9 @@ class ComponentLoaderService {
     }
 
     /**
-     * Loads a component with the given name. It will automatically look for the component in the components folder.
-     * E.g. if you pass `popup` it will try to load the component from "components/popup/index".
+     * Loads a component with the given name. It will automatically look for the component in the
+     * components folder. E.g. if you pass `popup` it will try to load the component from
+     * "components/popup/index".
      *
      * @param {String} componentName
      * @returns {Promise}
@@ -36,8 +37,5 @@ class ComponentLoaderService {
 }
 
 export default[
-    '$q',
-    '$ocLazyLoad',
-    'system',
-    ComponentLoaderService
+    '$q', '$ocLazyLoad', 'system', ComponentLoaderService
 ];

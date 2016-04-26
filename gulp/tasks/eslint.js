@@ -6,17 +6,21 @@ import debug from 'gulp-debug';
 import cached from 'gulp-cached';
 import gIf from 'gulp-if';
 /**
-* ESLint Task.
-*
-* Mais em: http://eslint.org/
-*
-* @returns {void}
-*/
+ * ESLint Task.
+ *
+ * Mais em: http://eslint.org/
+ *
+ * @returns {void}
+ */
 class EslintTask {
     setOptions( options ) {
         this.options = options;
 
-        this.options.lintConfig = _merge( { quiet: false, fix: true, failOnError: false }, this.options.lintConfig || {} );
+        this.options.lintConfig = _merge( {
+            quiet: false,
+            fix: true,
+            failOnError: false
+        }, this.options.lintConfig || {} );
 
         if ( this.options.lintConfig.failOnError && this.options.lintConfig.failAfterError ) {
             throw new Error( 'EslintTask: Por favor escolha somente uma das opções: failOnError ou failAfterError!' );
@@ -48,12 +52,9 @@ class EslintTask {
             return file.eslint !== null && file.eslint.fixed;
         }
 
-
         gulp.task( this.options.taskName, taskMetadata.description, this.options.taskDeps, () => {
 
-            let chain = this.options.base
-                            ? gulp.src( this.options.src, { base: this.options.base } )
-                            : gulp.src( this.options.src );
+            let chain = this.options.base ? gulp.src( this.options.src, { base: this.options.base } ) : gulp.src( this.options.src );
 
             chain = chain.pipe( cached( this.options.taskName ) )
                          .pipe( plumber() )

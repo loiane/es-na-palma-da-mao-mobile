@@ -1,32 +1,32 @@
 [
-    {
-        "name": "app",
-        "url": "/",
-        "type": "load",
-        "src": "components/app-core/index"
-    },
-    {
-        "name": "app.dashboard",
-        "url": "dashboard",
-        "type": "load",
-        "src": "components/app-states/dashboard/index"
-    },
-    {
-        "name": "app.configuracoes",
-        "url": "configuracoes",
-        "type": "load",
-        "src": "components/app-states/configuracoes/index"
-    },
-    { 
-        "name": "app.tabelas",
-        "url": "tabelas",
-        "type": "load",
-        "src": "components/app-states/tabelas/index"
-    },
-    {
-        "name": "app.diversos",
-        "url": "diversos",
-        "type": "load",
-        "src": "components/app-states/diversos/index"
-    }
+  {
+    "name": "app",
+    "url": "/",
+    "type": "load",
+    "src": "components/app-core/index"
+  },
+  {
+    "name": "app.dashboard",
+    "url": "dashboard",
+    "type": "load",
+    "src": "components/app-states/dashboard/index"
+  },
+  {
+    "name": "app.configuracoes",
+    "url": "configuracoes",
+    "type": "load",
+    "src": "components/app-states/configuracoes/index"
+  },
+  {
+    "name": "app.tabelas",
+    "url": "tabelas",
+    "type": "load",
+    "src": "components/app-states/tabelas/index"
+  },
+  {
+    "name": "app.diversos",
+    "url": "diversos",
+    "type": "load",
+    "src": "components/app-states/diversos/index"
+  }
 ]

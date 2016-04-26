@@ -12,6 +12,8 @@ let path = {
     allJs: [
         './**/*.js',
         '!./node_modules/**/*.js',
+        '!./hooks/**/*.js',
+        '!./plugins/**/*.js',
         '!./jspm_packages/**/*.js',
         '!./gulp-tasks/**/*.js',  // todo: temporário - remover
         '!./config/system.js',
@@ -19,17 +21,22 @@ let path = {
     ],
     clientJs: 'src/client/**/*.js',
     serverJs: 'src/server/**/*.js',
-    html: [ 'src/client/**/*.html', '!src/client/components/app-core/index.tpl.html' ],
-    templates: [ 'src/client/**/*.tpl.html', '!src/client/components/app-core/index.tpl.html' ],
+    html: [
+        'src/client/**/*.html', '!src/client/components/app-core/index.tpl.html'
+    ],
+    templates: [
+        'src/client/**/*.tpl.html', '!src/client/components/app-core/index.tpl.html'
+    ],
     css: [ 'src/client/**/*.css' ],
-    assets: [ './src/client/**/*.svg',
-    './src/client/**/*.woff',
-    './src/client/**/*.ttf',
-    './src/client/**/*.png',
-    './src/client/**/*.ico',
-    './src/client/**/*.gif',
-    './src/client/**/*.jpg',
-    './src/client/**/*.eot'
+    assets: [
+        './src/client/**/*.svg',
+        './src/client/**/*.woff',
+        './src/client/**/*.ttf',
+        './src/client/**/*.png',
+        './src/client/**/*.ico',
+        './src/client/**/*.gif',
+        './src/client/**/*.jpg',
+        './src/client/**/*.eot'
     ],
     json: './src/client/**/*.json',
     index: './src/client/components/app-core/index.tpl.html',
@@ -38,23 +45,23 @@ let path = {
     systemConfig: './config/system.config.js',
 
     // output
-    output: '.dist/',
-    minify: '.dist/**/*.js',
+    output: 'www/app/',
+    outputClient: 'www/app/client',
+    outputServer: 'www/app/server',
+    minify: 'www/app/client/**/*.js',
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ],
 
     //server
-    server: 'src/server/',
-    nodeServer: 'src/server/app.js'
+    nodeServer: 'www/app/server/app.js'
 };
 
 let config = {
     situation: situation,
-    path: path,
-    //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
+    path: path, //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
     htmlMinOptions: {
         collapseWhitespace: true,
         removeComments: false, // but preserve conditional comments to IE
-        removeCDATASectionsFromCDATA: true, // remove comments from inlie js and css
+        removeCDATASectionsFromCDATA: true, // remove comments from inline js and css
         collapseInlineTagWhitespace: true,
         removeTagWhitespace: true,
         useShortDoctype: true,
@@ -110,7 +117,7 @@ let config = {
     debugOptions: { active: false }
 };
 
-// sobrescreve conigura��es se estiver em produ��o
+// sobrescreve conigurações se estiver em produção
 if ( config.situation.isProduction() ) {
     _.merge( config.browserSyncConfig, {
         codeSync: false,
@@ -129,7 +136,7 @@ if ( config.situation.isProduction() ) {
     } );
 }
 
-module.exports = config;
+export default config;
 
 //
 //
@@ -147,9 +154,6 @@ module.exports = config;
 //         }
 //     }
 // };
-
-
-
 
 //paths: {
 //    build: {

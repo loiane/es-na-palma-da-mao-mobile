@@ -27,7 +27,6 @@ class NodemonTask {
         return this;
     }
 
-
     defineTask( gulp ) {
 
         let taskMetadata = {
@@ -46,12 +45,11 @@ class NodemonTask {
         }, taskMetadata.options );
     }
 
-
     /**
-    * serve the code
-    * --debug-brk or --debug
-    * --nosync
-    */
+     * serve the code
+     * --debug-brk or --debug
+     * --nosync
+     */
     serve( nodemonConfig, browserSyncConfig, cb ) {
         let debugMode = '--debug';
         let options = this.options;
@@ -94,10 +92,10 @@ class NodemonTask {
         }
 
         nodemon( nodemonConfig )
-                .on( 'start', onStart.bind( this ) )
-                .on( 'restart', onRestart.bind( this ) )
-                .on( 'crash', onCrash.bind( this ) )
-                .on( 'exit', onExit.bind( this ) );
+            .on( 'start', onStart.bind( this ) )
+            .on( 'restart', onRestart.bind( this ) )
+            .on( 'crash', onCrash.bind( this ) )
+            .on( 'exit', onExit.bind( this ) );
     }
 }
 

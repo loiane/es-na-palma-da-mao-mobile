@@ -12,7 +12,7 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
+coverage/
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -24,7 +24,7 @@ coverage
 build/Release
 
 # Dependency directory
-node_modules
+node_modules/
 
 # Optional npm cache directory
 .npm
@@ -33,23 +33,25 @@ node_modules
 .node_repl_history
 
 
-# jspm packages
-jspm_packages
-
 # build folder
-build
-dist
-.dist
+build/
+dist/
+.dist/
 
 # webstorm temps
-.idea
+.idea/
 
 #pasta antiga de gulp tasks
-gulp-tasks
+gulp-tasks/
 
 #tarefas incompletas
 gulp/tasks/_*.js
 
 #sln
 *.sln
+
+
+platforms/
+plugins/
+www/
 

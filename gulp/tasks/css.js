@@ -41,8 +41,6 @@ class CssTask {
             }
         };
 
-
-
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
 
             let chain = gulp.src( options.src )

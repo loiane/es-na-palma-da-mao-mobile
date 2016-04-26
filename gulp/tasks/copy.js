@@ -31,14 +31,13 @@ class CopyTask {
                 options: {
                     src: 'Source (glob)',
                     dest: 'Destino (glob)',
-                    debug: 'Indica se debug está habilitado para a task',
                     changed: 'Opções para plugin gulp-changed',
                     replace: 'Opções para plugin gulp-replace-task',
-                    rename: 'Opções para plugin gulp-rename'
+                    rename: 'Opções para plugin gulp-rename',
+                    debug: 'Indica se debug está habilitado para a task'
                 }
             }
         };
-
 
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             let chain = gulp.src( options.src )

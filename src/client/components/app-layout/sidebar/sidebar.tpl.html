@@ -1,125 +1,131 @@
 <div ng-show="visible">
-    <div class="col-md-3 left_col">
-        <div class="left_col scroll-view">
+	<div class="col-md-3 left_col">
+		<div class="left_col scroll-view">
 
-            <!-- LOGO GOVERNO: start -->
-            <div>
-                <div id="logo-governo">
-                    <img src="components/app-layout/sidebar/img/brasao-governo-horizontal.png" />
-                </div>
-                <div class="navbar nav_title text-center ">
-                    <a href="index.html " class="site_title ">
-                        <span>{{appName}}</span>
-                    </a>
-                </div>
-                <div class="clearfix "></div>
-                <div class="profile clearfix" ng-if="showUserInfo">
-                    <div class="profile_pic ">
-                        <img src="components/app-layout/sidebar/img/img.jpg" alt="" class="img-circle profile_img">
-                    </div>
-                    <div class="profile_info">
-                        <span>Bem-vindo,</span>
-                        <h2>{{userName}} </h2>
-                    </div>
-                </div>
-            </div>  
+			<!-- LOGO GOVERNO: start -->
+			<div>
+				<div id="logo-governo">
+					<img src="components/app-layout/sidebar/img/brasao-governo-horizontal.png"/>
+				</div>
+				<div class="navbar nav_title text-center ">
+					<a href="index.html " class="site_title ">
+						<span>{{appName}}</span>
+					</a>
+				</div>
+				<div class="clearfix "></div>
+				<div class="profile clearfix" ng-if="showUserInfo">
+					<div class="profile_pic ">
+						<img src="components/app-layout/sidebar/img/img.jpg"
+							 alt=""
+							 class="img-circle profile_img">
+					</div>
+					<div class="profile_info">
+						<span>Bem-vindo,</span>
+						<h2>{{userName}} </h2>
+					</div>
+				</div>
+			</div>
 
-            <!-- /LOGO GOVERNO: end -->
+			<!-- /LOGO GOVERNO: end -->
 
-            <br />
-            <!-- Menu lateral: start -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                <div class="menu_section">
-                    <h3>Grupo 1</h3>
-                    <ul class="nav side-menu">
-                        <li>
-                            <a>
-                                <i class="fa fa-home"></i> Principal <span class="fa fa-chevron-down"></span>
-                            </a>
-                            <!--style="display: none"-->
-                            <ul class="nav child_menu">
-                                <li>
-                                    <a ui-sref="app.dashboard">DashBoard</a>
-                                </li>
-                                <li>
-                                    <a ui-sref="app.configuracoes">Configurações</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+			<br/>
+			<!-- Menu lateral: start -->
+			<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+				<div class="menu_section">
+					<h3>Grupo 1</h3>
+					<ul class="nav side-menu">
+						<li>
+							<a>
+								<i class="fa fa-home"></i> Principal
+								<span class="fa fa-chevron-down"></span>
+							</a>
+							<!--style="display: none"-->
+							<ul class="nav child_menu">
+								<li>
+									<a ui-sref="app.dashboard">DashBoard</a>
+								</li>
+								<li>
+									<a ui-sref="app.configuracoes">Configurações</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 
-                <div class="menu_section">
-                    <h3>Documentação</h3>
-                    <ul class="nav side-menu">
-                        <!--<li>
-                            <a>
-                                <i class="fa fa-edit"></i> Formulários <span class="fa fa-chevron-down"></span>
-                            </a>
-                            <ul class="nav child_menu">
-                                <li>
-                                    <a href="#">Formulários</a>
-                                </li>
-                            </ul>
-                        </li>-->
-                        <li>
-                            <a>
-                                <i class="fa fa-calendar"></i> Tabelas <span class="fa fa-chevron-down"></span>
-                            </a>
-                            <ul class="nav child_menu">
-                                <li>
-                                    <a ui-sref="app.tabelas">Tabelas</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a>
-                                <i class="fa fa-desktop"></i> Elementos Diversos <span class="fa fa-chevron-down"></span>
-                            </a>
-                            <ul class="nav child_menu">
-                                <!--<li>
-                                    <a href="#">Dashboard</a>
-                                </li>-->
-                                <li>
-                                    <a ui-sref="app.diversos">Elementos Diversos</a>
-                                </li>
-                                <!--<li>
-                                    <a href="#">Galeria de Imagens</a>
-                                </li>
-                                <li>
-                                    <a href="#">Tipografia</a>
-                                </li>
-                                <li>
-                                    <a href="#">Ícones (Font-Awesome)</a>
-                                </li>
-                                <li>
-                                    <a href="#">Ícone (Glyphicons)</a>
-                                </li>-->
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+				<div class="menu_section">
+					<h3>Documentação</h3>
+					<ul class="nav side-menu">
+						<!--<li>
+							<a>
+								<i class="fa fa-edit"></i> Formulários <span class="fa fa-chevron-down"></span>
+							</a>
+							<ul class="nav child_menu">
+								<li>
+									<a href="#">Formulários</a>
+								</li>
+							</ul>
+						</li>-->
+						<li>
+							<a>
+								<i class="fa fa-calendar"></i> Tabelas
+								<span class="fa fa-chevron-down"></span>
+							</a>
+							<ul class="nav child_menu">
+								<li>
+									<a ui-sref="app.tabelas">Tabelas</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a>
+								<i class="fa fa-desktop"></i> Elementos Diversos
+								<span class="fa fa-chevron-down"></span>
+							</a>
+							<ul class="nav child_menu">
+								<!--<li>
+									<a href="#">Dashboard</a>
+								</li>-->
+								<li>
+									<a ui-sref="app.diversos">Elementos Diversos</a>
+								</li>
+								<!--<li>
+									<a href="#">Galeria de Imagens</a>
+								</li>
+								<li>
+									<a href="#">Tipografia</a>
+								</li>
+								<li>
+									<a href="#">Ícones (Font-Awesome)</a>
+								</li>
+								<li>
+									<a href="#">Ícone (Glyphicons)</a>
+								</li>-->
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
 
+			<!-- /Menu lateral: end -->
 
-
-            <!-- /Menu lateral: end -->
-
-            <!-- menu footer buttons -->
-            <div class="sidebar-footer hidden-small" ng-if="showFooterControls">
-                <a data-toggle="tooltip" data-placement="top" title="Configurações">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-                <a data-toggle="tooltip" data-placement="top" title="FullScreen" class="btn-window-fullscreen">
-                    <span class="glyphicon glyphicon-fullscreen"></span>
-                </a>
-                <a data-toggle="tooltip" data-placement="top" title="Bloquear">
-                    <span class="glyphicon glyphicon-eye-close"></span>
-                </a>
-                <a data-toggle="tooltip" data-placement="top" title="Sair">
-                    <span class="glyphicon glyphicon-off"></span>
-                </a>
-            </div>
-        </div>
-    </div>
+			<!-- menu footer buttons -->
+			<div class="sidebar-footer hidden-small" ng-if="showFooterControls">
+				<a data-toggle="tooltip" data-placement="top" title="Configurações">
+					<span class="glyphicon glyphicon-cog"></span>
+				</a>
+				<a data-toggle="tooltip"
+				   data-placement="top"
+				   title="FullScreen"
+				   class="btn-window-fullscreen">
+					<span class="glyphicon glyphicon-fullscreen"></span>
+				</a>
+				<a data-toggle="tooltip" data-placement="top" title="Bloquear">
+					<span class="glyphicon glyphicon-eye-close"></span>
+				</a>
+				<a data-toggle="tooltip" data-placement="top" title="Sair">
+					<span class="glyphicon glyphicon-off"></span>
+				</a>
+			</div>
+		</div>
+	</div>
 </div>

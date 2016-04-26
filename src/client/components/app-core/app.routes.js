@@ -1,5 +1,4 @@
-﻿
-function routesConfig( $stateProvider ) {
+﻿function routesConfig( $stateProvider ) {
     'ngInject';
 
     $stateProvider
@@ -17,6 +16,5 @@ function routesConfig( $stateProvider ) {
 }
 
 export default[
-    '$stateProvider',
-    routesConfig
+    '$stateProvider', routesConfig
 ];

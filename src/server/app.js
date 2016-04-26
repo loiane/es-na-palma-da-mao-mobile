@@ -21,20 +21,19 @@ console.log( `  NODE_ENV=${environment}` );
 
 switch ( environment ) {
 case 'build':
-         //console.log('\n================== ENV:BUILD ==================');
-         //app.use(express.static('./dist/'));
-         //app.use('/app/*', (req, res, next) => four0four.send404(req, res));    // Any invalid calls for templateUrls are under app/* and should return 404
-         //app.use('/*', express.static('./build/index.html'));                   // Any deep link calls should return index.html
+        //console.log('\n================== ENV:BUILD ==================');
+        //app.use(express.static('./dist/'));
+        //app.use('/app/*', (req, res, next) => four0four.send404(req, res));    // Any invalid
+        // calls for templateUrls are under app/* and should return 404 app.use('/*',
+        // express.static('./build/index.html'));                   // Any deep link calls should
+        // return index.html
 
     break;
 
 default:
     console.log( '\n================== ENV:DEV ==================' );
-
-    app.use( '/system.js', express.static( './jspm_packages/system.js' ) );
-    app.use( '/system.yuml.js', express.static( './system.yuml.js' ) );
-    app.use( '/jspm_packages', express.static( './jspm_packages' ) );
-    app.use( express.static( './.dist' ) );
+    app.use( '/lib', express.static( './www/lib' ) );
+    app.use( express.static( './www/app/client' ) );
     app.use( '/**/*', ( req, res, next ) => four0four.send404( req, res ) );    // Any invalid calls for templateUrls are under app/* and should return 404
 
     break;
