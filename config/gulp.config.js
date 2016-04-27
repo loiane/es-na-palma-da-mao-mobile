@@ -2,27 +2,29 @@ import gulpHelpers from '../gulp/helpers';
 let situation = gulpHelpers.situation();
 let port = process.env.PORT || '8001';
 
-let path = {
+let paths = {
     //tests
     e2e: 'test-e2e/**/*.js',
     e2eOutput: 'test-e2e-compile/',
-
-    //src
-    srcJs: './src/**/*.js',
-    allJs: [
-        './**/*.js',
-        '!./node_modules/**/*.js',
-        '!./hooks/**/*.js',
-        '!./plugins/**/*.js',
-        '!./jspm_packages/**/*.js',
-        '!./gulp-tasks/**/*.js',  // todo: temporário - remover
-        '!./config/system.js',
-        '!system.yuml.js'
-    ],
-    clientJs: 'src/client/**/*.js',
-    serverJs: 'src/server/**/*.js',
+    js: {
+        all: [
+            './**/*.js',
+            '!./node_modules/**/*.js',
+            '!./hooks/**/*.js',
+            '!./plugins/**/*.js',
+            '!./jspm_packages/**/*.js',
+            '!./gulp-tasks/**/*.js',  // todo: temporário - remover
+            '!./config/system.js',
+            '!system.yuml.js'
+        ],
+        src: './src/**/*.js',
+        client: 'src/client/**/*.js',
+        server: 'src/server/**/*.js'
+    },
     html: [
-        'src/client/**/*.html', '!src/client/components/app-core/index.tpl.html'
+        'src/client/**/*.html',
+        '!src/client/components/app-core/index.tpl.html',
+        '!src/client/components/app-core/index.tpl.mobile.html'
     ],
     templates: [
         'src/client/**/*.tpl.html', '!src/client/components/app-core/index.tpl.html'
@@ -39,25 +41,31 @@ let path = {
         './src/client/**/*.eot'
     ],
     json: './src/client/**/*.json',
-    index: './src/client/components/app-core/index.tpl.html',
+    index: {
+        web: './src/client/components/app-core/index.tpl.html',
+        mobile: './src/client/components/app-core/index.tpl.mobile.html'
+    },
     watch: './src/client/**',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './config/system.config.js',
 
     // output
-    output: 'www/app/',
-    outputClient: 'www/app/client',
-    outputServer: 'www/app/server',
+    output: {
+        root: 'www/app/',
+        client: 'www/app/client',
+        server: 'www/app/server',
+    },
     minify: 'www/app/client/**/*.js',
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ],
 
     //server
+    server: 'www/app/server/',
     nodeServer: 'www/app/server/app.js'
 };
 
 let config = {
     situation: situation,
-    path: path, //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
+    paths: paths, //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
     htmlMinOptions: {
         collapseWhitespace: true,
         removeComments: false, // but preserve conditional comments to IE
@@ -71,14 +79,14 @@ let config = {
         minifyCSS: true
     },
     nodemonConfig: {
-        script: path.nodeServer,
+        script: paths.nodeServer,
         delayTime: 1,
         ext: 'js html json',
         env: {
             'PORT': port,
             'NODE_ENV': 'dev'
         },
-        watch: path.server
+        watch: paths.server
     },
     browserSyncConfig: {
         proxy: `localhost:${port}`,

@@ -14,28 +14,28 @@ let taskMaker = gulpHelpers.taskMaker( gulp );
  */
 taskMaker.defineTask( 'css', {
     taskName: 'css',
-    src: config.path.css,
-    dest: config.path.outputClient,
+    src: config.paths.css,
+    dest: config.paths.output.client,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'clean', {
     taskName: 'clean',
-    src: config.path.output,
+    src: config.paths.output.root,
     taskDeps: [ 'clean-e2e' ],
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'clean', {
     taskName: 'clean-e2e',
-    src: config.path.e2eOutput,
+    src: config.paths.e2eOutput,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'babel', {
     taskName: 'babel',
-    src: config.path.clientJs,
-    dest: config.path.outputClient,
+    src: config.paths.js.client,
+    dest: config.paths.output.client,
     ngAnnotate: true,
     compilerOptions: config.babelOptions,
     debug: config.debugOptions
@@ -43,15 +43,15 @@ taskMaker.defineTask( 'babel', {
 
 taskMaker.defineTask( 'copy', {
     taskName: 'js',
-    src: config.path.serverJs,
-    dest: config.path.outputServer,
+    src: config.paths.js.server,
+    dest: config.paths.output.server,
     debug: config.debugOptions
 } );
 
 /*taskMaker.defineTask( 'babel', {
  taskName: 'babel-e2e',
- src: config.path.e2e,
- dest: config.path.e2eOutput,
+ src: config.paths.e2e,
+ dest: config.paths.e2eOutput,
  compilerOptions: config.babelOptions,
  taskDeps: [ 'clean-e2e' ],
  debug: config.debugOptions
@@ -59,44 +59,53 @@ taskMaker.defineTask( 'copy', {
 
 taskMaker.defineTask( 'copy', {
     taskName: 'html',
-    src: config.path.html,
-    dest: config.path.outputClient,
+    src: config.paths.html,
+    dest: config.paths.output.client,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'systemConfig',
-    src: config.path.systemConfig,
-    dest: config.path.outputClient,
+    src: config.paths.systemConfig,
+    dest: config.paths.output.client,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'assets',
-    src: config.path.assets,
-    dest: config.path.outputClient,
+    src: config.paths.assets,
+    dest: config.paths.output.client,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'json',
-    src: config.path.json,
-    dest: config.path.outputClient,
+    src: config.paths.json,
+    dest: config.paths.output.client,
     changed: { extension: '.json' },
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'index.html',
-    src: config.path.index,
-    dest: config.path.outputClient,
+    src: config.paths.index.web,
+    dest: config.paths.output.client,
     debug: config.debugOptions,
     rename: 'index.html'
 } );
+
+taskMaker.defineTask( 'copy', {
+    taskName: 'index.mobile.html',
+    src: config.paths.index.mobile,
+    dest: config.paths.output.client,
+    debug: config.debugOptions,
+    rename: 'index.mobile.html'
+} );
+
 taskMaker.defineTask( 'copy', {
     taskName: 'cache-bust-index.html',
-    src: config.path.index,
-    dest: config.path.output,
+    src: config.paths.index,
+    dest: config.paths.output.client,
     debug: config.debugOptions,
     rename: 'index.html',
     replace: config.cacheBustConfig
@@ -105,42 +114,42 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'htmlMinify', {
     taskName: 'htmlMinify-index.html',
     taskDeps: [ 'cache-bust-index.html' ],
-    src: config.path.output,
-    dest: config.path.output,
+    src: config.paths.output.client,
+    dest: config.paths.output.client,
     debug: config.debugOptions,
     minimize: config.htmlMinOptions
 } );
 
 taskMaker.defineTask( 'htmlHint', {
     taskName: 'html-hint',
-    src: config.path.html,
+    src: config.paths.html,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'minify', {
     taskName: 'minify',
-    src: config.path.minify,
-    dest: config.path.output,
+    src: config.paths.minify,
+    dest: config.paths.output.client,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
     taskName: 'eslint',
-    src: config.path.allJs,
+    src: config.paths.js.all,
     dest: './',
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
     taskName: 'eslint-src',
-    src: config.path.srcJs,
+    src: config.paths.js.src,
     dest: './src/',
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
     taskName: 'eslint-gulp',
-    src: config.path.gulp,
+    src: config.paths.gulp,
     base: './',
     dest: './',
     debug: config.debugOptions
@@ -148,7 +157,7 @@ taskMaker.defineTask( 'eslint', {
 
 taskMaker.defineTask( 'watch', {
     taskName: 'watch',
-    src: config.path.watch,
+    src: config.paths.watch,
     tasks: [ 'compile', 'index.html', 'eslint-src' ]
 } );
 
@@ -172,7 +181,7 @@ gulp.task( 'run', 'Executa a aplicação no ambiente configurado: dev, prod, etc
     if ( config.situation.isProduction() ) {
         return runSequence( 'recompile', 'routeBundler', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback );
     } else if ( config.situation.isDevelopment() ) {
-        return runSequence( 'recompile', 'eslint-src', 'index.html', 'serve', 'watch', callback );
+        return runSequence( 'recompile', 'eslint-src', 'index.html', 'index.mobile.html', /*'serve', 'watch',*/ callback );
     }
 } );
 

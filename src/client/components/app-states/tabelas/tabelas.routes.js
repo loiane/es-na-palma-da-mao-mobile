@@ -15,6 +15,5 @@ function tabelasRoutes( $stateProvider ) {
 }
 
 export default[
-    '$stateProvider',
-    tabelasRoutes
+    '$stateProvider', tabelasRoutes
 ];
