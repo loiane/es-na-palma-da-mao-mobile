@@ -177,12 +177,16 @@ gulp.task( 'recompile', 'Limpa diretório destino e compila aplicação.', funct
     return runSequence( 'clean', [ 'compile' ], callback );
 } );
 
-gulp.task( 'run', 'Executa a aplicação no ambiente configurado: dev, prod, etc.', function( callback ) {
+gulp.task( 'run:web', 'Executa a aplicação web no ambiente configurado: dev, prod, etc.', function( callback ) {
     if ( config.situation.isProduction() ) {
         return runSequence( 'recompile', 'routeBundler', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback );
     } else if ( config.situation.isDevelopment() ) {
-        return runSequence( 'recompile', 'eslint-src', 'index.html', 'index.mobile.html', /*'serve', 'watch',*/ callback );
+        return runSequence( 'recompile', 'eslint-src', 'index.html', 'serve', 'watch', callback );
     }
+} );
+
+gulp.task( 'run:mobile', 'Executa a aplicação mobile no ambiente configurado: dev, prod, etc.', function( callback ) {
+    return runSequence( 'recompile', 'eslint-src', 'index.mobile.html', callback );
 } );
 
 // executa a tarefa default

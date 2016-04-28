@@ -59,7 +59,7 @@ let paths = {
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ],
 
     //server
-    server: 'www/app/server/',
+    server: 'src/server/',
     nodeServer: 'www/app/server/app.js'
 };
 

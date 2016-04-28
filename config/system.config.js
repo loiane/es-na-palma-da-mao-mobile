@@ -30,6 +30,7 @@ System.config( {
         "jquery": "npm:jquery@2.2.1",
         "json": "github:systemjs/plugin-json@0.1.0",
         "oclazyload": "github:ocombe/oclazyload@1.0.9",
+        "robotoDraft": "github:raibutera/robotodraft@1.1.0",
         "text": "github:systemjs/plugin-text@0.0.7",
         "toastr": "github:CodeSeven/toastr@2.1.2",
         "ui-router-extras": "github:christopherthielen/ui-router-extras@0.0.14",

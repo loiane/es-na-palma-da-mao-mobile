@@ -9,17 +9,16 @@
 
 		<title></title>
 
-		<!-- Font reference section -->
-		<link href="lib/robotodraft/robotodraft.css">
-		<!-- end Font reference section -->
-
 		<!-- Cordova script (this will be a 404 during development) -->
 		<!-- <script src="lib/ngCordova/dist/ng-cordova.js"></script>-->
 		<script src="cordova.js"></script>
 		<!-- end Cordova script -->
 
-		<script src="../../lib/system.js"></script>
+		<script src="/lib/system.js"></script>
 		<script src="system.config.js"></script>
+		<script>
+			System.import( 'robotoDraft/robotodraft.css!' );
+		</script>
 	</head>
 
 	<body class="hide-native-scroll-y">
@@ -64,6 +63,5 @@
 			<span flex>{{displayOption.title}}</span>
 		</md-toast>
 	</script><!-- end share template toast section-->
-
 	<!-- end Angular custom template section-->
 </html>

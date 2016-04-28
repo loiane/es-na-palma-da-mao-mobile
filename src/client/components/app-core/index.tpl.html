@@ -1,104 +1,103 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-br">
 
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<!-- Meta, title, CSS, favicons, etc. -->
-	<meta charset="utf-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<!-- Meta, title, CSS, favicons, etc. -->
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-	<title update-title></title>
-	<link rel="shortcut icon" href="http://www.cdn.prodest.es.gov.br/images/favicons/governo/favicon.ico" type="image/x-icon">
+		<title update-title></title>
+		<link rel="shortcut icon" href="http://www.cdn.prodest.es.gov.br/images/favicons/governo/favicon.ico" type="image/x-icon">
 
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,500" rel="stylesheet" type="text/css">
-	<link href="../../lib/github/twbs/bootstrap@3.3.6/css/bootstrap.css" rel="stylesheet" type="text/css">
-	<link href="../../lib/npm/font-awesome@4.5.0/css/font-awesome.css" rel="stylesheet" type="text/css">
-	<link href="components/app-core/app-bootstrap-overrides.css" rel="stylesheet" type="text/css">
-	<link href="components/app-core/app.css" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,500" rel="stylesheet" type="text/css">
+		<link href="lib/github/twbs/bootstrap@3.3.6/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<link href="lib/npm/font-awesome@4.5.0/css/font-awesome.css" rel="stylesheet" type="text/css">
+		<link href="components/app-core/app-bootstrap-overrides.css" rel="stylesheet" type="text/css">
+		<link href="components/app-core/app.css" rel="stylesheet" type="text/css">
 
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
-	<base href="/"/>
-</head>
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
 
-<body class="nav-md" ng-controller="appController as vm" pdc-directive-loader>
-<div class="container body">
-	<div class="main_container">
-		<!--<div class="row responsive-utilities-test visible-on" style="color:#fff;">
-				<div class="col-xs-6 col-sm-3">
-					<span class="hidden-xs">Extra small</span>
-					<span class="visible-xs-block">✔ Visible on x-small</span>
+	<body class="nav-md" ng-controller="appController as vm" pdc-directive-loader>
+		<div class="container body">
+			<div class="main_container">
+				<!--<div class="row responsive-utilities-test visible-on" style="color:#fff;">
+						<div class="col-xs-6 col-sm-3">
+							<span class="hidden-xs">Extra small</span>
+							<span class="visible-xs-block">✔ Visible on x-small</span>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<span class="hidden-sm">Small</span>
+							<span class="visible-sm-block">✔ Visible on small</span>
+						</div>
+						<div class="clearfix visible-xs-block"></div>
+						<div class="col-xs-6 col-sm-3">
+							<span class="hidden-md">Medium</span>
+							<span class="visible-md-block">✔ Visible on medium</span>
+						</div>
+						<div class="col-xs-6 col-sm-3">
+							<span class="hidden-lg">Large</span>
+							<span class="visible-lg-block">✔ Visible on large</span>
+						</div>
+					</div>-->
+				<!-- sidebar -->
+
+				<pdc-sidebar visible="vm.showSideBar"
+							 show-footer-controls="vm.showFooterControls"
+							 show-user-info="vm.showUserInfo"
+							 user-name="vm.userName"
+							 app-name="vm.appName">
+				</pdc-sidebar>
+				<!-- /sidebar -->
+				<!-- top navigation -->
+				<pdc-header visible="vm.showHeader"></pdc-header>
+				<!-- /top navigation -->
+				<!-- Page Content -->
+				<div class="right_col" role="main">
+					<div class="vertical-center">
+						<ui-view name="page"></ui-view>
+					</div>
+
+					<!-- footer content -->
+					<pdc-footer visible="vm.showFooter"></pdc-footer>
+					<!-- /footer content -->
 				</div>
-				<div class="col-xs-6 col-sm-3">
-					<span class="hidden-sm">Small</span>
-					<span class="visible-sm-block">✔ Visible on small</span>
-				</div>
-				<div class="clearfix visible-xs-block"></div>
-				<div class="col-xs-6 col-sm-3">
-					<span class="hidden-md">Medium</span>
-					<span class="visible-md-block">✔ Visible on medium</span>
-				</div>
-				<div class="col-xs-6 col-sm-3">
-					<span class="hidden-lg">Large</span>
-					<span class="visible-lg-block">✔ Visible on large</span>
-				</div>
-			</div>-->
-		<!-- sidebar -->
-
-		<pdc-sidebar visible="vm.showSideBar"
-					 show-footer-controls="vm.showFooterControls"
-					 show-user-info="vm.showUserInfo"
-					 user-name="vm.userName"
-					 app-name="vm.appName">
-		</pdc-sidebar>
-		<!-- /sidebar -->
-		<!-- top navigation -->
-		<pdc-header visible="vm.showHeader"></pdc-header>
-		<!-- /top navigation -->
-		<!-- Page Content -->
-		<div class="right_col" role="main">
-			<div class="vertical-center">
-				<ui-view name="page"></ui-view>
+				<!-- /Page Content -->
 			</div>
-
-			<!-- footer content -->
-			<pdc-footer visible="vm.showFooter"></pdc-footer>
-			<!-- /footer content -->
 		</div>
-		<!-- /Page Content -->
-	</div>
-</div>
-<script src="../../lib/system.js"></script>
-<script src="system.config.js"></script>
-<!-- <script src="web/system.yuml.js"></script>-->
+		<script src="lib/system.js"></script>
+		<script src="system.config.js"></script>
+		<!-- <script src="web/system.yuml.js"></script>-->
 
-<!-- PROD
-<script>
-	var systemLocate = System.locate;
-	System.locate = function(load) {
-		var System = this;
-		return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
-			if(address.indexOf('bust') > -1 ||
-			address.indexOf('css') > -1 ||
-			address.indexOf('json') > -1) return address;
-			return address + System.cacheBust;
-		});
-	}
-	System.cacheBust = '?bust={{hash}}';
-</script>
-END -->
-<!--<script>
-	System.config({
-	   baseURL: '/'
-	});
-</script>-->
-<script>
-	System[ 'import' ]( 'components/app-core/index' )[ 'catch' ]( console.error.bind( console ) );
-</script>
-</body>
+		<!-- PROD
+		<script>
+			var systemLocate = System.locate;
+			System.locate = function(load) {
+				var System = this;
+				return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
+					if(address.indexOf('bust') > -1 ||
+					address.indexOf('css') > -1 ||
+					address.indexOf('json') > -1) return address;
+					return address + System.cacheBust;
+				});
+			}
+			System.cacheBust = '?bust={{hash}}';
+		</script>
+		END -->
+		<!--<script>
+			System.config({
+			   baseURL: '/'
+			});
+		</script>-->
+		<script>
+			System[ 'import' ]( 'components/app-core/index' )[ 'catch' ]( console.error.bind( console ) );
+		</script>
+	</body>
 
 </html>
