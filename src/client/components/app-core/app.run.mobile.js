@@ -29,7 +29,7 @@ function appRun( $rootScope, $state, $ionicPlatform, $ionicHistory, $mdDialog, $
         $mdDialog.cancel();
     }
 
-    $ionicPlatform.ready( function() {
+    $ionicPlatform.ready( () => {
         ionic.Platform.isFullScreen = true;
 
         if ( window.cordova && window.cordova.plugins.Keyboard ) {
@@ -40,7 +40,7 @@ function appRun( $rootScope, $state, $ionicPlatform, $ionicHistory, $mdDialog, $
         initialRootScope();
 
         //Checking if view is changing it will go to this function.
-        $rootScope.$on( '$ionicView.beforeEnter', function() {
+        $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();  //hide Action Control for android back button.
         } );
     } );

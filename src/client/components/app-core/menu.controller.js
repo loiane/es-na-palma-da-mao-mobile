@@ -1,5 +1,7 @@
+import avatar from './img/img.jpg!image';
+
 /**
- *
+ * Controller raiz da aplicação
  */
 class MenuController {
 
@@ -31,6 +33,9 @@ class MenuController {
         this.$mdBottomSheet = $mdBottomSheet;
         this.$mdMenu = $mdMenu;
         this.$mdSelect = $mdSelect;
+        this.avatarUrl = avatar.src;
+        this.usuario = 'Daniel Hoisel';
+        this.perfil = 'Administrador';
 
         this.activate();
     }

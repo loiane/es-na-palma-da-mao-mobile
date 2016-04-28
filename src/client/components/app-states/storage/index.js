@@ -5,7 +5,3 @@ import storageRoutes from './storage.routes.js';
 export default angular.module( 'storage-state', [] )
                       .controller( 'storageController', StorageController )
                       .config( storageRoutes );
-
-
-
-
