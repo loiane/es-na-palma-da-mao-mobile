@@ -528,7 +528,9 @@ md-sidenav {
 	border-radius: 50%;
 	width: 62px;
 	height: 62px;
-	margin-bottom: 2px; }
+	margin-bottom: 2px;
+	border: 2px solid rgba(255, 255, 255, 0.7);
+}
 
 #toggle-menu-left-header div.menu-left-header p {
 	font-weight: bolder; }
