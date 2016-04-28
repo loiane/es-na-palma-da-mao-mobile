@@ -6,16 +6,19 @@
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 		<meta name="format-detection" content="telephone=no"> <!-- To disable phone number typing.-->
 		<!-- end Meta section -->
-
+ 
 		<title></title>
 
 		<!-- Cordova script (this will be a 404 during development) -->
 		<!-- <script src="lib/ngCordova/dist/ng-cordova.js"></script>-->
-		<script src="cordova.js"></script>
+		<script src="../../cordova.js"></script>
 		<!-- end Cordova script -->
 
-		<script src="/lib/system.js"></script>
+		<script src="../../lib/system.js"></script>
 		<script src="system.config.js"></script>
+		<script>
+			System.config( { baseURL: '../../'  } );
+		</script>
 		<script>
 			System.import( 'robotoDraft/robotodraft.css!' );
 		</script>

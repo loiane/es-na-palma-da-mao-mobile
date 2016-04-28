@@ -50,7 +50,7 @@ gulp/tasks/_*.js
 #sln
 *.sln
 
-
+# cordova directories
 platforms/
 plugins/
 www/

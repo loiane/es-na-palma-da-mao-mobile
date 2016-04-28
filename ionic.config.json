@@ -1,6 +1,6 @@
 {
   "name": "ESPM",
-  "app_id": "",
+  "app_id": "br.gov.es.espm",
   "browsers": [
     {
       "platform": "android",

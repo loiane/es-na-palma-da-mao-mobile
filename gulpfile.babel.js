@@ -99,7 +99,7 @@ taskMaker.defineTask( 'copy', {
     src: config.paths.index.mobile,
     dest: config.paths.output.client,
     debug: config.debugOptions,
-    rename: 'index.mobile.html'
+    rename: 'index.html'
 } );
 
 taskMaker.defineTask( 'copy', {

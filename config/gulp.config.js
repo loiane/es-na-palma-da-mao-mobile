@@ -45,7 +45,7 @@ let paths = {
         web: './src/client/components/app-core/index.tpl.html',
         mobile: './src/client/components/app-core/index.tpl.mobile.html'
     },
-    watch: './src/client/**',
+    watch: './src/client/**/*',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './config/system.config.js',
 

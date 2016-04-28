@@ -6,7 +6,9 @@
     "express": "node src/server/app.js",
     "setup": "npm install && jspm install",
     "web": "gulp run:web",
-    "mobile": "gulp run:mobile && ionic serve"
+    "mobile": "gulp run:mobile && ionic serve",
+    "mobile-lab": "gulp run:mobile && ionic serve --lab",
+    "run-android": "gulp run:mobile && ionic run android"
   },
   "repository": {
     "type": "git",
