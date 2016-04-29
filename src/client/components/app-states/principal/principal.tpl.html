@@ -1,0 +1,155 @@
+<ion-view view-title="">
+
+	<!--right button on navigation bar-->
+	<ion-nav-buttons side="right">
+		<md-button class="md-icon-button ion-nav-button-right"
+				   aria-label="Setting">
+			<i class="ion-android-more-vertical"></i>
+		</md-button>
+	</ion-nav-buttons> <!--end right button on navigation bar-->
+
+	<!--toolbar section-->
+	<md-toolbar class="bar-subheader md-tall md-primary toolbar-medium">
+		<div>
+			<h1 style="text-align: center;font-size: 31px;">ES na palma da mão</h1>
+
+		</div>
+		<!--<a class="md-button md-accent md-fab fab-toolbar-medium">
+			<i class="icon ion-plus"></i>
+		</a>-->
+		<md-button class="md-fab md-accent">
+			<i class="icon ion-plus"></i>
+		</md-button>
+	</md-toolbar><!--end toolbar section-->
+
+	<!--dashboard section-->
+	<ion-content id="dashboard-content">
+
+		<!--list section-->
+
+		<!--Below code it will disable animation to better performance-->
+		<div ng-if="!isAnimated" class="menu-list">
+			<md-subheader class="md-accent">Detran</md-subheader>
+			<div class="row menu-item" ng-click="navigateTo('app.contractlist')">
+				<div class="col-25">
+					<i class="fa fa-database"></i>
+				</div>
+				<div class="col-50">
+					<span>CNH</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</div>
+			<div class="row menu-item" ng-click="navigateTo('app.notelist')">
+				<div class="col-25">
+					<i class="fa fa-cube"></i>
+				</div>
+				<div class="col-50">
+					<span>Infrações</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</div>
+			<md-subheader class="md-accent">SEDU</md-subheader>
+			<div class="row menu-item" ng-click="navigateTo('app.wordpressLogin')">
+				<div class="col-25">
+					<i class="fa fa-wordpress"></i>
+				</div>
+				<div class="col-50">
+					<span>Boletim online</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</div>
+			<div class="row menu-item" ng-click="navigateTo('app.googlePlusLogin')">
+				<div class="col-25">
+					<i class="fa fa-google-plus"></i>
+				</div>
+				<div class="col-50">
+					<span>ENEM</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</div>
+			<div class="row menu-item" ng-click="navigateTo('app.instagramLogin')">
+				<div class="col-25">
+					<i class="fa fa-instagram"></i>
+				</div>
+				<div class="col-50">
+					<span>Histórico Escolar</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</div>
+		</div>
+
+		<!--Below code it will show animation when selecting row.-->
+		<md-list ng-if="isAnimated">
+			<md-subheader class="md-accent">DETRAN</md-subheader>
+			<md-list-item class="md-list-item-default row" ng-click="navigateTo('app.contractlist')">
+				<div class="col-25">
+					<i class="fa fa-database"></i>
+				</div>
+				<div class="col-50">
+					<p>CNH</p>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+
+			</md-list-item>
+			<md-list-item class="md-list-item-default row" ng-click="navigateTo('app.notelist')">
+				<div class="col-25">
+					<i class="fa fa-cube"></i>
+				</div>
+				<div class="col-50">
+					<p>Infrações</p>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</md-list-item>
+			<md-subheader class="md-accent">SEDU</md-subheader>
+			<md-list-item class="md-list-item-default row" ng-click="navigateTo('app.wordpressLogin')">
+				<div class="col-25">
+					<i class="fa fa-wordpress"></i>
+				</div>
+				<div class="col-50">
+					<span>Boletim online</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+
+			</md-list-item>
+			<md-list-item class="md-list-item-default row" ng-click="navigateTo('app.facebookLogin')">
+				<div class="col-25">
+					<i class="fa fa-facebook"></i>
+				</div>
+				<div class="col-50">
+					<span>ENEM</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</md-list-item>
+			<md-list-item class="md-list-item-default row" ng-click="navigateTo('app.googlePlusLogin')">
+				<div class="col-25">
+					<i class="fa fa-google-plus"></i>
+				</div>
+				<div class="col-50">
+					<span>Histórico Escolar</span>
+				</div>
+				<div class="col-25 menu-more">
+					<i class="ion-android-more-vertical"></i>
+				</div>
+			</md-list-item>
+		</md-list>
+		<!--end list section-->
+	</ion-content><!--end dashboard section-->
+</ion-view>

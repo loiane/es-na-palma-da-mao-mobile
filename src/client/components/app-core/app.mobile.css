@@ -1278,29 +1278,6 @@ md-sidenav {
   color: white;
   width: 64%; }
 
-#dashboard-content {
-  margin-top: 164px; }
-
-#dashboard-content .menu-more {
-  text-align: right; }
-
-#dashboard-content .menu-list {
-  padding-top: 5px;
-  padding-bottom: 10px !important; }
-
-#dashboard-content .menu-list .menu-item {
-  padding: 14px; }
-
-#dashboard-content .menu-list .menu-item .col-25 {
-  text-align: center;
-  font-size: 22px;
-  color: gray; }
-
-#dashboard-content .menu-list .menu-item .col-50 {
-  font-size: 15px;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis; }
 
 #user-interface-content {
   height: 100%; }

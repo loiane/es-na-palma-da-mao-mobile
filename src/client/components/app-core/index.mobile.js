@@ -7,11 +7,17 @@ import appConfig from './app.config.mobile.js';
 import appRun from './app.run.mobile.js';
 import MenuController from './menu.controller.js';
 import storageState from '../app-states/storage/index.js';
+import principalState from '../app-states/principal/index.js';
 import toastComponent from '../app-core-shared/toast/index.js';
 import dialogComponent from '../app-core-shared/dialog/index.js';
 
 let dependencies = [
-    'ionic', 'ngMaterial', storageState.name, toastComponent.name, dialogComponent.name
+    'ionic',
+    'ngMaterial',
+    toastComponent.name,
+    dialogComponent.name,
+    principalState.name,
+    storageState.name
 ];
 
 let app = angular.module( 'app', dependencies )

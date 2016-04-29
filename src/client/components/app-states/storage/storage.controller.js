@@ -62,10 +62,10 @@ class StorageController {
         };
 
         this.dialog.confirm( {
-                targetEvent: $event,
-                title: 'Deseja mesmo voltar?',
-                content: 'Confirme para poder voltar.'
-            } )
+            targetEvent: $event,
+            title: 'Deseja mesmo voltar?',
+            content: 'Confirme para poder voltar.'
+        } )
             .then( onConfirm, onCancel );
     }
 
@@ -85,10 +85,10 @@ class StorageController {
         };
 
         this.dialog.alert( {
-                targetEvent: $event,
-                title: 'Você clicou num alert',
-                content: 'Obrigado po me testar'
-            } )
+            targetEvent: $event,
+            title: 'Você clicou num alert',
+            content: 'Obrigado po me testar'
+        } )
             .then( onConfirm );
     }
 }
