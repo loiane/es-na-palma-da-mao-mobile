@@ -1,4 +1,3 @@
-// packages
 import 'jquery';
 import angular from 'angular/angular';
 import 'angular-ui-router';
@@ -11,9 +10,7 @@ import routesConfig from './app.routes.js';
 import AppController from './app.controller.js';
 import appRun from './app.run.js';
 import updateTitleDirective from '../directives/update-title.directive.js'; //eslint-disable-line
-// no-unused-vars
-//eslint-disable-line
-// no-unused-vars
+
 let layoutModule = angular.module( 'layout', [] );
 
 const dependencies = [

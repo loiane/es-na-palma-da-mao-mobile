@@ -6,9 +6,15 @@ import routesConfig from './app.routes.mobile.js';
 import appConfig from './app.config.mobile.js';
 import appRun from './app.run.mobile.js';
 import MenuController from './menu.controller.js';
-import storageModule from '../app-states/storage/index.js';
+import storageState from '../app-states/storage/index.js';
+import toastComponent from '../app-core-shared/toast/index.js';
+import dialogComponent from '../app-core-shared/dialog/index.js';
 
-let app = angular.module( 'app', [ 'ionic', 'ngMaterial', storageModule.name ] )
+let dependencies = [
+    'ionic', 'ngMaterial', storageState.name, toastComponent.name, dialogComponent.name
+];
+
+let app = angular.module( 'app', dependencies )
                  .config( appConfig )
                  .config( routesConfig )
                  .controller( 'menuController', MenuController )

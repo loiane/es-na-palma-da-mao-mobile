@@ -1,5 +1,4 @@
-﻿/* global System */
-/**
+﻿/**
  * Wrapper around System
  */
 class SystemService {
@@ -11,7 +10,8 @@ class SystemService {
     /**
      * Imports a component from the given path, relative to the baseURL set in SystemJS.
      *
-     * @param {String} path
+     * @param {String} path - o path para o componente sendo carregado
+     *
      * @returns {Promise}
      */
     import( path ) {
@@ -20,4 +20,4 @@ class SystemService {
     }
 }
 
-export default[ SystemService ];
+export default [ SystemService ];

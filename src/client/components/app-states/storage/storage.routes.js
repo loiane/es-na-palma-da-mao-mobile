@@ -6,7 +6,7 @@ function storageRoutes( $stateProvider ) {
             url: '/storage',
             views: {
                 menuContent: {
-                    controller: 'storageController',
+                    controller: 'storageController as vm',
                     template: template
                 }
             }
