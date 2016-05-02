@@ -1581,55 +1581,6 @@ md-sidenav {
 #pricing-content .price-detail .subscribe-button a.gold-background {
   background-color: #e3cf7a !important; }
 */
-#menu-dashboard-content {
-	background-color: #f6f6f6;
-}
-
-#menu-dashboard-content .menu-panel {
-	background-color: white;
-}
-
-#menu-dashboard-content .menu-panel .row {
-	padding: 0;
-	margin-bottom: 5px;
-}
-
-#menu-dashboard-content .menu-panel .row .col-33 {
-	text-align: center;
-	padding: 22px 20px 10px 20px;
-	border-left: 1px solid rgba(225, 225, 225, 0.69);
-	border-bottom: 1px solid rgba(225, 225, 225, 0.69);
-	color: gray;
-}
-
-#menu-dashboard-content .menu-panel .row .col-33 i {
-	font-size: 28px;
-	margin-bottom: 2px;
-}
-
-#menu-dashboard-content .menu-panel .row .col-33 p {
-	font-size: 12px;
-	font-weight: 500;
-}
-
-#menu-dashboard-content .menu-dashboard-footer {
-	color: gray;
-	padding: 10px;
-}
-
-#menu-dashboard-content .menu-dashboard-footer md-whiteframe {
-	background-color: white;
-	padding: 10px;
-	margin-bottom: 10px;
-}
-
-#menu-dashboard-content .menu-dashboard-footer md-whiteframe i {
-	font-size: 22px;
-}
-
-#menu-dashboard-content .menu-dashboard-footer md-whiteframe .col-80 {
-	padding-left: 10px;
-}
 
 /*
 #expense-dashboard .toolbar-expense {

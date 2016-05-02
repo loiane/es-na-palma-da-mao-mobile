@@ -6,8 +6,8 @@ class PrincipalController {
     /**
      *
      */
-    constructor() {
-
+    constructor( toast ) {
+        this.toast = toast;
         this.activate();
     }
 
@@ -17,10 +17,13 @@ class PrincipalController {
      * @returns {void}
      */
     activate() {
+        this.toast.show( {
+            title: 'Principal Controller ativado!'
+        } );
     }
 
 }
 
 export default [
-    PrincipalController
+    'toast', PrincipalController
 ];

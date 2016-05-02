@@ -10,10 +10,11 @@ import ocLazyLoad from 'oclazyload';
 // shared (mobile and web)
 import '../app-core-shared/app.shared.css!';
 import themeConfig from '../app-core-shared/app.theme.config.js';
+import toastComponent from '../app-core-shared/toast/index.js';
+import dialogComponent from '../app-core-shared/dialog/index.js';
 
 // web
 import RouterHelperProvider from './config/router-helper.provider.js';
-import loggerModule from './logger/index.js';
 import loaderModule from './loader/index.js';
 import routesConfig from './app.routes.js';
 import AppController from './app.controller.js';
@@ -26,7 +27,8 @@ const dependencies = [
     ocLazyLoad,
     layoutModule.name,
     loaderModule.name,
-    loggerModule.name,
+    toastComponent.name,
+    dialogComponent.name,
     'ngMaterial',
     'ui.router',
     'ct.ui.router.extras',

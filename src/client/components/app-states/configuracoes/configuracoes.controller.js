@@ -1,16 +1,15 @@
 ﻿class ConfiguracoesController {
 
-    constructor( logger ) {
-        this.logger = logger;
+    constructor( toast ) {
+        this.toast = toast;
 
         this.activate();
     }
 
-
     activate() {
-        this.logger.info( 'Configuração Controller ativado' );
+        this.toast.error( { title: 'Configuração Controller ativado' } );
     }
 }
 
-export default [ 'logger', ConfiguracoesController ];
+export default [ 'toast', ConfiguracoesController ];
 

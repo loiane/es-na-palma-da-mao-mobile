@@ -1,14 +1,14 @@
 ﻿class TabelasController {
 
-    constructor( logger ) {
-        this.logger = logger;
+    constructor( toast ) {
+        this.toast = toast;
         this.activate();
     }
 
     activate() {
-        this.logger.info( 'Tabelas Controller ativado' );
+        this.toast.show( { title: 'Tabelas Controller ativado' } );
     }
 }
 
-export default [ 'logger', TabelasController ];
+export default [ 'toast', TabelasController ];
 

@@ -3,7 +3,7 @@
 function configuracoesRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.configuracoes', {
-            url: 'configuracoes',
+            url: '/configuracoes',
             data: { title: 'Configurações' },
             views: {
                 content: {

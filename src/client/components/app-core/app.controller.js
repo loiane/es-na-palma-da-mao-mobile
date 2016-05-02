@@ -1,8 +1,8 @@
-﻿class AppController {
-    constructor( logger ) {
-        'ngInject';
+class AppController {
+    constructor( toast ) {
+        this.toast = toast;
+
         this.activate();
-        logger.info( 'Aplicação inicializada' );
     }
 
     activate() {
@@ -16,4 +16,4 @@
     }
 }
 
-export default [ 'logger', AppController ];
+export default [ 'toast', AppController ];

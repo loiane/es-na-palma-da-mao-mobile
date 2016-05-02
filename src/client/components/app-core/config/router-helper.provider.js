@@ -1,4 +1,4 @@
-﻿import futureStates from './states.json!';
+import futureStates from './states.json!';
 
 /**
  * Aplica configurações de roteamento à aplicação. Usa "FutureStates" para
@@ -16,17 +16,14 @@ class RouterHelperProvider {
 
     constructor( $urlRouterProvider, $httpProvider, $locationProvider, $futureStateProvider ) {
 
-        this.$get.$inject = [ '$location', '$rootScope', '$state', 'logger' ];
+        this.$get.$inject = [ '$location', '$rootScope', '$state', 'toast' ];
 
         $httpProvider.useApplyAsync( true );
         $locationProvider.html5Mode( false );
         $urlRouterProvider.otherwise( '/dashboard' );
         $urlRouterProvider.when( '/', '/dashboard' );
         $futureStateProvider.stateFactory( 'load', [
-            '$q',
-            '$ocLazyLoad',
-            'futureState',
-            stateFactory
+            '$q', '$ocLazyLoad', 'futureState', stateFactory
         ] );
 
         // Registra future states como placeholder para states reais
@@ -65,10 +62,10 @@ class RouterHelperProvider {
      * @param {Object} $location - $location do angularjs
      * @param {Object} $rootScope - $rootScope do angular
      * @param {Object} $state - $state service do ui-router
-     * @param {Object} logger - Serviço de log do Portal do Cidadão
+     * @param {Object} toast - Serviço de log do ESPM
      * @returns {Object} A instância de RouteHelper service
      */
-    $get( $location, $rootScope, $state, logger ) {
+    $get( $location, $rootScope, $state, toast ) {
         let handlingStateChangeError = false;
 
         let service = {
@@ -127,7 +124,7 @@ class RouterHelperProvider {
 
                 let msg = `Erro de roteamento ao acessar ${destination}. ${error.data || ''} <br/> ${error.statusText || ''} : ${error.status || ''}`;
 
-                logger.warning( msg, [ toState ] );
+                toast.show( { title: msg } );
 
                 $location.path( '/' );
             }

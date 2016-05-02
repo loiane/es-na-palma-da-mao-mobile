@@ -3,7 +3,7 @@
 function dashBoardRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.dashboard', {
-            url: 'dashboard',
+            url: '/dashboard',
             data: { title: 'Dashboard' },
             views: {
                 content: {

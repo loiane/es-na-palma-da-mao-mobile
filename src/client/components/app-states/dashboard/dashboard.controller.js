@@ -1,15 +1,15 @@
 ﻿class DashBoardController {
 
-    constructor( logger ) {
-        this.logger = logger;
+    constructor( toast ) {
+        this.toast = toast;
         this.activate();
     }
 
     activate() {
-        this.logger.info( 'DashBoard Controller ativado' );
+        this.toast.show( { title: 'DashBoard Controller ativado' } );
     }
 }
 
-export default [ 'logger', DashBoardController ];
+export default [ 'toast', DashBoardController ];
 
 

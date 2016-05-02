@@ -1,5 +1,13 @@
-.toast-form {
+.toast {
 	text-align: center;
 	height: 66px;
 	max-height: none;
+}
+
+.toast-success .md-toast-content {
+	background-color: #0c9;
+}
+
+.toast-error .md-toast-content {
+	background-color: #bf0032;
 }

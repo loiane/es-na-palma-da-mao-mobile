@@ -24,7 +24,7 @@ class StorageController {
      * @returns {void}
      */
     activate() {
-        console.log( 'storage controller' );
+        this.showToast( 'Storage Controller ativado' );
     }
 
     /**
@@ -36,7 +36,7 @@ class StorageController {
      */
     showToast( msg ) {
         this.toast.show( {
-            title: `Indo para  ${msg}!!`
+            title: msg
         } );
     }
 

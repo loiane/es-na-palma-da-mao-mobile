@@ -18,6 +18,18 @@
     "src": "components/app-states/configuracoes/index"
   },
   {
+    "name": "app.storage",
+    "url": "storage",
+    "type": "load",
+    "src": "components/app-states/storage/index"
+  },
+  {
+    "name": "app.principal",
+    "url": "principal",
+    "type": "load",
+    "src": "components/app-states/principal/index"
+  },
+  {
     "name": "app.tabelas",
     "url": "tabelas",
     "type": "load",

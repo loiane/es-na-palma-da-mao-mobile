@@ -12,7 +12,7 @@ function storageRoutes( $stateProvider ) {
         .state( 'app.principal', {
             url: '/principal',
             views: {
-                menuContent: {
+                content: {
                     controller: 'principalController as vm',
                     template: template
                 }

@@ -1,14 +1,16 @@
 ﻿class DiversosController {
 
-    constructor( logger ) {
-        this.logger = logger;
+    constructor( toast ) {
+        this.toast = toast;
         this.activate();
     }
 
     activate() {
-        this.logger.info( 'Diversos Controller ativado' );
+        this.toast.show( {
+            title: 'Diversos Controller ativado!'
+        } );
     }
 }
 
-export default [ 'logger', DiversosController ];
+export default [ 'toast', DiversosController ];
 

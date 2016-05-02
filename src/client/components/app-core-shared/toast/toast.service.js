@@ -1,6 +1,11 @@
 import template from './toast.tpl.html!text';
 
 /**
+ * Supplies a function that will continue to operate until the
+ * time is up.
+ */
+
+/**
  * Controller
  */
 class ToastService {
@@ -31,11 +36,55 @@ class ToastService {
             controllerAs: 'vm',
             template: template,
             hideDelay: 800,
-            position: 'top',
+            position: 'bottom right',
             locals: {
                 displayOption: displayOption
             }
         } );
+    }
+
+    /**
+     *
+     * @returns {*}
+     */
+    hide() {
+        return this.$mdToast.hide();
+    }
+
+    /**
+     *
+     * @param displayOption
+     * @returns {Promise}
+     */
+    success( displayOption ) {
+        return this.show( angular.merge( displayOption, { type: 'success' } ) );
+    }
+
+    /**
+     *
+     * @param displayOption
+     * @returns {Promise}
+     */
+    error( displayOption ) {
+        return this.show( angular.merge( displayOption, { type: 'error' } ) );
+    }
+
+    /**
+     *
+     * @param displayOption
+     * @returns {Promise}
+     */
+    info( displayOption ) {
+        return this.show( angular.merge( displayOption, { type: 'info' } ) );
+    }
+
+    /**
+     *
+     * @param displayOption
+     * @returns {Promise}
+     */
+    warn( displayOption ) {
+        return this.show( angular.merge( displayOption, { type: 'info' } ) );
     }
 }
 

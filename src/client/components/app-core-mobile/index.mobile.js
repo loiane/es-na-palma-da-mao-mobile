@@ -4,8 +4,10 @@ import 'ionic'; // carrega angular e ui-router junto
 import 'angular-material';
 
 // shared (mobile and web)
-import themeConfig from '../app-core-shared/app.theme.config.js';
 import '../app-core-shared/app.shared.css!';
+import themeConfig from '../app-core-shared/app.theme.config.js';
+import toastComponent from '../app-core-shared/toast/index.js';
+import dialogComponent from '../app-core-shared/dialog/index.js';
 
 // mobile
 import routesConfig from './app.routes.js';
@@ -14,8 +16,6 @@ import appRun from './app.run.js';
 import MenuController from './menu.controller.js';
 import storageState from '../app-states/storage/index.js';
 import principalState from '../app-states/principal/index.js';
-import toastComponent from '../app-core-shared/toast/index.js';
-import dialogComponent from '../app-core-shared/dialog/index.js';
 
 
 let dependencies = [
