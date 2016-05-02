@@ -1,35 +1,14 @@
-function appConfig( $ionicConfigProvider, $mdThemingProvider, $mdIconProvider, $mdColorPalette ) {
+/**
+ * Configura aspectos da app como: temas, etc
+ *
+ * @param {Object} $mdThemingProvider - service.
+ * @param {Object} $mdIconProvider - service.
+ * @param {Object} $mdColorPalette - service.
+ *
+ * @returns {void}
+ */
+function appThemeConfig( $mdThemingProvider, $mdIconProvider, $mdColorPalette ) {
 
-    // Use for change ionic spinner to android pattern.
-    $ionicConfigProvider.spinner.icon( 'android' );
-    $ionicConfigProvider.views.swipeBackEnabled( false );
-
-    //Learn more about material color patten: https://www.materialpalette.com/
-    //Learn more about material theme: https://material.angularjs.org/latest/#/Theming/01_introduction
-
-    //mdThemingProvider use for change theme color of Ionic Material Design Application.
-    /* You can select color from Material Color List configuration :
-     * red
-     * pink
-     * purple
-     * purple
-     * deep-purple
-     * indigo
-     * blue
-     * light-blue
-     * cyan
-     * teal
-     * green
-     * light-green
-     * lime
-     * yellow
-     * amber
-     * orange
-     * deep-orange
-     * brown
-     * grey
-     * blue-grey
-     */
     const customPrimary = {
         '50': '#67c7e2',
         '100': '#52bfde',
@@ -106,6 +85,24 @@ function appConfig( $ionicConfigProvider, $mdThemingProvider, $mdIconProvider, $
     $mdThemingProvider
         .definePalette( 'customBackground', customBackground );
 
+    /*
+     Primary and warn palettes
+
+     md-primary': '500';
+     md-hue-1': '300';
+     md-hue-2': '800';
+     md-hue-3': 'A100';
+     */
+
+    /*
+     Accent palette
+
+     md-primary': 'A200';
+     md-hue-1': 'A100';
+     md-hue-2': 'A400';
+     md-hue-3': 'A700';
+     */
+
     $mdThemingProvider
         .theme( 'espm' )
         .primaryPalette( 'customPrimary' )
@@ -116,5 +113,5 @@ function appConfig( $ionicConfigProvider, $mdThemingProvider, $mdIconProvider, $
 }
 
 export default [
-    '$ionicConfigProvider', '$mdThemingProvider', '$mdIconProvider', '$mdColorPalette', appConfig
+    '$mdThemingProvider', '$mdIconProvider', '$mdColorPalette', appThemeConfig
 ];

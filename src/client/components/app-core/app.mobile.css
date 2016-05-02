@@ -1,25 +1,8 @@
-
-body {
-	font-family: RobotoDraft, Roboto, Helvetica Neue, sans-serif;
-}
-
-.material-background {
-	background-color: #208baa !important;
-	border-style: none;
-}
-
 .spinner-android {
 	stroke: #208baa !important;
 }
 
-.material-background-nav-bar {
-	background-color: #208baa !important;
-	border-style: none;
-}
 
-.md-primary-color {
-	color: #208baa !important;
-}
 
 /*body {
   font-family: RobotoDraft, Roboto, Helvetica Neue, sans-serif; }

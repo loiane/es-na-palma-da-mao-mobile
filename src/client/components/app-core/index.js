@@ -1,8 +1,17 @@
+
+// 3th party
 import 'jquery';
-import angular from 'angular/angular';
+import 'angular/angular';
+import 'angular-material';
 import 'angular-ui-router';
 import 'ui-router-extras';
 import ocLazyLoad from 'oclazyload';
+
+// shared (mobile and web)
+import '../app-core-shared/app.shared.css!';
+import themeConfig from '../app-core-shared/app.theme.config.js';
+
+// web
 import RouterHelperProvider from './config/router-helper.provider.js';
 import loggerModule from './logger/index.js';
 import loaderModule from './loader/index.js';
@@ -18,6 +27,7 @@ const dependencies = [
     layoutModule.name,
     loaderModule.name,
     loggerModule.name,
+    'ngMaterial',
     'ui.router',
     'ct.ui.router.extras',
     'ct.ui.router.extras.future'
@@ -27,6 +37,7 @@ let app = angular.module( 'app', dependencies )
                  .provider( 'routerHelper', RouterHelperProvider )
                  .directive( 'updateTitle', updateTitleDirective )
                  .config( routesConfig )
+                 .config( themeConfig )
                  .controller( 'appController', AppController )
                  .run( appRun );
 

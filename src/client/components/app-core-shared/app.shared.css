@@ -1,0 +1,35 @@
+/*
+ Primary and warn palettes
+
+ md-primary': '500';
+ md-hue-1': '300';
+ md-hue-2': '800';
+ md-hue-3': 'A100';
+*/
+
+/*
+ Accent palette
+
+ md-primary': 'A200';
+ md-hue-1': 'A100';
+ md-hue-2': 'A400';
+ md-hue-3': 'A700';
+*/
+
+body {
+	font-family: RobotoDraft, Roboto, Helvetica Neue, sans-serif;
+}
+
+.material-background {
+	background-color: #208baa !important;
+	border-style: none;
+}
+
+.material-background-nav-bar {
+	background-color: #208baa !important;
+	border-style: none;
+}
+
+.md-primary-color {
+	color: #208baa !important;
+}
