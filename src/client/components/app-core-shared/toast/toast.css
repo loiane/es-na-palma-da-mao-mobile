@@ -5,9 +5,17 @@
 }
 
 .toast-success .md-toast-content {
-	background-color: #0c9;
+	background-color: #a9cc64;
 }
 
 .toast-error .md-toast-content {
-	background-color: #bf0032;
+	background-color: #cc4b45;
+}
+
+.toast-info .md-toast-content {
+	background-color: #7fc5d1;
+}
+
+.toast-warn .md-toast-content {
+	background-color: #ffec6c;
 }
