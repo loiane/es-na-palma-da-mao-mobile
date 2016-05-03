@@ -24,7 +24,7 @@
 
 .wordpress-background {
   background-color: #0087be !important; }
-
+*/
 .facebook-color {
   color: #3c5c99 !important; }
 
@@ -36,7 +36,7 @@
 
 .google-plus-color-background {
   background-color: #d73d32 !important; }
-
+/*
 .instagram-color {
   color: #517fa4 !important; }
 
@@ -272,10 +272,10 @@ md-sidenav {
   font-size: 11px;
   width: 40px;
   text-align: center; }
-
+*/
 .toolbar-medium {
-  max-height: 160px !important;
-  height: 160px !important;
+  /*max-height: 160px !important;
+  height: 160px !important;*/
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
 
 .toolbar-medium div {
@@ -290,7 +290,7 @@ md-sidenav {
 .toolbar-medium h2 {
   color: white;
   font-size: 18px; }
-
+/*
 .toolbar-medium h3 {
   color: white;
   font-size: 28px !important; }
@@ -380,7 +380,7 @@ md-sidenav {
   width: 140px;
   height: 140px;
   margin-top: 16px; }
-
+*/
 .md-button.md-accent.md-fab.fab-toolbar-medium {
   float: right;
   right: 25px;
@@ -392,7 +392,12 @@ md-sidenav {
   vertical-align: text-top;
   font-size: x-large;
   color: white; }
-
+  
+  
+md-toolbar.md-tall .md-button.md-accent.md-fab.fab-toolbar-medium {
+  margin-top: 43px; 
+}
+/*
 .md-button.md-accent.md-fab.fab-footer {
   float: right;
   right: 25px;

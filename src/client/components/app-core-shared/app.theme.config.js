@@ -23,7 +23,8 @@ function appThemeConfig( $mdThemingProvider, $mdIconProvider, $mdColorPalette ) 
         'A100': '#7dcfe6',
         'A200': '#92d7ea',
         'A400': '#a7dfef',
-        'A700': '#0c333f'
+        'A700': '#0c333f',
+        'contrastDefaultColor': 'light'
     };
     const customAccent = {
         '50': '#6e2731',

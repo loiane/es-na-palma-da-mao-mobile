@@ -1,0 +1,5 @@
+md-input-container .md-input {
+    border-width: 0 0 1px 0 !important;
+    border-radius: 0 !important;
+    border-style: solid !important;
+}
