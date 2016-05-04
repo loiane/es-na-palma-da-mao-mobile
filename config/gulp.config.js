@@ -49,6 +49,7 @@ let paths = {
     watch: './src/client/**/*',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './config/system.config.js',
+    systemYuml: './system.yuml.js',
 
     // output
     output: {
@@ -67,7 +68,7 @@ let paths = {
     server: 'src/server/',
     nodeServer: 'www/web-server/app.js'
 };
- 
+
 let config = {
     situation: situation,
     paths: paths, //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference

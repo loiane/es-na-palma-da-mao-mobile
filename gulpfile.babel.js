@@ -12,8 +12,7 @@ let taskMaker = gulpHelpers.taskMaker( gulp );
 
 // args
 let argv = yargs.argv;
-let watch = argv.watch;
-let serve = argv.serve;
+
 //let platform = argv.platform;
 //let isMobile = platform === 'mobile';
 //let isWeb = platform === 'web';
@@ -42,7 +41,7 @@ taskMaker.defineTask( 'clean', {
 } );
 
 taskMaker.defineTask( 'babel', {
-    taskName: 'babel',
+    taskName: 'transpile-client-js',
     src: config.paths.js.client,
     dest: config.paths.output.app,
     ngAnnotate: true,
@@ -51,7 +50,14 @@ taskMaker.defineTask( 'babel', {
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'js',
+    taskName: 'client-js',
+    src: config.paths.js.client,
+    dest: config.paths.output.app,
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'copy', {
+    taskName: 'server-js',
     src: config.paths.js.server,
     dest: config.paths.output.server,
     debug: config.debugOptions
@@ -76,6 +82,13 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'copy', {
     taskName: 'systemConfig',
     src: config.paths.systemConfig,
+    dest: config.paths.output.app,
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'copy', {
+    taskName: 'system.yuml',
+    src: config.paths.systemYuml,
     dest: config.paths.output.app,
     debug: config.debugOptions
 } );
@@ -177,17 +190,30 @@ taskMaker.defineTask( 'nodemon', {
 } );
 
 gulp.task( 'compile', 'Compila a aplicação executando: [css, html, babel, json, assets, systemConfig] tasks paralelamente.', function() {
-    return runSequence( 'eslint-src', [
+    let tasks = [
         'css',
         'html',
         'index-web.html',
         'index-mobile.html',
-        'js',
-        'babel',
+        'server-js',
         'json',
         'assets',
-        'systemConfig'
-    ] );
+        'systemConfig',
+        'system.yuml'
+    ];
+
+    // Se flag argv.transpile seja informado, realiza o transpile do js e copia o resultado para
+    // a pasta de onde a app será executada. Caso argv.transpile NÃO seja informado, copia o código
+    // js como está a "transpilation" será delegada automaticamente para o systemJS, o que é bom
+    // em tempo de desenvolvimento mas que aumenta significativamente número e o tamanho das
+    // requisições.
+    if ( argv.transpile ) {
+        tasks.push( 'transpile-client-js' );
+    } else {
+        tasks.push( 'client-js' );
+    }
+
+    return runSequence.apply( this, tasks );
 } );
 
 gulp.task( 'recompile', 'Limpa diretório destino e compila aplicação.', function() {
@@ -198,11 +224,11 @@ gulp.task( 'build', 'Executa a aplicação web no ambiente de desenvolvimento', 
 
     let tasks = [ 'recompile' ];
 
-    if ( serve ) {
+    if ( argv.serve ) {
         tasks.push( 'serve' );
     }
 
-    if ( watch ) {
+    if ( argv.watch ) {
         tasks.push( 'watch' );
     }
 
