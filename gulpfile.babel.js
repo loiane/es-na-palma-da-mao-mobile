@@ -87,6 +87,13 @@ taskMaker.defineTask( 'copy', {
 } );
 
 taskMaker.defineTask( 'copy', {
+    taskName: 'systemExtensions',
+    src: config.paths.systemExtensions,
+    dest: config.paths.output.app,
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'copy', {
     taskName: 'system.yuml',
     src: config.paths.systemYuml,
     dest: config.paths.output.app,
@@ -189,7 +196,7 @@ taskMaker.defineTask( 'nodemon', {
     nodemonConfig: config.nodemonConfig
 } );
 
-gulp.task( 'compile', 'Compila a aplicação executando: [css, html, babel, json, assets, systemConfig] tasks paralelamente.', function() {
+gulp.task( 'compile', 'Compila a aplicação executando: [css, html, babel, json, assets, systemConfig, systemExtensions] tasks paralelamente.', function() {
     let tasks = [
         'css',
         'html',
@@ -199,6 +206,7 @@ gulp.task( 'compile', 'Compila a aplicação executando: [css, html, babel, json
         'json',
         'assets',
         'systemConfig',
+        'systemExtensions',
         'system.yuml'
     ];
 

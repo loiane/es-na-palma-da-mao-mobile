@@ -1,4 +1,4 @@
-import template from './login.tpl.html!text';
+import template from './web/login.tpl.html!text!platform';
 
 /**
  * Configura rotas para o componente
@@ -10,10 +10,10 @@ import template from './login.tpl.html!text';
 function loginRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.login', {
-            url: '/login',
+            url: 'login',
             data: { title: 'Login' },
             views: {
-                menuContent: {
+                content: {
                     controller: 'loginController as vm',
                     template: template
                 }

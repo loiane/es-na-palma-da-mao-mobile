@@ -1,0 +1,30 @@
+
+
+<!--login content section-->
+
+<md-content layout-padding>
+    <!--login form section-->
+    <form class="login-form">
+        <div id="input-login">
+            <md-input-container md-no-float class="md-block">
+                <input placeholder="Usuário">
+            </md-input-container>
+            
+            <md-input-container md-no-float class="md-block">
+                <input type="password" placeholder="Senha">
+            </md-input-container>
+        </div>
+        <md-button class="md-raised md-primary">Entrar</md-button>
+    </form> <!--login form section-->
+    
+    <div>
+        <md-button class="md-raised social-button facebook-background" ng-click="facebookLogin()">
+            LOG IN WITH FACEBOOK
+        </md-button>
+        <br />
+        <md-button class="md-raised social-button google-plus-color-background" ng-click="googleLogin()">
+            LOG IN WITH GOOGLE
+        </md-button>
+    </div>
+        
+</md-content>

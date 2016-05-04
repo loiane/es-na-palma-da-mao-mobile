@@ -49,6 +49,7 @@ let paths = {
     watch: './src/client/**/*',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './config/system.config.js',
+    systemExtensions: './config/system.extensions.js',
     systemYuml: './system.yuml.js',
 
     // output
