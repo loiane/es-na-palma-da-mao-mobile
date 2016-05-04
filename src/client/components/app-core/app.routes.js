@@ -1,4 +1,10 @@
-﻿function routesConfig( $stateProvider ) {
+﻿/**
+ *
+ * @param {Object} $stateProvider - $stateProvider provider
+ *
+ * @returns {void}
+ */
+function routesConfig( $stateProvider ) {
     'ngInject';
 
     $stateProvider

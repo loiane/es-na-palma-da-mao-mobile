@@ -1,4 +1,5 @@
 import gulpHelpers from '../gulp/helpers';
+
 let situation = gulpHelpers.situation();
 let port = process.env.PORT || '8001';
 
@@ -51,18 +52,22 @@ let paths = {
 
     // output
     output: {
-        root: 'www/app/',
-        client: 'www/app/client',
-        server: 'www/app/server',
+        root: 'www',
+        //web: 'www/web/client',
+        //mobile: 'www/mobile', //client: 'www/app/client',
+        //server: 'www/web/server',
+        
+        app: 'www/app',
+        server: 'www/web-server'
     },
-    minify: 'www/app/client/**/*.js',
+    minify: 'www/web/**/*.js',
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ],
 
     //server
     server: 'src/server/',
-    nodeServer: 'www/app/server/app.js'
+    nodeServer: 'www/web-server/app.js'
 };
-
+ 
 let config = {
     situation: situation,
     paths: paths, //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
@@ -89,7 +94,8 @@ let config = {
         watch: paths.server
     },
     browserSyncConfig: {
-        proxy: `localhost:${port}`,
+        //proxy: `localhost:${port}`,
+        proxy: `10.32.32.167:${port}`,
         port: '3000',
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,

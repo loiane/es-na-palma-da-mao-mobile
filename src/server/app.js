@@ -33,8 +33,8 @@ case 'build':
 default:
     console.log( '\n================== ENV:DEV ==================' );
     app.use( '/lib', express.static( 'www/lib' ) );
-    app.use( express.static( 'www/app/client' ) );
-    app.use( '/!**!/!*', ( req, res, next ) => four0four.send404( req, res ) );    // Any invalid calls for templateUrls are under app/!* and should return 404*/
+    app.use( express.static( 'www/app' ) );
+    app.use( '/!**!/!*', ( req, res ) => four0four.send404( req, res ) );    // Any invalid calls for templateUrls are under app/!* and should return 404*/
 
     break;
 }
@@ -43,3 +43,4 @@ app.listen( port, () => {
     console.log( `Express server listening on port ${port}:` );
     console.log( `  env = ${app.get( 'env' )};\n  __dirname = ${__dirname};\n  process.cwd = ${process.cwd()};` );
 } );
+

@@ -26,9 +26,9 @@ class ToastService {
     /**
      * Exibe notificação
      *
-     * @param {string} displayOption - opções de exibição do toast usados para preencher a view
+     * @param {Object} displayOption - opções de exibição do toast usados para preencher a view
      *
-     * @returns {Promise}
+     * @returns {Promise} - retorna uma promise
      */
     show( displayOption ) {
         return this.$mdToast.show( {
@@ -44,26 +44,31 @@ class ToastService {
     }
 
     /**
+     * Esconde o toast
      *
-     * @returns {*}
+     * @returns {Promise} - retorna uma promise
      */
     hide() {
         return this.$mdToast.hide();
     }
 
     /**
+     * Exibe toast de sucesso
      *
-     * @param displayOption
-     * @returns {Promise}
+     * @param {Object} displayOption - Opções passadas para a view
+     *
+     * @returns {Promise} - retorna uma promise
      */
     success( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'success' } ) );
     }
 
     /**
+     * Exibe toast de erro
      *
-     * @param displayOption
-     * @returns {Promise}
+     * @param {Object} displayOption - Opções passadas para a view
+     *
+     * @returns {Promise} - retorna uma promise
      */
     error( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'error' } ) );
@@ -71,8 +76,9 @@ class ToastService {
 
     /**
      *
-     * @param displayOption
-     * @returns {Promise}
+     * @param {Object} displayOption - Opções passadas para a view
+     *
+     * @returns {Promise} - retorna uma promise
      */
     info( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'info' } ) );
@@ -80,8 +86,9 @@ class ToastService {
 
     /**
      *
-     * @param displayOption
-     * @returns {Promise}
+     * @param {Object} displayOption - Opções passadas para a view
+     *
+     * @returns {Promise} - retorna uma promise
      */
     warn( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'info' } ) );

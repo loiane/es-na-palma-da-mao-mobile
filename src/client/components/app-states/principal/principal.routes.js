@@ -10,7 +10,7 @@ import template from './principal.tpl.html!text';
 function storageRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.principal', {
-            url: '/principal',
+            url: 'principal',
             views: {
                 content: {
                     controller: 'principalController as vm',

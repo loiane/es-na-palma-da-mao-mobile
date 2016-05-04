@@ -7,18 +7,22 @@ class MenuController {
 
     /**
      *
-     * @param $scope
-     * @param $timeout
-     * @param $mdUtil
-     * @param $mdSidenav
-     * @param $log
-     * @param $ionicHistory
-     * @param $state
-     * @param $ionicPlatform
-     * @param $mdDialog
-     * @param $mdBottomSheet
-     * @param $mdMenu
-     * @param $mdSelect
+
+     * @constructor
+     *
+     * @param {Object} $scope - xxx
+     * @param {Function} $timeout - xxx
+     * @param {Object} $mdSidenav - xxx
+     * @param {Object} $log - xxx
+     * @param {Object} $ionicHistory - xxx
+     * @param {Object} $state - xxx
+     * @param {Object} $ionicPlatform - xxx
+     * @param {Object} $mdDialog - xxx
+     * @param {Object} $mdBottomSheet - xxx
+     * @param {Object} $mdMenu - xxx
+     * @param {Object} $mdSelect - xxx
+     *
+     * @returns {void}
      */
     constructor( $scope, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect ) {
 
@@ -71,75 +75,57 @@ class MenuController {
 
         this.$ionicPlatform.registerBackButtonAction( () => {
 
-            if ( this.$mdSidenav( 'left' ).isOpen() ) {
-                //If side navigation is open it will close and then return
+            const sidenavIsOpen = this.$mdSidenav( 'left' ).isOpen();
+            const bottomSheetIsOpen = angular.element( 'md-bottom-sheet' ).length > 0;
+            const dialogIsOpen = angular.element( '[id^=dialog]' ).length > 0;
+            const menuContentIsOpen = angular.element( 'md-menu-content' ).length > 0;
+            const selectMenuIsOpen = angular.element( 'md-select-menu' ).length > 0;
+            const previousStateIsEmpty = this.$ionicHistory.backView() === null;
+
+            if ( sidenavIsOpen ) {
                 this.$mdSidenav( 'left' ).close();
-            } else if ( angular.element( 'md-bottom-sheet' ).length > 0 ) {
-                //If bottom sheet is open it will close and then return
+            } else if ( bottomSheetIsOpen ) {
                 this.$mdBottomSheet.cancel();
-            } else if ( angular.element( '[id^=dialog]' ).length > 0 ) {
-                //If popup dialog is open it will close and then return
+            } else if ( dialogIsOpen ) {
                 this.$mdDialog.cancel();
-            } else if ( angular.element( 'md-menu-content' ).length > 0 ) {
-                //If md-menu is open it will close and then return
+            } else if ( menuContentIsOpen ) {
                 this.$mdMenu.hide();
-            } else if ( angular.element( 'md-select-menu' ).length > 0 ) {
-                //If md-select is open it will close and then return
+            } else if ( selectMenuIsOpen ) {
                 this.$mdSelect.hide();
-            }
 
-            else {
+            } else if ( previousStateIsEmpty && !dialogIsOpen ) {
 
-                // If control :
-                // side navigation,
-                // bottom sheet,
-                // popup dialog,
-                // md-menu,
-                // md-select
-                // is not opening, It will show $mdDialog to ask for
-                // Confirmation to close the application or go to the view of lasted state.
-
-                // Check for the current state that not have previous state.
-                // It will show $mdDialog to ask for Confirmation to close the application.
-
-                if ( this.$ionicHistory.backView() == null ) {
-
-                    //Check is popup dialog is not open.
-                    if ( angular.element( '[id^=dialog]' ).length == 0 ) {
-
-                        // mdDialog for show $mdDialog to ask for
-                        // Confirmation to close the application.
-
-                        this.$mdDialog.show( {
-                            controller: 'DialogController',
-                            templateUrl: 'confirm-dialog.html',
-                            targetEvent: null,
-                            locals: {
-                                displayOption: {
-                                    title: 'Confirmação',
-                                    content: 'Deseja sair da aplicação?',
-                                    ok: 'Confirmar',
-                                    cancel: 'Cancelar'
-                                }
-                            }
-                        } ).then( () => {
-                            //If user tap Confirm at the popup dialog.
-                            //Application will close.
-                            ionic.Platform.exitApp();
-                        }, () => {
-                            // For cancel button actions.
-                        } ); //End mdDialog
+                //todo: refatorar $mdDialog para usar o service $dialog
+                // se não há nenhum dos "componentes" acima abertos e não existe state anterior,
+                // então exibe uma janela de diálogo pedindo a confirmação para fechar a app.
+                this.$mdDialog.show( {
+                    controller: 'DialogController',
+                    templateUrl: 'confirm-dialog.html',
+                    targetEvent: null,
+                    locals: {
+                        displayOption: {
+                            title: 'Confirmação',
+                            content: 'Deseja sair da aplicação?',
+                            ok: 'Confirmar',
+                            cancel: 'Cancelar'
+                        }
                     }
-                } else {
-                    //Go to the view of lasted state.
-                    this.$ionicHistory.goBack();
-                }
+                } ).then( () => {
+                    //Se o usuário confirma a janela de diálogo, então fecha a app.
+                    ionic.Platform.exitApp();
+                }, () => {
+                    // Se o usuário clica no botão cancelar
+                } );
+            } else {
+                // se existe uma view anterior, volta para ela
+                this.$ionicHistory.goBack();
             }
+
         }, 100 );
     }
 
     /**
-     *  CloseSideNav is for close side navigation
+     *  Fecha a barra de navegação lateral
      *  It will use with event on-swipe-left="closeSideNav()" on-drag-left="closeSideNav()"
      *  When user swipe or drag md-sidenav to left side
      */

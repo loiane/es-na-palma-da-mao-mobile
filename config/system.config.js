@@ -29,6 +29,7 @@ System.config( {
         "ionic": "github:driftyco/ionic-bower@1.3.0",
         "jquery": "npm:jquery@2.2.1",
         "json": "github:systemjs/plugin-json@0.1.0",
+        "mobile-detect": "npm:mobile-detect@1.3.2",
         "oclazyload": "github:ocombe/oclazyload@1.0.9",
         "robotoDraft": "github:raibutera/robotodraft@1.1.0",
         "text": "github:systemjs/plugin-text@0.0.7",
@@ -106,6 +107,11 @@ System.config( {
         "npm:inherits@2.0.1": {
             "util": "github:jspm/nodelibs-util@0.1.0"
         },
+        "npm:mobile-detect@1.3.2": {
+            "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+            "fs": "github:jspm/nodelibs-fs@0.1.2",
+            "path": "github:jspm/nodelibs-path@0.1.0"
+        },
         "npm:path-browserify@0.0.0": {
             "process": "github:jspm/nodelibs-process@0.1.2"
         },
@@ -119,5 +125,30 @@ System.config( {
         "npm:zepto@1.0.1": {
             "process": "github:jspm/nodelibs-process@0.1.2"
         }
+    }
+} );
+
+System.import( 'mobile-detect' ).then( function( MobileDetect ) {
+    var PLUGIN_NAME = '!platform';
+    var WEB_FOLDER = '/web';
+    var MOBILE_FOLDER = '/mobile';
+
+    var md = new MobileDetect( window.navigator.userAgent );
+    var systemNormalize = System.normalize;
+
+    System.normalize = function( name, parentName, parentAddress ) {
+
+        if ( name.indexOf( PLUGIN_NAME ) !== -1 ) {
+            name = name.replace( PLUGIN_NAME, '' );
+
+            if ( md.mobile() ) {
+                name = name.replace( WEB_FOLDER, MOBILE_FOLDER );
+            }
+
+            else if ( !md.mobile() ) {
+                name = name.replace( MOBILE_FOLDER, WEB_FOLDER );
+            }
+        }
+        return systemNormalize.call( this, name, parentName, parentAddress );
     }
 } );

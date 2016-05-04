@@ -7,7 +7,7 @@
  *
  * @returns {void}
  */
-function appThemeConfig( $mdThemingProvider, $mdIconProvider, $mdColorPalette ) {
+function appThemeConfig( $mdThemingProvider ) {
 
     const customPrimary = {
         '50': '#67c7e2',
@@ -114,5 +114,5 @@ function appThemeConfig( $mdThemingProvider, $mdIconProvider, $mdColorPalette ) 
 }
 
 export default [
-    '$mdThemingProvider', '$mdIconProvider', '$mdColorPalette', appThemeConfig
+    '$mdThemingProvider', appThemeConfig
 ];

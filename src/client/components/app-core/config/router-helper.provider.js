@@ -1,19 +1,24 @@
 import futureStates from './states.json!';
 
 /**
- * Aplica configurações de roteamento à aplicação. Usa "FutureStates" para
- * configurar rotas de uma fonte externa(como um JSON ou DB) em runtime, uma vez que
- * UI-Router expõe $stateProvider à aplicação somente na fase de config, e não em runtime.
  *
- * Ref: https://christopherthielen.github.io/ui-router-extras/#/future
- *
- * @param {Object} $urlRouterProvider - $urlRouterProvider do angularjs.
- * @param {Object} $httpProvider - $httpProvider do angularjs.
- * @param {Object} $locationProvider - $locationProvider do angularjs.
- * @param {Object} $futureStateProvider - $futureStateProvider do módulo 'ui-router-extras'.
  */
 class RouterHelperProvider {
 
+    /**
+     * Aplica configurações de roteamento à aplicação. Usa "FutureStates" para
+     * configurar rotas de uma fonte externa(como um JSON ou DB) em runtime, uma vez que
+     * UI-Router expõe $stateProvider à aplicação somente na fase de config, e não em runtime.
+     *
+     * Ref: https://christopherthielen.github.io/ui-router-extras/#/future
+     *
+     * @param {Object} $urlRouterProvider - $urlRouterProvider do angularjs.
+     * @param {Object} $httpProvider - $httpProvider do angularjs.
+     * @param {Object} $locationProvider - $locationProvider do angularjs.
+     * @param {Object} $futureStateProvider - $futureStateProvider do módulo 'ui-router-extras'.
+     *
+     * @returns {void}
+     */
     constructor( $urlRouterProvider, $httpProvider, $locationProvider, $futureStateProvider ) {
 
         this.$get.$inject = [ '$location', '$rootScope', '$state', 'toast' ];
@@ -37,10 +42,9 @@ class RouterHelperProvider {
          *
          * @param {Object} $q - $q service do angularjs
          * @param {Object} $ocLazyLoad - $ocLazyLoad service do módulo 'oc.LazyLoad'
-         * @param {Object} futureState - futureState representando um state na app. Em tempo de
-         *     execução será substituído
-         por um state real.
-         * @returns {Promise}
+         * @param {Object} futureState - futureState representando um state na app. Em tempo deexecução será substituído por um state real.
+         *
+         * @returns {Promise} - Uma promise
          */
         function stateFactory( $q, $ocLazyLoad, futureState ) {
             return System.import( futureState.src )
@@ -53,16 +57,18 @@ class RouterHelperProvider {
                          // this needs to be done so that the future state handler doesn't use the
                          // component name as state name
                          .then( () => null )
-                         .catch( console.error.bind( console ) );
+                         .catch( console.error.bind( console ) ); // eslint-disable-line angular/log
         }
     }
 
     /**
      * Método factory do provider.
+     *
      * @param {Object} $location - $location do angularjs
      * @param {Object} $rootScope - $rootScope do angular
      * @param {Object} $state - $state service do ui-router
      * @param {Object} toast - Serviço de log do ESPM
+     *
      * @returns {Object} A instância de RouteHelper service
      */
     $get( $location, $rootScope, $state, toast ) {
@@ -77,6 +83,11 @@ class RouterHelperProvider {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+        /**
+         * Configura eventos de roteamento.
+         *
+         * @returns {void}
+         */
         function configureRoutingEvents() {
             handleRoutingSuccess();
             handleRoutingErrors();
@@ -93,6 +104,11 @@ class RouterHelperProvider {
 //             }
 //         }
 
+        /**
+         * Configura eventos de sucesso de alteração de state.
+         *
+         * @returns {void}
+         */
         function handleRoutingSuccess() {
 
             $rootScope.$on( '$stateChangeSuccess', onSuccess );
@@ -104,6 +120,8 @@ class RouterHelperProvider {
 
         /**
          * Configura tratamento de erros de roteamento
+         *
+         * @returns {void}
          */
         function handleRoutingErrors() {
             // Route cancellation:
@@ -132,6 +150,8 @@ class RouterHelperProvider {
 
         /**
          * Obtém a lista de states da app
+         *
+         * @returns {String[]} A lista de states da app
          */
         function getStates() {
             return $state.get();
@@ -139,7 +159,7 @@ class RouterHelperProvider {
     }
 }
 
-export default[
+export default [
     '$urlRouterProvider',
     '$httpProvider',
     '$locationProvider',

@@ -4,7 +4,11 @@
 class PrincipalController {
 
     /**
+     * @constructor
      *
+     * @param {Object} toast - toast service
+     *
+     * @returns {void}
      */
     constructor( toast ) {
         this.toast = toast;

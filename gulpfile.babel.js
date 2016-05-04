@@ -3,11 +3,20 @@
 import innerGulp from 'gulp';
 import gulpHelpers from './gulp/helpers';
 import gulpHelp from 'gulp-help';
+import yargs from 'yargs';
 import runSequence from 'run-sequence';
 import config from './config/gulp.config';
 
 let gulp = gulpHelp( innerGulp ); // wrap in gulp help
 let taskMaker = gulpHelpers.taskMaker( gulp );
+
+// args
+let argv = yargs.argv;
+let watch = argv.watch;
+let serve = argv.serve;
+//let platform = argv.platform;
+//let isMobile = platform === 'mobile';
+//let isWeb = platform === 'web';
 
 /**
  * todo: yargs variables
@@ -15,13 +24,13 @@ let taskMaker = gulpHelpers.taskMaker( gulp );
 taskMaker.defineTask( 'css', {
     taskName: 'css',
     src: config.paths.css,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'clean', {
     taskName: 'clean',
-    src: config.paths.output.root,
+    src: config.paths.output.app,
     taskDeps: [ 'clean-e2e' ],
     debug: config.debugOptions
 } );
@@ -35,7 +44,7 @@ taskMaker.defineTask( 'clean', {
 taskMaker.defineTask( 'babel', {
     taskName: 'babel',
     src: config.paths.js.client,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     ngAnnotate: true,
     compilerOptions: config.babelOptions,
     debug: config.debugOptions
@@ -60,44 +69,44 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'copy', {
     taskName: 'html',
     src: config.paths.html,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'systemConfig',
     src: config.paths.systemConfig,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'assets',
     src: config.paths.assets,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'json',
     src: config.paths.json,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     changed: { extension: '.json' },
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'index.html',
+    taskName: 'index-web.html',
     src: config.paths.index.web,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     debug: config.debugOptions,
     rename: 'index.html'
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'index.mobile.html',
+    taskName: 'index-mobile.html',
     src: config.paths.index.mobile,
-    dest: config.paths.output.client,
+    dest: config.paths.output.root,
     debug: config.debugOptions,
     rename: 'index.html'
 } );
@@ -105,7 +114,7 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'copy', {
     taskName: 'cache-bust-index.html',
     src: config.paths.index,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     debug: config.debugOptions,
     rename: 'index.html',
     replace: config.cacheBustConfig
@@ -114,8 +123,8 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'htmlMinify', {
     taskName: 'htmlMinify-index.html',
     taskDeps: [ 'cache-bust-index.html' ],
-    src: config.paths.output.client,
-    dest: config.paths.output.client,
+    src: config.paths.output.app,
+    dest: config.paths.output.app,
     debug: config.debugOptions,
     minimize: config.htmlMinOptions
 } );
@@ -129,7 +138,7 @@ taskMaker.defineTask( 'htmlHint', {
 taskMaker.defineTask( 'minify', {
     taskName: 'minify',
     src: config.paths.minify,
-    dest: config.paths.output.client,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
@@ -158,7 +167,7 @@ taskMaker.defineTask( 'eslint', {
 taskMaker.defineTask( 'watch', {
     taskName: 'watch',
     src: config.paths.watch,
-    tasks: [ 'compile', 'index.html', 'eslint-src' ]
+    tasks: [ 'compile' ]
 } );
 
 taskMaker.defineTask( 'nodemon', {
@@ -167,27 +176,57 @@ taskMaker.defineTask( 'nodemon', {
     nodemonConfig: config.nodemonConfig
 } );
 
-gulp.task( 'compile', 'Compila a aplicação executando: [css, html, babel, json, assets, systemConfig] tasks paralelamente.', function( callback ) {
-    return runSequence( [
-        'css', 'html', 'js', 'babel', 'json', 'assets', 'systemConfig'
-    ], callback );
+gulp.task( 'compile', 'Compila a aplicação executando: [css, html, babel, json, assets, systemConfig] tasks paralelamente.', function() {
+    return runSequence( 'eslint-src', [
+        'css',
+        'html',
+        'index-web.html',
+        'index-mobile.html',
+        'js',
+        'babel',
+        'json',
+        'assets',
+        'systemConfig'
+    ] );
 } );
 
-gulp.task( 'recompile', 'Limpa diretório destino e compila aplicação.', function( callback ) {
-    return runSequence( 'clean', [ 'compile' ], callback );
+gulp.task( 'recompile', 'Limpa diretório destino e compila aplicação.', function() {
+    return runSequence( 'clean', [ 'compile' ] );
 } );
 
-gulp.task( 'run:web', 'Executa a aplicação web no ambiente configurado: dev, prod, etc.', function( callback ) {
-    if ( config.situation.isProduction() ) {
-        return runSequence( 'recompile', 'routeBundler', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve', callback );
-    } else if ( config.situation.isDevelopment() ) {
-        return runSequence( 'recompile', 'eslint-src', 'index.html', 'serve', 'watch', callback );
+gulp.task( 'build', 'Executa a aplicação web no ambiente de desenvolvimento', function() {
+
+    let tasks = [ 'recompile' ];
+
+    if ( serve ) {
+        tasks.push( 'serve' );
     }
-} );
 
-gulp.task( 'run:mobile', 'Executa a aplicação mobile no ambiente configurado: dev, prod, etc.', function( callback ) {
-    return runSequence( 'recompile', 'eslint-src', 'index.mobile.html', callback );
+    if ( watch ) {
+        tasks.push( 'watch' );
+    }
+
+    return runSequence.apply( this, tasks );
 } );
 
 // executa a tarefa default
-gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
+gulp.task( 'default', 'Executa task \'build\'', [ 'build' ] );
+
+/*gulp.task( 'build', 'Executa a aplicação web no ambiente configurado: dev, prod, etc.', function() {
+ if ( config.situation.isProduction() ) {
+ runSequence( 'recompile', 'routeBundler', 'cache-bust-index.html', 'htmlMinify-index.html', 'minify', 'serve' );
+ } else if ( config.situation.isDevelopment() ) {
+
+ let tasks = [ 'recompile' ];
+
+ if ( isWeb && serve ) {
+ tasks.push( 'serve' );
+ }
+
+ if ( watch ) {
+ tasks.push( 'watch' );
+ }
+
+ return runSequence.apply( this, tasks );
+ }
+ } );*/

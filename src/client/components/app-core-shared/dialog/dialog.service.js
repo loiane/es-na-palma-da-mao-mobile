@@ -29,7 +29,7 @@ class DialogService {
      *
      * @param {Object} contextualOptions -  opções fornecidas no contexto da chamada ao dialog
      *
-     * @returns {Promise}
+     * @returns {Promise} - uma promise
      */
     alert( contextualOptions ) {
         let opts = this._buildOptionsTo( 'alert', contextualOptions );
@@ -48,7 +48,7 @@ class DialogService {
      *
      * @param {Object} contextualOptions -  opções fornecidas no contexto da chamada ao dialog
      *
-     * @returns {Promise}
+     * @returns {Promise} - uma promise
      */
     confirm( contextualOptions ) {
         let opts = this._buildOptionsTo( 'confirm', contextualOptions );
@@ -87,7 +87,7 @@ class DialogService {
      * @param {string} dialogTypeName - o tipo de janela sendo exibida ( 'alert', 'confirm' )
      * @param {Object} contextualOptions - opções fornecidas no contexto da chamada ao dialog
      *
-     * @returns {Object}
+     * @returns {Object} - um objeto de configuração para o dialog
      *
      * @private
      */
