@@ -1,10 +1,9 @@
 import gulpHelpers from '../gulp/helpers';
+import _ from 'lodash';
 
-let situation = gulpHelpers.situation();
-let port = process.env.PORT || '8001';
+let environment = gulpHelpers.environment();
 
 let paths = {
-    //tests
     e2e: 'test-e2e/**/*.js',
     e2eOutput: 'test-e2e-compile/',
     js: {
@@ -20,7 +19,8 @@ let paths = {
         ],
         src: './src/**/*.js',
         client: 'src/client/**/*.js',
-        server: 'src/server/**/*.js'
+        server: 'src/server/**/*.js',
+        output: 'www/components/**/*.js'
     },
     html: [
         'src/client/**/*.html',
@@ -43,8 +43,16 @@ let paths = {
     ],
     json: './src/client/**/*.json',
     index: {
-        web: './src/client/components/app-core/index.tpl.html',
-        mobile: './src/client/components/app-core/index.tpl.mobile.html'
+
+        web: {
+            src: './src/client/components/app-core-web/index.tpl.html',
+            output: './www/index.html'
+        },
+
+        mobile: {
+            src: './src/client/components/app-core-mobile/index.tpl.html',
+            output: './www/index.mobile.html'
+        }
     },
     watch: './src/client/**/*',
     karmaConfig: `${__dirname}/karma.conf.js`,
@@ -55,14 +63,12 @@ let paths = {
     // output
     output: {
         root: 'www',
-        //web: 'www/web/client',
-        //mobile: 'www/mobile', //client: 'www/app/client',
-        //server: 'www/web/server',
-        
-        app: 'www/app',
-        server: 'www/web-server'
+        lib: 'www/lib',
+        app: 'www/components',
+        html: [ 'www/components/**/*.html', 'www/*.html' ],
+        server: 'www/web-server',
+        temp: [ 'www/components', 'www/web-server', 'www/*.html', 'www/*.js' ]
     },
-    minify: 'www/web/**/*.js',
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ],
 
     //server
@@ -71,7 +77,7 @@ let paths = {
 };
 
 let config = {
-    situation: situation,
+    environment: environment,
     paths: paths, //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
     htmlMinOptions: {
         collapseWhitespace: true,
@@ -90,14 +96,13 @@ let config = {
         delayTime: 1,
         ext: 'js html json',
         env: {
-            'PORT': port,
-            'NODE_ENV': 'dev'
+            'PORT': environment.port(),
+            'NODE_ENV': environment.name()
         },
         watch: paths.server
     },
     browserSyncConfig: {
-        //proxy: `localhost:${port}`,
-        proxy: `10.32.32.167:${port}`,
+        proxy: `localhost:${environment.port()}`,
         port: '3000',
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
@@ -110,7 +115,7 @@ let config = {
         logLevel: 'info',
         logPrefix: 'ES na palma da mão',
         notify: true,
-        open: true
+        open: false
     },
     cacheBustConfig: {
         usePrefix: false,
@@ -133,73 +138,13 @@ let config = {
     debugOptions: { active: false }
 };
 
-// sobrescreve conigurações se estiver em produção
-if ( config.situation.isProduction() ) {
+// sobrescreve configurações se estiver em produção
+if ( environment.isProduction() ) {
     _.merge( config.browserSyncConfig, {
         codeSync: false,
         reloadOnRestart: false,
-        server: {
-            snippetOptions: {
-                rule: {
-                    match: /qqqqqqqqqqq/
-                }
-            }
-        }
-    } );
-
-    _.merge( config.nodemonConfig, {
-        'NODE_ENV': 'build'
+        port: environment.port()
     } );
 }
 
 export default config;
-
-//
-//
-// {
-//     open: false,
-//     ui: false,
-//     notify: true,
-//     ghostMode: false,
-//     port: process.env.PORT || 9000,
-//     server: {
-//         baseDir: [path.output],
-//         routes: {
-//             '/config/system.js': './config/system.js',
-//             '/jspm_packages': './jspm_packages'
-//         }
-//     }
-// };
-
-//paths: {
-//    build: {
-//        output: 'build'
-//    },
-//    sources: ['src/**/*.js'],
-//    configs: ['config/**/!(system).js', 'gulp-tasks/**/*.js', 'gulpfile.js'],
-//    stylesheets: ['src/**/*.scss', 'src/**/*.css'],
-//    scripts: [
-//        'src/**/*.js',
-//        'gulpfile.js'
-//    ],
-//    html: [
-//        'src/**/*.html',
-//        'index.html'
-//    ],
-//    static: [
-//        './src/**/*.json',
-//        './src/**/*.svg',
-//        './src/**/*.woff',
-//        './src/**/*.woff2',
-//        './src/**/*.ttf',
-//        './src/**/*.png',
-//        './src/**/*.gif',
-//        './src/**/*.ico',
-//        './src/**/*.jpg',
-//        './src/**/*.eot'
-//    ]
-//},
-//serverPort: 8088,
-//serverPortTest: 8089,
-//livereload: true,
-//notifications: true

@@ -4,7 +4,29 @@ import _isUndefined from 'lodash/isUndefined';
 import _isArray from 'lodash/isArray';
 import debug from 'gulp-debug';
 
+let taskMetadata = {
+    description: 'Apaga diretório/arquivos',
+    options: {
+        options: {
+            src: 'Source (glob)',
+            dest: 'Destino (glob)',
+            debug: 'Indica se debug está habilitado para a task'
+        }
+    }
+};
+
+/**
+ * @class
+ */
 class CleanTask {
+
+    /**
+     * Configura a task
+     *
+     * @param {Object} options - opções de configuração passadas para a Task
+     *
+     * @returns {CleanTask} - A própria instância de CleanTask
+     */
     setOptions( options ) {
         this.options = options;
 
@@ -15,19 +37,15 @@ class CleanTask {
         return this;
     }
 
+    /**
+     * Cria a task
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     defineTask( gulp ) {
         let options = this.options;
-
-        let taskMetadata = {
-            description: 'Apaga diretório/arquivos',
-            options: {
-                options: {
-                    src: 'Source (glob)',
-                    dest: 'Destino (glob)',
-                    debug: 'Indica se debug está habilitado para a task'
-                }
-            }
-        };
 
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             if ( !_isArray( options.src ) ) {

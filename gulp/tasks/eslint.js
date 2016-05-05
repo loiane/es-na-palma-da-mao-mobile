@@ -5,6 +5,19 @@ import plumber from 'gulp-plumber';
 import debug from 'gulp-debug';
 import cached from 'gulp-cached';
 import gIf from 'gulp-if';
+
+let taskMetadata = {
+    description: 'Realiza uma análize de qualdade de código Javascript usando [ESLint](http://eslint.org/) e reporta o resultado.',
+    options: {
+        options: {
+            src: 'Source (glob)',
+            dest: 'Destino (glob)',
+            debug: 'Indica se debug está habilitado para a task',
+            lintConfig: 'Opções para o plugin gulp-eslint'
+        }
+    }
+};
+
 /**
  * ESLint Task.
  *
@@ -13,6 +26,14 @@ import gIf from 'gulp-if';
  * @returns {void}
  */
 class EslintTask {
+
+    /**
+     * Configura a task
+     *
+     * @param {Object} options - opções de configuração passadas para a Task
+     *
+     * @returns {EslintTask} - A própria instância de EslintTask
+     */
     setOptions( options ) {
         this.options = options;
 
@@ -32,22 +53,24 @@ class EslintTask {
         return this;
     }
 
+    /**
+     * Cria a task
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     defineTask( gulp ) {
 
-        let taskMetadata = {
-            description: 'Realiza uma análize de qualdade de código Javascript usando [ESLint](http://eslint.org/) e reporta o resultado.',
-            options: {
-                options: {
-                    src: 'Source (glob)',
-                    dest: 'Destino (glob)',
-                    debug: 'Indica se debug está habilitado para a task',
-                    lintConfig: 'Opções para o plugin gulp-eslint'
-                }
-            }
-        };
         let lintConfig = this.options.lintConfig;
 
-        // O ESlint corrigiu o conteúdo do arquivo?
+        /**
+         * O ESlint corrigiu o conteúdo do arquivo?
+         *
+         * @param {Object} file - vinylFile representando o arquivo
+         *
+         * @returns {boolean} - Um bool indicando se o ESlint corrigiu o conteúdo do arquivo
+         */
         function isFixed( file ) {
             return file.eslint !== null && file.eslint.fixed;
         }
@@ -77,7 +100,6 @@ class EslintTask {
 
             return chain;
 
-            //return chain;
         }, taskMetadata.options );
     }
 }

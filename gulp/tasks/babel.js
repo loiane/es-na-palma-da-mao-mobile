@@ -9,6 +9,21 @@ import _merge from 'lodash/merge';
 import _forEach from 'lodash/forEach';
 import debug from 'gulp-debug';
 
+let taskMetadata = {
+    description: 'Compila ES6 => ES5.',
+    options: {
+        options: {
+            src: 'Source (glob)',
+            dest: 'Destino (glob)',
+            plumberOptions: 'Opções para o plugin gulp-plumber',
+            compilerOptions: 'Opções para o plugin gulp-babel',
+            uglifyOptions: 'Opções para o plugin gulp-uglify',
+            ngAnnotate: 'Opções para o plugin gulp-ng-annotate',
+            debug: 'Indica se debug está habilitado para a task'
+        }
+    }
+};
+
 let defaultCompilerOptions = {
     comments: false, //compact: true,
     presets: [ 'es2015' ]
@@ -18,7 +33,18 @@ let defaultUglifyOptions = {
     mangle: true
 };
 
+/**
+ * @class
+ */
 class BabelTask {
+
+    /**
+     * Configura a task
+     *
+     * @param {Object} options - opções de configuração passadas para a Task
+     *
+     * @returns {BabelTask} - A própria instância de BabelTask
+     */
     setOptions( options ) {
         this.options = options;
 
@@ -43,23 +69,15 @@ class BabelTask {
         return this;
     }
 
+    /**
+     * Cria a task
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     defineTask( gulp ) {
         let options = this.options;
-
-        let taskMetadata = {
-            description: 'Compila ES6 => ES5.',
-            options: {
-                options: {
-                    src: 'Source (glob)',
-                    dest: 'Destino (glob)',
-                    plumberOptions: 'Opções para o plugin gulp-plumber',
-                    compilerOptions: 'Opções para o plugin gulp-babel',
-                    uglifyOptions: 'Opções para o plugin gulp-uglify',
-                    ngAnnotate: 'Opções para o plugin gulp-ng-annotate',
-                    debug: 'Indica se debug está habilitado para a task'
-                }
-            }
-        };
 
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             let chain = gulp.src( options.src );

@@ -1,10 +1,16 @@
-﻿import _isUndefined from 'lodash/isUndefined';
-
-import Situation from './Situation';
+﻿import Environment from './Environment';
 import TaskMaker from './TaskMaker';
 
+/**
+ *
+ */
 class GulpHelpers {
 
+    /**
+     *
+     * @param gulp
+     * @returns {TaskMaker}
+     */
     taskMaker( gulp ) {
         if ( !this.tm ) {
             this.tm = new TaskMaker( gulp );
@@ -12,26 +18,15 @@ class GulpHelpers {
         return this.tm;
     }
 
-    situation() {
-        if ( _isUndefined( this.sit ) ) {
-            this.sit = new Situation();
+    /**
+     *
+     * @returns {Environment}
+     */
+    environment() {
+        if ( !this.env ) {
+            this.env = new Environment();
         }
-        return this.sit;
-    }
-
-    framework( name ) {
-        if ( _isUndefined( this.frameworks ) ) {
-            this.frameworks = {};
-        }
-
-        if ( _isUndefined( this.frameworks[ name ] ) ) {
-            if ( name === 'lodash' || name === '_' ) {
-                this.frameworks[ name ] = require( 'lodash' );
-            } else if ( name === 'run-sequence' ) {
-                this.frameworks[ name ] = require( 'run-sequence' );
-            }
-        }
-        return this.frameworks[ name ];
+        return this.env;
     }
 }
 

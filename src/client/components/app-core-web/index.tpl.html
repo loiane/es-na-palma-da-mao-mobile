@@ -7,12 +7,6 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="shortcut icon" href="http://www.cdn.prodest.es.gov.br/images/favicons/governo/favicon.ico" type="image/x-icon">
-		<!--<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,500" rel="stylesheet" type="text/css">-->
-		<!--<link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,500" rel="stylesheet" type="text/css">
-		<link href="lib/github/twbs/bootstrap@3.3.6/css/bootstrap.css" rel="stylesheet" type="text/css">
-		<link href="lib/npm/font-awesome@4.5.0/css/font-awesome.css" rel="stylesheet" type="text/css">
-		<link href="components/app-core-web/app-bootstrap-overrides.css" rel="stylesheet" type="text/css">
-		<link href="components/app-core-web/app.css" rel="stylesheet" type="text/css">-->
 
 		<script src="lib/system.js"></script>
 		<script src="system.config.js"></script>
@@ -52,14 +46,6 @@
 				</a>
 			</header>
 			<section>
-				<!--<div layout="row" layout-align="center center" class="profile">
-					<div flex="25" flex-offset="10">
-						<img src="components/app-layout/sidebar/img/img.jpg" alt="" class="img-circle profile-img">
-					</div>
-					<div flex>
-						Daniel Hoisel
-					</div>
-				</div>-->
 				<ul id="menu-sidebar">
 					<li>
 						<md-button>DETRAN</md-button>
@@ -82,9 +68,6 @@
 			</section>
 		</md-sidenav>
 		<div layout="column" flex>
-			<!--		<md-toolbar md-whiteframe="1" class="espm-main-toolbar">
-
-					</md-toolbar>-->
 			<md-toolbar md-whiteframe="1"
 						layout="row"
 						layout-align="space-between center"
@@ -117,57 +100,33 @@
 			</md-content>
 		</div>
 
-		<!--<section layout="row" flex>
-			<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-				<md-toolbar class="md-theme-indigo">
-					<h1 class="md-toolbar-tools">Sidenav Left</h1>
-				</md-toolbar>
-				<md-content layout-padding>
-					<md-button ng-click="close()" class="md-primary" hide-gt-md>
-						Close Sidenav Left
-					</md-button>
-					<p hide-md show-gt-md>
-						This sidenav is locked open on your device. To go back to the default behavior,
-						narrow your display.
-					</p>
-				</md-content>
-			</md-sidenav>
-			<md-content flex layout-padding>
-				<div layout="column" layout-fill layout-align="top center">
-					<p class="md-body-2">Body copy with medium weight.</p>
-					<md-button>Button</md-button>
-					<p class="md-body-1">Regular body copy
-						<small class="md-caption">with small text</small>
-					</p>
-					<span class="md-caption">Caption</span>
-					<md-checkbox>
-						Green Checkbox
-					</md-checkbox>
-				</div>
-				<div flex></div>
-			</md-content>
-		</section>-->
-
 		<!-- PROD
+
 		<script>
 			var systemLocate = System.locate;
-			System.locate = function(load) {
+			System.locate = function( load ) {
 				var System = this;
-				return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
-					if(address.indexOf('bust') > -1 ||
-					address.indexOf('css') > -1 ||
-					address.indexOf('json') > -1) return address;
-					return address + System.cacheBust;
-				});
+
+				/**
+				 * Somente arquivos que não sejam de packages
+				 */
+				function shouldBust( address ) {
+					return address.indexOf( 'bust' ) === -1 &&
+						   address.indexOf( 'github' ) === -1 &&
+						   address.indexOf( 'npm' ) === -1;
+				}
+
+				return Promise.resolve( systemLocate.call( this, load ) ).then( function( address ) {
+					if ( shouldBust( address ) ) {
+						return address + System.cacheBust;
+					}
+					return address;
+				} );
 			}
 			System.cacheBust = '?bust={{hash}}';
 		</script>
 		END -->
-		<!--<script>
-			System.config({
-			   baseURL: '/'
-			});
-		</script>-->
+
 		<script>
 			System[ 'import' ]( 'components/app-core-web/index' );
 		</script>

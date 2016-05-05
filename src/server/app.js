@@ -15,32 +15,16 @@ app.use( logger( 'dev' ) );
 
 //app.use('/api', require('./routes'));
 
-console.log( 'node running:' );
+console.log( 'node executando:' );
 console.log( `  PORT=${port}` );
 console.log( `  NODE_ENV=${environment}` );
+console.log( `\n================== AMBIENTE:${environment.toUpperCase()} ==================` );
 
-switch ( environment ) {
-case 'build':
-        //console.log('\n================== ENV:BUILD ==================');
-        //app.use(express.static('./dist/'));
-        //app.use('/app/*', (req, res, next) => four0four.send404(req, res));    // Any invalid
-        // calls for templateUrls are under app/* and should return 404 app.use('/*',
-        // express.static('./build/index.html'));                   // Any deep link calls should
-        // return index.html
-
-    break;
-
-default:
-    console.log( '\n================== ENV:DEV ==================' );
-    app.use( '/lib', express.static( 'www/lib' ) );
-    app.use( express.static( 'www/app' ) );
-    app.use( '/!**!/!*', ( req, res ) => four0four.send404( req, res ) );    // Any invalid calls for templateUrls are under app/!* and should return 404*/
-
-    break;
-}
+app.use( express.static( 'www' ) );
+app.use( '/!**!/!*', ( req, res ) => four0four.send404( req, res, null ) );    // Any invalid calls for templateUrls are under app/!* and should return 404*/
 
 app.listen( port, () => {
-    console.log( `Express server listening on port ${port}:` );
+    console.log( `Express server escutando na porta ${port}:` );
     console.log( `  env = ${app.get( 'env' )};\n  __dirname = ${__dirname};\n  process.cwd = ${process.cwd()};` );
 } );
 

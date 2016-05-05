@@ -3,7 +3,30 @@ import path from 'path';
 import gutil from 'gulp-util';
 import _isUndefined from 'lodash/isUndefined';
 
+let taskMetadata = {
+    description: 'Monitora arquivos e executa tarefas especificadas.',
+    options: {
+        options: {
+            src: 'Source (glob)',
+            dest: 'Destino (glob)',
+            tasks: 'Array de tasks executadas quando arquivos forem alterados.',
+            debug: 'Indica se debug está habilitado para a task'
+        }
+    }
+};
+
+/**
+ * @class
+ */
 class WatchTask {
+
+    /**
+     * Configura a task
+     *
+     * @param {Object} options - opções de configuração passadas para a Task
+     *
+     * @returns {WatchTask} - A própria instância de WatchTask
+     */
     setOptions( options ) {
         this.options = options;
 
@@ -18,20 +41,15 @@ class WatchTask {
         return this;
     }
 
+    /**
+     * Cria a task
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     defineTask( gulp ) {
         let options = this.options;
-
-        let taskMetadata = {
-            description: 'Monitora arquivos e executa tarefas especificadas.',
-            options: {
-                options: {
-                    src: 'Source (glob)',
-                    dest: 'Destino (glob)',
-                    tasks: 'Array de tasks executadas quando arquivos forem alterados.',
-                    debug: 'Indica se debug está habilitado para a task'
-                }
-            }
-        };
 
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             this.watch( gulp );
@@ -39,9 +57,18 @@ class WatchTask {
         }, taskMetadata.options );
     }
 
+    /**
+     * Watch
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     watch( gulp ) {
+
         let options = this.options;
         let watcher = gulp.watch( options.src, options.tasks );
+
         watcher.on( 'change', ( event ) => {
             gutil.log( gutil.colors.magenta( `File ${event.path} was ${event.type}, running tasks: ${options.tasks}` ) );
 

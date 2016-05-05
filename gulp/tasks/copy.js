@@ -7,7 +7,33 @@ import _isUndefined from 'lodash/isUndefined';
 import _forEach from 'lodash/forEach';
 import debug from 'gulp-debug';
 
+let taskMetadata = {
+    description: 'Copia arquivos para pasta destino.',
+    options: {
+        options: {
+            src: 'Source (glob)',
+            dest: 'Destino (glob)',
+            changed: 'Opções para plugin gulp-changed',
+            replace: 'Opções para plugin gulp-replace-task',
+            rename: 'Opções para plugin gulp-rename',
+            debug: 'Indica se debug está habilitado para a task'
+        }
+    }
+};
+
+
+/**
+ * @class
+ */
 class CopyTask {
+
+    /**
+     * Configura a task
+     *
+     * @param {Object} options - opções de configuração passadas para a Task
+     *
+     * @returns {CopyTask} - A própria instância de CopyTask
+     */
     setOptions( options ) {
         this.options = options;
 
@@ -22,22 +48,15 @@ class CopyTask {
         return this;
     }
 
+    /**
+     * Cria a task
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     defineTask( gulp ) {
         let options = this.options;
-
-        let taskMetadata = {
-            description: 'Copia arquivos para pasta destino.',
-            options: {
-                options: {
-                    src: 'Source (glob)',
-                    dest: 'Destino (glob)',
-                    changed: 'Opções para plugin gulp-changed',
-                    replace: 'Opções para plugin gulp-replace-task',
-                    rename: 'Opções para plugin gulp-rename',
-                    debug: 'Indica se debug está habilitado para a task'
-                }
-            }
-        };
 
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             let chain = gulp.src( options.src )

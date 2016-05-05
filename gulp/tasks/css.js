@@ -6,7 +6,35 @@ import debug from 'gulp-debug';
 import cache from 'gulp-cached';
 import changed from 'gulp-changed';
 
+/**
+ *
+ * @type {{description: string, options: {options: {src: string, dest: string, debug: string, plumberOptions: string, autoprefixer: string}}}}
+ */
+let taskMetadata = {
+    description: 'Aplica transformações(autoprefixer) no CSS.',
+    options: {
+        options: {
+            src: 'Source (glob)',
+            dest: 'Destino (glob)',
+            debug: 'Indica se debug está habilitado para a task',
+            plumberOptions: 'Opções para plugin gulp-plumber',
+            autoprefixer: 'Opções para plugin gulp-autoprefixer'
+        }
+    }
+};
+
+/**
+ * @class
+ */
 class CssTask {
+
+    /**
+     * Configura a task
+     *
+     * @param {Object} options - opções de configuração passadas para a Task
+     *
+     * @returns {CssTask} - A própria instância de CssTask
+     */
     setOptions( options ) {
         this.options = options;
 
@@ -25,21 +53,15 @@ class CssTask {
         return this;
     }
 
+    /**
+     * Cria a task
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     defineTask( gulp ) {
         let options = this.options;
-
-        let taskMetadata = {
-            description: 'Aplica transformações(autoprefixer) no CSS.',
-            options: {
-                options: {
-                    src: 'Source (glob)',
-                    dest: 'Destino (glob)',
-                    debug: 'Indica se debug está habilitado para a task',
-                    plumberOptions: 'Opções para plugin gulp-plumber',
-                    autoprefixer: 'Opções para plugin gulp-autoprefixer'
-                }
-            }
-        };
 
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
 

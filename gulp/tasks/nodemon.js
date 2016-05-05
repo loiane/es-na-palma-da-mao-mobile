@@ -5,11 +5,32 @@ import _merge from 'lodash/merge';
 import nodemon from 'gulp-nodemon';
 import { argv } from 'yargs';
 
+let taskMetadata = {
+    description: 'Inicia um servidor nodemom para servir a aplicação com browsersync configurado.',
+    options: {
+        options: {
+            nodemonConfig: 'Configurações para o nodemom server',
+            browserSyncConfig: 'Configurações para o browserSync',
+            debug: 'Indica se debug está habilitado para a task'
+        }
+    }
+};
+
 let defaultNodemonConfig = {};
 let defaultBrowserSyncConfig = {};
 
+/**
+ * @class
+ */
 class NodemonTask {
 
+    /**
+     * Configura a task
+     *
+     * @param {Object} options - opções de configuração passadas para a Task
+     *
+     * @returns {NodemonTask} - A própria instância de NodemonTask
+     */
     setOptions( options ) {
         this.options = options;
 
@@ -27,28 +48,27 @@ class NodemonTask {
         return this;
     }
 
+    /**
+     * Cria a task
+     *
+     * @param {Object} gulp - O gulp
+     *
+     * @returns {void}
+     */
     defineTask( gulp ) {
-
-        let taskMetadata = {
-            description: 'Inicia um servidor nodemom para servir a aplicação com browsersync configurado.',
-            options: {
-                options: {
-                    nodemonConfig: 'Configurações para o nodemom server',
-                    browserSyncConfig: 'Configurações para o browserSync',
-                    debug: 'Indica se debug está habilitado para a task'
-                }
-            }
-        };
-
         gulp.task( this.options.taskName, taskMetadata.description, this.options.taskDeps, ( cb ) => {
             this.serve( this.options.nodemonConfig, this.options.browserSyncConfig, cb );
         }, taskMetadata.options );
     }
 
     /**
-     * serve the code
-     * --debug-brk or --debug
-     * --nosync
+     * Inicia o servidor nodemon
+     *
+     * @param {Object} nodemonConfig - Configurações para plugin gulp-nodemom
+     * @param {Object} browserSyncConfig - Configurações para plugin gulp-browsersyn
+     * @param {Function} cb - callback
+     *
+     * @returns {void}
      */
     serve( nodemonConfig, browserSyncConfig, cb ) {
         let debugMode = '--debug';
@@ -61,7 +81,11 @@ class NodemonTask {
             this.log( nodemonConfig );
         }
 
-        // On nodemon start
+        /**
+         * Executado quando o servidor inicia
+         *
+         * @returns {void}
+         */
         function onStart() {
             if ( !this.nodemonStarted ) {
                 options.taskMaker.startNewBrowserSync( options.taskName, browserSyncConfig, ( bs ) => { /* eslint no-unused-vars: 0*/
@@ -78,15 +102,32 @@ class NodemonTask {
             }
         }
 
+        /**
+         * Executado quando o servidor dá erro
+         *
+         * @param {Object} e - o evento disparado
+         *
+         * @returns {void}
+         */
         function onRestart( e ) {
             this.log( '*** nodemon restarted' );
             this.log( `files changed:\n ${e}` );
         }
 
+        /**
+         * Executado quando o servidor dá erro
+         *
+         * @returns {void}
+         */
         function onCrash() {
             this.log( '*** nodemon crashed: script crashed for some reason' );
         }
 
+        /**
+         * Executado quando o servidor para
+         *
+         * @returns {void}
+         */
         function onExit() {
             this.log( '*** nodemon exited cleanly' );
         }

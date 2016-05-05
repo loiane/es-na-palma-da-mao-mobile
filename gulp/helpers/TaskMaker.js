@@ -5,7 +5,16 @@ import _isUndefined from 'lodash/isUndefined';
 import _forEach from 'lodash/forEach';
 import notify from 'gulp-notify';
 
+/**
+ *
+ */
 class TaskMaker {
+
+    /**
+     * constructor
+     *
+     * @param gulp
+     */
     constructor( gulp ) {
         this.gulp = gulp;
         this.globalBrowserSyncs = {};
@@ -13,8 +22,14 @@ class TaskMaker {
     }
 
     /**
-    * Create and init a new browserSync named instance
-    */
+     *  Cria e inicia uma nova instância nomeada de browserSync
+     *
+     * @param {String} name
+     * @param {Object} config
+     * @param {function} callback
+     *
+     * @returns {void}
+     */
     startNewBrowserSync( name, config, callback ) {
         let bs = this.createBrowserSync( name );
         if ( _isUndefined( config ) ) {
@@ -31,8 +46,12 @@ class TaskMaker {
     }
 
     /**
-    * Create a new browserSync instance and DOES NOT init it
-    */
+     * Cria e NÃO inicia uma nova instância nomeada de browserSync
+     *
+     * @param {String} name -
+     *
+     * @returns {*|{init: *, exit: (exit|exports), notify: *, reload: *, cleanup: *, emitter: (Browsersync.events|*), use: *}}
+     */
     createBrowserSync( name ) {
         if ( _isUndefined( name ) ) {
             throw new Error( 'createBrowserSync: name argument is missing' );
@@ -45,7 +64,10 @@ class TaskMaker {
         return bs;
     }
 
-
+    /**
+     *
+     * @param opts
+     */
     reloadAllBrowserSync( opts ) {
         if ( _isUndefined( opts ) ) {
             throw new Error( 'reloadAllBrowserSync: opts argument is missing' );
@@ -59,6 +81,11 @@ class TaskMaker {
         } );
     }
 
+    /**
+     * 
+     * @param name
+     * @param options
+     */
     defineTask( name, options = {} ) {
 
         if ( !options.taskMaker ) {
@@ -80,7 +107,10 @@ class TaskMaker {
             };
         }
 
-        options.debug = _merge( { active: false, title: `[debug:${name}]` }, options.debug || {} );
+        options.debug = _merge( {
+            active: false,
+            title: `[debug:${name}]`
+        }, options.debug || {} );
 
         if ( options.debug.active ) {
             this.log( gutil.colors.yellow( 'Debuging Task:', name ) );
@@ -110,20 +140,18 @@ class TaskMaker {
         }
     }
 
-
     /**
-    * Cria um logger para uma task
-    *
-    * @private
-    */
+     * Cria um logger para uma task
+     *
+     * @private
+     */
     _createLoggerFor( loggerName ) {
         //ref: http://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript
         return function log( msg, color = 'gray' ) {
-            gutil.log( gutil.colors[ color ]( `[${loggerName}]`, JSON.stringify( msg, null, 2 ) ) ); /*eslint angular/json-functions: 0*/
+            gutil.log( gutil.colors[ color ]( `[${loggerName}]`, JSON.stringify( msg, null, 2 ) ) );
+            /*eslint angular/json-functions: 0*/
         };
     }
- }
-
-
+}
 
 export default TaskMaker;
