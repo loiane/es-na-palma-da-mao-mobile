@@ -53,7 +53,7 @@ class MinifyTask {
             throw new Error( 'MinifyTask: dest é obrigatório!' );
         }
 
-        this.options.uglifyOptions = _merge( {}, defaultUglifyOptions, this.options.uglifyOptions );
+        this.options.uglifyOptions = _merge( {}, defaultUglifyOptions, options.uglifyOptions );
 
         return this;
     }
