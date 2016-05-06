@@ -18,7 +18,7 @@ app.use( logger( 'dev' ) );
 console.log( 'node executando:' );
 console.log( `  PORT=${port}` );
 console.log( `  NODE_ENV=${environment}` );
-console.log( `\n================== AMBIENTE:${environment.toUpperCase()} ==================` );
+console.log( `\n=========================== AMBIENTE:${environment.toUpperCase()}\n=========================== AMBIENTE:` );
 
 app.use( express.static( 'www' ) );
 app.use( '/!**!/!*', ( req, res ) => four0four.send404( req, res, null ) );    // Any invalid calls for templateUrls are under app/!* and should return 404*/
