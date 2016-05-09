@@ -6,6 +6,8 @@ let environment = gulpHelpers.environment();
 let paths = {
     e2e: 'test-e2e/**/*.js',
     e2eOutput: 'test-e2e-compile/',
+    packageJson: './package.json',
+    changelog: './CHANGELOG.md',
     js: {
         all: [
             './**/*.js',
@@ -77,6 +79,7 @@ let paths = {
 };
 
 let config = {
+    repository: 'https://github.com/prodest/es-na-palma-da-mao',
     environment: environment,
     paths: paths, //see: https://github.com/kangax/html-minifier#user-content-options-quick-reference
     htmlMinOptions: {
@@ -135,7 +138,7 @@ let config = {
     babelOptions: {
         plugins: [ 'transform-es2015-modules-systemjs' ]
     },
-    debugOptions: { active: false }
+    debugOptions: { active: true }
 };
 
 // sobrescreve configurações se estiver em produção

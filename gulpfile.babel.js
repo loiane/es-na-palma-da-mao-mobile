@@ -1,19 +1,34 @@
 /* eslint no-invalid-this: 1*/
 // ES6 gulpfile
 // ref: https://markgoodyear.com/2015/06/using-es6-with-gulp/
+import bluebird from 'bluebird';
 import innerGulp from 'gulp';
-import path from 'path';
 import gulpHelp from 'gulp-help';
 import yargs from 'yargs';
-import open from 'open';
 import runSequence from 'run-sequence';
-import spawn from 'win-spawn';
 import gulpHelpers from './gulp/helpers';
+import fs from 'fs';
+import git from 'gulp-git';
+import tap from 'gulp-tap';
+import gutil from 'gulp-util';
+import es from 'event-stream';
+import concat from 'gulp-concat';
+import order from 'gulp-order';
+import gulpif from 'gulp-if';
+import bump from 'gulp-bump';
+import inquirer from 'inquirer';
+import github from 'octonode';
+import { exec } from 'child_process';
+import gulpExec from 'gulp-exec';
 import config from './config/gulp.config';
+import del from 'del';
+import open from 'open';
+import spawn from 'win-spawn';
 
 const gulp = gulpHelp( innerGulp ); // wrap in gulp help
 const taskMaker = gulpHelpers.taskMaker( gulp );
 const environment = gulpHelpers.environment();
+const Promise = bluebird;
 
 /**
  * Realiza o parse dos argumentos da linha de comando
@@ -89,13 +104,6 @@ taskMaker.defineTask( 'css', {
 taskMaker.defineTask( 'clean', {
     taskName: 'clean',
     src: config.paths.output.temp,
-    taskDeps: [ 'clean-e2e' ],
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'clean', {
-    taskName: 'clean-e2e',
-    src: config.paths.e2eOutput,
     debug: config.debugOptions
 } );
 
@@ -142,17 +150,17 @@ taskMaker.defineTask( 'copy', {
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'systemConfig',
-    src: config.paths.systemConfig,
+    taskName: 'systemExtensions',
+    src: config.paths.systemExtensions,
     dest: config.paths.output.root,
-    changed: { extension: '.js' },
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'systemExtensions',
-    src: config.paths.systemExtensions,
-    dest: config.paths.output.app,
+    taskName: 'systemConfig',
+    src: config.paths.systemConfig,
+    dest: config.paths.output.root,
+    changed: { extension: '.js' },
     debug: config.debugOptions
 } );
 
@@ -229,16 +237,16 @@ taskMaker.defineTask( 'minify', {
 } );
 
 taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint',
-    src: config.paths.js.all,
-    dest: './',
+    taskName: 'eslint-src',
+    src: config.paths.js.src,
+    dest: './src',
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint-src',
-    src: config.paths.js.src,
-    dest: './src/',
+    taskName: 'eslint',
+    src: config.paths.js.all,
+    dest: './',
     debug: config.debugOptions
 } );
 
@@ -273,6 +281,261 @@ gulp.task( 'serve', 'Serve a aplicação através de web server', [ 'nodemon' ],
     open( `${appBaseUrl}/index.mobile.html` );
 } );
 
+/**
+ *
+ * @param file
+ */
+const readJsonFile = ( file ) => {
+    return JSON.parse( fs.readFileSync( file ) );
+}
+
+/**
+ * Adiciona novos 'src' ao pipeline do gulp
+ *
+ * @param {string} src - src para ser adicionado ao pipeline do gulp.
+ * @returns {Stream} - uma gulp stream
+ *
+ * @example
+ * gulp.src('')
+ * .pipe(addSrc('CHANGELOG.md'))
+ * .gulp.dest();
+ */
+const addSrc = ( src ) => {
+    let pass = es.through();
+    return es.duplex( pass, es.merge( gulp.src.apply( gulp.src, [ src ] ), pass ) );
+};
+
+gulp.task( 'bump', false, ( cb ) => {
+    let bumpType = 'prerelease';
+
+    if ( argv.patch ) {
+        bumpType = 'patch';
+    }
+    if ( argv.minor ) {
+        bumpType = 'minor';
+    }
+    if ( argv.major ) {
+        bumpType = 'major';
+    }
+    if ( argv.prerelease ) {
+        bumpType = 'prerelease';
+    }
+    bumpType = process.env.BUMP || bumpType;
+
+    let version;
+
+    gulp.src( config.paths.packageJson )
+        .pipe( gulpif( argv.version !== undefined, bump( {
+            version: argv.version
+        } ), bump( {
+            type: bumpType
+        } ) ) )
+        .pipe( gulp.dest( './' ) )
+        .on( 'end', ()=> {
+            cb();
+        } );
+} );
+
+gulp.task( 'commit', false, [ 'bump' ], () => {
+    const pkg = readJsonFile( config.paths.packageJson );
+    const message = `docs(changelog): version ${pkg.version}`;
+
+    return gulp.src( config.paths.packageJson )
+               .pipe( git.add( {
+                   args: '.'
+               } ) )
+               .pipe( git.commit( message ) );
+} );
+
+gulp.task( 'tag', false, [ 'commit' ], ( cb ) => {
+    const pkg = readJsonFile( config.paths.packageJson );
+    const v = `v${pkg.version}`;
+    const message = pkg.version;
+
+    git.tag( v, message, ( err ) => {
+        if ( err ) {
+            throw new Error( err );
+        }
+        cb();
+    } );
+} );
+
+gulp.task( 'push', false, [ 'tag' ], ( cb ) => {
+    exec( 'git push origin master  && git push origin master --tags', ( err ) => {
+        if ( err ) {
+            throw new Error( err );
+        }
+        cb();
+    } );
+} );
+
+gulp.task( 'release', 'Publica uma nova versão de release.', [ 'push' ] );
+
+// ********************* GITHUB SECTION *************************//
+let client;
+
+/**
+ * Obtém o email(cadastrado no git) do usuário corrente
+ *
+ * @returns {Promise} - uma promise
+ */
+const getEmailAsync = Promise.promisify( git.exec.bind( git, {
+    args: 'config --get user.email',
+    quiet: false
+} ) );
+
+/**
+ * Tenta obter o username de um usuário à partir de seu email no git.
+ *
+ * @param {String} email - o email do usuário no git
+ *
+ * @returns {Promise} - uma promise
+ */
+const getUsernameAsync = ( email ) => {
+    return new Promise( ( resolve, reject ) => {
+        const query = {
+            q: `${email} in:email`
+        }
+
+        github.client()
+              .get( '/search/users', query, ( err, res, body ) => {
+                  if ( err ) {
+                      reject( gutil.colors.red( `Error: ${err}` ) );
+                  } else {
+                      const user = body.items[ 0 ];
+                      resolve( user ? user.login : null );
+                  }
+              } );
+    } );
+};
+
+/**
+ * Executa o prompt que pede ao usuário suas credenciais no github: username e password
+ *
+ * obs: Só exibe o prompt de username se um username não tiver sido fornecido.
+ *
+ * @param {String} [username] - O username do usuário
+ *
+ * @returns {Promise}
+ */
+const prompCredentialsAsync = ( username ) => {
+    return new Promise( ( resolve, reject ) => {
+        const questions = [
+            {
+                type: 'input',
+                message: 'Digite seu username do github',
+                name: 'username',
+                default: username,
+                validate: ( input ) => {
+                    return input !== ''; // obrigatório
+                },
+                when: () => {
+                    return !username; // Só exibe o prompt de username se um username não tiver sido fornecido.
+                }
+            }, {
+                type: 'password',
+                message: 'Digite sua senha do github',
+                name: 'password',
+                validate: ( input ) => {
+                    return input !== ''; // obrigatório
+                }
+            }
+        ];
+
+        inquirer.prompt( questions, ( answers ) => {
+            resolve( {
+                username: answers.username || username,
+                password: answers.password
+            } );
+        } );
+    } );
+};
+
+/**
+ * Autentica o usuário no github
+ *
+ * @param {Object} credentials - As credenciais do usuário no github.
+ *
+ * @returns {Promise} - uma promise
+ */
+const authenticateAsync = ( credentials ) => {
+    return new Promise( ( resolve, reject ) => {
+
+        // cria client node para api do github, usando credenciais do usuário
+        client = github.client( {
+            username: credentials.username,
+            password: credentials.password
+        } );
+
+        // tenta fazer um requisição que necessita de autenticação para poder verificar
+        // o sucesso da mesma
+        client.get( '/user', {}, ( err, status, body, headers ) => {
+            if ( err ) {
+                reject( `${gutil.colors.red( 'autenticação no github falhou! ' )} resposta do server: ${gutil.colors.yellow( err )}` );
+            }
+            resolve( gutil.colors.green( 'autenticou no github com sucesso!' ) );
+        } );
+    } );
+};
+
+gulp.task( 'github:authenticate', false, ( cb ) => {
+    return getEmailAsync().then( getUsernameAsync )
+                          .then( prompCredentialsAsync )
+                          .then( authenticateAsync )
+                          .tap( gutil.log );
+} );
+
+gulp.task( 'github:createRelease', false, ( cb ) => {
+    const pkg = readJsonFile( config.paths.packageJson );
+    const v = `v${pkg.version}`;
+    const message = pkg.version;
+
+    return gulp.src( config.paths.changelog )
+               .pipe( tap( ( file ) => {
+                   let body = file.contents.toString();
+                   //body = body.slice( body.indexOf( '###' ) );
+                   const release = {
+                       'tag_name': v,
+                       'name': `${v}: version ${message}`,
+                       'body': body
+                   };
+
+                   client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => {
+                       if ( err ) {
+                           gutil.log( gutil.colors.red( `Error: ${err}` ) );
+                       } else {
+                           del( config.paths.changelog );
+                       }
+                   } );
+               } ) );
+} );
+
+gulp.task( 'changelog', 'Gera um arquivo CHANGELOG.md.', ( cb ) => {
+    const pkg = readJsonFile( config.paths.packageJson );
+    const options = argv;
+    const version = options.version || pkg.version;
+    const from = options.from || '';
+
+    gulp.src( '' )
+        .pipe( gulpExec( `node ./gulp/helpers/changelog-script.js ${version} ${from}`, {
+            pipeStdout: true
+        } ) )
+        .pipe( concat( 'updates.md' ) )
+        .pipe( addSrc( 'CHANGELOG.md' ) )
+        .pipe( order( [ 'updates.md', 'CHANGELOG.md' ] ) )
+        .pipe( concat( 'CHANGELOG.md' ) )
+        .pipe( gulp.dest( './' ) )
+        .on( 'end', cb );
+} );
+
+gulp.task( 'delay', false, ( cb ) => {
+    setTimeout( cb, 3000 );
+} );
+
+gulp.task( 'full-release', 'Publica uma nova release no Github e faz upload do changelog.', () => {
+    return runSequence( 'github:authenticate', 'changelog', 'release', 'delay', 'github:createRelease' );
+} );
+
 gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
 
     // Se flag argv.transpile seja informado, realiza o transpile do js e copia o resultado para
@@ -293,6 +556,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'json',
         'assets',
         'systemConfig',
+        'systemExtensions',
         'system.yuml',
         'server-js',
         'index-mobile.html',
