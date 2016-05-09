@@ -1,5 +1,5 @@
 // 3th party
-import '../../../../www/lib/github/ocombe/oclazyload@1.0.9/examples/requireJSExample/js/jquery';
+import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto
 import 'angular-material';
 

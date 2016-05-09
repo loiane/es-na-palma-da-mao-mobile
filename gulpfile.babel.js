@@ -1,28 +1,32 @@
-/* eslint no-invalid-this: 1*/
+/*
+ eslint
+ "no-invalid-this": 1,
+ "angular/timeout-service": 0,
+ "angular/definedundefined": 0,
+ "angular/json-functions": 0,
+ "no-unused-vars": 1
+ */
+
 // ES6 gulpfile
 // ref: https://markgoodyear.com/2015/06/using-es6-with-gulp/
 import bluebird from 'bluebird';
 import innerGulp from 'gulp';
 import gulpHelp from 'gulp-help';
 import yargs from 'yargs';
-import es from 'event-stream';
 import runSequence from 'run-sequence';
 import gulpHelpers from './gulp/helpers';
 import fs from 'fs';
+import path from 'path';
 import git from 'gulp-git';
 import tap from 'gulp-tap';
 import gutil from 'gulp-util';
-<<<<<<< HEAD
 import es from 'event-stream';
-=======
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
 import concat from 'gulp-concat';
 import order from 'gulp-order';
 import gulpif from 'gulp-if';
 import bump from 'gulp-bump';
 import inquirer from 'inquirer';
 import github from 'octonode';
-import { exec } from 'child_process';
 import gulpExec from 'gulp-exec';
 import config from './config/gulp.config';
 import del from 'del';
@@ -64,10 +68,7 @@ let argv = yargs.alias( 't', 'transpile' )
  * @returns {void}
  */
 const ionic = ( command, args, cb ) => {
-<<<<<<< HEAD
 
-=======
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     const script = path.resolve( './node_modules/ionic/bin/', 'ionic' );
     const flags = process.argv.splice( 3 );
     const ionicArgs = [ command ].concat( args || [] ).concat( flags );
@@ -157,110 +158,61 @@ taskMaker.defineTask( 'copy', {
 } );
 
 taskMaker.defineTask( 'copy', {
-<<<<<<< HEAD
     taskName: 'systemExtensions',
     src: config.paths.systemExtensions,
     dest: config.paths.output.root,
-=======
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'copy', {
     taskName: 'systemConfig',
     src: config.paths.systemConfig,
     dest: config.paths.output.root,
     changed: { extension: '.js' },
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-<<<<<<< HEAD
-    taskName: 'systemConfig',
-    src: config.paths.systemConfig,
-=======
-    taskName: 'system.yuml',
-    src: config.paths.systemYuml,
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
-    dest: config.paths.output.root,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-<<<<<<< HEAD
     taskName: 'system.yuml',
     src: config.paths.systemYuml,
     dest: config.paths.output.root,
     changed: { extension: '.js' },
-=======
-    taskName: 'assets',
-    src: config.paths.assets,
-    dest: config.paths.output.root,
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-<<<<<<< HEAD
     taskName: 'assets',
     src: config.paths.assets,
     dest: config.paths.output.root,
-=======
-    taskName: 'json',
-    src: config.paths.json,
-    dest: config.paths.output.root,
-    changed: { extension: '.json' },
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-<<<<<<< HEAD
     taskName: 'json',
     src: config.paths.json,
     dest: config.paths.output.root,
     changed: { extension: '.json' },
-=======
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'copy', {
     taskName: 'index-web.html',
     src: config.paths.index.web.src,
     dest: config.paths.output.root,
     rename: 'index.html',
     changed: { extension: '.html' },
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-<<<<<<< HEAD
-    taskName: 'index-web.html',
-    src: config.paths.index.web.src,
-    dest: config.paths.output.root,
-    rename: 'index.html',
-=======
     taskName: 'index-mobile.html',
     src: config.paths.index.mobile.src,
     dest: config.paths.output.root,
     rename: 'index.mobile.html',
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     changed: { extension: '.html' },
     debug: config.debugOptions
 } );
 
-taskMaker.defineTask( 'copy', {
-<<<<<<< HEAD
-    taskName: 'index-mobile.html',
-    src: config.paths.index.mobile.src,
-    dest: config.paths.output.root,
-    rename: 'index.mobile.html',
-=======
-    taskName: 'cache-bust-index-web.html',
-    src: config.paths.index.web.src,
-    dest: config.paths.output.root,
-    rename: 'index.html',
-    replace: config.cacheBustConfig,
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
-    changed: { extension: '.html' },
-    debug: config.debugOptions
-} );
-
-<<<<<<< HEAD
 taskMaker.defineTask( 'copy', {
     taskName: 'cache-bust-index-web.html',
     src: config.paths.index.web.src,
@@ -289,49 +241,17 @@ taskMaker.defineTask( 'minify', {
     taskName: 'jsmin',
     src: config.paths.js.output,
     dest: config.paths.output.app,
-=======
-taskMaker.defineTask( 'htmlMinify', {
-    taskName: 'htmlmin',
-    src: config.paths.html,
-    dest: config.paths.output.root,
-    debug: config.debugOptions,
-    minimize: config.htmlMinOptions
-} );
-
-taskMaker.defineTask( 'htmlHint', {
-    taskName: 'html-hint',
-    src: config.paths.html,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'minify', {
-    taskName: 'jsmin',
-    src: config.paths.js.output,
-    dest: config.paths.output.app,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint',
-    src: config.paths.js.all,
-    dest: './',
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
     taskName: 'eslint-src',
     src: config.paths.js.src,
-<<<<<<< HEAD
     dest: './src',
-=======
-    dest: './src/',
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
-<<<<<<< HEAD
     taskName: 'eslint',
     src: config.paths.js.all,
     dest: './',
@@ -339,8 +259,6 @@ taskMaker.defineTask( 'eslint', {
 } );
 
 taskMaker.defineTask( 'eslint', {
-=======
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     taskName: 'eslint-gulp',
     src: config.paths.gulp,
     base: './',
@@ -372,12 +290,15 @@ gulp.task( 'serve', 'Serve a aplicação através de web server', [ 'nodemon' ],
 } );
 
 /**
+ * Lê um arquivo JSON
  *
- * @param file
+ * @param {String} file - o path para o arquivo
+ *
+ * @returns {Object} - uma objeto JSON
  */
 const readJsonFile = ( file ) => {
     return JSON.parse( fs.readFileSync( file ) );
-}
+};
 
 /**
  * Adiciona novos 'src' ao pipeline do gulp
@@ -412,16 +333,16 @@ gulp.task( 'bump', false, ( cb ) => {
     }
     bumpType = process.env.BUMP || bumpType;
 
-    let version;
+    let version = argv.version;
 
     gulp.src( config.paths.packageJson )
-        .pipe( gulpif( argv.version !== undefined, bump( {
-            version: argv.version
+        .pipe( gulpif( version !== undefined, bump( {
+            version: version
         } ), bump( {
             type: bumpType
         } ) ) )
         .pipe( gulp.dest( './' ) )
-        .on( 'end', ()=> {
+        .on( 'end', () => {
             cb();
         } );
 } );
@@ -451,11 +372,10 @@ gulp.task( 'tag', false, [ 'commit' ], ( cb ) => {
 } );
 
 gulp.task( 'push', false, [ 'tag' ], ( cb ) => {
-<<<<<<< HEAD
-    exec( 'git push origin master  && git push origin master --tags', ( err ) => {
-=======
-    exec( 'git push origin master && git push origin master --tags', ( err ) => {
->>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
+
+    const branch = argv.branch || 'master';
+
+    git.push( 'origin', branch, ( err ) => {
         if ( err ) {
             throw new Error( err );
         }
@@ -463,7 +383,20 @@ gulp.task( 'push', false, [ 'tag' ], ( cb ) => {
     } );
 } );
 
-gulp.task( 'release', 'Publica uma nova versão de release.', [ 'push' ] );
+gulp.task( 'pushTags', false, [ 'push' ], ( cb ) => {
+
+    const branch = argv.branch || 'master';
+
+    // realiza um push e envia tags juntos
+    git.push( 'origin', branch, { args: '--tags' }, ( err ) => {
+        if ( err ) {
+            throw new Error( err );
+        }
+        cb();
+    } );
+} );
+
+gulp.task( 'release', 'Publica uma nova versão de release.', [ 'pushTags' ] );
 
 // ********************* GITHUB SECTION *************************//
 let client;
@@ -489,7 +422,7 @@ const getUsernameAsync = ( email ) => {
     return new Promise( ( resolve, reject ) => {
         const query = {
             q: `${email} in:email`
-        }
+        };
 
         github.client()
               .get( '/search/users', query, ( err, res, body ) => {
@@ -510,10 +443,10 @@ const getUsernameAsync = ( email ) => {
  *
  * @param {String} [username] - O username do usuário
  *
- * @returns {Promise}
+ * @returns {Promise} - uma promise
  */
 const prompCredentialsAsync = ( username ) => {
-    return new Promise( ( resolve, reject ) => {
+    return new Promise( ( resolve ) => {
         const questions = [
             {
                 type: 'input',
@@ -546,20 +479,18 @@ const prompCredentialsAsync = ( username ) => {
 };
 
 /**
- * Autentica o usuário no github
+ * Autentica o usuário na api do github.
  *
- * @param {Object} credentials - As credenciais do usuário no github.
+ * @param {Object} tokenOrCredentials - Um token de autenticação ou as credenciais(login e senha)
+ * informados pelo usuário
  *
  * @returns {Promise} - uma promise
  */
-const authenticateAsync = ( credentials ) => {
+const authenticateAsync = ( tokenOrCredentials ) => {
     return new Promise( ( resolve, reject ) => {
 
         // cria client node para api do github, usando credenciais do usuário
-        client = github.client( {
-            username: credentials.username,
-            password: credentials.password
-        } );
+        client = github.client( tokenOrCredentials );
 
         // tenta fazer um requisição que necessita de autenticação para poder verificar
         // o sucesso da mesma
@@ -567,31 +498,39 @@ const authenticateAsync = ( credentials ) => {
             if ( err ) {
                 reject( `${gutil.colors.red( 'autenticação no github falhou! ' )} resposta do server: ${gutil.colors.yellow( err )}` );
             }
-            resolve( gutil.colors.green( 'autenticou no github com sucesso!' ) );
+            resolve( gutil.colors.green( 'Autenticou no github com sucesso!' ) );
         } );
     } );
 };
 
-gulp.task( 'github:authenticate', false, ( cb ) => {
-    return getEmailAsync().then( getUsernameAsync )
-                          .then( prompCredentialsAsync )
-                          .then( authenticateAsync )
-                          .tap( gutil.log );
+gulp.task( 'githubApi:authenticate', false, () => {
+    const authToken = process.env.GITHUB_AUTH_TOKEN;
+
+    if ( authToken ) {
+        gutil.log( gutil.colors.blue( 'Autenticando no Github via token contido em "process.env.GITHUB_AUTH_TOKEN"' ) );
+        return authenticateAsync( authToken ).tap( gutil.log );
+    } else {
+        return getEmailAsync().then( getUsernameAsync )
+                              .then( prompCredentialsAsync )
+                              .then( authenticateAsync )
+                              .tap( gutil.log );
+    }
 } );
 
-gulp.task( 'github:createRelease', false, ( cb ) => {
+gulp.task( 'githubApi:createRelease', false, [ 'githubApi:authenticate' ], () => {
     const pkg = readJsonFile( config.paths.packageJson );
     const v = `v${pkg.version}`;
     const message = pkg.version;
 
     return gulp.src( config.paths.changelog )
                .pipe( tap( ( file ) => {
-                   let body = file.contents.toString();
-                   //body = body.slice( body.indexOf( '###' ) );
+
+                   let releaseBody = file.contents.toString();
+
                    const release = {
                        'tag_name': v,
                        'name': `${v}: version ${message}`,
-                       'body': body
+                       'body': releaseBody.slice( releaseBody.indexOf( '###' ) )
                    };
 
                    client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => {
@@ -627,7 +566,7 @@ gulp.task( 'delay', false, ( cb ) => {
 } );
 
 gulp.task( 'full-release', 'Publica uma nova release no Github e faz upload do changelog.', () => {
-    return runSequence( 'github:authenticate', 'changelog', 'release', 'delay', 'github:createRelease' );
+    return runSequence( 'changelog', 'release', 'delay', 'githubApi:createRelease' );
 } );
 
 gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
