@@ -14,16 +14,18 @@ var LINK_COMMIT = '[%s](' + repository + '/commit/%s)';
 var EMPTY_COMPONENT = '$$';
 
 /**
- *
+ * Exibe uma mensagem de warning
  */
 var warn = function() {
     gutil.log( 'WARNING:', util.format.apply( null, arguments ) );
 };
 
 /**
+ * Realiza o parse de um commit
  *
- * @param raw
- * @returns {*}
+ * @param {String} raw - o texto do commit em estado bruto (raw)
+ *
+ * @returns {Object} - Um objeto com o resultado do parse de um commit
  */
 var parseRawCommit = function( raw ) {
     if ( !raw ) {
@@ -67,26 +69,31 @@ var parseRawCommit = function( raw ) {
 };
 
 /**
+ * Cria um link apontando para um issue
  *
- * @param issue
- * @returns {string}
+ * @param {String} issue -
+ *
+ * @returns {String} - retorna um link para um issue
  */
 var linkToIssue = function( issue ) {
     return util.format( LINK_ISSUE, issue, issue );
 };
 
 /**
+ * Cria um link apontando para um commit
  *
- * @param hash
- * @returns {string}
+ * @param {String} hash - o hash do commit
+ *
+ * @returns {String} - retorna um link para um commit
  */
 var linkToCommit = function( hash ) {
     return util.format( LINK_COMMIT, hash.substr( 0, 8 ), hash );
 };
 
 /**
+ * Obtém a data corrente no formato string
  *
- * @returns {string}
+ * @returns {String} - retorna a data
  */
 var currentDate = function() {
     var now = new Date();
@@ -95,15 +102,18 @@ var currentDate = function() {
         return retval;
     };
 
-    return util.format( '%d-%s-%s', now.getFullYear(), pad( now.getMonth() + 1 ), pad( now.getDate() ) );
+    return util.format( '%s-%s-%d', pad( now.getDate() ), pad( now.getMonth() + 1 ), now.getFullYear() );
 };
 
 /**
+ *
  *
  * @param stream
  * @param title
  * @param section
  * @param printCommitLinks
+ *
+ * @returns {Promise} - uma promise
  */
 var printSection = function( stream, title, section, printCommitLinks ) {
     printCommitLinks = printCommitLinks === undefined ? true : printCommitLinks;
@@ -145,10 +155,12 @@ var printSection = function( stream, title, section, printCommitLinks ) {
 };
 
 /**
+ * Lê o log do git à partir de uma tag
  *
  * @param grep
  * @param from
- * @returns {Promise}
+ *
+ * @returns {Promise} - uma promise
  */
 var readGitLog = function( grep, from ) {
     return new Promise( function( resolve, reject ) {
@@ -167,25 +179,26 @@ var readGitLog = function( grep, from ) {
                 resolve( commits );
             }
         } );
-
     } );
 };
 
 /**
+ * Escreve o arquivo de changelog
  *
- * @param stream
- * @param commits
- * @param version
+ * @param {Object} stream - a stream que representa o arquivo sendo criado
+ * @param {Object[]} commits - lista de commits que serão usados para preencher o arquivo de changelog
+ * @param {String} version - a versão da app associada no changelog
+ *
+ * @returns {Promise} - uma promise
  */
 var writeChangelog = function( stream, commits, version ) {
     var sections = {
         fix: {},
         feat: {},
         perf: {},
+        refact: {},
         breaks: {}
     };
-
-    //sections.breaks[EMPTY_COMPONENT] = [];
 
     commits.forEach( function( commit ) {
         var section = sections[ commit.type ];
@@ -210,12 +223,14 @@ var writeChangelog = function( stream, commits, version ) {
     printSection( stream, 'Bug Fixes', sections.fix );
     printSection( stream, 'Features', sections.feat );
     printSection( stream, 'Performance Improvements', sections.perf );
+    printSection( stream, 'Refactoring', sections.refact );
     printSection( stream, 'Breaking Changes', sections.breaks, false );
 };
 
 /**
+ * Obtém a git tag anterior
  *
- * @returns {Promise}
+ * @returns {Promise} - uma promise
  */
 var getPreviousTag = function() {
     return new Promise( function( resolve, reject ) {
@@ -230,23 +245,26 @@ var getPreviousTag = function() {
 };
 
 /**
+ * Gera um arquivo de changelog
  *
- * @param version
- * @param from
- * @param file
+ * @param {String} version - a versão do da app
+ * @param {String} from - uma git tag a partir de onde as alterações serão buscadas
+ * @param {String} file - o nome do arquivo de changelog que conterá as alterações
+ *
+ * @returns {Promise} - uma promise
  */
 var generate = function( version, from, file ) {
 
     getPreviousTag()
         .then( function( tag ) {
-            console.log( 'Lendo o log desde a tag:', tag );
+            //console.log( 'Lendo o log desde a tag:', tag );
             if ( from ) {
                 tag = from;
             }
-            readGitLog( 'a', tag ).then( function( commits ) {
-                console.log( 'Parsed', commits.length, 'commits' );
-                //console.log('Generating changelog to', file || 'stdout', '(', version, ')');
-                //writeChangelog( file ? fs.createWriteStream( file ) : process.stdout, commits, version );
+            //console.log( 'Parsed', commits.length, 'commits' );
+            //console.log( 'Generating changelog to', file || 'stdout', '(', version, ')' );
+            readGitLog( '^fix|^feat|^perf|^refact|BREAKING', tag ).then( function( commits ) {
+                writeChangelog( file ? fs.createWriteStream( file ) : process.stdout, commits, version );
             } );
         } );
 };

@@ -82,7 +82,7 @@ class TaskMaker {
     }
 
     /**
-     * 
+     *
      * @param name
      * @param options
      */

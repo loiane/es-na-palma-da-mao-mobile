@@ -5,13 +5,17 @@ import bluebird from 'bluebird';
 import innerGulp from 'gulp';
 import gulpHelp from 'gulp-help';
 import yargs from 'yargs';
+import es from 'event-stream';
 import runSequence from 'run-sequence';
 import gulpHelpers from './gulp/helpers';
 import fs from 'fs';
 import git from 'gulp-git';
 import tap from 'gulp-tap';
 import gutil from 'gulp-util';
+<<<<<<< HEAD
 import es from 'event-stream';
+=======
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
 import concat from 'gulp-concat';
 import order from 'gulp-order';
 import gulpif from 'gulp-if';
@@ -60,7 +64,10 @@ let argv = yargs.alias( 't', 'transpile' )
  * @returns {void}
  */
 const ionic = ( command, args, cb ) => {
+<<<<<<< HEAD
 
+=======
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     const script = path.resolve( './node_modules/ionic/bin/', 'ionic' );
     const flags = process.argv.splice( 3 );
     const ionicArgs = [ command ].concat( args || [] ).concat( flags );
@@ -150,61 +157,110 @@ taskMaker.defineTask( 'copy', {
 } );
 
 taskMaker.defineTask( 'copy', {
+<<<<<<< HEAD
     taskName: 'systemExtensions',
     src: config.paths.systemExtensions,
     dest: config.paths.output.root,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
+=======
     taskName: 'systemConfig',
     src: config.paths.systemConfig,
     dest: config.paths.output.root,
     changed: { extension: '.js' },
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
+<<<<<<< HEAD
+    taskName: 'systemConfig',
+    src: config.paths.systemConfig,
+=======
     taskName: 'system.yuml',
     src: config.paths.systemYuml,
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     dest: config.paths.output.root,
     changed: { extension: '.js' },
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
+<<<<<<< HEAD
+    taskName: 'system.yuml',
+    src: config.paths.systemYuml,
+    dest: config.paths.output.root,
+    changed: { extension: '.js' },
+=======
     taskName: 'assets',
     src: config.paths.assets,
     dest: config.paths.output.root,
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
+<<<<<<< HEAD
+    taskName: 'assets',
+    src: config.paths.assets,
+    dest: config.paths.output.root,
+=======
     taskName: 'json',
     src: config.paths.json,
     dest: config.paths.output.root,
     changed: { extension: '.json' },
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
+<<<<<<< HEAD
+    taskName: 'json',
+    src: config.paths.json,
+    dest: config.paths.output.root,
+    changed: { extension: '.json' },
+=======
     taskName: 'index-web.html',
     src: config.paths.index.web.src,
     dest: config.paths.output.root,
     rename: 'index.html',
     changed: { extension: '.html' },
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
+<<<<<<< HEAD
+    taskName: 'index-web.html',
+    src: config.paths.index.web.src,
+    dest: config.paths.output.root,
+    rename: 'index.html',
+=======
     taskName: 'index-mobile.html',
     src: config.paths.index.mobile.src,
     dest: config.paths.output.root,
     rename: 'index.mobile.html',
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     changed: { extension: '.html' },
     debug: config.debugOptions
 } );
 
+taskMaker.defineTask( 'copy', {
+<<<<<<< HEAD
+    taskName: 'index-mobile.html',
+    src: config.paths.index.mobile.src,
+    dest: config.paths.output.root,
+    rename: 'index.mobile.html',
+=======
+    taskName: 'cache-bust-index-web.html',
+    src: config.paths.index.web.src,
+    dest: config.paths.output.root,
+    rename: 'index.html',
+    replace: config.cacheBustConfig,
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
+    changed: { extension: '.html' },
+    debug: config.debugOptions
+} );
+
+<<<<<<< HEAD
 taskMaker.defineTask( 'copy', {
     taskName: 'cache-bust-index-web.html',
     src: config.paths.index.web.src,
@@ -233,13 +289,25 @@ taskMaker.defineTask( 'minify', {
     taskName: 'jsmin',
     src: config.paths.js.output,
     dest: config.paths.output.app,
+=======
+taskMaker.defineTask( 'htmlMinify', {
+    taskName: 'htmlmin',
+    src: config.paths.html,
+    dest: config.paths.output.root,
+    debug: config.debugOptions,
+    minimize: config.htmlMinOptions
+} );
+
+taskMaker.defineTask( 'htmlHint', {
+    taskName: 'html-hint',
+    src: config.paths.html,
     debug: config.debugOptions
 } );
 
-taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint-src',
-    src: config.paths.js.src,
-    dest: './src',
+taskMaker.defineTask( 'minify', {
+    taskName: 'jsmin',
+    src: config.paths.js.output,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
@@ -247,10 +315,32 @@ taskMaker.defineTask( 'eslint', {
     taskName: 'eslint',
     src: config.paths.js.all,
     dest: './',
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
+    taskName: 'eslint-src',
+    src: config.paths.js.src,
+<<<<<<< HEAD
+    dest: './src',
+=======
+    dest: './src/',
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'eslint', {
+<<<<<<< HEAD
+    taskName: 'eslint',
+    src: config.paths.js.all,
+    dest: './',
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'eslint', {
+=======
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
     taskName: 'eslint-gulp',
     src: config.paths.gulp,
     base: './',
@@ -361,7 +451,11 @@ gulp.task( 'tag', false, [ 'commit' ], ( cb ) => {
 } );
 
 gulp.task( 'push', false, [ 'tag' ], ( cb ) => {
+<<<<<<< HEAD
     exec( 'git push origin master  && git push origin master --tags', ( err ) => {
+=======
+    exec( 'git push origin master && git push origin master --tags', ( err ) => {
+>>>>>>> feat(Gulps) - Adiciona tarefa de changelog e release
         if ( err ) {
             throw new Error( err );
         }
