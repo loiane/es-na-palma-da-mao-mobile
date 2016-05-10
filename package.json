@@ -1,6 +1,6 @@
 {
   "name": "es-na-palma-da-mao",
-  "version": "1.0.0-0",
+  "version": "1.0.0-1",
   "description": "ES na palma da mão",
   "scripts": {
     "express": "node src/server/app.js",
