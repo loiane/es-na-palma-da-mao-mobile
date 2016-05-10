@@ -3,7 +3,7 @@
     "name": "app",
     "url": "/",
     "type": "load",
-    "src": "components/app-core/index"
+    "src": "components/app-core-web/index"
   },
   {
     "name": "app.dashboard",

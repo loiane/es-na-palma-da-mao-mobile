@@ -1,27 +1,33 @@
 /**
+ * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
  *
- * @param $rootScope
- * @param $state
- * @param $ionicPlatform
- * @param $ionicHistory
- * @param $mdDialog
- * @param $mdBottomSheet
+ * @param {Object} $rootScope - xxx service.
+ * @param {Object} $window - xxx service.
+ * @param {Object} $state - xxx service.
+ * @param {Object} $ionicPlatform - xxx service.
+ * @param {Object} $ionicHistory - xxx service.
+ * @param {Object} $mdDialog - xxx service.
+ * @param {Object} $mdBottomSheet - xxx service.
+ *
+ * @returns {void}
  */
-function appRun( $rootScope, $state, $ionicPlatform, $ionicHistory, $mdDialog, $mdBottomSheet ) {
+function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDialog, $mdBottomSheet ) {
 
     /**
-     * Fills the $rootScope
+     * Preenche o $rootScope
+     *
      * @returns {void}
      */
     function initialRootScope() {
-        //$rootScope.appPrimaryColor = appPrimaryColor;       // Add value of appPrimaryColor to rootScope for use it to base color.
         $rootScope.$state = $state;
         $rootScope.isAndroid = ionic.Platform.isAndroid();  // Check platform of running device is android or not.
         $rootScope.isIOS = ionic.Platform.isIOS();          // Check platform of running device is ios or not.
     }
 
     /**
-     * For android if user tap hardware back button, Action and Dialog should be hide.
+     * Para android: esconde controles Action e Dialog se o usuário clica no botão voltar do
+     * dispositivo.
+     *
      * @returns {void}
      */
     function hideActionControl() {
@@ -32,21 +38,27 @@ function appRun( $rootScope, $state, $ionicPlatform, $ionicHistory, $mdDialog, $
     $ionicPlatform.ready( () => {
         ionic.Platform.isFullScreen = true;
 
-        if ( window.cordova && window.cordova.plugins.Keyboard ) {
+        if ( $window.cordova && $window.cordova.plugins.Keyboard ) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
             cordova.plugins.Keyboard.disableScroll( true );
         }
 
         initialRootScope();
 
-        //Checking if view is changing it will go to this function.
         $rootScope.$on( '$ionicView.beforeEnter', () => {
-            hideActionControl();  //hide Action Control for android back button.
+            hideActionControl();
         } );
     } );
 }
 
 export default[
-    '$rootScope', '$state', '$ionicPlatform', '$ionicHistory', '$mdDialog', '$mdBottomSheet', appRun
+    '$rootScope',
+    '$state',
+    '$window',
+    '$ionicPlatform',
+    '$ionicHistory',
+    '$mdDialog',
+    '$mdBottomSheet',
+    appRun
 ];
 

@@ -26,11 +26,13 @@ let paths = {
     },
     html: [
         'src/client/**/*.html',
-        '!src/client/components/app-core/index.tpl.html',
-        '!src/client/components/app-core/index.tpl.mobile.html'
+        '!src/client/components/app-core-web/index.tpl.html',
+        '!src/client/components/app-core-mobile/index.tpl.html'
     ],
     templates: [
-        'src/client/**/*.tpl.html', '!src/client/components/app-core/index.tpl.html'
+        'src/client/**/*.tpl.html',
+        '!src/client/components/app-core-web/index.tpl.html',
+        '!src/client/components/app-core-mobile/index.tpl.html'
     ],
     css: [ 'src/client/**/*.css' ],
     assets: [
@@ -45,7 +47,6 @@ let paths = {
     ],
     json: './src/client/**/*.json',
     index: {
-
         web: {
             src: './src/client/components/app-core-web/index.tpl.html',
             output: './www/index.html'

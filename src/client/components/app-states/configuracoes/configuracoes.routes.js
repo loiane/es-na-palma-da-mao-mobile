@@ -1,5 +1,12 @@
 ﻿import template from './Configuracoes.tpl.html!text';
 
+/**
+ * Configura rotas para o componente
+ *
+ * @param {Object} $stateProvider - $stateProvider do ui-router
+ *
+ * @returns {void}
+ */
 function configuracoesRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.configuracoes', {
@@ -15,6 +22,5 @@ function configuracoesRoutes( $stateProvider ) {
 }
 
 export default[
-    '$stateProvider',
-    configuracoesRoutes
+    '$stateProvider', configuracoesRoutes
 ];

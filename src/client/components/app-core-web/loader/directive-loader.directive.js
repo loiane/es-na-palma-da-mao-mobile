@@ -4,8 +4,10 @@ export default[ '$rootScope', '$compile', 'componentLoader', directiveLoader ];
 
 /**
  * Gerencia o carregamento dinâmico de diretivas. Diretivas "lazy" só serão carregadas
- * na página quando existirem no html. "directiveLoader" verifica a existência diretivas
- * configuradas com comportamento de lazy load e insere as mesmas nas páginas quando necessário.
+ * na página quando existirem no html.
+ *
+ * "directiveLoader" verifica a existência diretivasconfiguradas com comportamento de lazy load e
+ * insere as mesmas nas páginas quando necessário.
  *
  * @param {obj} $rootScope
  * @param {obj} $compile Serviço do angular para compilar html

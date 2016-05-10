@@ -13,6 +13,8 @@
     "_": true,
     "moment": true,
     "bard": true,
+    "ionic": true,
+    "cordova": true,
     "sinon": true
   }
 }

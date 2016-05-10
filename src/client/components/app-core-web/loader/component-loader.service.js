@@ -1,13 +1,15 @@
 ﻿/**
- * Provides functionality to load components at runtime.
+ * Provêm funcionalidade para carregar componentes em runtime
  */
 class ComponentLoaderService {
     /**
+     * @constructor
      *
-     * @param $q
-     * @param $ocLazyLoad
-     * @param $injector
-     * @param system
+     * @param {Object} $q - xx service
+     * @param {Object} $ocLazyLoad - xx service
+     * @param {Object} system - xx service
+     *
+     * @returns {void}
      */
     constructor( $q, $ocLazyLoad, system ) {
         this._$q = $q;
@@ -20,8 +22,9 @@ class ComponentLoaderService {
      * components folder. E.g. if you pass `popup` it will try to load the component from
      * "components/popup/index".
      *
-     * @param {String} componentName
-     * @returns {Promise}
+     * @param {String} componentName - o nome do componente sendo carregado
+     *
+     * @returns {Promise} - uma promise
      */
     loadComponent( componentName ) {
         if ( !this._$ocLazyLoad.isLoaded( componentName ) ) {

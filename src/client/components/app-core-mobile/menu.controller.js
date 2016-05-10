@@ -6,8 +6,8 @@ import avatar from './img/img.jpg!image';
 class MenuController {
 
     /**
+     * Menu controller
      *
-
      * @constructor
      *
      * @param {Object} $scope - xxx
@@ -45,7 +45,9 @@ class MenuController {
     }
 
     /**
+     * Ativa o controller
      *
+     * @returns {void}
      */
     activate() {
         //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
@@ -92,7 +94,6 @@ class MenuController {
                 this.$mdMenu.hide();
             } else if ( selectMenuIsOpen ) {
                 this.$mdSelect.hide();
-
             } else if ( previousStateIsEmpty && !dialogIsOpen ) {
 
                 //todo: refatorar $mdDialog para usar o service $dialog
@@ -128,33 +129,40 @@ class MenuController {
      *  Fecha a barra de navegação lateral
      *  It will use with event on-swipe-left="closeSideNav()" on-drag-left="closeSideNav()"
      *  When user swipe or drag md-sidenav to left side
+     *
+     *  @returns {void}
      */
     closeSideNav() {
         this.$mdSidenav( 'left' ).close();
     }
 
     /**
+     * Alterna exibição do sidebar
      *
+     * @returns {void}
      */
     toggleLeft() {
         this.$mdSidenav( 'left' ).toggle();
     }
 
     /**
+     * Navega para o state especificado
      *
-     * @param stateName
+     * @param {string} stateName - o nome do state destino
+     *
+     * @returns {void}
      */
     navigateTo( stateName ) {
         this.$timeout( () => {
             this.$mdSidenav( 'left' ).close();
-            if ( this.$ionicHistory.currentStateName() != stateName ) {
+            if ( this.$ionicHistory.currentStateName() !== stateName ) {
                 this.$ionicHistory.nextViewOptions( {
                     disableAnimate: true,
                     disableBack: true
                 } );
                 this.$state.go( stateName );
             }
-        }, ( this.$scope.isAndroid == false ? 300 : 0 ) );
+        }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }
 }
 

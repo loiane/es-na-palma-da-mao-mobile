@@ -6,7 +6,6 @@ import 'angular-ui-router';
 import 'ui-router-extras';
 import ocLazyLoad from 'oclazyload';
 
-
 import loaderModule from './loader/index.js';
 import routesConfig from './app.routes.js';
 import AppController from './app.controller.js';
