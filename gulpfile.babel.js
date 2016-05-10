@@ -32,6 +32,7 @@ import config from './config/gulp.config';
 import del from 'del';
 import open from 'open';
 import spawn from 'win-spawn';
+import semver from 'semver';
 
 const gulp = gulpHelp( innerGulp ); // wrap in gulp help
 const taskMaker = gulpHelpers.taskMaker( gulp );
@@ -521,6 +522,8 @@ gulp.task( 'githubApi:createRelease', false, [ 'githubApi:authenticate' ], () =>
     const pkg = readJsonFile( config.paths.packageJson );
     const v = `v${pkg.version}`;
     const message = pkg.version;
+    const isPrerelease = !!semver.parse( pkg.version ).prerelease.length;
+    const label = isPrerelease ? 'isPrerelease' : '';
 
     return gulp.src( config.paths.changelog )
                .pipe( tap( ( file ) => {
@@ -529,7 +532,7 @@ gulp.task( 'githubApi:createRelease', false, [ 'githubApi:authenticate' ], () =>
 
                    const release = {
                        'tag_name': v,
-                       'name': `${v}: version ${message}`,
+                       'name': `${v}: ${label} version ${message}`,
                        'body': releaseBody.slice( releaseBody.indexOf( '###' ) )
                    };
 
