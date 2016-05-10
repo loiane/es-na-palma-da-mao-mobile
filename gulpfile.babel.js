@@ -373,10 +373,7 @@ gulp.task( 'tag', false, [ 'commit' ], ( cb ) => {
 } );
 
 gulp.task( 'push', false, [ 'tag' ], ( cb ) => {
-
-    const branch = argv.branch || 'master';
-
-    git.push( 'origin', branch, ( err ) => {
+    git.push( 'origin', 'master', ( err ) => {
         if ( err ) {
             throw new Error( err );
         }
@@ -385,11 +382,8 @@ gulp.task( 'push', false, [ 'tag' ], ( cb ) => {
 } );
 
 gulp.task( 'pushTags', false, [ 'push' ], ( cb ) => {
-
-    const branch = argv.branch || 'master';
-
     // realiza um push e envia tags juntos
-    git.push( 'origin', branch, { args: '--tags' }, ( err ) => {
+    git.push( 'origin', 'master', { args: '--tags' }, ( err ) => {
         if ( err ) {
             throw new Error( err );
         }
