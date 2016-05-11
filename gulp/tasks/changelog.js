@@ -10,7 +10,7 @@ const argv = yargs.argv;
 const gulp = gulpHelp( innerGulp ); // wrap in gulp help
 const readJsonFile = ( file ) => {
     return JSON.parse( fs.readFileSync( file ) );
-}
+};
 
 gulp.task( 'changelog', 'Gera um arquivo CHANGELOG.md.', ( done ) => {
     const pkg = readJsonFile( config.packageJson );
