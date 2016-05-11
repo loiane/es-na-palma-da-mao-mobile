@@ -139,7 +139,8 @@ let config = {
     babelOptions: {
         plugins: [ 'transform-es2015-modules-systemjs' ]
     },
-    debugOptions: { active: false }
+    debugOptions: { active: false },
+    masterBranch: 'master'
 };
 
 // sobrescreve configurações se estiver em produção

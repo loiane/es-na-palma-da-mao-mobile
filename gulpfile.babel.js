@@ -445,15 +445,15 @@ gulp.task( 'ensuresMaster', false, ( cb ) => {
     };
 
     /**
-     * Dispara um erro se a branch atual não se chamar 'master'
+     * Dispara um erro se a branch atual não se chamar config.masterBranch
      *
      * @param {String} branch - o nome da branch atual
      *
      * @returns {void}
      */
     const throwErrorIfNotInMaster = branch => {
-        if ( branch.trim() !== 'master' ) {
-            throw new Error( `Branch atual: "${branch.trim()}". Só é possível criar um release da branch "master".` );
+        if ( branch.trim() !== config.masterBranch ) {
+            throw new Error( `Branch atual: "${branch.trim()}". Só é possível criar um release da branch "${config.masterBranch}".` );
         }
         cb();
     };
@@ -519,7 +519,7 @@ gulp.task( 'tag', false, [ 'ensuresMaster' ], ( cb ) => {
 } );
 
 gulp.task( 'push', false, [ 'ensuresMaster' ], ( cb ) => {
-    git.push( 'origin', 'master', ( err ) => {
+    git.push( 'origin', config.masterBranch, ( err ) => {
         if ( err ) {
             throw new Error( err );
         }
@@ -528,7 +528,7 @@ gulp.task( 'push', false, [ 'ensuresMaster' ], ( cb ) => {
 } );
 
 gulp.task( 'pushTags', false, [ 'ensuresMaster' ], ( cb ) => {
-    git.push( 'origin', 'master', { args: '--tags' }, ( err ) => {
+    git.push( 'origin', config.masterBranch, { args: '--tags' }, ( err ) => {
         if ( err ) {
             throw new Error( err );
         }
@@ -582,7 +582,7 @@ gulp.task( 'githubApi:createRelease', false, [ 'ensuresMaster', 'githubApi:authe
                    const release = {
                        'tag_name': v,
                        'name': `${v}: version ${message}`,
-                       'target_commitish': 'master',
+                       'target_commitish': config.masterBranch,
                        'body': releaseBody.slice( releaseBody.indexOf( '###' ) ),
                        'prerelease': isPrerelease
                    };
