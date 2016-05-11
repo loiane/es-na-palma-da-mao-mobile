@@ -517,7 +517,6 @@ gulp.task( 'githubApi:createRelease', false, [ 'githubApi:authenticate' ], () =>
     const v = `v${pkg.version}`;
     const message = pkg.version;
     const isPrerelease = !!semver.parse( pkg.version ).prerelease.length;
-    const label = isPrerelease ? 'isPrerelease' : '';
 
     return gulp.src( config.paths.changelog )
                .pipe( tap( ( file ) => {
@@ -526,8 +525,9 @@ gulp.task( 'githubApi:createRelease', false, [ 'githubApi:authenticate' ], () =>
 
                    const release = {
                        'tag_name': v,
-                       'name': `${v}: ${label} version ${message}`,
-                       'body': releaseBody.slice( releaseBody.indexOf( '###' ) )
+                       'name': `${v}: version ${message}`,
+                       'body': releaseBody.slice( releaseBody.indexOf( '###' ) ),
+                       'prerelease': isPrerelease
                    };
 
                    client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => {
