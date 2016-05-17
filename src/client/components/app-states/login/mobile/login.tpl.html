@@ -33,24 +33,28 @@
             <md-content layout-padding layout="column">
                 <!--<div id="input-login">-->
                     <md-input-container md-no-float class="md-block">
-                        <input placeholder="Usuário">
+                        <input placeholder="Usuário" ng-model="vm.username">
                     </md-input-container>
                     
                     <md-input-container md-no-float class="md-block">
-                        <input type="password" placeholder="Senha">
+                        <input type="password" placeholder="Senha" ng-model="vm.password">
                     </md-input-container>
                 <!--</div>-->
             </md-content>
-            <md-button class="md-raised md-primary">Entrar</md-button>
+            <md-button class="md-raised md-primary" ng-click="vm.getToken()">Entrar</md-button>
         </form> <!--login form section-->
-        
+
         <div>
-            <md-button class="md-raised social-button facebook-background" ng-click="facebookLogin()">
-                LOG IN WITH FACEBOOK
+            <md-button class="md-raised" ng-click="vm.criarConta()">
+                Criar conta
             </md-button>
             <br />
-            <md-button class="md-raised social-button google-plus-color-background" ng-click="googleLogin()">
-                LOG IN WITH GOOGLE
+            <md-button class="md-raised social-button google-plus-color-background" ng-click="vm.googleLogin()">
+                Entrar com o Google
+            </md-button>
+            <br />
+            <md-button class="md-raised social-button facebook-background" ng-click="vm.facebookLogin()">
+                Entrar com o Facebook
             </md-button>
         </div>
         

@@ -29,8 +29,9 @@ System.config({
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic": "github:driftyco/ionic-bower@1.3.0",
     "jquery": "npm:jquery@2.2.1",
-    "json": "github:systemjs/plugin-json@0.1.0",
+    "json": "github:systemjs/plugin-json@0.1.2",
     "mobile-detect": "npm:mobile-detect@1.3.2",
+    "ngstorage": "npm:ngstorage@0.3.10",
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
     "robotoDraft": "github:raibutera/robotodraft@1.1.0",
     "text": "github:systemjs/plugin-text@0.0.7",
@@ -82,7 +83,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.2"
+      "process": "npm:process@0.11.3"
     },
     "github:jspm/nodelibs-util@0.1.0": {
       "util": "npm:util@0.10.3"
@@ -100,7 +101,7 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:font-awesome@4.5.0": {
       "css": "github:systemjs/plugin-css@0.1.21"
@@ -116,7 +117,7 @@ System.config({
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:process@0.11.2": {
+    "npm:process@0.11.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
     },
     "npm:util@0.10.3": {
