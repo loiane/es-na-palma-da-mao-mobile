@@ -4,12 +4,13 @@ export default
     angular.module( 'app-configuration', [] )
             .constant( 'appConfig', {
 
-                apiESPM: 'http://localhost:46978/',
+                apiESPM: 'http://localhost:6660/',
 
                 mobile: {
                     client_id: 'espm-mobile',
                     client_secret: 'secret',
                     grant_type: 'password',
-                    scope: 'openid'
+                    scope: 'openid',
+                    digitosCodigoVerificacao: 6
                 }
             } );

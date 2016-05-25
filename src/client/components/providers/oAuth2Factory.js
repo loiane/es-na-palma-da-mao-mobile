@@ -6,8 +6,6 @@ class OAuth2 {
     constructor( $window, $http, $localStorage ) {
         this.is3Url = 'http://localhost:5000/';
 
-        console.log( 'constructor OAuth2' );
-
         this.$http = $http;
         this.$localStorage = $localStorage;
         this.$window = $window;
@@ -50,6 +48,18 @@ class OAuth2 {
         return user;
     }
 
+    _existeToken() {
+        //TODO: Verificar como o token é retornado do $localStorage
+        return this.$localStorage.token;
+    }
+
+    _token() {
+        if ( !this._existeToken() )
+            return '';
+
+        return this.$localStorage.token;
+    }
+
     /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
@@ -78,6 +88,22 @@ class OAuth2 {
             } )
             .error( error );
 
+    }
+
+    isValidToken() {
+        if ( !this._existeToken() )
+            return false;
+
+        var options = {
+            token: this._token()
+        };
+
+        $http.post( this.is3Url + 'connect/accesstokenvalidation', options )
+            .then( ( tokenClaims ) => {
+                return true;
+            }, () => {
+                return false;
+            } );
     }
 
     /**

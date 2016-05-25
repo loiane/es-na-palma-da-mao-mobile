@@ -2,7 +2,9 @@
 	stroke: #208baa !important;
 }
 
-
+ion-nav-bar .ion-android-arrow-back {
+    font-size: 2em;
+}
 
 /*body {
   font-family: RobotoDraft, Roboto, Helvetica Neue, sans-serif; }

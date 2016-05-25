@@ -20,7 +20,7 @@
       	</h1>
            
         <h2 class="md-toolbar-tools md-toolbar-tools-bottom">
-        	<span class="md-flex">Inicio do Cadastro</span>
+        	<span class="md-flex">Validar E-mail</span>
       	</h2>
           
 	</md-toolbar><!--end toolbar section-->
@@ -30,18 +30,18 @@
         <!--login form section-->
         <md-content layout-padding layout="column">
             <p>
-                Para poder se inscrever em serviços e programas ofertados pelo Estado do Espírito Santo é necessário ter uma conta no Acesso Cidadão.
+                Enviamos uma mensagem com um codígo de ativação para o e-mail informado no cadastro.
                 <br /> 
-                Siga as etapas abaixo abaixo para criar sua conta.
+                Favor inserir o código recebido no campo abaixo para finalizar o cadastro.
             </p>
             <form class="login-form">
-                <h3>Verificar CPF</h3>        
+                <h3>Código de Ativação</h3>        
             <!--<div id="input-login">-->
                 <md-input-container md-no-float class="md-block">
-                    <input placeholder="CPF" ng-model="vm.usuario.cpf">
+                    <input placeholder="Código Ativação" ng-model="vm.usuario.codigoEmail">
                 </md-input-container>
                 
-                <md-button class="md-raised md-primary" ng-click="vm.verificaCpf()">Proximo</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.validarCodigoAtivacao()">Validar</md-button>
             <!--</div>-->
             </form> <!--login form section-->
         </md-content>
