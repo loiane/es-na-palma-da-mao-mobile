@@ -4,6 +4,12 @@ logs
 *.log
 npm-debug.log*
 
+# cordova config.xml
+config.xml
+
+# Arquivo de configuração do portal com informações sensiveis
+src/client/components/app-core-shared/app.config.js
+
 # Runtime data
 pids
 *.pid
