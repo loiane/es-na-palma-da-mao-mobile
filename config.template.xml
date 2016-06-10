@@ -7,7 +7,7 @@
     <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
     </author>
-    <content src="/app/client/index.html" />
+    <content src="index.mobile.html" />
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
@@ -16,6 +16,8 @@
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="FullScreen" value="false" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -43,4 +45,12 @@
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />
+    <preference name="CrosswalkAnimatable" value="true" />
+    <plugin name="cordova-plugin-facebook4" spec="~1.7.1">
+        <variable name="APP_ID" value="<app-id-facebook>" />
+        <variable name="APP_NAME" value="<app-name-facebook>>" />
+    </plugin>
+    <plugin name="cordova-plugin-googleplus" source="npm">
+        <param name="REVERSED_CLIENT_ID" value="<IOS-reversed-client-id-google>" />
+    </plugin>
 </widget>

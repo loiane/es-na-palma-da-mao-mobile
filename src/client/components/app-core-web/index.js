@@ -21,7 +21,6 @@ import dialogComponent from '../app-core-shared/dialog/index.js';
 // web
 import RouterHelperProvider from '../app-core-web/config/router-helper.provider.js';
 
-
 // eslint-disable-next-line angular/module-setter
 let layoutModule = angular.module( 'layout', [] );
 

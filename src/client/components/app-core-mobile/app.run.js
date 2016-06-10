@@ -11,7 +11,7 @@
  *
  * @returns {void}
  */
-function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDialog, $mdBottomSheet ) {
+function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDialog, $mdBottomSheet, OAuth2, appConfig ) {
 
     /**
      * Preenche o $rootScope
@@ -35,6 +35,14 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
         $mdDialog.cancel();
     }
 
+    /**
+     * TODO:
+     */
+    function isAuthenticated() {
+        OAuth2.initialize( appConfig.identityServer.url );
+        return OAuth2.isValidToken();
+    }
+
     $ionicPlatform.ready( () => {
         ionic.Platform.isFullScreen = true;
 
@@ -48,17 +56,23 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();
         } );
+
+        if ( !isAuthenticated() ) {
+            $state.go( 'app.login' );
+        }
     } );
 }
 
 export default[
     '$rootScope',
-    '$state',
     '$window',
+    '$state',
     '$ionicPlatform',
     '$ionicHistory',
     '$mdDialog',
     '$mdBottomSheet',
+    'OAuth2',
+    'appConfig',
     appRun
 ];
 

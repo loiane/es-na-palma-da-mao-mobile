@@ -35,12 +35,25 @@ class ToastService {
             controller: 'toastController',
             controllerAs: 'vm',
             template: template,
-            hideDelay: 800,
+            hideDelay: 3000,
             position: 'bottom right',
             locals: {
                 displayOption: displayOption
             }
         } );
+    }
+
+    showActionToast( displayOption ) {
+        if ( !displayOption )
+            return;
+
+        var toast = this.$mdToast.simple()
+                        .textContent( displayOption.title )
+                        .action( 'X' )
+                        .highlightAction( false )
+                        .position( 'bottom right' );
+
+        return this.$mdToast.show( toast );
     }
 
     /**

@@ -24,9 +24,12 @@ class MenuController {
      *
      * @returns {void}
      */
-    constructor( $scope, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect ) {
+    constructor( $rootScope, $scope, $window, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog,
+                 $mdBottomSheet, $mdMenu, $mdSelect, OAuth2, OAuthFacebook, OAuthGoogle, OAuthDigits ) {
 
+        this.$rootScope = $rootScope;
         this.$scope = $scope;
+        this.$window = $window;
         this.$timeout = $timeout;
         this.$mdSidenav = $mdSidenav;
         this.$log = $log;
@@ -38,8 +41,10 @@ class MenuController {
         this.$mdMenu = $mdMenu;
         this.$mdSelect = $mdSelect;
         this.avatarUrl = avatar.src;
-        this.usuario = 'Daniel Hoisel';
-        this.perfil = 'Administrador';
+        this.OAuth2 = OAuth2;
+        this.OAuthFacebook = OAuthFacebook;
+        this.OAuthGoogle = OAuthGoogle;
+        this.OAuthDigits = OAuthDigits;
 
         this.activate();
     }
@@ -123,6 +128,22 @@ class MenuController {
             }
 
         }, 100 );
+
+        //Executa a primeira vez
+        this.updateUser();
+
+        //Watch User Info - para futuras alterações
+        this.$scope.$watch( () => { return this.OAuth2.getUserInfo(); },
+            ( oldValue, newValue ) => {
+                if ( newValue !== oldValue ) {
+                    this.updateUser();
+                }
+            } );
+    }
+
+    updateUser() {
+        this.user = this.OAuth2.getUserInfo();
+        this.authenticated = this.user ? true : false;
     }
 
     /**
@@ -164,10 +185,22 @@ class MenuController {
             }
         }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }
+
+    signOut() {
+        this.OAuthFacebook.logout( () => { }, () => { } );
+        this.OAuthGoogle.logout( () => { } );
+        this.OAuthDigits.logout();
+
+        this.OAuth2.signOut( () => {
+            this.navigateTo( 'app.login' );
+        } );
+    }
 }
 
 export default [
+    '$rootScope',
     '$scope',
+    '$window',
     '$timeout',
     '$mdSidenav',
     '$log',
@@ -178,5 +211,9 @@ export default [
     '$mdBottomSheet',
     '$mdMenu',
     '$mdSelect',
+    'OAuth2',
+    'OAuthFacebook',
+    'OAuthGoogle',
+    'OAuthDigits',
     MenuController
 ];
