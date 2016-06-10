@@ -2,16 +2,34 @@
 function httpInterceptor( $httpProvider ) {
     $httpProvider.interceptors
         .push( [ '$q', '$location', '$localStorage', 'appConfig', function( $q, $location, $localStorage, appConfig ) {
+
+            function addAuthorizationHeader( config, token ) {
+                config.headers = config.headers || {};
+                config.headers.Authorization = 'Bearer ' + token;
+
+                return config;
+            }
+
             return {
                 'request': function( config ) {
 
-                    if ( config.url.indexOf( appConfig.apiESPM ) >= 0 ) {
-                        config.headers = config.headers || {};
-                        if ( $localStorage.token ) {
-                            config.headers.Authorization = 'Bearer ' + $localStorage.token.access_token;
+                    if ( $localStorage.token ) {
+
+                        if ( config.url.indexOf( appConfig.apiESPM ) >= 0 ) {
+
+                            addAuthorizationHeader( config, $localStorage.token.access_token );
+
+                        } else if ( config.url.indexOf( appConfig.identityServer.url ) >= 0 ) {
+
+                            var hasUrl = appConfig.identityServer.AuthenticatedUrls.filter( function( item ) {
+                                return config.url == appConfig.identityServer.url + item;
+                            } );
+
+                            if ( hasUrl.length > 0 ) {
+                                addAuthorizationHeader( config, $localStorage.token.access_token );
+                            }
                         }
                     }
-
                     return config;
                 }/*,
                 'responseError': function( response ) {

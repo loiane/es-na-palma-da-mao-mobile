@@ -33,15 +33,15 @@
             <md-content layout-padding layout="column">
                 <!--<div id="input-login">-->
                     <md-input-container md-no-float class="md-block">
-                        <input placeholder="Usuário" ng-model="vm.username">
+                        <input placeholder="Usuário" ng-model="vm.user.name">
                     </md-input-container>
                     
                     <md-input-container md-no-float class="md-block">
-                        <input type="password" placeholder="Senha" ng-model="vm.password">
+                        <input type="password" placeholder="Senha" ng-model="vm.user.password">
                     </md-input-container>
                 <!--</div>-->
             </md-content>
-            <md-button class="md-raised md-primary" ng-click="vm.getToken()">Entrar</md-button>
+            <md-button class="md-raised md-primary" ng-click="vm.signIn()">Entrar</md-button>
         </form> <!--login form section-->
 
         <div>
@@ -55,6 +55,9 @@
             <br />
             <md-button class="md-raised social-button facebook-background" ng-click="vm.facebookLogin()">
                 Entrar com o Facebook
+            </md-button>
+            <md-button class="md-raised social-button digits-background" ng-click="vm.digitsLogin()">
+                Entrar com o Celular
             </md-button>
         </div>
         

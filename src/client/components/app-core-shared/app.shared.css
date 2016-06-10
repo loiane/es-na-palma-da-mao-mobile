@@ -33,3 +33,12 @@ body {
 .md-primary-color {
 	color: #208baa !important;
 }
+
+ion-header-bar {
+	background-size: 100% 0px !important;
+}
+
+/*.keyboard-body .hide-with-keyboard{
+	display:none !important;
+}
+*/

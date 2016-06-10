@@ -20,7 +20,6 @@ import MenuController from './menu.controller.js';
 import storageState from '../app-states/storage/index.js';
 import principalState from '../app-states/principal/index.js';
 import loginState from '../app-states/login/index.js';
-//import nativeTransition from './directive/nativeTransition.js';
 
 import mobileProviders from '../providers/mobileProviders.js';
 import httpInterceptor from './http-interceptor.js';
@@ -31,7 +30,6 @@ let dependencies = [
     'ngMaterial',
     'ngStorage',
     'ionic-native-transitions',
-    //nativeTransition.name,
     appConfig.name,
     validadores.name,
     mobileProviders.name,

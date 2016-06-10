@@ -4,13 +4,15 @@ class OAuth2 {
 
     /** @constructor */
     constructor( $window, $http, $localStorage ) {
-        this.is3Url = 'http://localhost:5000/';
-
         this.$http = $http;
         this.$localStorage = $localStorage;
         this.$window = $window;
 
-        this.tokenClaims = this._getClaimsFromToken();
+        this.$localStorage.tokenClaims = this._getClaimsFromToken();
+    }
+
+    initialize( identityServerUrl ) {
+        this.identityServerUrl = identityServerUrl;
     }
 
     /**
@@ -49,7 +51,6 @@ class OAuth2 {
     }
 
     _existeToken() {
-        //TODO: Verificar como o token é retornado do $localStorage
         return this.$localStorage.token;
     }
 
@@ -63,12 +64,12 @@ class OAuth2 {
     /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
-    getToken( data, success, error ) {
-        var getTokenUrl = this.is3Url + 'connect/token';
+    _getToken( data, success, error ) {
+        var getTokenUrl = this.identityServerUrl + 'connect/token';
 
         var options = {
             method: 'POST',
-            url: urlIdentityServer,
+            url: getTokenUrl,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             transformRequest: function( obj ) {
                 var str = [];
@@ -82,12 +83,36 @@ class OAuth2 {
         this.$http( options )
             .success( ( response ) => {
                 this.$localStorage.token = response;
-                this.tokenClaims = this._getClaimsFromToken();
+                this.$localStorage.tokenClaims = this._getClaimsFromToken();
 
                 success( response );
             } )
             .error( error );
 
+    }
+
+    fetchUserInfo( success, error ) {
+        var userInfoUrl = this.identityServerUrl + 'connect/userinfo';
+
+        /**
+         * Exemplo do objeto user retornado pelo IdentityServer do Acesso Cidadão
+         * {
+         *      celularValidado: "False"
+         *      cpf: "05490226781"
+         *      dateofbirth: "13/07/1984"
+         *      emailaddress: "vizeke@gmail.com"
+         *      homephone: "27 3636 7224"
+         *      mobilephone: ""
+         *      name: "Vinícius Salomão Barbosa"
+         *      nomemae: "Dalgiza Salomão"
+         *      nomepai: "Jair Barbosa"
+         *      sid: "9239"
+         * }
+         */
+
+        this.$http.get( userInfoUrl )
+            .success( success )
+            .error( error );
     }
 
     isValidToken() {
@@ -98,7 +123,7 @@ class OAuth2 {
             token: this._token()
         };
 
-        $http.post( this.is3Url + 'connect/accesstokenvalidation', options )
+        this.$http.post( this.identityServerUrl + 'connect/accesstokenvalidation', options )
             .then( ( tokenClaims ) => {
                 return true;
             }, () => {
@@ -107,30 +132,45 @@ class OAuth2 {
     }
 
     /**
-     * Faz logout do usuário. Remove o token do localstore e os claims salvos.
-     */
-    logOut( success ) {
-        this.tokenClaims = {};
-        delete $localStorage.token;
-        success();
-    }
-
-    /**
      * @return {object} Claims do usuário
      */
     getTokenClaims() {
-        return this.tokenClaims;
+        return this.$localStorage.tokenClaims;
+    }
+
+    getUserInfo() {
+        return this.$localStorage.userInfo;
     }
 
     /*
     signUp( data, success, error ) {
         $http.post( this.urls.BASE + '/signup', data ).success( success ).error( error );
     }
+    */
 
     signIn( data, success, error ) {
-        $http.post( this.urls.BASE + '/signin', data ).success( success ).error( error );
+        //Get Token
+        this._getToken( data, ( response ) => {
+            success( response );
+
+            //Fetch and save User Info
+            this.fetchUserInfo( ( response ) => {
+                this.$localStorage.userInfo = response;
+            }, () => { } );
+        }, error );
     }
-    */
+
+    /**
+     * Faz logout do usuário. Remove o token do localstore e os claims salvos.
+     */
+    signOut( success ) {
+        this.tokenClaims = {};
+        delete this.$localStorage.token;
+        delete this.$localStorage.userInfo;
+        delete this.$localStorage.tokenClaims;
+        success();
+    }
+
 }
 
 /**

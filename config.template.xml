@@ -46,11 +46,11 @@
     <preference name="xwalkMode" value="embedded" />
     <preference name="xwalkMultipleApk" value="true" />
     <preference name="CrosswalkAnimatable" value="true" />
-    <plugin name="cordova-plugin-googleplus" source="npm">
-        <param name="REVERSED_CLIENT_ID" value="idForIosUseOnly" />
-    </plugin>
     <plugin name="cordova-plugin-facebook4" spec="~1.7.1">
-        <variable name="APP_ID" value="962790693769527" />
-        <variable name="APP_NAME" value="Acesso Cidadão Hom" />
+        <variable name="APP_ID" value="<app-id-facebook>" />
+        <variable name="APP_NAME" value="<app-name-facebook>>" />
+    </plugin>
+    <plugin name="cordova-plugin-googleplus" source="npm">
+        <param name="REVERSED_CLIENT_ID" value="<IOS-reversed-client-id-google>" />
     </plugin>
 </widget>

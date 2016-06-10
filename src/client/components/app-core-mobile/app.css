@@ -26,19 +26,7 @@ ion-nav-bar .ion-android-arrow-back {
 
 .wordpress-background {
   background-color: #0087be !important; }
-*/
-.facebook-color {
-  color: #3c5c99 !important; }
 
-.facebook-background {
-  background-color: #3c5c99 !important; }
-
-.google-plus-color {
-  color: #d73d32 !important; }
-
-.google-plus-color-background {
-  background-color: #d73d32 !important; }
-/*
 .instagram-color {
   color: #517fa4 !important; }
 
@@ -77,11 +65,18 @@ ion-nav-bar .ion-android-arrow-back {
   fill: currentColor;
   text-align: center;
   margin-bottom: 8px; }
+*/
 
 ion-header-bar {
   border-style: none;
-  color: white; }
+  color: white; 
+}
+  
+ion-header-bar a.button.button {
+  color: white;
+}
 
+/*
 .ion-nav-button-right {
   margin-top: -7px !important;
   margin-right: 0 !important; }

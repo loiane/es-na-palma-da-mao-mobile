@@ -15,6 +15,9 @@ function loginRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.login', {
             url: 'login',
+            nativeTransitions: {
+                'type': 'fade'
+            },
             data: { title: 'Login' },
             views: {
                 content: {
