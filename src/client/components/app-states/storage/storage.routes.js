@@ -1,4 +1,4 @@
-import template from './web/storage.tpl.html!text!platform';
+import template from './storage.tpl.html!text';
 
 /**
  * Configura rotas para o componente

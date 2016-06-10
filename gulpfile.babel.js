@@ -625,11 +625,11 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'json',
         'assets',
         'systemConfig',
-        'systemExtensions',
+        //'systemExtensions',
         'system.yuml',
         'server-js',
         'index-mobile.html',
-        cacheBust ? 'cache-bust-index-web.html' : 'index-web.html',
+        //cacheBust ? 'cache-bust-index-web.html' : 'index-web.html',
         transpile ? 'transpile-client-js' : 'client-js',
         htmlmin ? 'htmlmin' : 'html'
     ];

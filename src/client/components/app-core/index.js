@@ -3,17 +3,16 @@ import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto
 import 'angular-material';
 
-// shared (mobile and web)
-import '../app-core-shared/app.shared.css!';
-import themeConfig from '../app-core-shared/app.theme.config.js';
-import toastComponent from '../app-core-shared/toast/index.js';
-import dialogComponent from '../app-core-shared/dialog/index.js';
-import appConfig from '../app-core-shared/app.config.js';
-import validadores from '../app-core-shared/validators/index.js';
+// tools
+import toastComponent from '../app-core-tools/toast/index.js';
+import dialogComponent from '../app-core-tools/dialog/index.js';
+import validadores from '../app-core-tools/validators/index.js';
 
 // mobile
 import 'ionic-native-transitions';
+import appConfig from './app.config.js';
 import ionicConfig from './app.ionic.config.js';
+import themeConfig from './app.theme.config.js';
 import routesConfig from './app.routes.js';
 import appRun from './app.run.js';
 import MenuController from './menu.controller.js';

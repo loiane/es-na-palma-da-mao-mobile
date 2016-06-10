@@ -1,8 +1,8 @@
-import templateLogin from './web/login.tpl.html!text!platform';
-import templateCPF from './web/cpfVerificar.tpl.html!text!platform';
-import templateCPFCadastrado from './web/cpfCadastrado.tpl.html!text!platform';
-import templateCadastro from './web/cadastro.tpl.html!text!platform';
-import templateConfirmarEmail from './web/confirmarEmail.tpl.html!text!platform';
+import templateLogin from './views/login.tpl.html!text';
+import templateCPF from './views/cpfVerificar.tpl.html!text';
+import templateCPFCadastrado from './views/cpfCadastrado.tpl.html!text';
+import templateCadastro from './views/cadastro.tpl.html!text';
+import templateConfirmarEmail from './views/confirmarEmail.tpl.html!text';
 
 /**
  * Configura rotas para o componente

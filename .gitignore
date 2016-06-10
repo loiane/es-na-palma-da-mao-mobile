@@ -8,7 +8,7 @@ npm-debug.log*
 config.xml
 
 # Arquivo de configuração do portal com informações sensiveis
-src/client/components/app-core-shared/app.config.js
+src/client/components/app-core/app.config.js
 
 # Runtime data
 pids

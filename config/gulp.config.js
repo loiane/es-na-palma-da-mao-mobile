@@ -53,7 +53,7 @@ let paths = {
         },
 
         mobile: {
-            src: './src/client/components/app-core-mobile/index.tpl.html',
+            src: './src/client/components/app-core/index.tpl.html',
             output: './www/index.mobile.html'
         }
     },
