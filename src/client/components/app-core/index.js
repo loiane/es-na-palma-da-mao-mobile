@@ -18,6 +18,7 @@ import appRun from './app.run.js';
 import MenuController from './menu.controller.js';
 import storageState from '../app-states/storage/index.js';
 import principalState from '../app-states/principal/index.js';
+import dashboardState from '../app-states/dashboard/index.js';
 import loginState from '../app-states/login/index.js';
 
 import mobileProviders from '../providers/mobileProviders.js';
@@ -36,6 +37,7 @@ let dependencies = [
     dialogComponent.name,
     principalState.name,
     storageState.name,
+    dashboardState.name,
     loginState.name
 ];
 
