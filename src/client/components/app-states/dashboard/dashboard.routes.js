@@ -1,6 +1,6 @@
 ﻿import template from './dashboard.tpl.html!text';
-import noticia from './noticia.tpl.html!text';
-import agenda from './agenda.tpl.html!text';
+import noticia from '../noticia/noticia.tpl.html!text';
+import agenda from '../agenda/agenda.tpl.html!text';
 
 /**
  * Configura rotas para o componente

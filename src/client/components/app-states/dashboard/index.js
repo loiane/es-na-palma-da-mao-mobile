@@ -1,19 +1,19 @@
-﻿import 'angular-ui-router';
+import 'angular-ui-router';
 import './dashboard.css!css';
 import angular from 'angular';
 import DashBoardController from './dashboard.controller';
-import NoticiaController from './noticia.controller';
-import AgendaController from './agenda.controller';
 import dashBoardRoutes from './dashboard.routes';
+import agenda from '../agenda/index';
+import noticia from '../noticia/index';
 
 const dependencies = [
-    'ui.router'
+    'ui.router',
+    agenda.name,
+    noticia.name
 ];
 
 export default angular.module( 'dashBoard-state', dependencies )
                       .controller( 'dashBoardController', DashBoardController )
-                      .controller( 'noticiaController', NoticiaController )
-                      .controller( 'agendaController', AgendaController )
                       .config( dashBoardRoutes );
 
 

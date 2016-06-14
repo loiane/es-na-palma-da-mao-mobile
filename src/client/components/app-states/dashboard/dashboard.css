@@ -1,38 +1,6 @@
-.md-grid-list {
-	margin: 8px;
-}
-
-.gray {
-	background: #f5f5f5;
-}
-
-.green {
-	background: #b9f6ca;
-}
-
-.yellow {
-	background: #ffff8d;
-}
-
-.blue {
-	background: #84ffff;
-}
-
-.purple {
-	background: #b388ff;
-}
-
-.red {
-	background: #ff8a80;
-}
-
-.md-grid-tile {
-	transition: all 400ms ease-out 50ms;
-}
-
-.tabs-icon-top > .tabs .tab-item {
-    font-size: 14px !important;
-    line-height: 49px !important;
+.tabs-text-top > .tabs .tab-item {
+    font-size: 14px;
+    line-height: 49px;
 	font-weight: 500;
 }
 
@@ -46,4 +14,11 @@
 
 .tab-item {
     max-width: none !important;
+}
+
+ion-tabs.tabs-striped.tabs-color-active-material-espm .tab-item.tab-item-active, 
+ion-tabs.tabs-striped.tabs-color-active-material-espm .tab-item.active, 
+ion-tabs.tabs-striped.tabs-color-active-material-espm .tab-item.activated {
+    border-color: #C86673;
+    color: rgb(32,139,170);
 }
