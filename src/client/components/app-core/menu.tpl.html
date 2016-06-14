@@ -1,4 +1,4 @@
-<ion-side-menus enable-menu-with-back-views="false">
+<ion-side-menus enable-menu-with-back-views="true">
 	<ion-side-menu-content>
 		<ion-nav-bar class="material-background-nav-bar bar-prodest">
 			<ion-nav-buttons side="left">
@@ -42,7 +42,7 @@
 							<i class="fa fa-dashboard"></i>
 						</div>
 						<div class="col-66">
-							<span>DashBoard</span>
+							<span>Principal</span>
 						</div>
 					</div>
 
@@ -52,6 +52,15 @@
 						</div>
 						<div class="col-66">
 							<span>Storage</span>
+						</div>
+					</div>
+
+					<div class="row menu-item" ng-click="vm.navigateTo('app.dashboard.noticia')">
+						<div class="col-33">
+							<i class="fa fa-dashboard"></i>
+						</div>
+						<div class="col-66">
+							<span>DashBoard</span>
 						</div>
 					</div>
 
@@ -77,11 +86,15 @@
 					<md-subheader class="md-accent">Principal</md-subheader>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.principal')">
 						<i class="fa fa-dashboard"></i>
-						<span>DashBoard</span>
+						<span>Principal</span>
 					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.storage')">
 						<i class="fa fa-database"></i>
 						<span>Storage</span>
+					</md-list-item>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dashboard')">
+						<i class="fa fa-dashboard"></i>
+						<span>Dashboard</span>
 					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
 						<i class="fa fa-sign-out"></i>

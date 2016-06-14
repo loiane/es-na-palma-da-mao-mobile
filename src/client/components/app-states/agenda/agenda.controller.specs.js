@@ -1,4 +1,4 @@
-class DashBoardController {
+class AgendaController {
 
     /**
      * @constructor
@@ -8,19 +8,7 @@ class DashBoardController {
      */
     constructor( toast, $state ) {
         this.toast = toast;
-        this.$state = $state;
         this.activate();
-    }
-
-    /**
-     * Navega para o state especificado
-     *
-     * @param {string} stateName - o nome do state destino
-     *
-     * @returns {void}
-     */
-    navigateTo( stateName ) {
-        this.$state.go( stateName );
     }
 
     /**
@@ -33,6 +21,6 @@ class DashBoardController {
     }
 }
 
-export default [ 'toast', '$state', DashBoardController ];
+export default [ 'toast', '$state', AgendaController ];
 
 

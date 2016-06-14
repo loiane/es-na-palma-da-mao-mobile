@@ -65,7 +65,7 @@ class OAuth2 {
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
     _getToken( data, success, error ) {
-        var getTokenUrl = this.identityServerUrl + 'connect/token';
+        var getTokenUrl = `${this.identityServerUrl}connect/token`;
 
         var options = {
             method: 'POST',
@@ -92,7 +92,7 @@ class OAuth2 {
     }
 
     fetchUserInfo( success, error ) {
-        var userInfoUrl = this.identityServerUrl + 'connect/userinfo';
+        var userInfoUrl = `${this.identityServerUrl}connect/userinfo`;
 
         /**
          * Exemplo do objeto user retornado pelo IdentityServer do Acesso Cidadão
@@ -123,7 +123,7 @@ class OAuth2 {
             token: this._token()
         };
 
-        this.$http.post( this.identityServerUrl + 'connect/accesstokenvalidation', options )
+        this.$http.post( `${this.identityServerUrl}connect/accesstokenvalidation`, options )
             .then( ( tokenClaims ) => {
                 return true;
             }, () => {
