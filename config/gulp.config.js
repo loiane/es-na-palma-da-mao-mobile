@@ -15,7 +15,6 @@ let paths = {
             '!./hooks/**/*.js',
             '!./plugins/**/*.js',
             '!./jspm_packages/**/*.js',
-            '!./gulp-tasks/**/*.js',  // todo: temporário - remover
             '!./config/system.js',
             '!system.yuml.js'
         ],
@@ -26,13 +25,11 @@ let paths = {
     },
     html: [
         'src/client/**/*.html',
-        '!src/client/components/app-core-web/index.tpl.html',
-        '!src/client/components/app-core-mobile/index.tpl.html'
+        '!src/client/components/app-core/index.tpl.html'
     ],
     templates: [
         'src/client/**/*.tpl.html',
-        '!src/client/components/app-core-web/index.tpl.html',
-        '!src/client/components/app-core-mobile/index.tpl.html'
+        '!src/client/components/app-core/index.tpl.html'
     ],
     css: [ 'src/client/**/*.css' ],
     assets: [
@@ -47,20 +44,11 @@ let paths = {
     ],
     json: './src/client/**/*.json',
     index: {
-        web: {
-            src: './src/client/components/app-core-web/index.tpl.html',
-            output: './www/index.html'
-        },
-
-        mobile: {
-            src: './src/client/components/app-core/index.tpl.html',
-            output: './www/index.mobile.html'
-        }
+        src: './src/client/components/app-core/index.tpl.html'
     },
     watch: './src/client/**/*',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './config/system.config.js',
-    systemExtensions: './config/system.extensions.js',
     systemYuml: './system.yuml.js',
 
     // output

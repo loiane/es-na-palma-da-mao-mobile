@@ -1,4 +1,4 @@
-﻿import angular from 'angular';
+import angular from 'angular';
 import pageSidebarDirective from './sidebar.directive';
 import './sidebar.css!';
 

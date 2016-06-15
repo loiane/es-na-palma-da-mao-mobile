@@ -1,4 +1,4 @@
-﻿import template from './dashboard.tpl.html!text';
+import template from './dashboard.tpl.html!text';
 import noticia from '../noticia/noticia.tpl.html!text';
 import agenda from '../agenda/agenda.tpl.html!text';
 

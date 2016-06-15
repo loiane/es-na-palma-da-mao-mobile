@@ -1,4 +1,4 @@
-﻿import template from './noticia.tpl.html!text';
+import template from './noticia.tpl.html!text';
 
 /**
  * Configura rotas para o componente
