@@ -1,6 +1,6 @@
 {
-  "name": "es-na-palma-da-mao",
-  "version": "1.0.0-1",
+  "name": "es-na-palma-da-mao-mobile",
+  "version": "1.0.0-pre",
   "description": "ES na palma da mão",
   "scripts": {
     "express": "node src/server/app.js",
@@ -15,17 +15,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/prodest/es-na-palma-da-mao.git"
+    "url": "git+https://github.com/prodest/es-na-palma-da-mao-mobile.git"
   },
   "keywords": [
     "PRODEST"
   ],
-  "author": "daniel.hoisel",
+  "author": "PRODEST (https://github.com/prodest/)",
+  "contributors": [
+    {
+      "name": "Daniel Hoisel",
+      "email": "daniel.hoisel@gmail.com"
+    },
+    {
+      "name": "Vinícius Salomão",
+      "email": "vizeke@gmail.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/prodest/es-na-palma-da-mao/issues"
+    "url": "https://github.com/prodest/es-na-palma-da-mao-mobile/issues"
   },
-  "homepage": "https://github.com/prodest/es-na-palma-da-mao#readme",
+  "homepage": "https://github.com/prodest/es-na-palma-da-mao-mobile#readme",
   "devDependencies": {
     "angular-lazy-bundler": "^0.2.3",
     "babel": "^6.5.2",

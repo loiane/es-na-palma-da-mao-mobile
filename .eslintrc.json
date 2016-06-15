@@ -9,6 +9,9 @@
     "es6": true,
     "commonjs": true
   },
+  "rules":{
+    "linebreak-style": [2, "unix"]
+  },
   "globals": {
     "_": true,
     "moment": true,

@@ -1,4 +1,4 @@
-﻿
+
 /**
 * Diretiva que atualiza o título da página de acordo com o state(rota) atual.
 * @param {Object} $rootScope - $rootScope do angularjs
