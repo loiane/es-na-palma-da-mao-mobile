@@ -2,28 +2,35 @@
 import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto
 import 'angular-material';
+import 'ionic-native-transitions';
+import 'ngstorage';
 
-// tools
+// Services and Componenents
 import toastComponent from '../app-core-tools/toast/index.js';
 import dialogComponent from '../app-core-tools/dialog/index.js';
 import cpfService from '../app-core-tools/cpf.service.js';
 
-// mobile
-import 'ionic-native-transitions';
+// configs
 import appConfig from './app.config.js';
 import ionicConfig from './app.ionic.config.js';
 import themeConfig from './app.theme.config.js';
 import routesConfig from './app.routes.js';
+import httpInterceptorsConfig from './httpInterceptors.config.js';
+
+// Runs
 import appRun from './app.run.js';
+
+// Controllers
 import MenuController from './menu.controller.js';
+
+// Providers
+import mobileProviders from '../providers/mobileProviders.js';
+
+// states
 import storageState from '../app-states/storage/index.js';
 import principalState from '../app-states/principal/index.js';
 import dashboardState from '../app-states/dashboard/index.js';
 import loginState from '../app-states/login/index.js';
-
-import mobileProviders from '../providers/mobileProviders.js';
-import httpInterceptorsConfig from './httpInterceptors.config.js';
-import 'ngstorage';
 
 let dependencies = [
     'ionic',
@@ -38,7 +45,7 @@ let dependencies = [
     storageState.name,
     dashboardState.name,
     loginState.name
-]; 
+];
 
 let app = angular.module( 'app', dependencies )
                  .config( ionicConfig )
