@@ -44,8 +44,9 @@ class ToastService {
     }
 
     showActionToast( displayOption ) {
-        if ( !displayOption )
+        if ( !displayOption ) {
             return;
+        }
 
         var toast = this.$mdToast.simple()
                         .textContent( displayOption.title )

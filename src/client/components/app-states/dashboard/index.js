@@ -7,9 +7,7 @@ import agenda from '../agenda/index';
 import noticia from '../noticia/index';
 
 const dependencies = [
-    'ui.router',
-    agenda.name,
-    noticia.name
+    'ui.router', agenda.name, noticia.name
 ];
 
 export default angular.module( 'dashBoard-state', dependencies )
