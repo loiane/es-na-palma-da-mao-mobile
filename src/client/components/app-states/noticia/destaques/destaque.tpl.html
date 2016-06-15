@@ -1,0 +1,40 @@
+<ion-view title="ES na Palma da Mão">
+	<ion-content id="dashboard-tab-noticia-destaque">
+	
+		<!-- Primeira Notícia -->
+		<md-card>
+        	<img ng-src="{{vm.primeiroDestaque.imagem}}" class="md-card-image" alt="">
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{vm.primeiroDestaque.titulo}}</span>
+				</md-card-title-text>
+			</md-card-title>
+        	<md-card-content>
+          		<p ng-bind-html="vm.primeiroDestaque.resumo"></p>
+				<h5 class="noticia-info-origem">{{vm.primeiroDestaque.orgao}}</h5>
+				<h6 class="noticia-info-origem">{{vm.moment(vm.primeiroDestaque.data).fromNow()}}</h6>
+			</md-card-content>
+			<md-card-actions layout="row" layout-align="start left">
+				<md-button ng-click="vm.goToNoticia(vm.primeiroDestaque.id)" class="md-accent">LEIA MAIS</md-button>
+        	</md-card-actions>
+      	</md-card>
+
+		<!-- Outras notícias -->
+		<md-card ng-repeat="noticia in vm.outrosDestaques">
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-title outras-noticias">{{noticia.titulo}}</span>
+					<span class="outras-noticias-info-origem">{{noticia.orgao}} | {{vm.moment(noticia.data).fromNow()}}</span>
+				</md-card-title-text>
+				<md-card-title-media>
+					<div class="md-media-md card-media">
+						<img alt="" ng-src="{{noticia.imagem}}" />
+					</div>
+				</md-card-title-media>
+			</md-card-title>
+			<md-card-actions layout="row" layout-align="start left">
+				<md-button ng-click="vm.goToNoticia(noticia.id)"  class="md-accent">LEIA MAIS</md-button>
+			</md-card-actions>
+      	</md-card>
+	</ion-content><!--Dashboard section-->
+</ion-view>

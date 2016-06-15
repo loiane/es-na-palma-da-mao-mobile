@@ -21,6 +21,10 @@ import principalState from '../app-states/principal/index.js';
 import dashboardState from '../app-states/dashboard/index.js';
 import loginState from '../app-states/login/index.js';
 
+import noticiaDestaqueState from '../app-states/noticia/destaque/index.js';
+import noticiaDetalheState from '../app-states/noticia/detalhe/index.js';
+import noticiaListaState from '../app-states/noticia/lista/index.js';
+
 import mobileProviders from '../providers/mobileProviders.js';
 import httpInterceptor from './http-interceptor.js';
 import 'ngstorage';
