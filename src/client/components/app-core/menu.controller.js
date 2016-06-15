@@ -24,8 +24,8 @@ class MenuController {
      *
      * @returns {void}
      */
-    constructor( $rootScope, $scope, $window, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog,
-                 $mdBottomSheet, $mdMenu, $mdSelect, OAuth2, OAuthFacebook, OAuthGoogle, OAuthDigits ) {
+    constructor( $rootScope, $scope, $window, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicNativeTransitions, $ionicPlatform,
+                 $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, OAuth2, OAuthFacebook, OAuthGoogle, OAuthDigits ) {
 
         this.$rootScope = $rootScope;
         this.$scope = $scope;
@@ -35,6 +35,7 @@ class MenuController {
         this.$log = $log;
         this.$ionicHistory = $ionicHistory;
         this.$state = $state;
+        this.$ionicNativeTransitions = $ionicNativeTransitions;
         this.$ionicPlatform = $ionicPlatform;
         this.$mdDialog = $mdDialog;
         this.$mdBottomSheet = $mdBottomSheet;
@@ -133,7 +134,7 @@ class MenuController {
         this.updateUser();
 
         //Watch User Info - para futuras alterações
-        this.$scope.$watch( () => { return this.OAuth2.getUserInfo(); },
+        this.$scope.$watch( () => { return this.OAuth2.userInfo; },
             ( oldValue, newValue ) => {
                 if ( newValue !== oldValue ) {
                     this.updateUser();
@@ -142,7 +143,7 @@ class MenuController {
     }
 
     updateUser() {
-        this.user = this.OAuth2.getUserInfo();
+        this.user = this.OAuth2.userInfo;
         this.authenticated = this.user ? true : false;
     }
 
@@ -181,7 +182,13 @@ class MenuController {
                     disableAnimate: true,
                     disableBack: true
                 } );
-                this.$state.go( stateName );
+                if ( this.$ionicNativeTransitions ) {
+                    this.$ionicNativeTransitions.stateGo( stateName, {}, {
+                        'type': 'fade'
+                    } );
+                } else {
+                    this.$state.go( stateName );
+                }
             }
         }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }
@@ -206,6 +213,7 @@ export default [
     '$log',
     '$ionicHistory',
     '$state',
+    '$ionicNativeTransitions',
     '$ionicPlatform',
     '$mdDialog',
     '$mdBottomSheet',

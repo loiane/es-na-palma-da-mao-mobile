@@ -1,5 +1,5 @@
 ﻿import template from './dashboard.tpl.html!text';
-import noticia from '../noticia/noticia.tpl.html!text';
+import noticia from '../noticia/views/destaque.tpl.html!text';
 import agenda from '../agenda/agenda.tpl.html!text';
 
 /**
@@ -27,6 +27,7 @@ function dashBoardRoutes( $stateProvider ) {
         .state( 'app.dashboard.agenda', {
             url: 'agenda',
             data: { title: 'AGENDA' },
+            nativeTransitions: null,
             views: {
                 'tab-agenda': {
                     controller: 'agendaController as vm',
@@ -37,6 +38,7 @@ function dashBoardRoutes( $stateProvider ) {
         .state( 'app.dashboard.noticia', {
             url: 'noticia',
             data: { title: 'DESTAQUES' },
+            nativeTransitions: null,
             views: {
                 'tab-noticia': {
                     controller: 'noticiaController as vm',

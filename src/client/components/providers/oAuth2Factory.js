@@ -8,7 +8,7 @@ class OAuth2 {
         this.$localStorage = $localStorage;
         this.$window = $window;
 
-        this.$localStorage.tokenClaims = this._getClaimsFromToken();
+        this.$localStorage.tokenClaims = this.user;
     }
 
     initialize( identityServerUrl ) {
@@ -39,24 +39,20 @@ class OAuth2 {
      * Busca o token salvo no localstorage e retorna os claims do usuário
      * @return {object} Claims do usuário
      */
-    _getClaimsFromToken() {
-        var token = this.$localStorage.token;
+    get user() {
+        var token = this.token;
 
         var user = {};
-        if ( typeof token !== 'undefined' ) {
+        if ( typeof token !== undefined ) {
             var encoded = token.access_token.split( '.' )[ 1 ];
             user = JSON.parse( this._urlBase64Decode( encoded ) );
         }
         return user;
     }
 
-    _existeToken() {
-        return this.$localStorage.token;
-    }
-
-    _token() {
-        if ( !this._existeToken() )
-            return '';
+    get token() {
+        if ( !this.$localStorage.token )
+            return undefined;
 
         return this.$localStorage.token;
     }
@@ -83,7 +79,7 @@ class OAuth2 {
         this.$http( options )
             .success( ( response ) => {
                 this.$localStorage.token = response;
-                this.$localStorage.tokenClaims = this._getClaimsFromToken();
+                this.$localStorage.tokenClaims = this.user;
 
                 success( response );
             } )
@@ -116,11 +112,11 @@ class OAuth2 {
     }
 
     isValidToken() {
-        if ( !this._existeToken() )
+        if ( !this.token )
             return false;
 
         var options = {
-            token: this._token()
+            token: this.token
         };
 
         this.$http.post( `${this.identityServerUrl}connect/accesstokenvalidation`, options )
@@ -134,13 +130,9 @@ class OAuth2 {
     /**
      * @return {object} Claims do usuário
      */
-    getTokenClaims() {
-        return this.$localStorage.tokenClaims;
-    }
+    get tokenClaims() { return this.$localStorage.tokenClaims; }
 
-    getUserInfo() {
-        return this.$localStorage.userInfo;
-    }
+    get userInfo() { return this.$localStorage.userInfo; }
 
     /*
     signUp( data, success, error ) {

@@ -1,4 +1,5 @@
-﻿import template from './noticia.tpl.html!text';
+﻿import listaTemplate from './views/lista.tpl.html!text';
+import detalheTemplate from './views/detalhe.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -18,7 +19,17 @@ function noticiaRoutes( $stateProvider ) {
             views: {
                 content: {
                     controller: 'noticiaController as vm',
-                    template: template
+                    template: listaTemplate
+                }
+            }
+        } )
+        .state( 'app.noticiaDetalhe/:id', {
+            url: 'noticiaDetalhe/:id',
+            data: { title: 'Detalhe Noticia' },
+            views: {
+                content: {
+                    controller: 'noticiaController as vm',
+                    template: detalheTemplate
                 }
             }
         } );

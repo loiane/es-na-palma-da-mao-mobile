@@ -32,6 +32,7 @@ System.config({
     "jquery": "npm:jquery@2.2.1",
     "json": "github:systemjs/plugin-json@0.1.2",
     "mobile-detect": "npm:mobile-detect@1.3.2",
+    "moment": "npm:moment@2.13.0",
     "ngstorage": "npm:ngstorage@0.3.10",
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
     "robotoDraft": "github:raibutera/robotodraft@1.1.0",
