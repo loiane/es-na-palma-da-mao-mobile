@@ -22,7 +22,7 @@ import dashboardState from '../app-states/dashboard/index.js';
 import loginState from '../app-states/login/index.js';
 
 import mobileProviders from '../providers/mobileProviders.js';
-import httpInterceptor from './http-interceptor.js';
+import httpInterceptorsConfig from './httpInterceptors.config.js';
 import 'ngstorage';
 
 let dependencies = [
@@ -45,7 +45,7 @@ let app = angular.module( 'app', dependencies )
                  .config( ionicConfig )
                  .config( themeConfig )
                  .config( routesConfig )
-                 .config( httpInterceptor )
+                 .config( httpInterceptorsConfig )
                  .controller( 'menuController', MenuController )
                  .run( appRun );
 

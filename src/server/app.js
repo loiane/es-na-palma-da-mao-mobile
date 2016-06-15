@@ -1,4 +1,6 @@
 /*eslint angular/log: 0*/
+/* eslint-disable no-console */
+
 'use strict';
 
 let express = require( 'express' );
