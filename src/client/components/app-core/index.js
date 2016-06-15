@@ -5,9 +5,12 @@ import 'angular-material';
 import 'ionic-native-transitions';
 import 'ngstorage';
 
-// Services and Componenents
-import toastComponent from '../app-core-tools/toast/index.js';
-import dialogComponent from '../app-core-tools/dialog/index.js';
+// Modules
+import toastModule from '../app-core-tools/toast/index.js';
+import dialogModule from '../app-core-tools/dialog/index.js';
+import authenticationModule from '../app-core-tools/authentication/index.js';
+
+// Services
 import cpfService from '../app-core-tools/cpf.service.js';
 
 // configs
@@ -18,13 +21,12 @@ import routesConfig from './app.routes.js';
 import httpInterceptorsConfig from './httpInterceptors.config.js';
 
 // Runs
-import appRun from './app.run.js';
+import appRun from './app.run.js';  
 
 // Controllers
 import MenuController from './menu.controller.js';
 
 // Providers
-import mobileProviders from '../providers/mobileProviders.js';
 
 // states
 import storageState from '../app-states/storage/index.js';
@@ -38,9 +40,9 @@ let dependencies = [
     'ngStorage',
     'ionic-native-transitions',
     appConfig.name,
-    mobileProviders.name,
-    toastComponent.name,
-    dialogComponent.name,
+    authenticationModule.name,
+    toastModule.name,
+    dialogModule.name,
     principalState.name,
     storageState.name,
     dashboardState.name,

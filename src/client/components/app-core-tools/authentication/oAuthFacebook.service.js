@@ -1,4 +1,3 @@
-
 /**
  * https://github.com/jeduan/cordova-plugin-facebook4
  */
@@ -29,20 +28,19 @@ class OAuthFacebook {
                 }
             }
 
-            //Buscar Token
-            this.$window.facebookConnectPlugin.getAccessToken( function( token ) { } );
-        } );
+         //Buscar Token
+         this.$window.facebookConnectPlugin.getAccessToken( function( token ) { } );
+         } );
          */
 
-        this.$window.facebookConnectPlugin.login( scopes,
-            ( responseFacebook ) => {
-                //Salva o token do facebook
-                this.$localStorage.facebookAccessToken = responseFacebook.authResponse;
+        this.$window.facebookConnectPlugin.login( scopes, ( responseFacebook ) => {
+            //Salva o token do facebook
+            this.$localStorage.facebookAccessToken = responseFacebook.authResponse;
 
-                success( responseFacebook );
-            }, ( errorFacebook ) => {
-                error( errorFacebook );
-            } );
+            success( responseFacebook );
+        }, ( errorFacebook ) => {
+            error( errorFacebook );
+        } );
     }
 
     logout( success, error ) {
@@ -58,7 +56,7 @@ class OAuthFacebook {
     }
 
     graphApi( requestPath, permissions, success, error ) {
-        this.$window.facebookConnectPlugin.api( requestPath, permissions, success, failure );
+        this.$window.facebookConnectPlugin.api( requestPath, permissions, success, error );
     }
 }
 
