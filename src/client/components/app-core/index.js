@@ -6,7 +6,7 @@ import 'angular-material';
 // tools
 import toastComponent from '../app-core-tools/toast/index.js';
 import dialogComponent from '../app-core-tools/dialog/index.js';
-import validadores from '../app-core-tools/validators/index.js';
+import cpfService from '../app-core-tools/cpf.service.js';
 
 // mobile
 import 'ionic-native-transitions';
@@ -31,7 +31,6 @@ let dependencies = [
     'ngStorage',
     'ionic-native-transitions',
     appConfig.name,
-    validadores.name,
     mobileProviders.name,
     toastComponent.name,
     dialogComponent.name,
@@ -39,7 +38,7 @@ let dependencies = [
     storageState.name,
     dashboardState.name,
     loginState.name
-];
+]; 
 
 let app = angular.module( 'app', dependencies )
                  .config( ionicConfig )
@@ -47,6 +46,7 @@ let app = angular.module( 'app', dependencies )
                  .config( routesConfig )
                  .config( httpInterceptorsConfig )
                  .controller( 'menuController', MenuController )
+                 .service( 'cpfService', cpfService )
                  .run( appRun );
 
 // bootstrap app
