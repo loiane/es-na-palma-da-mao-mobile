@@ -23,6 +23,7 @@ System.config({
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "bootstrap": "github:twbs/bootstrap@3.3.6",
+    "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.22",
     "font-awesome": "npm:font-awesome@4.5.0",

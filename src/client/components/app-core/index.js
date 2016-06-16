@@ -21,7 +21,7 @@ import routesConfig from './app.routes.js';
 import httpInterceptorsConfig from './httpInterceptors.config.js';
 
 // Runs
-import appRun from './app.run.js';  
+import appRun from './app.run.js';
 
 // Controllers
 import MenuController from './menu.controller.js';
@@ -33,6 +33,7 @@ import storageState from '../app-states/storage/index.js';
 import principalState from '../app-states/principal/index.js';
 import dashboardState from '../app-states/dashboard/index.js';
 import loginState from '../app-states/login/index.js';
+import agendaState from '../app-states/agenda/index.js';
 
 let dependencies = [
     'ionic',
@@ -46,7 +47,8 @@ let dependencies = [
     principalState.name,
     storageState.name,
     dashboardState.name,
-    loginState.name
+    loginState.name,
+    agendaState.name
 ];
 
 let app = angular.module( 'app', dependencies )
