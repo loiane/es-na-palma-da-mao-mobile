@@ -35,6 +35,7 @@ System.config({
     "moment": "npm:moment@2.13.0",
     "ngstorage": "npm:ngstorage@0.3.10",
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
+    "oidc-token-manager": "github:IdentityModel/oidc-token-manager@1.2.0",
     "robotoDraft": "github:raibutera/robotodraft@1.1.0",
     "text": "github:systemjs/plugin-text@0.0.7",
     "toastr": "github:CodeSeven/toastr@2.1.2",

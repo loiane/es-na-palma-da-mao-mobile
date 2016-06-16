@@ -1,4 +1,4 @@
-﻿import './principal.css!';
+import './principal.css!';
 import PrincipalController from './principal.controller.js';
 import principalRoutes from './principal.routes.js';
 

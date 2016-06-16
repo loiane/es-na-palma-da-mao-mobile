@@ -11,7 +11,7 @@ import agenda from '../agenda/agenda.tpl.html!text';
 function dashBoardRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.dashboard', {
-            url: 'dashboard',
+            url: 'dashboard/',
             data: { title: 'Dashboard' },
             nativeTransitions: {
                 'type': 'fade'

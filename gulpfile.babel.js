@@ -196,7 +196,7 @@ const authenticateAsync = ( tokenOrCredentials ) => {
 
         // tenta fazer um requisição que necessita de autenticação para poder verificar
         // o sucesso da mesma
-        client.get( '/user', {}, ( err, status, body, headers ) => {
+        client.get( '/user', {}, ( err, status, body, headers ) => { //eslint-disable-line no-unused-vars
             if ( err ) {
                 reject( `${gutil.colors.red( 'autenticação no github falhou! ' )} resposta do server: ${gutil.colors.yellow( err )}` );
             }
@@ -300,13 +300,6 @@ taskMaker.defineTask( 'copy', {
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'systemExtensions',
-    src: config.paths.systemExtensions,
-    dest: config.paths.output.root,
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
     taskName: 'systemConfig',
     src: config.paths.systemConfig,
     dest: config.paths.output.root,
@@ -338,29 +331,10 @@ taskMaker.defineTask( 'copy', {
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'index-web.html',
-    src: config.paths.index.web.src,
+    taskName: 'index.html',
+    src: config.paths.index.src,
     dest: config.paths.output.root,
     rename: 'index.html',
-    changed: { extension: '.html' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'index-mobile.html',
-    src: config.paths.index.mobile.src,
-    dest: config.paths.output.root,
-    rename: 'index.mobile.html',
-    changed: { extension: '.html' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'cache-bust-index-web.html',
-    src: config.paths.index.web.src,
-    dest: config.paths.output.root,
-    rename: 'index.html',
-    replace: config.cacheBustConfig,
     changed: { extension: '.html' },
     debug: config.debugOptions
 } );
@@ -390,6 +364,7 @@ taskMaker.defineTask( 'eslint', {
     taskName: 'eslint-src',
     src: config.paths.js.src,
     dest: './src',
+    lintConfig: { quiet: true },
     debug: config.debugOptions
 } );
 
@@ -428,7 +403,6 @@ gulp.task( 'noop', ( cb ) => {
 gulp.task( 'serve', 'Serve a aplicação através de web server', [ 'nodemon' ], () => {
     const appBaseUrl = `http://localhost:${config.browserSyncConfig.port}`;
     open( `${appBaseUrl}/index.html` );
-    open( `${appBaseUrl}/index.mobile.html` );
 } );
 
 gulp.task( 'ensuresMaster', false, ( cb ) => {
@@ -587,7 +561,7 @@ gulp.task( 'githubApi:createRelease', false, [ 'ensuresMaster', 'githubApi:authe
                        'prerelease': isPrerelease
                    };
 
-                   client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => {
+                   client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => { // eslint-disable-line no-unused-vars
                        if ( err ) {
                            gutil.log( gutil.colors.red( `Error: ${err}` ) );
                        } else {
@@ -614,7 +588,6 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
     // requisições.
 
     const transpile = argv.transpile || environment.isProduction();
-    const cacheBust = argv.cacheBust || environment.isProduction();
     const jsmin = argv.jsmin || environment.isProduction();
     const htmlmin = argv.htmlmin || environment.isProduction();
 
@@ -625,11 +598,9 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'json',
         'assets',
         'systemConfig',
-        //'systemExtensions',
         'system.yuml',
         'server-js',
-        'index-mobile.html',
-        //cacheBust ? 'cache-bust-index-web.html' : 'index-web.html',
+        'index.html',
         transpile ? 'transpile-client-js' : 'client-js',
         htmlmin ? 'htmlmin' : 'html'
     ];

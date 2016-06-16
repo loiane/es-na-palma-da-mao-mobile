@@ -1,4 +1,4 @@
-﻿import listaTemplate from './lista.tpl.html!text';
+import listaTemplate from './lista.tpl.html!text';
 
 /**
  * Configura rotas para o componente
