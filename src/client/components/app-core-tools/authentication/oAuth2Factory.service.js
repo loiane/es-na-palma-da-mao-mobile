@@ -121,7 +121,7 @@ class OAuth2 {
             token: this.token
         };
 
-        this.$http.post( `${this.identityServerUrl}connect/accesstokenvalidation`, options )
+        this.$http.post( `${this.identityServerUrl}connect/introspect`, options )
             .then( ( tokenClaims ) => {
                 return true;
             }, ( error ) => {

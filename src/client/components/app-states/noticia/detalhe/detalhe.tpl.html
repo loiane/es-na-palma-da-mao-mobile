@@ -1,5 +1,5 @@
 <ion-view>
-	 <ion-nav-title>{{vm.detalhe.orgao}}</ion-nav-title>
+	 <ion-nav-title>{{vm.news.origin}}</ion-nav-title>
 
 	 <!--left button on navigation bar-->
     <ion-nav-buttons side="left">
@@ -10,10 +10,10 @@
 	<ion-content id="state-noticia-detalhe">
 
 		<md-content flex layout-padding class="espm-full-content">
-			<img ng-src="{{vm.detalhe.imagem}}" class="md-card-image espm-img-noticia-detalhe" alt="">
-			<span class="outras-noticias-info-origem">{{vm.detalhe.orgao}} | {{vm.moment(vm.detalhe.data).fromNow()}}</span>
-			<h2>{{vm.detalhe.titulo}}</h2>
-			<p ng-bind-html="vm.detalhe.corpo" class="espm-corpo-noticia"></p>
+			<img ng-src="{{vm.news.image}}" class="md-card-image espm-img-noticia-detalhe" alt="">
+			<span class="outras-noticias-info-origem">{{vm.news.origin}} | {{vm.moment(vm.news.date).fromNow()}}</span>
+			<h2>{{vm.news.titulo}}</h2>
+			<p ng-bind-html="vm.news.body" class="espm-corpo-noticia"></p>
 			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
 				<md-button>NOTÍCIA ANTERIOR</md-button>
 				<md-button>PRÓXIMA NOTÍCIA</md-button>

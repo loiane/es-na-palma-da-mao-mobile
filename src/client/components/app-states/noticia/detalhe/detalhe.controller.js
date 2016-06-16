@@ -30,19 +30,19 @@ class DetalheController {
      * @returns {void}
      */
     activate() {
-        this._detalhe = {};
+        this._news = {};
         //this.toast.show( { title: 'DashBoard Controller ativado' } );
 
-        this.getDetalhe( this.$stateParams.id );
+        this.getNews( this.$stateParams.id );
     }
 
-    get detalhe() { return this._detalhe; }
+    get news() { return this._news; }
     get moment() { return this._moment; }
 
-    getDetalhe( id, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}noticia/${id}` )
+    getNews( id, success, error ) {
+        this.$http.get( `${this.appConfig.apiNoticia}${id}` )
         .then( ( response ) => {
-            this._detalhe = response.data;
+            this._news = response.data;
 
             //success();
         }, error );
