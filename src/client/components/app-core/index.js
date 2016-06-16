@@ -1,6 +1,7 @@
 // 3th party
 import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto
+import 'angular-i18n/pt-br';   // on pt-br you can use your locale
 import 'angular-material';
 import 'ionic-native-transitions';
 import 'ngstorage';

@@ -16,6 +16,7 @@ System.config({
 
   map: {
     "angular": "github:angular/bower-angular@1.5.5",
+    "angular-i18n": "npm:angular-i18n@1.5.7",
     "angular-material": "github:angular/bower-material@1.0.7",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.0",
     "angular-ui-bootstrap": "npm:angular-ui-bootstrap@1.2.4",
