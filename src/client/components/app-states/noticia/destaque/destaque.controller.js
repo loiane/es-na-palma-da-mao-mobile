@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-class NoticiaController {
+class DestaqueController {
 
     /**
      * @constructor
@@ -25,20 +25,12 @@ class NoticiaController {
      * @returns {void}
      */
     activate() {
-        this._noticias = [];
         this._destaques = [];
-        this._detalhe = {};
-        //this.toast.show( { title: 'DashBoard Controller ativado' } );
-
         this.getDestaques();
-        this.getNoticias();
     }
 
     get primeiroDestaque() { return this._destaques.length > 0 ? this._destaques[ 0 ] : {}; }
     get outrosDestaques() { return this._destaques.length > 0 ? this._destaques.slice( 1 ) : []; }
-    get destaques() { return this._destaques; }
-    get noticias() { return this._noticias; }
-    get detalhe() { return this._detalhe; }
     get moment() { return this._moment; }
 
     getDestaques( n, success, error ) {
@@ -52,29 +44,11 @@ class NoticiaController {
         } );
     }
 
-    getNoticias( filtro, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}destaques` )
-        .then( ( response ) => {
-            this._noticias = response.data;
-
-            //success();
-        }, error );
-    }
-
-    getDetalhe( id, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}noticia` )
-        .then( ( response ) => {
-            this._detalhe = response.data;
-
-            success();
-        }, error );
-    }
-
     goToNoticia( id ) {
         this.$state.go( 'app.noticiaDetalhe/:id', { id: id } );
     }
 }
 
-export default [ '$http', '$state', 'appConfig', 'toast', NoticiaController ];
+export default [ '$http', '$state', 'appConfig', 'toast', DestaqueController ];
 
 

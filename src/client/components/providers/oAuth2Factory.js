@@ -43,7 +43,7 @@ class OAuth2 {
         var token = this.token;
 
         var user = {};
-        if ( typeof token !== undefined ) {
+        if ( typeof token !== 'undefined' ) {
             var encoded = token.access_token.split( '.' )[ 1 ];
             user = JSON.parse( this._urlBase64Decode( encoded ) );
         }
@@ -115,16 +115,18 @@ class OAuth2 {
         if ( !this.token )
             return false;
 
-        var options = {
+        return true; //TODO: Remover assim que Tadeu verificar isso
+
+        /*let options = {
             token: this.token
         };
 
         this.$http.post( `${this.identityServerUrl}connect/accesstokenvalidation`, options )
             .then( ( tokenClaims ) => {
                 return true;
-            }, () => {
+            }, ( error ) => {
                 return false;
-            } );
+            } );*/
     }
 
     /**

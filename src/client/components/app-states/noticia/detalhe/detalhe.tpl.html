@@ -1,15 +1,25 @@
-<ion-view title="ES na Palma da Mão">
-	<ion-content id="dashboard-tab-noticia">
+<ion-view>
+	 <ion-nav-title>{{vm.detalhe.orgao}}</ion-nav-title>
 
-		<md-content flex layout-padding>
-			<img ng-src="{{vm.detalhe.imagem}}" class="md-card-image" alt="">
-			<span class="outras-noticias-info-origem">{{noticia.orgao}} | {{vm.moment(noticia.data).fromNow()}}</span>
-			<p ng-bind-html="vm.detalhe.corpo"></p>
+	 <!--left button on navigation bar-->
+    <ion-nav-buttons side="left">
+        <a ng-click="vm.$rootScope.$ionicGoBack()" class="button back-button buttons button-clear header-item nav-back-btn">
+            <i class="fa fa-arrow-left espm-back-button"></i>
+        </a>
+    </ion-nav-buttons><!--end left button on navigation bar-->
+	<ion-content id="state-noticia-detalhe">
+
+		<md-content flex layout-padding class="espm-full-content">
+			<img ng-src="{{vm.detalhe.imagem}}" class="md-card-image espm-img-noticia-detalhe" alt="">
+			<span class="outras-noticias-info-origem">{{vm.detalhe.orgao}} | {{vm.moment(vm.detalhe.data).fromNow()}}</span>
+			<h2>{{vm.detalhe.titulo}}</h2>
+			<p ng-bind-html="vm.detalhe.corpo" class="espm-corpo-noticia"></p>
 			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
 				<md-button>NOTÍCIA ANTERIOR</md-button>
 				<md-button>PRÓXIMA NOTÍCIA</md-button>
 			</section>
 		</md-content>
 
-	</ion-content><!--Dashboard section-->
+	</ion-content>
+	<!--Dashboard section-->
 </ion-view>

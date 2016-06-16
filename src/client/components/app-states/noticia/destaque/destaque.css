@@ -1,8 +1,8 @@
-h5.noticia-info-origem, h6.noticia-info-origem {
+#state-noticia-destaque h5.noticia-info-origem, h6.noticia-info-origem {
     opacity: 0.5;
 }
 
-.outras-noticias-info-origem {
+#state-noticia-destaque .outras-noticias-info-origem {
     margin-top: 10px;
     opacity: 0.5;
     font-size: 14px;
@@ -11,12 +11,12 @@ h5.noticia-info-origem, h6.noticia-info-origem {
     line-height: 1.2;
 }
 
-md-card md-card-title md-card-title-media .md-media-md {
+#state-noticia-destaque md-card md-card-title md-card-title-media .md-media-md {
     height: auto !important;
     max-height: 112px;
 }
 
-.md-title.outras-noticias {
+#state-noticia-destaque .md-title.outras-noticias {
     font-weight: 400;
     font-size: 18px;
 }

@@ -1,5 +1,4 @@
-﻿import template from './dashboard.tpl.html!text';
-import noticia from '../noticia/views/destaque.tpl.html!text';
+import template from './dashboard.tpl.html!text';
 import agenda from '../agenda/agenda.tpl.html!text';
 
 /**
@@ -12,7 +11,7 @@ import agenda from '../agenda/agenda.tpl.html!text';
 function dashBoardRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.dashboard', {
-            url: 'dashboard/',
+            url: 'dashboard',
             data: { title: 'Dashboard' },
             nativeTransitions: {
                 'type': 'fade'
@@ -32,17 +31,6 @@ function dashBoardRoutes( $stateProvider ) {
                 'tab-agenda': {
                     controller: 'agendaController as vm',
                     template: agenda
-                }
-            }
-        } )
-        .state( 'app.dashboard.noticia', {
-            url: 'noticia',
-            data: { title: 'DESTAQUES' },
-            nativeTransitions: null,
-            views: {
-                'tab-noticia': {
-                    controller: 'noticiaController as vm',
-                    template: noticia
                 }
             }
         } );

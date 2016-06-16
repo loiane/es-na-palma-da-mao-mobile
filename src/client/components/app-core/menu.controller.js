@@ -176,11 +176,12 @@ class MenuController {
      */
     navigateTo( stateName ) {
         this.$timeout( () => {
-            this.$mdSidenav( 'left' ).close();
+            this.closeSideNav();
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
                 this.$ionicHistory.nextViewOptions( {
                     disableAnimate: true,
-                    disableBack: true
+                    disableBack: true,
+                    historyRoot: true
                 } );
                 if ( this.$ionicNativeTransitions ) {
                     this.$ionicNativeTransitions.stateGo( stateName, {}, {

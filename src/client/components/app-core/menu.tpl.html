@@ -1,6 +1,6 @@
-<ion-side-menus enable-menu-with-back-views="true">
+<ion-side-menus>
 	<ion-side-menu-content>
-		<ion-nav-bar class="material-background-nav-bar bar-prodest">
+		<ion-nav-bar class="material-background-nav-bar">
 			<ion-nav-buttons side="left">
 				<a class="button button-icon button-clear ion-navicon" menu-toggle="left" ng-click="vm.toggleLeft()"></a>
 			</ion-nav-buttons>
@@ -19,8 +19,10 @@
 					<!--<br/>
 					<span class="sub-title">{{vm.perfil}}</span>-->
 				</p>
-			</div><!--end menu header section-->
-		</div> <!--menu content section-->
+			</div>
+			<!--end menu header section-->
+		</div>
+		<!--menu content section-->
 		<ion-content id="toggle-menu-left-content">
 
 			<!--If device is android application will present below code.-->
@@ -105,6 +107,10 @@
 						<i class="fa fa-dashboard"></i>
 						<span>Dashboard</span>
 					</md-list-item>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.noticia')">
+						<i class="fa fa-newspaper-o"></i>
+						<span>Notícias</span>
+					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
 						<i class="fa fa-sign-out"></i>
 						<span>Sair</span>
@@ -112,7 +118,8 @@
 				</div>
 			</md-list>
 			<!--end list section-->
-		</ion-content><!--end menu content section-->
+		</ion-content>
+		<!--end menu content section-->
 		<!--end menu section-->
 	</md-sidenav>
 </ion-side-menus>

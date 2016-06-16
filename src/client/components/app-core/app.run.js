@@ -59,7 +59,9 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
 
         if ( !isAuthenticated() ) {
             $state.go( 'app.login' );
-        }
+        } /*else {
+            $state.go( 'app.dashboard' );
+        }*/
     } );
 }
 
