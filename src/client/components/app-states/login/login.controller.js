@@ -36,7 +36,7 @@ class LoginController {
             historyRoot: true
         } );
 
-        this.$state.go( 'app.storage' );
+        this.$state.go( 'app.dashboard' );
     }
 
     /**
