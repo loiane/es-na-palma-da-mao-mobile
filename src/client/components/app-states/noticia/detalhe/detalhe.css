@@ -1,0 +1,25 @@
+#state-noticia-detalhe h5.noticia-info-origem, h6.noticia-info-origem {
+    opacity: 0.5;
+}
+
+#state-noticia-detalhe .espm-img-noticia-detalhe {
+    width: 100%;
+}
+
+#state-noticia-detalhe .espm-full-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#state-noticia-detalhe .espm-corpo-noticia {
+    flex-grow: 1;
+}
+
+#state-noticia-detalhe .espm-corpo-noticia img{
+    max-width: 100%;
+}
+
+#state-noticia-detalhe .espm-back-button {
+    font-size: 1.4em;
+}
