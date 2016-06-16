@@ -14,8 +14,7 @@ class CalendarController {
 
         this.calendar = {};
         this.selectedCalendars = [];
-        this.availableCalendars = []
-
+        this.availableCalendars = [];
         this.activate();
     }
 
