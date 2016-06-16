@@ -158,7 +158,6 @@ class OAuth2 {
      * Faz logout do usuário. Remove o token do localstore e os claims salvos.
      */
     signOut( success ) {
-        this.tokenClaims = {};
         delete this.$localStorage.token;
         delete this.$localStorage.userInfo;
         delete this.$localStorage.tokenClaims;

@@ -1,0 +1,58 @@
+<ion-view title="Acesse sua conta">
+    <!--left button on navigation bar-->
+    <ion-nav-bar class="material-background-nav-bar">
+        <ion-nav-buttons side="left">
+            <a ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item nav-back-btn">
+                <i class="ion-android-arrow-back"></i>
+            </a>
+        </ion-nav-buttons>
+        <!--end left button on navigation bar-->
+    </ion-nav-bar>
+
+
+    <!--login content section-->
+    <ion-content id="state-login">
+
+        <!--login form section-->
+        <form class="login-form">
+
+            <md-input-container md-no-float class="md-block">
+                <label>CPF ou E-mail</label>
+                <input ng-model="vm.user.name">
+            </md-input-container>
+
+            <md-input-container md-no-float class="md-block">
+                <label>Senha</label>
+                <input type="password" ng-model="vm.user.password">
+            </md-input-container>
+            <!--</div>-->
+
+            <a href="" class="espm-forgot-password">Esqueceu a Senha?</a>
+
+            <md-button class="espm-login-button" ng-click="vm.signIn()">ENTRAR</md-button>
+        </form>
+        <!--login form section-->
+
+        <div class="row other-login-options">
+            <div class="col"><div class="hr"></div></div>
+            <div class="col espm-label-line">                
+                <span>Ou entre usando</span>
+            </div>
+            <div class="col"><div class="hr"></div></div>
+        </div>
+
+        <div class="espm-social-button-wrapper">
+            <md-button class="espm-social-button" ng-click="vm.googleLogin()">
+                <i class="icon ion-social-google"></i>Google
+            </md-button>
+            <md-button class="espm-social-button facebook-background" ng-click="vm.facebookLogin()">
+                <i class="icon ion-social-facebook"></i>Facebook
+            </md-button>
+            <md-button class="espm-social-button digits-background" ng-click="vm.digitsLogin()">
+                <i class="icon ion-iphone"></i>SMS
+            </md-button>
+        </div>
+
+    </ion-content>
+    <!--end login content section-->
+</ion-view>

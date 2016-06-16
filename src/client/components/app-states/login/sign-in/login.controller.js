@@ -43,13 +43,6 @@ class LoginController {
         this.$state.go( 'app.storage' );
     }
 
-    /**
-     * Redireciona para 1ª tela do processo de criação de conta
-     */
-    criarConta() {
-        this.$state.go( 'app.cpfVerificar' );
-    }
-
     /*    getUserInfo() {
      this.OAuth2.getUserInfo( ( response ) => {
      console.log( response );
@@ -78,7 +71,7 @@ class LoginController {
         return data;
     }
 
-    _getDataIdentityServerAcessoCidadao(options, userame, password){
+    _getDataIdentityServerAcessoCidadao(options, username, password){
         let data = {};
 
         if ( username ) {
@@ -128,7 +121,7 @@ class LoginController {
      */
     signIn() {
         let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espm.id, this.appConfig.identityServer.clients.espm.secret, 'password', 'openid' );
-        isData = _getDataIdentityServerAcessoCidadao( isData, this.user.name, this.user.password);
+        isData = this._getDataIdentityServerAcessoCidadao( isData, this.user.name, this.user.password);
 
         this.OAuth2.signIn( isData, ( response ) => {
             this._signInSuccess();
@@ -240,16 +233,6 @@ class LoginController {
         } );
         return obj;
     }
-
-    /**
-     * Executa logout da aplicação
-     */
-    logout() {
-        this.OAuth2.logout( () => {
-            this.$state.go( 'app.login' );
-        } );
-    }
-
 }
 
 export default [

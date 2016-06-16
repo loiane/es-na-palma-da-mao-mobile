@@ -60,7 +60,9 @@ class OAuthDigits {
     }
 
     logout() {
-        this.$window.plugins.digits.logout();
+        if (this.$window.plugins && this.$window.plugins.digits) {
+            this.$window.plugins.digits.logout();
+        }
     }
 }
 
