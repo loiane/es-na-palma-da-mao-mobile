@@ -1,14 +1,14 @@
 <ion-view view-title={{vm.viewTitle}}>
 	<ion-nav-buttons side="right">
 		<button class="button" ng-disabled="vm.isToday()" ng-click="vm.today()">Hoje</button>
-		<button class="button" ng-click="vm.loadEvents()">Eventos</button>
+		<button class="button" ng-click="vm.carregarEventos()">Eventos</button>
 	</ion-nav-buttons>
 	<ion-content id="states-agenda"
 				 scroll="true"
 				 class="main-content">
-		<calendar ng-model="vm.calendar.currentDate"
-				  event-sources="vm.calendar.eventSources"
-				  range-changed="vm.loadEvents(startTime, endTime)"
+		<calendar ng-model="vm.calendario.currentDate"
+				  event-sources="vm.calendario.eventSources"
+				  range-changed="vm.carregarEventos()"
 				  event-selected="vm.onEventSelected(event)"
 				  title-changed="vm.onViewTitleChanged(title)"
 				  time-selected="vm.onTimeSelected(selectedTime)"></calendar>
