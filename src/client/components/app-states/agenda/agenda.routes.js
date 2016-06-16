@@ -1,4 +1,4 @@
-import template from './agenda.tpl.html!text';
+﻿import template from './agenda.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -11,7 +11,7 @@ function agendaRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.agenda', {
             url: 'agenda',
-            data: { title: 'Agenda' },
+            data: { title: 'Agenda ES' },
             nativeTransitions: {
                 'type': 'fade'
             },
