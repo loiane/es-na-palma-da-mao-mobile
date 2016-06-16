@@ -1,6 +1,6 @@
-import template from './dashboard.tpl.html!text';
+﻿import template from './dashboard.tpl.html!text';
 import noticia from '../noticia/noticia.tpl.html!text';
-import agenda from '../agenda/agenda.tpl.html!text';
+import calendar from '../calendar/calendar.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -24,13 +24,13 @@ function dashBoardRoutes( $stateProvider ) {
                 }
             }
         } )
-        .state( 'app.dashboard.agenda', {
-            url: 'agenda',
-            data: { title: 'AGENDA' },
+        .state( 'app.dashboard.calendar', {
+            url: 'calendar',
+            data: { title: 'AGENDA ES' },
             views: {
-                'tab-agenda': {
-                    controller: 'agendaController as vm',
-                    template: agenda
+                'tab-calendar': {
+                    controller: 'calendarController as vm',
+                    template: calendar
                 }
             }
         } )

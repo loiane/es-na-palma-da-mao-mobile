@@ -1,4 +1,4 @@
-﻿import template from './agenda.tpl.html!text';
+﻿import template from './calendar.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -7,9 +7,9 @@
  *
  * @returns {void}
  */
-function agendaRoutes( $stateProvider ) {
+function calendarRoutes( $stateProvider ) {
     $stateProvider
-        .state( 'app.agenda', {
+        .state( 'app.calendar', {
             url: 'agenda',
             data: { title: 'Agenda ES' },
             nativeTransitions: {
@@ -17,7 +17,7 @@ function agendaRoutes( $stateProvider ) {
             },
             views: {
                 content: {
-                    controller: 'agendaController as vm',
+                    controller: 'calendarController as vm',
                     template: template
                 }
             }
@@ -25,5 +25,5 @@ function agendaRoutes( $stateProvider ) {
 }
 
 export default[
-    '$stateProvider', agendaRoutes
+    '$stateProvider', calendarRoutes
 ];
