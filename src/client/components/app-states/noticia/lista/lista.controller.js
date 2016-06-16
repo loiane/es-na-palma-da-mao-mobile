@@ -25,17 +25,17 @@ class ListaController {
      * @returns {void}
      */
     activate() {
-        this._noticias = [];
-        this.getNoticias();
+        this._news = [];
+        this.getNews();
     }
 
-    get noticias() { return this._noticias; }
+    get news() { return this._news; }
     get moment() { return this._moment; }
 
-    getNoticias( filtro, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}lista` )
+    getNews( filtro, success, error ) {
+        this.$http.get( `${this.appConfig.apiNoticia}` )
         .then( ( response ) => {
-            this._noticias = response.data;
+            this._news = response.data;
 
             //success();
         }, error );

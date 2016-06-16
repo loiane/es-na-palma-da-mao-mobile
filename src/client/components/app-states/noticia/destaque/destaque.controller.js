@@ -34,7 +34,7 @@ class DestaqueController {
     get moment() { return this._moment; }
 
     getDestaques( n, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}destaques` )
+        this.$http.get( `${this.appConfig.apiNoticia}highlights` )
         .then( ( response ) => {
             this._destaques = response.data;
 

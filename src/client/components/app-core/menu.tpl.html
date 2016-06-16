@@ -39,23 +39,6 @@
 				</div>
 				<div ng-show="vm.authenticated">
 					<md-subheader class="md-accent">Principal</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.principal')">
-						<div class="col-33">
-							<i class="fa fa-dashboard"></i>
-						</div>
-						<div class="col-66">
-							<span>Principal</span>
-						</div>
-					</div>
-
-					<div class="row menu-item" ng-click="vm.navigateTo('app.storage')">
-						<div class="col-33">
-							<i class="fa fa-database"></i>
-						</div>
-						<div class="col-66">
-							<span>Storage</span>
-						</div>
-					</div>
 
 					<div class="row menu-item" ng-click="vm.navigateTo('app.dashboard.noticia')">
 						<div class="col-33">
@@ -95,14 +78,6 @@
 				</md-list-item>
 				<div ng-show="vm.authenticated">
 					<md-subheader class="md-accent">Principal</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.principal')">
-						<i class="fa fa-dashboard"></i>
-						<span>Principal</span>
-					</md-list-item>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.storage')">
-						<i class="fa fa-database"></i>
-						<span>Storage</span>
-					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dashboard')">
 						<i class="fa fa-dashboard"></i>
 						<span>Dashboard</span>

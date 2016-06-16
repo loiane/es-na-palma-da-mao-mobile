@@ -29,10 +29,9 @@ import MenuController from './menu.controller.js';
 // Providers
 
 // states
-import storageState from '../app-states/storage/index.js';
-import principalState from '../app-states/principal/index.js';
 import dashboardState from '../app-states/dashboard/index.js';
-import loginState from '../app-states/login/index.js';
+import loginState from '../app-states/login/sign-in/index.js';
+import homeState from '../app-states/login/home/index.js';
 
 import noticiaDetalheState from '../app-states/noticia/detalhe/index.js';
 import noticiaListaState from '../app-states/noticia/lista/index.js';
@@ -47,10 +46,9 @@ let dependencies = [
     authenticationModule.name,
     toastModule.name,
     dialogModule.name,
-    principalState.name,
-    storageState.name,
     dashboardState.name,
     loginState.name,
+    homeState.name,
     noticiaDetalheState.name,
     noticiaListaState.name
 ];

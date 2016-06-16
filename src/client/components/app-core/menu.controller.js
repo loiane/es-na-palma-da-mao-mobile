@@ -200,7 +200,7 @@ class MenuController {
         this.OAuthDigits.logout();
 
         this.OAuth2.signOut( () => {
-            this.navigateTo( 'app.login' );
+            this.navigateTo( 'home' );
         } );
     }
 }
