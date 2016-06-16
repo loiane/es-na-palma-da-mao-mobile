@@ -1,22 +1,20 @@
-class AgendaController {
+class CalendarController {
 
     /**
      * @constructor
      *
-     * @param {Object} agendasApiService - agendasApiService service
-     * @param {Object} eventosApiService - eventosApiService service
+     * @param {Object} calendarApiService - calendarApiService service
      * @param {Object} $ionicLoading - ionic $ionicLoading service
      * @param {Object} toast - toast service
      */
-    constructor( agendasApiService, eventosApiService, $ionicLoading, toast ) {
-        this.agendasApiService = agendasApiService;
-        this.eventosApiService = eventosApiService;
+    constructor( calendarApiService, $ionicLoading, toast ) {
+        this.calendarApiService = calendarApiService;
         this.$ionicLoading = $ionicLoading;
         this.toast = toast;
 
-        this.calendario = {};
-        this.agendasSelecionadas = [];
-        this.agendasDisponiveis = []
+        this.calendar = {};
+        this.selectedCalendars = [];
+        this.availableCalendars = []
 
         this.activate();
     }
@@ -28,46 +26,46 @@ class AgendaController {
      */
     activate() {
         this.$ionicLoading.show();
-        this.carregarListaDeAgendas()
-            .then( () => this._carregarEventos() )
+        this.getAvailableCalendars()
+            .then( () => this._loadEvents() )
             .finally( () => this.$ionicLoading.hide() );
 
     }
 
     /**
-     * Carrega lista de agendas disponíveis
+     * Carrega lista de calendars disponíveis
      *
      * @returns {*}
      */
-    carregarListaDeAgendas() {
-        return this.agendasApiService.obterAgendas()
-                   .then( agendas => {
-                       this.agendasSelecionadas = this.agendasDisponiveis = agendas.map( agenda => agenda.nome );
+    getAvailableCalendars() {
+        return this.calendarApiService.getAvailableCalendars()
+                   .then( calendars => {
+                       this.selectedCalendars = this.availableCalendars = calendars.map( calendar => calendar.name );
                    } );
     }
 
     /**
      * Carrega os eventos no calendário
      */
-    carregarEventos() {
+    loadEvents() {
         this.$ionicLoading.show( { delay: 300 } );
-        return this._carregarEventos()
+        return this._loadEvents()
                    .finally( () => this.$ionicLoading.hide() );
     };
 
     /**
      * Carrega os eventos no calendário
      */
-    _carregarEventos() {
-        return this.eventosApiService.obterEventos( this.agendasSelecionadas )
-                   .then( agendas => {
-                       this.calendario.eventSources = agendas;
+    _loadEvents() {
+        return this.calendarApiService.getFullCalendars( this.selectedCalendars )
+                   .then( fullCalendars => {
+                       this.calendar.eventSources = fullCalendars;
                    } )
                    .finally( () => {
-                       const totalEventos = this.calendario.eventSources.reduce( ( total, agenda ) => {
-                           return total + agenda.items.length;
+                       const totalEvents = this.calendar.eventSources.reduce( ( total, calendar ) => {
+                           return total + calendar.items.length;
                        }, 0 );
-                       this.toast.show( { title: `${totalEventos} eventos carregados` } );
+                       this.toast.show( { title: `${totalEvents} eventos carregados` } );
                    } );
     };
 
@@ -98,7 +96,7 @@ class AgendaController {
      * @returns {void}
      */
     today() {
-        this.calendario.currentDate = new Date();
+        this.calendar.currentDate = new Date();
     }
 
     /**
@@ -110,7 +108,7 @@ class AgendaController {
      */
     isToday() {
         let today = new Date();
-        let currentCalendarDate = new Date( this.calendario.currentDate );
+        let currentCalendarDate = new Date( this.calendar.currentDate );
 
         today.setHours( 0, 0, 0, 0 );
         currentCalendarDate.setHours( 0, 0, 0, 0 );
@@ -119,7 +117,7 @@ class AgendaController {
 }
 
 export default [
-    'agendasApiService', 'eventosApiService', '$ionicLoading', 'toast', AgendaController
+    'calendarApiService', '$ionicLoading', 'toast', CalendarController
 ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////

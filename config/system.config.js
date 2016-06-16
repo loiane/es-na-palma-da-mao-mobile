@@ -15,8 +15,8 @@ System.config({
   buildCSS: true,
 
   map: {
-    "angular": "github:angular/bower-angular@1.5.5",
-    "angular-material": "github:angular/bower-material@1.0.7",
+    "angular": "github:angular/bower-angular@1.5.7",
+    "angular-material": "github:angular/bower-material@1.0.9",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.0",
     "angular-ui-bootstrap": "npm:angular-ui-bootstrap@1.2.4",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.18",
@@ -25,7 +25,7 @@ System.config({
     "bootstrap": "github:twbs/bootstrap@3.3.6",
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
     "core-js": "npm:core-js@1.2.6",
-    "css": "github:systemjs/plugin-css@0.1.22",
+    "css": "github:systemjs/plugin-css@0.1.23",
     "font-awesome": "npm:font-awesome@4.5.0",
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic": "github:driftyco/ionic-bower@1.3.1",
@@ -43,39 +43,42 @@ System.config({
     "underscore": "github:jashkenas/underscore@1.8.3",
     "zepto": "npm:zepto@1.0.1",
     "github:CodeSeven/toastr@2.1.2": {
-      "css": "github:systemjs/plugin-css@0.1.22",
+      "css": "github:systemjs/plugin-css@0.1.23",
       "jquery": "github:components/jquery@2.2.1"
     },
     "github:angular-ui/ui-router@0.2.18": {
-      "angular": "github:angular/bower-angular@1.5.5"
+      "angular": "github:angular/bower-angular@1.5.7"
     },
     "github:angular/bower-angular-animate@1.5.5": {
-      "angular": "github:angular/bower-angular@1.5.5"
+      "angular": "github:angular/bower-angular@1.5.7"
     },
-    "github:angular/bower-angular-aria@1.5.5": {
-      "angular": "github:angular/bower-angular@1.5.5"
+    "github:angular/bower-angular-animate@1.5.7": {
+      "angular": "github:angular/bower-angular@1.5.7"
+    },
+    "github:angular/bower-angular-aria@1.5.7": {
+      "angular": "github:angular/bower-angular@1.5.7"
     },
     "github:angular/bower-angular-mocks@1.5.0": {
-      "angular": "github:angular/bower-angular@1.5.5"
+      "angular": "github:angular/bower-angular@1.5.7"
     },
     "github:angular/bower-angular-sanitize@1.5.5": {
-      "angular": "github:angular/bower-angular@1.5.5"
+      "angular": "github:angular/bower-angular@1.5.7"
     },
-    "github:angular/bower-material@1.0.7": {
-      "angular": "github:angular/bower-angular@1.5.5",
-      "angular-animate": "github:angular/bower-angular-animate@1.5.5",
-      "angular-aria": "github:angular/bower-angular-aria@1.5.5",
-      "css": "github:systemjs/plugin-css@0.1.22"
+    "github:angular/bower-material@1.0.9": {
+      "angular": "github:angular/bower-angular@1.5.7",
+      "angular-animate": "github:angular/bower-angular-animate@1.5.7",
+      "angular-aria": "github:angular/bower-angular-aria@1.5.7",
+      "css": "github:systemjs/plugin-css@0.1.23"
     },
     "github:christopherthielen/ui-router-extras@0.0.14": {
-      "angular": "github:angular/bower-angular@1.5.5"
+      "angular": "github:angular/bower-angular@1.5.7"
     },
     "github:driftyco/ionic-bower@1.3.1": {
-      "angular": "github:angular/bower-angular@1.5.5",
+      "angular": "github:angular/bower-angular@1.5.7",
       "angular-animate": "github:angular/bower-angular-animate@1.5.5",
       "angular-sanitize": "github:angular/bower-angular-sanitize@1.5.5",
       "angular-ui-router": "github:angular-ui/angular-ui-router-bower@0.2.13",
-      "css": "github:systemjs/plugin-css@0.1.22"
+      "css": "github:systemjs/plugin-css@0.1.23"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.0"
@@ -123,7 +126,7 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:font-awesome@4.5.0": {
-      "css": "github:systemjs/plugin-css@0.1.22"
+      "css": "github:systemjs/plugin-css@0.1.23"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"

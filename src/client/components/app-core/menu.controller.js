@@ -24,8 +24,7 @@ class MenuController {
      *
      * @returns {void}
      */
-    constructor( $rootScope, $scope, $window, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog,
-                 $mdBottomSheet, $mdMenu, $mdSelect, OAuth2, OAuthFacebook, OAuthGoogle, OAuthDigits ) {
+    constructor( $rootScope, $scope, $window, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, OAuth2, OAuthFacebook, OAuthGoogle, OAuthDigits ) {
 
         this.$rootScope = $rootScope;
         this.$scope = $scope;
@@ -133,12 +132,13 @@ class MenuController {
         this.updateUser();
 
         //Watch User Info - para futuras alterações
-        this.$scope.$watch( () => { return this.OAuth2.getUserInfo(); },
-            ( oldValue, newValue ) => {
-                if ( newValue !== oldValue ) {
-                    this.updateUser();
-                }
-            } );
+        this.$scope.$watch( () => {
+            return this.OAuth2.getUserInfo();
+        }, ( oldValue, newValue ) => {
+            if ( newValue !== oldValue ) {
+                this.updateUser();
+            }
+        } );
     }
 
     updateUser() {
@@ -187,8 +187,11 @@ class MenuController {
     }
 
     signOut() {
-        this.OAuthFacebook.logout( () => { }, () => { } );
-        this.OAuthGoogle.logout( () => { } );
+        this.OAuthFacebook.logout( () => {
+        }, () => {
+        } );
+        this.OAuthGoogle.logout( () => {
+        } );
         this.OAuthDigits.logout();
 
         this.OAuth2.signOut( () => {

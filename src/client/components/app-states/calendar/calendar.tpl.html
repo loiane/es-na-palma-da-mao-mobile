@@ -1,0 +1,34 @@
+<ion-view view-title={{vm.viewTitle}}>
+	<!--<ion-nav-buttons side="right">
+		<button class="button" ng-disabled="vm.isToday()" ng-click="vm.today()">Hoje</button>
+		<button class="button" ng-click="vm.loadEvents()">Eventos</button>
+	&lt;!&ndash;	<md-button class="md-icon-button" aria-label="More">
+			<md-icon md-font-icon="fa fa-calendar"></md-icon>
+		</md-button>&ndash;&gt;
+	</ion-nav-buttons>-->
+
+	<ion-content id="states-calendar"
+				 scroll="true"
+				 class="main-content">
+		<!--		<md-input-container>
+					<label>Agendas</label>
+					<md-select ng-model="vm.selectedCalendars"
+							   md-on-close="vm.loadEvents()"
+							   multiple>
+						<md-optgroup>
+							<md-option ng-value="calendar"
+									   ng-repeat="calendar in vm.availableCalendars">
+								{{calendar}}
+							</md-option>
+						</md-optgroup>
+					</md-select>
+				</md-input-container>-->
+
+		<calendar ng-model="vm.calendar.currentDate"
+				  event-sources="vm.calendar.eventSources"
+				  range-changed="vm.loadEvents()"
+				  event-selected="vm.onEventSelected(event)"
+				  title-changed="vm.onViewTitleChanged(title)"
+				  time-selected="vm.onTimeSelected(selectedTime)"></calendar>
+	</ion-content>
+</ion-view>

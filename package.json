@@ -128,7 +128,7 @@
     "configFile": "config/system.config.js",
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.5.0",
-      "angular-material": "github:angular/bower-material@^1.0.7",
+      "angular-material": "github:angular/bower-material@^1.0.9",
       "angular-mocks": "github:angular/bower-angular-mocks@^1.5.0",
       "angular-ui-bootstrap": "npm:angular-ui-bootstrap@^1.1.2",
       "angular-ui-router": "github:angular-ui/ui-router@^0.2.18",

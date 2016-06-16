@@ -3,11 +3,11 @@ import './dashboard.css!css';
 import angular from 'angular';
 import DashBoardController from './dashboard.controller';
 import dashBoardRoutes from './dashboard.routes';
-import agenda from '../agenda/index';
-import noticia from '../noticia/index';
+import calendarState from '../calendar/index';
+import noticiaState from '../noticia/index';
 
 const dependencies = [
-    'ui.router', agenda.name, noticia.name
+    'ui.router', calendarState.name, noticiaState.name
 ];
 
 export default angular.module( 'dashBoard-state', dependencies )
