@@ -10,14 +10,21 @@
 				<md-icon ng-if="isIOS" md-font-icon="ion-ios-calendar-outline">
 				</md-icon>
 			</md-button>
-			<md-button class="md-icon-button"
+	<!--		<md-button class="md-icon-button"
 					   ng-click="vm.loadEvents()"
 					   aria-label="Recarregar">
 				<md-icon ng-if="isAndroid" md-font-icon="ion-android-refresh">
 				</md-icon>
 				<md-icon ng-if="isIOS" md-font-icon="ion-ios-refresh-empty">
 				</md-icon>
-			</md-button>
+			</md-button>-->
+			<md-input-container>
+				<md-select ng-model="vm.selectedCalendars" multiple md-on-close="vm.loadEvents()">
+					<md-optgroup label="Órgãos">
+						<md-option ng-value="calendar" ng-repeat="calendar in vm.availableCalendars track by $index">{{calendar}}</md-option>
+					</md-optgroup>
+				</md-select>
+			</md-input-container>
 		</div>
 	</ion-nav-buttons>
 

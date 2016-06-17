@@ -28,7 +28,6 @@ class CalendarController {
         this.getAvailableCalendars()
             .then( () => this._loadEvents() )
             .finally( () => this.$ionicLoading.hide() );
-
     }
 
     /**
