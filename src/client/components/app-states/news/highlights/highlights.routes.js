@@ -1,4 +1,4 @@
-﻿import destaqueTemplate from './destaque.tpl.html!text';
+﻿import template from './highlights.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -7,21 +7,21 @@
  *
  * @returns {void}
  */
-function destaqueRoutes( $stateProvider ) {
+function highlightsRoutes( $stateProvider ) {
     $stateProvider
-        .state( 'app.dashboard.noticia', {
+        .state( 'app.dashboard.newsHighlights', {
             url: '',
             data: { title: 'DESTAQUES' },
             nativeTransitions: null,
             views: {
                 'tab-noticia': {
-                    controller: 'destaqueController as vm',
-                    template: destaqueTemplate
+                    controller: 'highlightsController as vm',
+                    template: template
                 }
             }
         } );
 }
 
 export default[
-    '$stateProvider', destaqueRoutes
+    '$stateProvider', highlightsRoutes
 ];

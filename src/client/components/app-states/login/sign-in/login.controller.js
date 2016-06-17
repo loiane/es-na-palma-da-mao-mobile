@@ -39,7 +39,7 @@ class LoginController {
             historyRoot: true
         } );
 
-        this.$state.go( 'app.dashboard.noticia' );
+        this.$state.go( 'app.dashboard.newsHighlights' );
     }
 
     /*    getUserInfo() {

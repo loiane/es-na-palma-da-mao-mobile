@@ -1,11 +1,15 @@
 <ion-view title="Dashboard">
-	<ion-content id="dashboard-tabs-content" class="espm-has-tabs-top">
+	<ion-content id="states-dashboard" class="espm-has-tabs-top">
 		<ion-tabs class="tabs-text-top espm-tabs-color-active-material">
-			<ion-tab title="DESTAQUES" on-select="vm.navigateTo('app.dashboard.noticia')">
+			<ion-tab title="DESTAQUES"
+					 class="md-primary-color-bg"
+					 on-select="vm.navigateTo('app.dashboard.newsHighlights')">
 				<ion-nav-view name="tab-noticia"></ion-nav-view>
 			</ion-tab>
 
-			<ion-tab title="AGENDA ES" on-select="vm.navigateTo('app.dashboard.calendar')">
+			<ion-tab title="AGENDA ES"
+					 class="md-primary-color-bg"
+					 on-select="vm.navigateTo('app.dashboard.calendar')">
 				<ion-nav-view name="tab-calendar"></ion-nav-view>
 			</ion-tab>
 		</ion-tabs>

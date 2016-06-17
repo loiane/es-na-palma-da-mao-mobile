@@ -17,7 +17,7 @@ System.config({
   map: {
     "angular": "github:angular/bower-angular@1.5.7",
     "angular-i18n": "npm:angular-i18n@1.5.7",
-    "angular-material": "github:angular/bower-material@1.0.9",
+    "angular-material": "github:angular/bower-material@1.1.0-rc.5",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.0",
     "angular-ui-bootstrap": "npm:angular-ui-bootstrap@1.2.4",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.18",
@@ -60,16 +60,20 @@ System.config({
     "github:angular/bower-angular-aria@1.5.7": {
       "angular": "github:angular/bower-angular@1.5.7"
     },
+    "github:angular/bower-angular-messages@1.5.7": {
+      "angular": "github:angular/bower-angular@1.5.7"
+    },
     "github:angular/bower-angular-mocks@1.5.0": {
       "angular": "github:angular/bower-angular@1.5.7"
     },
     "github:angular/bower-angular-sanitize@1.5.5": {
       "angular": "github:angular/bower-angular@1.5.7"
     },
-    "github:angular/bower-material@1.0.9": {
+    "github:angular/bower-material@1.1.0-rc.5": {
       "angular": "github:angular/bower-angular@1.5.7",
       "angular-animate": "github:angular/bower-angular-animate@1.5.7",
       "angular-aria": "github:angular/bower-angular-aria@1.5.7",
+      "angular-messages": "github:angular/bower-angular-messages@1.5.7",
       "css": "github:systemjs/plugin-css@0.1.23"
     },
     "github:christopherthielen/ui-router-extras@0.0.14": {

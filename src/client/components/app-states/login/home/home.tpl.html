@@ -1,13 +1,18 @@
 <ion-view>
-    <!--login content section-->
-    <ion-content id="state-home">
-        <div class="espm-home-logo">
-            <img src="components/app-states/login/home/img/logo-es.png" alt="">
-            <h2>ES na Palma da Mão</h1>
-        </div>
-        <md-button class="espm-register-button" ng-click="vm.createAccount()">CADASTRE-SE</md-button>
-        <md-button class="espm-login-button" ng-click="vm.login()">ACESSE SUA CONTA</md-button>
+	<!--login content section-->
+	<ion-content id="state-home" md-colors="::{backgroundColor: 'primary'}">
+		<div class="espm-home-logo">
+			<img src="components/app-states/login/home/img/logo-es.png" alt="">
+			<h2>ES na Palma da Mão</h2>
+		</div>
+		<md-button class="md-raised"
+				   md-colors="::{color: 'primary'}"
+				   md-no-ink="isAndroid"
+				   ng-click="vm.createAccount()">CADASTRE-SE</md-button>
+		<md-button class="md-accent md-raised"
+				   md-no-ink="isAndroid"
+				   ng-click="vm.login()">ACESSE SUA CONTA</md-button>
 
-    </ion-content>
-    <!--end login content section-->
+	</ion-content>
+	<!--end login content section-->
 </ion-view>
