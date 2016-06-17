@@ -29,20 +29,23 @@ class ListaController {
         this.getNews();
     }
 
-    get news() { return this._news; }
-    get moment() { return this._moment; }
+    get news() {
+        return this._news;
+    }
+
+    get moment() {
+        return this._moment;
+    }
 
     getNews( filtro, success, error ) {
         this.$http.get( `${this.appConfig.apiNoticia}` )
-        .then( ( response ) => {
-            this._news = response.data;
-
-            //success();
-        }, error );
+            .then( ( response ) => {
+                this._news = response.data;
+            }, error );
     }
 
-    goToNoticia( id ) {
-        this.$state.go( 'app.noticiaDetalhe/:id', { id: id } );
+    goToNews( id ) {
+        this.$state.go( 'app.news/:id', { id: id } );
     }
 }
 

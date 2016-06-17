@@ -1,4 +1,4 @@
-import template from './agenda.tpl.html!text';
+import listaTemplate from './lista.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -7,23 +7,23 @@ import template from './agenda.tpl.html!text';
  *
  * @returns {void}
  */
-function agendaRoutes( $stateProvider ) {
+function listaRoutes( $stateProvider ) {
     $stateProvider
-        .state( 'app.agenda', {
-            url: 'agenda',
-            data: { title: 'Agenda' },
+        .state( 'app.news', {
+            url: '/news',
+            data: { title: 'Noticia' },
             nativeTransitions: {
                 'type': 'fade'
             },
             views: {
                 content: {
-                    controller: 'agendaController as vm',
-                    template: template
+                    controller: 'listaController as vm',
+                    template: listaTemplate
                 }
             }
         } );
 }
 
 export default[
-    '$stateProvider', agendaRoutes
+    '$stateProvider', listaRoutes
 ];

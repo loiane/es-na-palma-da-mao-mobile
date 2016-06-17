@@ -1,6 +1,7 @@
 // 3th party
 import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto
+import 'angular-i18n/pt-br';   // on pt-br you can use your locale
 import 'angular-material';
 import 'ionic-native-transitions';
 import 'ngstorage';
@@ -21,7 +22,7 @@ import routesConfig from './app.routes.js';
 import httpInterceptorsConfig from './httpInterceptors.config.js';
 
 // Runs
-import appRun from './app.run.js';  
+import appRun from './app.run.js';
 
 // Controllers
 import MenuController from './menu.controller.js';
@@ -30,12 +31,12 @@ import MenuController from './menu.controller.js';
 
 // states
 import dashboardState from '../app-states/dashboard/index.js';
+
+import calendarState from '../app-states/calendar/index.js';
 import loginState from '../app-states/login/sign-in/index.js';
 import homeState from '../app-states/login/home/index.js';
-
-import noticiaDetalheState from '../app-states/noticia/detalhe/index.js';
-import noticiaListaState from '../app-states/noticia/lista/index.js';
-
+import noticiaDetalheState from '../app-states/news/detail/index.js';
+import noticiaListaState from '../app-states/news/list/index.js';
 
 let dependencies = [
     'ionic',
@@ -48,6 +49,7 @@ let dependencies = [
     dialogModule.name,
     dashboardState.name,
     loginState.name,
+    calendarState.name,
     homeState.name,
     noticiaDetalheState.name,
     noticiaListaState.name

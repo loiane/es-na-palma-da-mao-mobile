@@ -1,5 +1,4 @@
-import template from './dashboard.tpl.html!text';
-import agenda from '../agenda/agenda.tpl.html!text';
+﻿import template from './dashboard.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -13,6 +12,7 @@ function dashBoardRoutes( $stateProvider ) {
         .state( 'app.dashboard', {
             url: 'dashboard/',
             data: { title: 'Dashboard' },
+            abstract: true,
             nativeTransitions: {
                 'type': 'fade'
             },
@@ -20,17 +20,6 @@ function dashBoardRoutes( $stateProvider ) {
                 content: {
                     controller: 'dashBoardController as vm',
                     template: template
-                }
-            }
-        } )
-        .state( 'app.dashboard.agenda', {
-            url: 'agenda',
-            data: { title: 'AGENDA' },
-            nativeTransitions: null,
-            views: {
-                'tab-agenda': {
-                    controller: 'agendaController as vm',
-                    template: agenda
                 }
             }
         } );

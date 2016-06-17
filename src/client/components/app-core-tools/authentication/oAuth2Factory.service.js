@@ -1,4 +1,3 @@
-
 /** Classe para acesso ao IdentityServer3 */
 class OAuth2 {
 
@@ -21,16 +20,16 @@ class OAuth2 {
     _urlBase64Decode( str ) {
         var output = str.replace( '-', '+' ).replace( '_', '/' );
         switch ( output.length % 4 ) {
-        case 0:
-            break;
-        case 2:
-            output += '==';
-            break;
-        case 3:
-            output += '=';
-            break;
-        default:
-            throw 'Illegal base64url string!';
+            case 0:
+                break;
+            case 2:
+                output += '==';
+                break;
+            case 3:
+                output += '=';
+                break;
+            default:
+                throw 'Illegal base64url string!';
         }
         return this.$window.atob( output );
     }
@@ -137,10 +136,10 @@ class OAuth2 {
     get userInfo() { return this.$localStorage.userInfo; }
 
     /*
-    signUp( data, success, error ) {
-        $http.post( this.urls.BASE + '/signup', data ).success( success ).error( error );
-    }
-    */
+     signUp( data, success, error ) {
+     $http.post( this.urls.BASE + '/signup', data ).success( success ).error( error );
+     }
+     */
 
     signIn( data, success, error ) {
         //Get Token
@@ -150,7 +149,8 @@ class OAuth2 {
             //Fetch and save User Info
             this.fetchUserInfo( ( response ) => {
                 this.$localStorage.userInfo = response;
-            }, () => { } );
+            }, () => {
+            } );
         }, error );
     }
 

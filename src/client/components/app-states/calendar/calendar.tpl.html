@@ -1,0 +1,34 @@
+<ion-view view-title="{{vm.viewTitle}}">
+	<ion-nav-buttons side="right">
+		<div id="states-calendar-nav-buttons">
+			<md-button class="md-icon-button"
+					   ng-disabled="vm.isToday()"
+					   ng-click="vm.today()"
+					   aria-label="Hoje">
+				<md-icon ng-if="isAndroid" md-font-icon="ion-android-calendar">
+				</md-icon>
+				<md-icon ng-if="isIOS" md-font-icon="ion-ios-calendar-outline">
+				</md-icon>
+			</md-button>
+			<md-button class="md-icon-button"
+					   ng-click="vm.loadEvents()"
+					   aria-label="Recarregar">
+				<md-icon ng-if="isAndroid" md-font-icon="ion-android-refresh">
+				</md-icon>
+				<md-icon ng-if="isIOS" md-font-icon="ion-ios-refresh-empty">
+				</md-icon>
+			</md-button>
+		</div>
+	</ion-nav-buttons>
+
+	<ion-content id="states-calendar"
+				 scroll="true"
+				 class="main-content">
+		<calendar ng-model="vm.calendar.currentDate"
+				  event-sources="vm.calendar.eventSources"
+				  range-changed="vm.loadEvents()"
+				  event-selected="vm.onEventSelected(event)"
+				  title-changed="vm.onViewTitleChanged(title)"
+				  time-selected="vm.onTimeSelected(selectedTime)"></calendar>
+	</ion-content>
+</ion-view>

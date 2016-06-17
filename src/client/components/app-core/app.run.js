@@ -1,3 +1,5 @@
+import moment from 'moment';
+import 'moment/locale/pt-br.js';
 /**
  * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
  *
@@ -12,6 +14,9 @@
  * @returns {void}
  */
 function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDialog, $mdBottomSheet, OAuth2, appConfig ) {
+
+    // configura locale do moment
+    moment.locale( appConfig.locale );
 
     /**
      * Preenche o $rootScope
@@ -59,9 +64,10 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
 
         if ( !isAuthenticated() ) {
             $state.go( 'home' );
-        } /*else {
-            $state.go( 'app.dashboard' );
-        }*/
+        }
+        /*else {
+         $state.go( 'app.dashboard' );
+         }*/
     } );
 }
 

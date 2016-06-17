@@ -1,25 +1,32 @@
-.tabs-text-top > .tabs .tab-item {
-    font-size: 14px;
-    line-height: 49px;
+#states-dashboard .tabs-text-top > .tabs .tab-item {
+	font-size: 14px;
+	line-height: 49px;
 	font-weight: 500;
+	opacity: 1;
+	color: rgba(255, 255, 255, 0.7);
+	height: 49px;
+	max-width: none !important;
 }
 
-/*.tabs-top > .tabs, .tabs.tabs-top {
-    top: 0px !important;
-}
-*/
-.tab-item {
-    max-width: none !important;
-}
-
-ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.tab-item-active, 
-ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.active, 
-ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.activated {
-    border-color: #C86673;
-    color: rgb(32,139,170);
+#states-dashboard ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.tab-item-active,
+#states-dashboard ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.active,
+#states-dashboard ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.activated {
+	border-bottom-color: #c86673;
+	color: #fff;
+	font-weight: bold;
 }
 
+#states-dashboard .tabs-top > .tabs,
+#states-dashboard .tabs.tabs-top {
+	top: 43px;
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+	color: #fff;
+}
 
-ion-content.espm-has-tabs-top {
-    top: 0px;
+ion-header-bar {
+	box-shadow: none !important;
+}
+
+ion-content#states-dashboard.espm-has-tabs-top {
+	top: 0px;
 }

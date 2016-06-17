@@ -1,4 +1,4 @@
-import _ from "underscore";
+import _ from 'underscore';
 
 /** Login Controller */
 class LoginController {
@@ -22,7 +22,6 @@ class LoginController {
         this.$localStorage = $localStorage;
         this.$window = $window;
         this.$ionicHistory = $ionicHistory;
-
         this._ = _;
 
         this.activate();
@@ -40,7 +39,7 @@ class LoginController {
             historyRoot: true
         } );
 
-        this.$state.go( 'app.dashboard' );
+        this.$state.go( 'app.dashboard.newsHighlights' );
     }
 
     /*    getUserInfo() {
@@ -71,7 +70,7 @@ class LoginController {
         return data;
     }
 
-    _getDataIdentityServerAcessoCidadao(options, username, password){
+    _getDataIdentityServerAcessoCidadao( options, username, password ) {
         let data = {};
 
         if ( username ) {
@@ -86,7 +85,7 @@ class LoginController {
 
     }
 
-    _getDataIdentityServerSocialNetwork(options, provider, accesstoken) {
+    _getDataIdentityServerSocialNetwork( options, provider, accesstoken ) {
         let data = {};
 
         if ( provider ) {
@@ -101,10 +100,10 @@ class LoginController {
         return options;
     }
 
-    _getDataIdentityServerPhone(options, apiUrl, authHeader) {
+    _getDataIdentityServerPhone( options, apiUrl, authHeader ) {
         let data = {};
 
-        if (apiUrl) {
+        if ( apiUrl ) {
             data.apiUrl = apiUrl;
         }
 
@@ -121,7 +120,7 @@ class LoginController {
      */
     signIn() {
         let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espm.id, this.appConfig.identityServer.clients.espm.secret, 'password', 'openid' );
-        isData = this._getDataIdentityServerAcessoCidadao( isData, this.user.name, this.user.password);
+        isData = this._getDataIdentityServerAcessoCidadao( isData, this.user.name, this.user.password );
 
         this.OAuth2.signIn( isData, ( response ) => {
             this._signInSuccess();
@@ -141,7 +140,7 @@ class LoginController {
 
         this.OAuthFacebook.login( [ 'email', 'public_profile' ], ( responseFacebook ) => {
             //Com o token do facebook, busca o token do acesso cidadão
-            let isData = this._getDataIdentityServer(this.appConfig.identityServer.clients.espmFacebookLoginAndroid.id, this.appConfig.identityServer.clients.espmFacebookLoginAndroid.secret, 'customloginexterno', 'openid');
+            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espmFacebookLoginAndroid.id, this.appConfig.identityServer.clients.espmFacebookLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this._getDataIdentityServerSocialNetwork( isData, 'Facebook', responseFacebook.authResponse.accessToken );
 
             this.OAuth2.signIn( isData, ( response ) => {
@@ -173,7 +172,7 @@ class LoginController {
 
         this.OAuthGoogle.login( options, ( responseGoogle ) => {
             //Com o token do google, busca o token do acesso cidadão
-            let isData = this._getDataIdentityServer(this.appConfig.identityServer.clients.espmGoogleLoginAndroid.id, this.appConfig.identityServer.clients.espmGoogleLoginAndroid.secret, 'customloginexterno', 'openid');
+            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espmGoogleLoginAndroid.id, this.appConfig.identityServer.clients.espmGoogleLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this._getDataIdentityServerSocialNetwork( isData, 'Google', responseGoogle.oauthToken );
 
             this.OAuth2.signIn( isData, ( response ) => {
@@ -201,8 +200,8 @@ class LoginController {
     digitsLogin() {
         this.OAuthDigits.login( {}, ( responseDigits ) => {
             //Com o token do digits, busca o token do acesso cidadão
-            let isData = this._getDataIdentityServer(this.appConfig.identityServer.clients.espm.id, this.appConfig.identityServer.clients.espm.secret, 'customloginexterno', 'openid');
-            isData = this._getDataIdentityServerPhone( isData, 'Celular', responseDigits.X-Auth-Service-Provider, responseDigits.X-Verify-Credentials-Authorization );
+            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espm.id, this.appConfig.identityServer.clients.espm.secret, 'customloginexterno', 'openid' );
+            isData = this._getDataIdentityServerPhone( isData, 'Celular', responseDigits.X - Auth - Service - Provider, responseDigits.X - Verify - Credentials - Authorization );
 
             this.OAuth2.signIn( isData, ( response ) => {
                 this._signInSuccess();
