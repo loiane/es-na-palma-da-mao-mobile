@@ -3,21 +3,21 @@
 // 1 - warn
 // 2 - error
 {
-  "extends": [ "prodest", "prodest-angular" ],
-  "env": {
-    "jasmine": true,
-    "es6": true,
-    "commonjs": true
-  },
+ "extends": [ "prodest", "prodest-angular" ],
+ "env": {
+   "jasmine": true,
+   "es6": true,
+   "commonjs": true
+ },
   "rules":{
     "linebreak-style": [2, "unix"]
   },
-  "globals": {
-    "_": true,
-    "moment": true,
-    "bard": true,
-    "ionic": true,
-    "cordova": true,
-    "sinon": true
-  }
+ "globals": {
+   "_": true,
+   "moment": true,
+   "bard": true,
+   "ionic": true,
+   "cordova": true,
+   "sinon": true
+ }
 }

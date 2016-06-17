@@ -33,6 +33,9 @@ import MenuController from './menu.controller.js';
 import dashboardState from '../app-states/dashboard/index.js';
 import loginState from '../app-states/login/index.js';
 import calendarState from '../app-states/calendar/index.js';
+import noticiaDetalheState from '../app-states/noticia/detalhe/index.js';
+import noticiaListaState from '../app-states/noticia/lista/index.js';
+
 
 let dependencies = [
     'ionic',
@@ -45,7 +48,9 @@ let dependencies = [
     dialogModule.name,
     dashboardState.name,
     loginState.name,
-    calendarState.name
+    calendarState.name,
+    noticiaDetalheState.name,
+    noticiaListaState.name
 ];
 
 let app = angular.module( 'app', dependencies )

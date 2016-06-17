@@ -1,4 +1,4 @@
-import template from './noticia.tpl.html!text';
+import listaTemplate from './lista.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -7,23 +7,23 @@ import template from './noticia.tpl.html!text';
  *
  * @returns {void}
  */
-function noticiaRoutes( $stateProvider ) {
+function listaRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.noticia', {
-            url: 'noticia',
+            url: '/noticia',
             data: { title: 'Noticia' },
             nativeTransitions: {
                 'type': 'fade'
             },
             views: {
                 content: {
-                    controller: 'noticiaController as vm',
-                    template: template
+                    controller: 'listaController as vm',
+                    template: listaTemplate
                 }
             }
         } );
 }
 
 export default[
-    '$stateProvider', noticiaRoutes
+    '$stateProvider', listaRoutes
 ];

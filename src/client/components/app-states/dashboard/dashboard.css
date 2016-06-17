@@ -4,22 +4,24 @@
 	font-weight: 500;
 }
 
-.tabs-top > .tabs, .tabs.tabs-top {
+/*.tabs-top > .tabs, .tabs.tabs-top {
     top: 0px !important;
 		height: 45px;
 }
-
-.has-tabs-top {
-    top: 45px !important;
-}
-
+*/
 .tab-item {
     max-width: none !important;
 }
 
-ion-tabs.tabs-striped.tabs-color-active-material-espm .tab-item.tab-item-active,
-ion-tabs.tabs-striped.tabs-color-active-material-espm .tab-item.active,
-ion-tabs.tabs-striped.tabs-color-active-material-espm .tab-item.activated {
+ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.tab-item-active, 
+ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.active, 
+ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.activated {
+
     border-color: #C86673;
     color: rgb(32,139,170);
+}
+
+
+ion-content.espm-has-tabs-top {
+    top: 0px;
 }

@@ -1,0 +1,31 @@
+<ion-view title="Notícias">
+	<ion-content id="state-noticia-lista">
+		<md-toolbar class="md-hue-2">
+			<div class="md-toolbar-tools">
+				<md-button>FONTES</md-button>
+				<md-button>DATA</md-button>
+			</div>
+		</md-toolbar>
+		<md-content>
+			<md-list flex>
+				<div ng-repeat="noticia in vm.noticias">
+					<md-list-item class="md-3-line" ng-click="vm.goToNoticia(noticia.id)">
+
+						<md-card-title-text class="md-padding">
+							<span class="md-title lista-noticias">{{noticia.titulo}}</span>
+							<span class="lista-noticias-info-origem">{{noticia.orgao}} | {{vm.moment(noticia.data).fromNow()}}</span>
+						</md-card-title-text>
+						<md-card-title-media>
+							<div class="md-media-md card-media">
+								<img alt="" ng-src="{{noticia.imagem}}" />
+							</div>
+						</md-card-title-media>
+
+					</md-list-item>
+					<md-divider></md-divider>
+				</div>
+			</md-list>
+		</md-content>
+	</ion-content>
+	<!--Dashboard section-->
+</ion-view>

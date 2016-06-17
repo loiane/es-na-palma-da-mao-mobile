@@ -27,7 +27,7 @@ class LoginController {
     activate() {
         this.user = {};
         this.apiResponse = '';
-        this.tokenClaims = this.OAuth2.getTokenClaims();
+        this.tokenClaims = this.OAuth2.tokenClaims;
     }
 
     goToDashboard() {

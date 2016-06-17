@@ -1,0 +1,22 @@
+#state-noticia-destaque h5.noticia-info-origem, h6.noticia-info-origem {
+    opacity: 0.5;
+}
+
+#state-noticia-destaque .outras-noticias-info-origem {
+    margin-top: 10px;
+    opacity: 0.5;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+    line-height: 1.2;
+}
+
+#state-noticia-destaque md-card md-card-title md-card-title-media .md-media-md {
+    height: auto !important;
+    max-height: 112px;
+}
+
+#state-noticia-destaque .md-title.outras-noticias {
+    font-weight: 400;
+    font-size: 18px;
+}

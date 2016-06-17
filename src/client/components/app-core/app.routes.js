@@ -17,7 +17,7 @@ function routesConfig( $stateProvider, $urlRouterProvider ) {
             controller: 'menuController as vm'
         } );
 
-    $urlRouterProvider.otherwise( '/app/dashboard' );
+    $urlRouterProvider.otherwise( '/app/login' );
 }
 
 export default [
