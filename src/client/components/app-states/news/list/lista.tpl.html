@@ -9,15 +9,23 @@
 		<md-content>
 			<md-list flex>
 				<div ng-repeat="news in vm.news">
-					<md-list-item class="md-3-line" ng-click="vm.goToNoticia(news.id)">
+					<md-list-item class="md-3-line" ng-click="vm.goToNews(news.id)">
 
 						<md-card-title-text class="md-padding">
 							<span class="md-title lista-noticias">{{news.title}}</span>
-							<span class="lista-noticias-info-origem">{{news.origin}} | {{vm.moment(news.date).fromNow()}}</span>
+							<!--<span class="lista-noticias-info-origem">{{news.origin}} | {{vm.moment(news.date).fromNow()}}</span>-->
+							<div>
+								<span md-colors="::{color: 'accent'}">
+									{{::news.origin}}
+								</span>
+								<span class="noticia-info-origem">
+									 {{::vm.moment(news.date).fromNow()}}
+								</span>
+							</div>
 						</md-card-title-text>
 						<md-card-title-media>
 							<div class="md-media-md card-media">
-								<img alt="" ng-src="{{news.image}}" />
+								<img alt="" ng-src="{{news.image}}"/>
 							</div>
 						</md-card-title-media>
 

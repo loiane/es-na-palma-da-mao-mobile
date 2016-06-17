@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-class DestaqueController {
+class HighlightsController {
 
     /**
      * @constructor
@@ -25,26 +25,26 @@ class DestaqueController {
      * @returns {void}
      */
     activate() {
-        this._destaques = [];
-        this.getDestaques();
+        this._highlights = [];
+        this.getNews();
     }
 
-    get primeiroDestaque() {
-        return this._destaques.length > 0 ? this._destaques[ 0 ] : {};
+    get firstNews() {
+        return this._highlights.length > 0 ? this._highlights[ 0 ] : {};
     }
 
-    get outrosDestaques() {
-        return this._destaques.length > 0 ? this._destaques.slice( 1 ) : [];
+    get otherNews() {
+        return this._highlights.length > 0 ? this._highlights.slice( 1 ) : [];
     }
 
     get moment() {
         return this._moment;
     }
 
-    getDestaques( n, success, error ) {
+    getNews( n, success, error ) {
         this.$http.get( `${this.appConfig.apiNoticia}highlights` )
             .then( ( response ) => {
-                this._destaques = response.data;
+                this._highlights = response.data;
 
                 //success();
             }, ( erro ) => {
@@ -52,11 +52,11 @@ class DestaqueController {
             } );
     }
 
-    goToNoticia( id ) {
-        this.$state.go( 'app.noticiaDetalhe/:id', { id: id } );
+    goToNews( id ) {
+        this.$state.go( 'app.news/:id', { id: id } );
     }
 }
 
-export default [ '$http', '$state', 'appConfig', 'toast', DestaqueController ];
+export default [ '$http', '$state', 'appConfig', 'toast', HighlightsController ];
 
 

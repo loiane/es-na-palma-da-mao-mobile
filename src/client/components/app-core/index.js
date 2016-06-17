@@ -35,8 +35,8 @@ import dashboardState from '../app-states/dashboard/index.js';
 import calendarState from '../app-states/calendar/index.js';
 import loginState from '../app-states/login/sign-in/index.js';
 import homeState from '../app-states/login/home/index.js';
-import noticiaDetalheState from '../app-states/noticia/detalhe/index.js';
-import noticiaListaState from '../app-states/noticia/lista/index.js';
+import noticiaDetalheState from '../app-states/news/detail/index.js';
+import noticiaListaState from '../app-states/news/list/index.js';
 
 let dependencies = [
     'ionic',

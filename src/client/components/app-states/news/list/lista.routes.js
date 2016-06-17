@@ -9,8 +9,8 @@ import listaTemplate from './lista.tpl.html!text';
  */
 function listaRoutes( $stateProvider ) {
     $stateProvider
-        .state( 'app.noticia', {
-            url: '/noticia',
+        .state( 'app.news', {
+            url: '/news',
             data: { title: 'Noticia' },
             nativeTransitions: {
                 'type': 'fade'

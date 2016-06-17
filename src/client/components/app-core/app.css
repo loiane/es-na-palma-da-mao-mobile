@@ -30,12 +30,17 @@ body {
 	border-style: none;
 }
 
+.md-primary-color-bg {
+	background-color: #208baa !important;
+}
+
 .md-primary-color {
 	color: #208baa !important;
 }
 
 ion-header-bar {
 	background-size: 100% 0px !important;
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 /*.keyboard-body .hide-with-keyboard{
@@ -45,13 +50,12 @@ ion-header-bar {
 
 /* ============================== */
 
-
 .spinner-android {
 	stroke: #208baa !important;
 }
 
 ion-nav-bar .ion-android-arrow-back {
-    font-size: 2em;
+	font-size: 2em;
 }
 
 /*body {
@@ -116,12 +120,12 @@ ion-nav-bar .ion-android-arrow-back {
 */
 
 ion-header-bar {
-  border-style: none;
-  color: white; 
+	border-style: none;
+	color: white;
 }
-  
+
 ion-header-bar a.button.button {
-  color: white;
+	color: white;
 }
 
 /*
@@ -319,22 +323,23 @@ md-sidenav {
   text-align: center; }
 */
 .toolbar-medium {
-  /*max-height: 160px !important;
-  height: 160px !important;*/
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
+	/*max-height: 160px !important;
+	height: 160px !important;*/
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
 
 .toolbar-medium div {
-  padding: 26px 10px 10px 10px;
-  text-align: center;
-  height: inherit !important; }
+	padding: 26px 10px 10px 10px;
+	text-align: center;
+	height: inherit !important; }
 
 .toolbar-medium h1 {
-  color: white;
-  font-size: 34px; }
+	color: white;
+	font-size: 34px; }
 
 .toolbar-medium h2 {
-  color: white;
-  font-size: 18px; }
+	color: white;
+	font-size: 18px; }
+
 /*
 .toolbar-medium h3 {
   color: white;
@@ -427,21 +432,21 @@ md-sidenav {
   margin-top: 16px; }
 */
 .md-button.md-accent.md-fab.fab-toolbar-medium {
-  float: right;
-  right: 25px;
-  padding: 15px;
-  line-height: 0 !important;
-  margin-top: -29px; }
+	float: right;
+	right: 25px;
+	padding: 15px;
+	line-height: 0 !important;
+	margin-top: -29px; }
 
 .md-button.md-accent.md-fab.fab-toolbar-medium i {
-  vertical-align: text-top;
-  font-size: x-large;
-  color: white; }
-  
-  
+	vertical-align: text-top;
+	font-size: x-large;
+	color: white; }
+
 md-toolbar.md-tall .md-button.md-accent.md-fab.fab-toolbar-medium {
-  margin-top: 43px; 
+	margin-top: 43px;
 }
+
 /*
 .md-button.md-accent.md-fab.fab-footer {
   float: right;

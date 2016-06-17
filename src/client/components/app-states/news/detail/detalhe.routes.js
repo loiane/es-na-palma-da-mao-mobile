@@ -9,8 +9,8 @@
  */
 function detalheRoutes( $stateProvider ) {
     $stateProvider
-        .state( 'app.noticiaDetalhe/:id', {
-            url: '/noticiaDetalhe/:id',
+        .state( 'app.news/:id', {
+            url: '/news/:id',
             data: { title: 'Detalhe Noticia' },
             views: {
                 content: {
