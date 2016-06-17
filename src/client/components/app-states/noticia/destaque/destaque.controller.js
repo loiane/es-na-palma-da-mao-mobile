@@ -29,19 +29,27 @@ class DestaqueController {
         this.getDestaques();
     }
 
-    get primeiroDestaque() { return this._destaques.length > 0 ? this._destaques[ 0 ] : {}; }
-    get outrosDestaques() { return this._destaques.length > 0 ? this._destaques.slice( 1 ) : []; }
-    get moment() { return this._moment; }
+    get primeiroDestaque() {
+        return this._destaques.length > 0 ? this._destaques[ 0 ] : {};
+    }
+
+    get outrosDestaques() {
+        return this._destaques.length > 0 ? this._destaques.slice( 1 ) : [];
+    }
+
+    get moment() {
+        return this._moment;
+    }
 
     getDestaques( n, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}destaques` )
-        .then( ( response ) => {
-            this._destaques = response.data;
+        this.$http.get( `${this.appConfig.apiNoticia}highlights` )
+            .then( ( response ) => {
+                this._destaques = response.data;
 
-            //success();
-        }, ( erro ) => {
-            console.log( erro );
-        } );
+                //success();
+            }, ( erro ) => {
+                console.log( erro );
+            } );
     }
 
     goToNoticia( id ) {

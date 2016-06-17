@@ -1,4 +1,3 @@
-import templateLogin from './views/login.tpl.html!text';
 import templateCPF from './views/cpfVerificar.tpl.html!text';
 import templateCPFCadastrado from './views/cpfCadastrado.tpl.html!text';
 import templateCadastro from './views/cadastro.tpl.html!text';
@@ -13,19 +12,6 @@ import templateConfirmarEmail from './views/confirmarEmail.tpl.html!text';
  */
 function loginRoutes( $stateProvider ) {
     $stateProvider
-        .state( 'app.login', {
-            url: 'login',
-            nativeTransitions: {
-                'type': 'fade'
-            },
-            data: { title: 'Login' },
-            views: {
-                content: {
-                    controller: 'loginController as vm',
-                    template: templateLogin
-                }
-            }
-        } )
         .state( 'app.cpfVerificar', {
             url: 'cpfVerificar',
             data: { title: 'CPF' },

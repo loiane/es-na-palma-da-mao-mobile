@@ -61,3 +61,4 @@ gulp/tasks/_*.js
 platforms/
 plugins/
 www/
+hooks/

@@ -8,16 +8,16 @@
 		</md-toolbar>
 		<md-content>
 			<md-list flex>
-				<div ng-repeat="noticia in vm.noticias">
-					<md-list-item class="md-3-line" ng-click="vm.goToNoticia(noticia.id)">
+				<div ng-repeat="news in vm.news">
+					<md-list-item class="md-3-line" ng-click="vm.goToNoticia(news.id)">
 
 						<md-card-title-text class="md-padding">
-							<span class="md-title lista-noticias">{{noticia.titulo}}</span>
-							<span class="lista-noticias-info-origem">{{noticia.orgao}} | {{vm.moment(noticia.data).fromNow()}}</span>
+							<span class="md-title lista-noticias">{{news.title}}</span>
+							<span class="lista-noticias-info-origem">{{news.origin}} | {{vm.moment(news.date).fromNow()}}</span>
 						</md-card-title-text>
 						<md-card-title-media>
 							<div class="md-media-md card-media">
-								<img alt="" ng-src="{{noticia.imagem}}" />
+								<img alt="" ng-src="{{news.image}}" />
 							</div>
 						</md-card-title-media>
 

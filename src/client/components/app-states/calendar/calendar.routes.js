@@ -21,6 +21,17 @@ function calendarRoutes( $stateProvider ) {
                     template: template
                 }
             }
+        } )
+        .state( 'app.dashboard.calendar', {
+            url: 'calendar',
+            data: { title: 'AGENDA ES' },
+            nativeTransitions: null,
+            views: {
+                'tab-calendar': {
+                    controller: 'calendarController as vm',
+                    template: template
+                }
+            }
         } );
 }
 

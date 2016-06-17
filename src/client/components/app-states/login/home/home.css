@@ -1,0 +1,46 @@
+#state-home {
+  background: #008EE2 url("./img/background.png") no-repeat center;
+  background-size: 100% 100%;
+  background: '';
+}
+
+#state-home > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#state-home .espm-home-logo {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+#state-home img {
+  width: 200px;
+  height: 167px;
+  justify-content: center;
+}
+
+#state-home h2 {
+  color: #ffffff;
+  margin-top: 7px;
+}
+
+#state-home button {
+  display: block;
+  width: 75%;
+  padding: 10px 0px;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+#state-home .espm-register-button {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+#state-home .espm-login-button {
+  background-color: #ffffff;
+  color: #008EE2;
+}

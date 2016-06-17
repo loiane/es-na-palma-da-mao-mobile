@@ -1,6 +1,4 @@
-﻿
-import template from './dashboard.tpl.html!text';
-import calendar from '../calendar/calendar.tpl.html!text';
+﻿import template from './dashboard.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -14,6 +12,7 @@ function dashBoardRoutes( $stateProvider ) {
         .state( 'app.dashboard', {
             url: 'dashboard/',
             data: { title: 'Dashboard' },
+            abstract: true,
             nativeTransitions: {
                 'type': 'fade'
             },
@@ -21,17 +20,6 @@ function dashBoardRoutes( $stateProvider ) {
                 content: {
                     controller: 'dashBoardController as vm',
                     template: template
-                }
-            }
-        } )
-        .state( 'app.dashboard.calendar', {
-            url: 'calendar',
-            data: { title: 'AGENDA ES' },
-            nativeTransitions: null,
-            views: {
-                'tab-calendar': {
-                    controller: 'calendarController as vm',
-                    template: calendar
                 }
             }
         } );

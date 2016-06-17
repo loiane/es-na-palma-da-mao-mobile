@@ -38,6 +38,7 @@
 					</div>
 				</div>
 				<div ng-show="vm.authenticated">
+					<md-subheader class="md-accent">Principal</md-subheader>
 					<div class="row menu-item" ng-click="vm.navigateTo('app.dashboard.noticia')">
 						<div class="col-33">
 							<i class="ion-android-apps"></i>
@@ -83,6 +84,7 @@
 					<span>Login</span>
 				</md-list-item>
 				<div ng-show="vm.authenticated">
+					<md-subheader class="md-accent">Principal</md-subheader>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dashboard')">
 						<i class="ion-ios-keypad"></i>
 						<span>Dashboard</span>
@@ -90,14 +92,15 @@
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.calendar')">
 						<i class="ion-ios-calendar"></i>
 						<span>Agenda ES</span>
-						<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.noticia')">
-							<i class="fa fa-newspaper-o"></i>
-							<span>Notícias</span>
-						</md-list-item>
-						<md-list-item class="menu-list-item" ng-click="vm.signOut()">
-							<i class="ion-ios-undo"></i>
-							<span>Sair</span>
-						</md-list-item>
+					</md-list-item>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.noticia')">
+						<i class="fa fa-newspaper-o"></i>
+						<span>Notícias</span>
+					</md-list-item>
+					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
+						<i class="ion-ios-undo"></i>
+						<span>Sair</span>
+					</md-list-item>
 				</div>
 			</md-list>
 			<!--end list section-->

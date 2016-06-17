@@ -120,7 +120,7 @@ class OAuth2 {
             token: this.token
         };
 
-        this.$http.post( `${this.identityServerUrl}connect/accesstokenvalidation`, options )
+        this.$http.post( `${this.identityServerUrl}connect/introspect`, options )
             .then( ( tokenClaims ) => {
                 return true;
             }, ( error ) => {
@@ -158,7 +158,6 @@ class OAuth2 {
      * Faz logout do usuário. Remove o token do localstore e os claims salvos.
      */
     signOut( success ) {
-        this.tokenClaims = {};
         delete this.$localStorage.token;
         delete this.$localStorage.userInfo;
         delete this.$localStorage.tokenClaims;
