@@ -1,12 +1,10 @@
-import _ from 'underscore';
-
 /** Login Controller */
 class LoginController {
 
     /**
      * @constructor
      */
-    constructor( $rootScope, $state, $localStorage, OAuth2, OAuthDigits, OAuthFacebook, OAuthGoogle, dialog, toast, appConfig, $window, $ionicHistory, _ ) {
+    constructor( $rootScope, $state, $localStorage, OAuth2, OAuthDigits, OAuthFacebook, OAuthGoogle, dialog, toast, appConfig, $window, $ionicHistory, $ionicLoading ) {
         this.appConfig = appConfig;
         this.OAuth2 = OAuth2;
         this.OAuth2.initialize( appConfig.identityServer.url );
@@ -22,7 +20,7 @@ class LoginController {
         this.$localStorage = $localStorage;
         this.$window = $window;
         this.$ionicHistory = $ionicHistory;
-        this._ = _;
+        this.$ionicLoading = $ionicLoading;
 
         this.activate();
     }
@@ -42,14 +40,6 @@ class LoginController {
         this.$state.go( 'app.dashboard.newsHighlights' );
     }
 
-    /*    getUserInfo() {
-     this.OAuth2.getUserInfo( ( response ) => {
-     console.log( response );
-     }, ( error ) => {
-     console.log( error );
-     } );
-     }*/
-
     _getOAuth2AppConfig( obj ) {
         return this.$.extend( {}, this.appConfig, obj );
     }
@@ -60,7 +50,7 @@ class LoginController {
     }
 
     _getDataIdentityServer( clientId, clientSecret, grantType, scope ) {
-        var data = {
+        let data = {
             client_id: clientId,
             client_secret: clientSecret,
             grant_type: grantType,
@@ -80,8 +70,7 @@ class LoginController {
             data.password = password;
         }
 
-        _.extend( options, data );
-        return options;
+        return angular.extend({}, options, data );
 
     }
 
@@ -96,12 +85,17 @@ class LoginController {
             data.accesstoken = accesstoken;
         }
 
-        _.extend( options, data );
-        return options;
+        return angular.extend({}, options, data );
     }
 
-    _getDataIdentityServerPhone( options, apiUrl, authHeader ) {
+    _getDataIdentityServerPhone( options, provider, apiUrl, authHeader ) {
         let data = {};
+
+        data.accesstoken = "token";
+
+        if ( provider ) {
+            data.provider = provider;
+        }
 
         if ( apiUrl ) {
             data.apiUrl = apiUrl;
@@ -111,8 +105,7 @@ class LoginController {
             data.authHeader = authHeader;
         }
 
-        _.extend( options, data );
-        return options;
+        return angular.extend({}, options, data );
     }
 
     /**
@@ -122,14 +115,17 @@ class LoginController {
         let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espm.id, this.appConfig.identityServer.clients.espm.secret, 'password', 'openid' );
         isData = this._getDataIdentityServerAcessoCidadao( isData, this.user.name, this.user.password );
 
-        this.OAuth2.signIn( isData, ( response ) => {
+        this.$ionicLoading.show();
+        this.OAuth2.signIn( isData ).then( ( ) => {
             this._signInSuccess();
-        }, ( error ) => {
+        }, ( ) => {
             //TODO: Tratar error
-            console.log( error );
             this.toast.error( {
                 title: 'Credênciais inválidas'
             } );
+        } )
+        .finally( ( ) => {
+            this.$ionicLoading.hide();
         } );
     }
 
@@ -140,23 +136,22 @@ class LoginController {
 
         this.OAuthFacebook.login( [ 'email', 'public_profile' ], ( responseFacebook ) => {
             //Com o token do facebook, busca o token do acesso cidadão
-            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espmFacebookLoginAndroid.id, this.appConfig.identityServer.clients.espmFacebookLoginAndroid.secret, 'customloginexterno', 'openid' );
+            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espmExternalLoginAndroid.id, this.appConfig.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this._getDataIdentityServerSocialNetwork( isData, 'Facebook', responseFacebook.authResponse.accessToken );
 
-            this.OAuth2.signIn( isData, ( response ) => {
+            this.OAuth2.signIn( isData ).then( ( ) => {
                 this._signInSuccess();
-            }, ( error ) => {
+            }, ( ) => {
                 //TODO: Tratar error
-                console.log( error );
-
                 this.toast.error( {
                     title: 'Erro no Acesso Cidadão'
                 } );
+            } )
+            .finally( ( ) => {
+                this.$ionicLoading.hide();
             } );
-        }, ( error ) => {
+        }, ( ) => {
             //TODO: Tratar error
-            console.log( error );
-
             this.toast.error( {
                 title: 'Falha no login'
             } );
@@ -164,33 +159,31 @@ class LoginController {
     }
 
     googleLogin() {
-        const options = {
-            //'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+        let options = {
+            'scopes': 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
             'webClientId': this.appConfig.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
             'offline': true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
         };
 
+        this.$ionicLoading.show();
         this.OAuthGoogle.login( options, ( responseGoogle ) => {
             //Com o token do google, busca o token do acesso cidadão
-            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espmGoogleLoginAndroid.id, this.appConfig.identityServer.clients.espmGoogleLoginAndroid.secret, 'customloginexterno', 'openid' );
+            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espmExternalLoginAndroid.id, this.appConfig.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this._getDataIdentityServerSocialNetwork( isData, 'Google', responseGoogle.oauthToken );
 
-            this.OAuth2.signIn( isData, ( response ) => {
+            this.OAuth2.signIn( isData ).then( ( ) => {
                 this._signInSuccess();
-            }, ( error ) => {
+            }, ( ) => {
                 //TODO: Tratar error
-                console.log( error );
-
                 this.toast.error( {
                     title: 'Erro no Acesso Cidadão'
                 } );
+            } )
+            .finally( ( ) => {
+                this.$ionicLoading.hide();
             } );
-
-            this._signInSuccess();
-        }, ( error ) => {
+        }, ( ) => {
             //TODO: Tratar error
-            console.log( error );
-
             this.toast.error( {
                 title: 'Falha no login'
             } );
@@ -198,39 +191,33 @@ class LoginController {
     }
 
     digitsLogin() {
+        this.$ionicLoading.show();
         this.OAuthDigits.login( {}, ( responseDigits ) => {
             //Com o token do digits, busca o token do acesso cidadão
-            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espm.id, this.appConfig.identityServer.clients.espm.secret, 'customloginexterno', 'openid' );
-            isData = this._getDataIdentityServerPhone( isData, 'Celular', responseDigits.X - Auth - Service - Provider, responseDigits.X - Verify - Credentials - Authorization );
+            let isData = this._getDataIdentityServer( this.appConfig.identityServer.clients.espmExternalLoginAndroid.id, this.appConfig.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
+            isData = this._getDataIdentityServerPhone( isData, 'Celular', responseDigits['X-Auth-Service-Provider'], responseDigits['X-Verify-Credentials-Authorization'] );
 
-            this.OAuth2.signIn( isData, ( response ) => {
+            this.OAuth2.signIn( isData ).then( ( ) => {
                 this._signInSuccess();
-            }, ( error ) => {
+            }, ( ) => {
                 //TODO: Tratar error
-                console.log( error );
                 this.toast.error( {
                     title: 'Erro no Acesso Cidadão'
                 } );
+            } )
+            .finally( ( ) => {
+                this.$ionicLoading.hide();
             } );
-
-            this._signInSuccess();
-        }, ( error ) => {
+        }, ( ) => {
             //TODO: Tratar error
-            console.log( error );
-
             this.toast.error( {
                 title: 'Falha no login'
             } );
         } );
     }
 
-    _buildDigitsObject( data ) {
-        var obj = {};
-        data[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach( ( item ) => {
-            var aux = item.split( '=' );
-            obj[ aux[ 0 ] ] = aux[ 1 ].substring( 1, aux[ 1 ].length - 1 );
-        } );
-        return obj;
+    openUrlForgotPassword() {
+        this.$window.open('https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha', '_system');
     }
 }
 
@@ -247,5 +234,6 @@ export default [
     'appConfig',
     '$window',
     '$ionicHistory',
+    '$ionicLoading',
     LoginController
 ];

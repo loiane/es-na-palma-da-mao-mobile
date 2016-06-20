@@ -36,10 +36,7 @@ class OAuthGoogle {
             this.$localStorage.googleAccessToken = responseGoogle;
 
             success( responseGoogle );
-        },
-        ( errorGoogle ) => {
-            error( errorGoogle );
-        } );
+        }, error );
     }
 
     trySilentLogin( options, success, error ) {
