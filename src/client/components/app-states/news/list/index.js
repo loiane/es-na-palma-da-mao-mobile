@@ -8,7 +8,7 @@ import newsApiService from '../news-api.service.js';
 const dependencies = [
     'ui.router'
 ];
- 
+
 export default angular.module( 'state-news-list', dependencies )
                       .controller( 'listController', ListController )
                       .service( 'newsApiService', newsApiService )

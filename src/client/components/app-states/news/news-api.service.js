@@ -22,6 +22,16 @@ class NewsApiService {
 
     /**
      *
+     * @returns {*}
+     */
+    getHighlightNews() {
+        return this.$http
+                   .get( `${baseUrl}/highlights` )
+                   .then( response => response.data );
+    }
+
+    /**
+     *
      * @param calendars
      * @param options
      * @returns {Array}

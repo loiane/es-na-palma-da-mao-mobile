@@ -1,13 +1,11 @@
 <ion-view>
 	<ion-nav-title>{{::vm.news.origin}}</ion-nav-title>
-
-	<!--left button on navigation bar-->
 	<ion-nav-buttons side="left">
 		<a ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item nav-back-btn">
 			<i class="fa fa-arrow-left espm-back-button"></i>
 		</a>
-	</ion-nav-buttons><!--end left button on navigation bar-->
-	<ion-content id="state-noticia-detalhe">
+	</ion-nav-buttons>
+	<ion-content id="state-news-detail">
 
 		<md-content flex layout-padding class="espm-full-content">
 			<img ng-src="{{::vm.news.image}}" class="md-card-image espm-img-noticia-detalhe" alt="">
@@ -21,11 +19,11 @@
 			</div>
 
 			<h2>{{::vm.news.title}}</h2>
-			<p ng-bind-html="::vm.news.body" class="espm-corpo-noticia"></p>
-			<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+			<p ng-bind-html="::vm.news.body" class="news-body"></p>
+			<!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
 				<md-button>NOTÍCIA ANTERIOR</md-button>
 				<md-button>PRÓXIMA NOTÍCIA</md-button>
-			</section>
+			</section>-->
 		</md-content>
 
 	</ion-content>

@@ -1,15 +1,15 @@
 import 'angular-ui-router';
-import './detalhe.css!css';
+import './detail.css!css';
 import angular from 'angular';
-import DetalheController from './detalhe.controller.js';
-import detalheRoutes from './detalhe.routes.js';
-import appConfig from '../../../app-core/app.config.js';
+import DetailController from './detail.controller.js';
+import detailRoutes from './detail.routes.js';
+import newsApiService from '../news-api.service.js';
 
 const dependencies = [
-    'ui.router',
-    appConfig.name
+    'ui.router'
 ];
 
-export default angular.module( 'state-noticia-detalhe', dependencies )
-                      .controller( 'detalheController', DetalheController )
-                      .config( detalheRoutes );
+export default angular.module( 'state-news-detail', dependencies )
+                      .controller( 'detailController', DetailController )
+                      .service( 'newsApiService', newsApiService )
+                      .config( detailRoutes );
