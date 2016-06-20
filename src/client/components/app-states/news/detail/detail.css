@@ -1,0 +1,32 @@
+#state-news-detail .noticia-info-origem,
+#state-news-detail .noticia-info-origem {
+	opacity: 0.5;
+	padding-left: 5px;
+	border-left: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+#state-news-detail * {
+	background-color: #fff !important;
+}
+
+#state-news-detail .espm-img-noticia-detalhe {
+	width: 100%;
+}
+
+#state-news-detail .espm-full-content {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+#state-news-detail .news-body {
+	flex-grow: 1;
+}
+
+#state-news-detail .news-body img {
+	max-width: 100%;
+}
+
+#state-news-detail .espm-back-button {
+	font-size: 1.4em;
+}

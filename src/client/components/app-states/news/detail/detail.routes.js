@@ -1,4 +1,4 @@
-﻿import detalheTemplate from './detalhe.tpl.html!text';
+﻿import template from './detail.tpl.html!text';
 
 /**
  * Configura rotas para o componente
@@ -7,18 +7,18 @@
  *
  * @returns {void}
  */
-function detalheRoutes( $stateProvider ) {
+function detailRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.news/:id', {
             url: '/news/:id',
-            data: { title: 'Detalhe Noticia' },
+            data: { title: 'Notícia' },
             views: {
                 content: {
-                    controller: 'detalheController as vm',
-                    template: detalheTemplate
+                    controller: 'detailController as vm',
+                    template: template
                 }
             }
         } );
 }
 
-export default [ '$stateProvider', detalheRoutes ];
+export default [ '$stateProvider', detailRoutes ];
