@@ -14,6 +14,9 @@ import authenticationModule from '../app-core-tools/authentication/index.js';
 // Services
 import cpfService from '../app-core-tools/cpf.service.js';
 
+//filters
+import fromNowFilter from '../app-core-tools/from-now.filter';
+
 // configs
 import appConfig from './app.config.js';
 import ionicConfig from './app.ionic.config.js';
@@ -62,6 +65,7 @@ let app = angular.module( 'app', dependencies )
                  .config( httpInterceptorsConfig )
                  .controller( 'menuController', MenuController )
                  .service( 'cpfService', cpfService )
+                 .filter( 'fromNow', fromNowFilter )
                  .run( appRun );
 
 // bootstrap app

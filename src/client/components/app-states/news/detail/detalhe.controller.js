@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 class DetalheController {
 
     /**
@@ -15,8 +13,6 @@ class DetalheController {
         this.$stateParams = $stateParams;
         this.$ionicHistory = $ionicHistory;
         this.toast = toast;
-        this._moment = moment;
-
         this.appConfig = appConfig;
 
         this.activate();
@@ -36,16 +32,17 @@ class DetalheController {
         this.getNews( this.$stateParams.id );
     }
 
-    get news() { return this._news; }
-    get moment() { return this._moment; }
+    get news() {
+        return this._news;
+    }
 
     getNews( id, success, error ) {
         this.$http.get( `${this.appConfig.apiNoticia}${id}` )
-        .then( ( response ) => {
-            this._news = response.data;
+            .then( ( response ) => {
+                this._news = response.data;
 
-            //success();
-        }, error );
+                //success();
+            }, error );
     }
 
     proxima( id ) {
@@ -57,6 +54,15 @@ class DetalheController {
     }
 }
 
-export default [ '$rootScope', '$http', '$state', '$stateParams', '$ionicHistory', 'appConfig', 'toast', DetalheController ];
+export default [
+    '$rootScope',
+    '$http',
+    '$state',
+    '$stateParams',
+    '$ionicHistory',
+    'appConfig',
+    'toast',
+    DetalheController
+];
 
 

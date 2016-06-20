@@ -11,7 +11,7 @@
 			</md-card-title>
 			<md-card-content>
 				<p ng-bind-html="vm.firstNews.summary"></p>
-				<span class="outras-noticias-info-origem">{{vm.firstNews.origin}} | {{vm.moment(vm.firstNews.date).fromNow()}}</span>
+				<span class="outras-noticias-info-origem">{{vm.firstNews.origin}} | {{ vm.firstNews.date | fromNow }}</span>
 
 			</md-card-content>
 			<md-card-actions layout="row" layout-align="start left">
@@ -24,7 +24,7 @@
 			<md-card-title>
 				<md-card-title-text>
 					<span class="md-title outras-noticias">{{news.title}}</span>
-					<span class="outras-noticias-info-origem">{{news.origin}} | {{vm.moment(news.date).fromNow()}}</span>
+					<span class="outras-noticias-info-origem">{{news.origin}} | {{ news.date | fromNow }}</span>
 				</md-card-title-text>
 				<md-card-title-media>
 					<div class="md-media-md card-media">

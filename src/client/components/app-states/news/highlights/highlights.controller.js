@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 class HighlightsController {
 
     /**
@@ -12,8 +10,6 @@ class HighlightsController {
         this.$http = $http;
         this.$state = $state;
         this.toast = toast;
-        this._moment = moment;
-
         this.appConfig = appConfig;
 
         this.activate();
@@ -35,10 +31,6 @@ class HighlightsController {
 
     get otherNews() {
         return this._highlights.length > 0 ? this._highlights.slice( 1 ) : [];
-    }
-
-    get moment() {
-        return this._moment;
     }
 
     getNews( n, success, error ) {
