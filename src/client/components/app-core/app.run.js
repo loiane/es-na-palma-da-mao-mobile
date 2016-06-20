@@ -24,6 +24,7 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
      * @returns {void}
      */
     function initialRootScope() {
+        $rootScope.moment = moment;
         $rootScope.$state = $state;
         $rootScope.isAndroid = ionic.Platform.isAndroid();  // Check platform of running device is android or not.
         $rootScope.isIOS = ionic.Platform.isIOS();          // Check platform of running device is ios or not.

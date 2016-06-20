@@ -1,25 +1,26 @@
 <ion-view title="Notícias">
 	<ion-content id="state-noticia-lista">
-		<md-toolbar class="md-hue-2">
+		<md-toolbar class="md-hue-1">
 			<div class="md-toolbar-tools">
-				<md-button>FONTES</md-button>
-				<md-button>DATA</md-button>
+				<md-button class="md-accent md-raised" ng-click="vm.openOriginsFilter($event)">
+					<!--				<md-icon md-font-icon="fa fa-filter">
+									</md-icon>-->
+					Fontes
+				</md-button>
 			</div>
 		</md-toolbar>
 		<md-content>
 			<md-list flex>
 				<div ng-repeat="news in vm.news">
 					<md-list-item class="md-3-line" ng-click="vm.goToNews(news.id)">
-
 						<md-card-title-text class="md-padding">
 							<span class="md-title lista-noticias">{{news.title}}</span>
-							<!--<span class="lista-noticias-info-origem">{{news.origin}} | {{vm.moment(news.date).fromNow()}}</span>-->
 							<div>
 								<span md-colors="::{color: 'accent'}">
 									{{::news.origin}}
 								</span>
 								<span class="noticia-info-origem">
-									 {{::vm.moment(news.date).fromNow()}}
+									 {{::moment(news.date).fromNow()}}
 								</span>
 							</div>
 						</md-card-title-text>

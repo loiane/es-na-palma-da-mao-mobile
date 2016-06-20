@@ -1,47 +1,86 @@
-import moment from 'moment';
+import sourcesDialogTemplate from './sources-dialog/sources-dialog.tpl.html!text';
+import SourcesDialogController from './sources-dialog/sources-dialog.controller';
 
 class ListaController {
 
     /**
      * @constructor
      *
-     * @param {Object} toast - toast service
-     *
+     * @param $state
+     * @param $mdDialog
+     * @param $ionicLoading
+     * @param newsApiService
      */
-    constructor( $http, $state, appConfig, toast ) {
-        this.$http = $http;
+    constructor( $state, $mdDialog, $ionicLoading, newsApiService ) {
         this.$state = $state;
-        this.toast = toast;
-        this._moment = moment;
-
-        this.appConfig = appConfig;
-
+        this.newsApiService = newsApiService;
+        this.$mdDialog = $mdDialog;
+        this.$ionicLoading = $ionicLoading;
+        this.news = [];
+        this.availableOrigins = [];
+        this.selectedOrigins = [];
         this.activate();
     }
 
     /**
-     * Ativa o controller
      *
-     * @returns {void}
      */
     activate() {
-        this._news = [];
-        this.getNews();
+        this.$ionicLoading.show();
+        this.getAvailableOrigins()
+            .then( origins => this.getNews( origins ) )
+            .finally( () => {
+                this.$ionicLoading.hide();
+            } );
     }
 
-    get news() {
-        return this._news;
+    /**
+     * Carrega lista de origins disponíveis
+     *
+     * @returns {*}
+     */
+    getAvailableOrigins() {
+        return this.newsApiService.getAvailableOrigins()
+                   .then( origins => {
+                       this.availableOrigins = origins;
+                       this.selectedOrigins = angular.copy( this.availableOrigins );
+                       return origins;
+                   } );
     }
 
-    get moment() {
-        return this._moment;
+    /**
+     *
+     */
+    getNews( origins ) {
+        this.$ionicLoading.show( 200 );
+        return this.newsApiService.getNews( origins )
+                   .then( ( news ) => this.news = news )
+                   .finally( () => {
+                       this.$ionicLoading.hide();
+                   } );
     }
 
-    getNews( filtro, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}` )
-            .then( ( response ) => {
-                this._news = response.data;
-            }, error );
+    /**
+     *
+     * @param $event
+     */
+    openOriginsFilter( $event ) {
+        this.$mdDialog.show( {
+            controller: SourcesDialogController,
+            template: sourcesDialogTemplate,
+            targetEvent: $event,
+            bindToController: true,
+            controllerAs: 'vm',
+            locals: {
+                availableOrigins: this.availableOrigins,
+                selectedOrigins: this.selectedOrigins
+            }
+        } )
+            .then( ( origins ) => {
+                return this.getNews( origins );
+            }, () => {
+
+            } );
     }
 
     goToNews( id ) {
@@ -49,6 +88,8 @@ class ListaController {
     }
 }
 
-export default [ '$http', '$state', 'appConfig', 'toast', ListaController ];
+export default [
+    '$state', '$mdDialog', '$ionicLoading', 'newsApiService', ListaController
+];
 
 

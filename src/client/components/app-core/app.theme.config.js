@@ -40,7 +40,8 @@ function appThemeConfig( $mdThemingProvider ) {
         'A100': '#cf7984',
         'A200': '#C86673',
         'A400': '#c15362',
-        'A700': '#eac4c9'
+        'A700': '#eac4c9',
+        'contrastDefaultColor': 'light'
     };
 
     const customWarn = {

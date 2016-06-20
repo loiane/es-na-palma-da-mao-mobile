@@ -26,7 +26,7 @@ class CalendarController {
     activate() {
         this.$ionicLoading.show();
         this.getAvailableCalendars()
-            .then( () => this._loadEvents() )
+            .then( () => this.loadEvents() )
             .finally( () => this.$ionicLoading.hide() );
     }
 
@@ -46,15 +46,8 @@ class CalendarController {
      * Carrega os eventos no calendário
      */
     loadEvents() {
-        this.$ionicLoading.show( { delay: 300 } );
-        return this._loadEvents()
-                   .finally( () => this.$ionicLoading.hide() );
-    };
+        this.$ionicLoading.show( 200 );
 
-    /**
-     * Carrega os eventos no calendário
-     */
-    _loadEvents() {
         return this.calendarApiService.getFullCalendars( this.selectedCalendars )
                    .then( fullCalendars => {
                        this.calendar.eventSources = fullCalendars;
@@ -63,7 +56,9 @@ class CalendarController {
                        const totalEvents = this.calendar.eventSources.reduce( ( total, calendar ) => {
                            return total + calendar.items.length;
                        }, 0 );
+
                        this.toast.show( { title: `${totalEvents} eventos carregados` } );
+                       this.$ionicLoading.hide();
                    } );
     };
 

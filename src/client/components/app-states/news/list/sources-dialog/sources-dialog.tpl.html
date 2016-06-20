@@ -1,0 +1,16 @@
+<md-dialog aria-label="List dialog">
+	<md-dialog-content class="md-padding">
+		<div class="cb-dialog-content">
+			<div class="cb-dialog-content-label">Órgãos</div>
+			<div ng-repeat="origin in vm.availableOrigins" class="cb-dialog-content-item">
+				<md-checkbox ng-checked="vm.exists(origin, vm.selectedOrigins)" ng-click="vm.toggle(origin, vm.selectedOrigins)">
+					{{ origin }}
+				</md-checkbox>
+			</div>
+		</div>
+	</md-dialog-content>
+	<md-dialog-actions>
+		<md-button ng-click="vm.cancel()" class="md-primary">Cancelar</md-button>
+		<md-button ng-click="vm.ok(vm.selectedOrigins)" class="md-primary">Filtrar</md-button>
+	</md-dialog-actions>
+</md-dialog>
