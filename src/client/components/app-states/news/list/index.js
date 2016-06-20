@@ -1,16 +1,15 @@
 import 'angular-ui-router';
-import './lista.css!css';
+import './list.css!css';
 import angular from 'angular';
-import ListaController from './lista.controller.js';
-import listaRoutes from './lista.routes.js';
-import appConfig from '../../../app-core/app.config.js';
+import ListController from './list.controller.js';
+import listRoutes from './list.routes.js';
 import newsApiService from '../news-api.service.js';
 
 const dependencies = [
-    'ui.router', appConfig.name
+    'ui.router'
 ];
-
-export default angular.module( 'state-noticia-lista', dependencies )
-                      .controller( 'listaController', ListaController )
+ 
+export default angular.module( 'state-news-list', dependencies )
+                      .controller( 'listController', ListController )
                       .service( 'newsApiService', newsApiService )
-                      .config( listaRoutes );
+                      .config( listRoutes );

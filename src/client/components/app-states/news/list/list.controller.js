@@ -1,7 +1,7 @@
 import sourcesDialogTemplate from './sources-dialog/sources-dialog.tpl.html!text';
 import SourcesDialogController from './sources-dialog/sources-dialog.controller';
 
-class ListaController {
+class ListController {
 
     /**
      * @constructor
@@ -89,7 +89,7 @@ class ListaController {
 }
 
 export default [
-    '$state', '$mdDialog', '$ionicLoading', 'newsApiService', ListaController
+    '$state', '$mdDialog', '$ionicLoading', 'newsApiService', ListController
 ];
 
 
