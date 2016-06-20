@@ -1,16 +1,16 @@
 class HighlightsController {
 
     /**
-     * @constructor
      *
-     * @param {Object} toast - toast service
-     *
+     * @param newsApiService
+     * @param $ionicLoading
+     * @param $state
      */
-    constructor( $http, $state, appConfig, toast ) {
-        this.$http = $http;
+    constructor( newsApiService, $ionicLoading, $state ) {
         this.$state = $state;
-        this.toast = toast;
-        this.appConfig = appConfig;
+        this.newsApiService = newsApiService;
+        this.$ionicLoading = $ionicLoading;
+        this.highlights = [];
 
         this.activate();
     }
@@ -21,34 +21,46 @@ class HighlightsController {
      * @returns {void}
      */
     activate() {
-        this._highlights = [];
-        this.getNews();
+        this.getHighlightNews();
     }
 
+    /**
+     *
+     * @returns {*|{}}
+     */
     get firstNews() {
-        return this._highlights.length > 0 ? this._highlights[ 0 ] : {};
+        return this.highlights[ 0 ] || {};
     }
 
+    /**
+     *
+     * @returns {*}
+     */
     get otherNews() {
-        return this._highlights.length > 0 ? this._highlights.slice( 1 ) : [];
+        return this.highlights.length > 0 ? this.highlights.slice( 1 ) : [];
     }
 
-    getNews( n, success, error ) {
-        this.$http.get( `${this.appConfig.apiNoticia}highlights` )
-            .then( ( response ) => {
-                this._highlights = response.data;
-
-                //success();
-            }, ( erro ) => {
-                console.log( erro );
+    /**
+     *
+     */
+    getHighlightNews() {
+        this.$ionicLoading.show( 200 );
+        this.newsApiService.getHighlightNews()
+            .then( highlights => this.highlights = highlights )
+            .finally( () => {
+                this.$ionicLoading.hide();
             } );
     }
 
+    /**
+     *
+     * @param id
+     */
     goToNews( id ) {
         this.$state.go( 'app.news/:id', { id: id } );
     }
 }
 
-export default [ '$http', '$state', 'appConfig', 'toast', HighlightsController ];
+export default [ 'newsApiService', '$ionicLoading', '$state', HighlightsController ];
 
 
