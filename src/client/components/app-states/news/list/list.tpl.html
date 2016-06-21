@@ -10,7 +10,8 @@
 		<md-content>
 			<md-list flex>
 				<div ng-repeat="news in vm.news">
-					<md-list-item class="md-3-line" ng-click="vm.goToNews(news.id)">
+					<md-list-item class="md-3-line"
+								  ng-click="vm.goToNews(news.id)">
 						<md-card-title-text class="md-padding">
 							<span class="md-title lista-noticias">{{news.title}}</span>
 							<div>
@@ -27,9 +28,16 @@
 								<img alt="" ng-src="{{news.image}}"/>
 							</div>
 						</md-card-title-media>
-
 					</md-list-item>
 					<md-divider></md-divider>
+				</div>
+				<div ng-if="!vm.news.length"
+					 layout="column"
+					 layout-align="center center">
+					<div class="md-padding" style="padding: 20px;">
+						<div class="md-subhead">Nenhuma notícia encontrada</div>
+						<div style="color: #999;">Tente mudar o filtro da consulta</div>
+					</div>
 				</div>
 			</md-list>
 		</md-content>

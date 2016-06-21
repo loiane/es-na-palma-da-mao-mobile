@@ -25,6 +25,33 @@ class SourceController {
 
     /**
      *
+     * @returns {boolean}
+     */
+    isIndeterminate() {
+        return (this.selectedOrigins.length !== 0 && this.selectedOrigins.length !== this.availableOrigins.length);
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    isChecked() {
+        return this.selectedOrigins.length === this.availableOrigins.length;
+    }
+
+    /**
+     *
+     */
+    toggleAll() {
+        if ( this.isChecked() ) {
+            this.selectedOrigins = [];
+        } else if ( this.selectedOrigins.length === 0 || this.selectedOrigins.length > 0 ) {
+            this.selectedOrigins = this.availableOrigins.slice( 0 );
+        }
+    };
+
+    /**
+     *
      * @param origin
      */
     toggle( origin, selectedOrigins ) {

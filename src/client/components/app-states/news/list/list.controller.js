@@ -77,9 +77,8 @@ class ListController {
             }
         } )
             .then( ( origins ) => {
+                this.selectedOrigins = origins;
                 return this.getNews( origins );
-            }, () => {
-
             } );
     }
 
