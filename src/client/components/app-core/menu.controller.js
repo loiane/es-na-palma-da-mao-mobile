@@ -195,12 +195,9 @@ class MenuController {
     }
 
     signOut() {
-        this.OAuthFacebook.logout( () => {
-        }, () => {
-        } );
-        this.OAuthGoogle.logout( () => {
-        } );
-        this.OAuthDigits.logout();
+        this.OAuthFacebook.logout();
+        this.OAuthGoogle.logout();
+        //this.OAuthDigits.logout(); //TODO: Verificar se precisa mesmo do logout do Digits
 
         this.OAuth2.signOut( () => {
             this.navigateTo( 'home' );

@@ -34,13 +34,14 @@ class DialogService {
     alert( contextualOptions ) {
         let opts = this._buildOptionsTo( 'alert', contextualOptions );
 
-        let confirm = this.$mdDialog.alert()
-                          .clickOutsideToClose( opts.clickOutsideToClose )
-                          .title( opts.title )
-                          .textContent( opts.content )
-                          .targetEvent( opts.targetEvent )
-                          .ok( opts.ok );
-        return this.$mdDialog.show( confirm );
+        var alert = this.$mdDialog.alert()
+                        .clickOutsideToClose( opts.clickOutsideToClose )
+                        .title( opts.title )
+                        .textContent( opts.content )
+                        .htmlContent( opts.htmlContent )
+                        .targetEvent( opts.targetEvent )
+                        .ok( opts.ok );
+        return this.$mdDialog.show( alert );
     }
 
     /**
@@ -56,6 +57,7 @@ class DialogService {
         let confirm = this.$mdDialog.confirm()
                           .title( opts.title )
                           .textContent( opts.content )
+                          .htmlContent( opts.htmlContent )
                           .targetEvent( opts.targetEvent )
                           .ok( opts.ok )
                           .cancel( opts.cancel );
