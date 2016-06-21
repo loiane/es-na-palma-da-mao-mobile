@@ -62,6 +62,10 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
             hideActionControl();
         } );
 
+        if ( $window.navigator.splashscreen ){
+            $window.navigator.splashscreen.hide();
+        }
+
         if ( !isAuthenticated() ) {
             $state.go( 'home' );
         }

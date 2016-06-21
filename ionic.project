@@ -1,6 +1,6 @@
 {
   "name": "ESPM",
-  "app_id": "br.gov.es.espm",
+  "app_id": "br.gov.es.prodest.espm",
   "browsers": [
     {
       "platform": "android",

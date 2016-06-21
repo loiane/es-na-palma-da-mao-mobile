@@ -39,55 +39,67 @@ class OAuth2 {
      * @return {object} Claims do usuário
      */
     get user() {
-        var token = this.token;
+        let token = this.token;
 
-        var user = {};
-        if ( typeof token !== 'undefined' ) {
-            var encoded = token.access_token.split( '.' )[ 1 ];
-            user = JSON.parse( this._urlBase64Decode( encoded ) );
+        let user = {};
+        if ( angular.isDefined(token) ) {
+            let encoded = token.access_token.split( '.' )[ 1 ];
+            user = angular.fromJson( this._urlBase64Decode( encoded ) );
         }
         return user;
     }
 
     get token() {
-        if ( !this.$localStorage.token )
+        if ( !this.$localStorage.token ) {
             return undefined;
+        }
 
         return this.$localStorage.token;
+    }
+
+     /**
+     * @return {object} Claims do usuário
+     */
+    get tokenClaims() { 
+        return this.$localStorage.tokenClaims; 
+    }
+
+    get userInfo() { 
+        return this.$localStorage.userInfo; 
     }
 
     /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
     _getToken( data, success, error ) {
-        var getTokenUrl = `${this.identityServerUrl}connect/token`;
+        let getTokenUrl = `${this.identityServerUrl}connect/token`;
 
-        var options = {
+        let options = {
             method: 'POST',
             url: getTokenUrl,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             transformRequest: function( obj ) {
-                var str = [];
-                for ( var p in obj )
+                let str = [];
+                for ( let p in obj ) {
                     str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
+                }
                 return str.join( '&' );
             },
             data: data
         };
 
-        this.$http( options )
-            .success( ( response ) => {
-                this.$localStorage.token = response;
-                this.$localStorage.tokenClaims = this.user;
+        return this.$http( options )
+                    .then( ( response ) => {
+                        this.$localStorage.token = response.data;
+                        this.$localStorage.tokenClaims = this.user;
 
-                success( response );
-            } )
-            .error( error );
+                        success( response );
+                    }, error );
 
     }
 
-    fetchUserInfo( success, error ) {
-        var userInfoUrl = `${this.identityServerUrl}connect/userinfo`;
+    fetchUserInfo( ) {
+        let userInfoUrl = `${this.identityServerUrl}connect/userinfo`;
 
         /**
          * Exemplo do objeto user retornado pelo IdentityServer do Acesso Cidadão
@@ -105,14 +117,13 @@ class OAuth2 {
          * }
          */
 
-        this.$http.get( userInfoUrl )
-            .success( success )
-            .error( error );
+        return this.$http.get( userInfoUrl );
     }
 
     isValidToken() {
-        if ( !this.token )
+        if ( !this.token ) {
             return false;
+        }
 
         return true; //TODO: Remover assim que Tadeu verificar isso
 
@@ -128,30 +139,14 @@ class OAuth2 {
             } );*/
     }
 
-    /**
-     * @return {object} Claims do usuário
-     */
-    get tokenClaims() { return this.$localStorage.tokenClaims; }
-
-    get userInfo() { return this.$localStorage.userInfo; }
-
-    /*
-     signUp( data, success, error ) {
-     $http.post( this.urls.BASE + '/signup', data ).success( success ).error( error );
-     }
-     */
-
-    signIn( data, success, error ) {
+    signIn( data ) {
         //Get Token
-        this._getToken( data, ( response ) => {
-            success( response );
-
+        return this._getToken( data, ( ) => {
             //Fetch and save User Info
-            this.fetchUserInfo( ( response ) => {
-                this.$localStorage.userInfo = response;
-            }, () => {
+            this.fetchUserInfo().then( ( response ) => {
+                this.$localStorage.userInfo = response.data;
             } );
-        }, error );
+        } );
     }
 
     /**
@@ -163,7 +158,6 @@ class OAuth2 {
         delete this.$localStorage.tokenClaims;
         success();
     }
-
 }
 
 /**

@@ -47,12 +47,13 @@ class OAuthDigits {
 
         this.$window.plugins.digits.authenticate( options,
             ( responseDigits ) => {
-                var objOAuth = _buildDigitsObject( responseDigits );
+                var objOAuth = this._buildDigitsObject( responseDigits );
 
                 //Salva token
+                this.$localStorage.digitsRawAccessToken = responseDigits;
                 this.$localStorage.digitsAccessToken = objOAuth;
 
-                success( objOAuth );
+                success( responseDigits );
             },
             ( errorDigits ) => {
                 error( errorDigits );

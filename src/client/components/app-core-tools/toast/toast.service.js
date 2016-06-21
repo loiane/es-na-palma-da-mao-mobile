@@ -48,7 +48,7 @@ class ToastService {
             return;
         }
 
-        var toast = this.$mdToast.simple()
+        let toast = this.$mdToast.simple()
                         .textContent( displayOption.title )
                         .action( 'X' )
                         .highlightAction( false )

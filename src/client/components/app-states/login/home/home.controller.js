@@ -5,9 +5,10 @@ class HomeController {
     /**
      * @constructor
      */
-    constructor( $state, appConfig ) {
+    constructor( $state, $window, appConfig ) {
         this.appConfig = appConfig;
         this.$state = $state;
+        this.$window = $window;
 
     }
 
@@ -19,8 +20,8 @@ class HomeController {
      * Redireciona para 1ª tela do processo de criação de conta
      */
     createAccount() {
-        //TODO: Redirecionar pra web
-        //this.$state.go( 'app.cpf-check' );
+        
+        this.$window.open("https://acessocidadao.es.gov.br", "_system");
 
         //TODO: Criar funcionalidade de cadastro
         //this.$state.go( 'app.cpfVerificar' );
@@ -30,6 +31,7 @@ class HomeController {
 
 export default [
     '$state',
+    '$window',
     'appConfig',
     HomeController
 ];

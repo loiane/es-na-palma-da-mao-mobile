@@ -1,4 +1,5 @@
-espm.keystore
+# application keys
+*.keystore
 
 /.vs
 # Logs
