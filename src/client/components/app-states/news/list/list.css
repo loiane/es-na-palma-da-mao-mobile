@@ -29,8 +29,13 @@
 	color: rgba(117, 117, 117, 0.87);
 }
 
-.cb-dialog-content-item {
+.cb-dialog-content-item.select-all {
 	padding-left: 16px;
+	color: rgba(117, 117, 117, 0.87);
+}
+
+.cb-dialog-content-item {
+	padding-left: 25px;
 }
 
 #state-news-list .md-title.lista-noticias {

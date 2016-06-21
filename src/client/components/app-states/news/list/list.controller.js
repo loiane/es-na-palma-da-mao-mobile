@@ -19,6 +19,7 @@ class ListController {
         this.news = [];
         this.availableOrigins = [];
         this.selectedOrigins = [];
+        this.activated = false;
         this.activate();
     }
 
@@ -31,6 +32,7 @@ class ListController {
             .then( origins => this.getNews( origins ) )
             .finally( () => {
                 this.$ionicLoading.hide();
+                this.activated = true;
             } );
     }
 
@@ -77,9 +79,8 @@ class ListController {
             }
         } )
             .then( ( origins ) => {
+                this.selectedOrigins = origins;
                 return this.getNews( origins );
-            }, () => {
-
             } );
     }
 
