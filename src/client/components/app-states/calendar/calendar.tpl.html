@@ -16,7 +16,8 @@
 			<md-input-container>
 				<md-select ng-model="vm.selectedCalendars"
 						   multiple
-						   md-on-close="vm.loadEvents()">
+						   md-on-close="vm.loadEvents()"
+						   aria-label="Selecionar Órgão">
 					<md-optgroup label="Órgãos">
 						<md-option ng-value="calendar" ng-repeat="calendar in vm.availableCalendars track by $index">{{calendar}}</md-option>
 					</md-optgroup>

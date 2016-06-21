@@ -5,16 +5,15 @@ class CalendarController {
      *
      * @param {Object} calendarApiService - calendarApiService service
      * @param {Object} $ionicLoading - ionic $ionicLoading service
-     * @param {Object} toast - toast service
      */
-    constructor( calendarApiService, $ionicLoading, toast ) {
+    constructor( calendarApiService, $ionicLoading ) {
         this.calendarApiService = calendarApiService;
         this.$ionicLoading = $ionicLoading;
-        this.toast = toast;
 
         this.calendar = {};
         this.selectedCalendars = [];
         this.availableCalendars = [];
+        
         this.activate();
     }
 
@@ -53,23 +52,8 @@ class CalendarController {
                        this.calendar.eventSources = fullCalendars;
                    } )
                    .finally( () => {
-                       const totalEvents = this.calendar.eventSources.reduce( ( total, calendar ) => {
-                           return total + calendar.items.length;
-                       }, 0 );
-
-                       this.toast.show( { title: `${totalEvents} eventos carregados` } );
                        this.$ionicLoading.hide();
                    } );
-    };
-
-    /**
-     * Evento disparado quando evento é selecionado
-     * @param {Object} event - o evento selecionado
-     *
-     * @returns {void}
-     */
-    onEventSelected( event ) {
-        this.toast.show( { title: `Evento ${event.startTime}-${event.endTime},${event.title} selecionado` } );
     };
 
     /**
@@ -110,7 +94,7 @@ class CalendarController {
 }
 
 export default [
-    'calendarApiService', '$ionicLoading', 'toast', CalendarController
+    'calendarApiService', '$ionicLoading', CalendarController
 ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
