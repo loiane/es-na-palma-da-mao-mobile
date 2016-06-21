@@ -23,9 +23,9 @@
 	color: #fff;
 }
 
-ion-header-bar {
+/*ion-header-bar {
 	box-shadow: none !important;
-}
+}*/
 
 ion-content#states-dashboard.espm-has-tabs-top {
 	top: 0px;
