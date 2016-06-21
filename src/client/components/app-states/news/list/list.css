@@ -7,6 +7,8 @@
 
 #state-news-list { background-color: #fff !important; }
 
+#state-news-list ion-infinite-scroll { background-color: #fff; }
+
 #state-news-list md-card-title-media .md-media-md img {
 	max-width: 112px;
 	max-height: 112px;

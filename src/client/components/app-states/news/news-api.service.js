@@ -1,13 +1,15 @@
-let baseUrl = 'https://api.es.gov.br/news';
-
 class NewsApiService {
 
     /**
      *
      * @param {Object} $http - angular $http service
      */
-    constructor( $http ) {
+    constructor( $http, appConfig ) {
         this.$http = $http;
+        this.appConfig = appConfig;
+
+        this.defaultPage = 0;
+        this.defaultPageSize = 10;
     }
 
     /**
@@ -16,7 +18,7 @@ class NewsApiService {
      */
     getNewsById( id ) {
         return this.$http
-                   .get( `${baseUrl}/${id}` )
+                   .get( `${this.appConfig.api.news}/${id}` )
                    .then( response => response.data );
     }
 
@@ -26,7 +28,7 @@ class NewsApiService {
      */
     getHighlightNews() {
         return this.$http
-                   .get( `${baseUrl}/highlights` )
+                   .get( `${this.appConfig.api.news}/highlights` )
                    .then( response => response.data );
     }
 
@@ -40,11 +42,14 @@ class NewsApiService {
         let today = new Date();
         let defaults = {
             dateMin: new Date( today.getFullYear(), 0, 1, 0 ),   // começo do ano corrente
-            dateMax: new Date( today.getFullYear(), 11, 31, 0 )  // final do ano corrente
+            dateMax: new Date( today.getFullYear(), 11, 31, 0 ),  // final do ano corrente
+            pageNumber: this.defaultPage,
+            pageSize: this.defaultPageSize
         };
+
         let params = angular.extend( { origins: origins }, defaults, options );
 
-        return this.$http.get( baseUrl, { params: params } )
+        return this.$http.get( this.appConfig.api.news, { params: params } )
                    .then( response => {
                        return response.data;
                    } );
@@ -56,8 +61,8 @@ class NewsApiService {
      */
     getAvailableOrigins() {
         return this.$http
-                   .get( `${baseUrl}/origins` )
+                   .get( `${this.appConfig.api.news}/origins` )
                    .then( response => response.data );
     }
 }
-export default [ '$http', '$timeout', NewsApiService ];
+export default [ '$http', 'appConfig', NewsApiService ];

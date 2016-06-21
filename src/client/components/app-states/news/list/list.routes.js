@@ -10,7 +10,7 @@ import template from './list.tpl.html!text';
 function listRoutes( $stateProvider ) {
     $stateProvider
         .state( 'app.news', {
-            url: '/news',
+            url: 'news',
             data: { title: 'Notícias' },
             nativeTransitions: {
                 'type': 'fade'
