@@ -1,4 +1,4 @@
-import avatar from './img/img.jpg!image';
+import avatar from './img/user.png!image';
 
 /**
  * Controller raiz da aplicação
