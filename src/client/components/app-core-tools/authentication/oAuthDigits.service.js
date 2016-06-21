@@ -14,16 +14,16 @@ class OAuthDigits {
     }
 
     _buildDigitsObject( data ) {
-        var obj = {};
+        let obj = {};
         data[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach( ( item ) => {
-            var aux = item.split( '=' );
+            let aux = item.split( '=' );
             obj[ aux[ 0 ] ] = aux[ 1 ].substring( 1, aux[ 1 ].length - 1 );
         } );
         return obj;
     }
 
     login( options, success, error ) {
-        var defaultOptions = {
+        let defaultOptions = {
             accentColor: '#ff0000',
             backgroundColor: '#ffffff'
         };
@@ -45,22 +45,20 @@ class OAuthDigits {
             }
          */
 
-        this.$window.plugins.digits.authenticate( options,
-            ( responseDigits ) => {
-                var objOAuth = _buildDigitsObject( responseDigits );
+        this.$window.plugins.digits.authenticate( options, ( responseDigits ) => {
+            let objOAuth = this._buildDigitsObject( responseDigits );
 
-                //Salva token
-                this.$localStorage.digitsAccessToken = objOAuth;
+            //Salva token
+            this.$localStorage.digitsAccessToken = objOAuth;
 
-                success( objOAuth );
-            },
-            ( errorDigits ) => {
-                error( errorDigits );
-            } );
+            success( objOAuth );
+        }, ( errorDigits ) => {
+            error( errorDigits );
+        } );
     }
 
     logout() {
-        if (this.$window.plugins && this.$window.plugins.digits) {
+        if ( this.$window.plugins && this.$window.plugins.digits ) {
             this.$window.plugins.digits.logout();
         }
     }

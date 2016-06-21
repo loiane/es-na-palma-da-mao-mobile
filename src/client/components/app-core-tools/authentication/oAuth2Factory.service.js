@@ -18,7 +18,9 @@ class OAuth2 {
      * Decodifica uma url Base64
      */
     _urlBase64Decode( str ) {
-        var output = str.replace( '-', '+' ).replace( '_', '/' );
+        let output = str.replace( '-', '+' )
+                        .replace( '_', '/' );
+
         switch ( output.length % 4 ) {
             case 0:
                 break;
@@ -39,19 +41,20 @@ class OAuth2 {
      * @return {object} Claims do usuário
      */
     get user() {
-        var token = this.token;
+        let token = this.token;
 
-        var user = {};
-        if ( typeof token !== 'undefined' ) {
-            var encoded = token.access_token.split( '.' )[ 1 ];
-            user = JSON.parse( this._urlBase64Decode( encoded ) );
+        let user = {};
+        if ( angular.isDefined( token ) ) {
+            let encoded = token.access_token.split( '.' )[ 1 ];
+            user = angular.fromJson( this._urlBase64Decode( encoded ) );
         }
         return user;
     }
 
     get token() {
-        if ( !this.$localStorage.token )
+        if ( !this.$localStorage.token ) {
             return undefined;
+        }
 
         return this.$localStorage.token;
     }
@@ -60,16 +63,17 @@ class OAuth2 {
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
     _getToken( data, success, error ) {
-        var getTokenUrl = `${this.identityServerUrl}connect/token`;
+        let getTokenUrl = `${this.identityServerUrl}connect/token`;
 
-        var options = {
+        let options = {
             method: 'POST',
             url: getTokenUrl,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             transformRequest: function( obj ) {
-                var str = [];
-                for ( var p in obj )
-                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
+                let str = [];
+                for ( let p in obj ) {
+                    str.push( `${encodeURIComponent( p )}=${encodeURIComponent( obj[ p ] )}` );
+                }
                 return str.join( '&' );
             },
             data: data
@@ -87,7 +91,7 @@ class OAuth2 {
     }
 
     fetchUserInfo( success, error ) {
-        var userInfoUrl = `${this.identityServerUrl}connect/userinfo`;
+        let userInfoUrl = `${this.identityServerUrl}connect/userinfo`;
 
         /**
          * Exemplo do objeto user retornado pelo IdentityServer do Acesso Cidadão
@@ -111,29 +115,34 @@ class OAuth2 {
     }
 
     isValidToken() {
-        if ( !this.token )
+        if ( !this.token ) {
             return false;
+        }
 
         return true; //TODO: Remover assim que Tadeu verificar isso
 
         /*let options = {
-            token: this.token
-        };
+         token: this.token
+         };
 
-        this.$http.post( `${this.identityServerUrl}connect/introspect`, options )
-            .then( ( tokenClaims ) => {
-                return true;
-            }, ( error ) => {
-                return false;
-            } );*/
+         this.$http.post( `${this.identityServerUrl}connect/introspect`, options )
+         .then( ( tokenClaims ) => {
+         return true;
+         }, ( error ) => {
+         return false;
+         } );*/
     }
 
     /**
      * @return {object} Claims do usuário
      */
-    get tokenClaims() { return this.$localStorage.tokenClaims; }
+    get tokenClaims() {
+        return this.$localStorage.tokenClaims;
+    }
 
-    get userInfo() { return this.$localStorage.userInfo; }
+    get userInfo() {
+        return this.$localStorage.userInfo;
+    }
 
     /*
      signUp( data, success, error ) {
@@ -163,7 +172,6 @@ class OAuth2 {
         delete this.$localStorage.tokenClaims;
         success();
     }
-
 }
 
 /**

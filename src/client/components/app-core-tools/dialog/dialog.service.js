@@ -34,7 +34,7 @@ class DialogService {
     alert( contextualOptions ) {
         let opts = this._buildOptionsTo( 'alert', contextualOptions );
 
-        var confirm = this.$mdDialog.alert()
+        let confirm = this.$mdDialog.alert()
                           .clickOutsideToClose( opts.clickOutsideToClose )
                           .title( opts.title )
                           .textContent( opts.content )
@@ -53,7 +53,7 @@ class DialogService {
     confirm( contextualOptions ) {
         let opts = this._buildOptionsTo( 'confirm', contextualOptions );
 
-        var confirm = this.$mdDialog.confirm()
+        let confirm = this.$mdDialog.confirm()
                           .title( opts.title )
                           .textContent( opts.content )
                           .targetEvent( opts.targetEvent )
