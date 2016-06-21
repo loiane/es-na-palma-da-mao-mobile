@@ -18,9 +18,7 @@ class OAuth2 {
      * Decodifica uma url Base64
      */
     _urlBase64Decode( str ) {
-        let output = str.replace( '-', '+' )
-                        .replace( '_', '/' );
-
+        var output = str.replace( '-', '+' ).replace( '_', '/' );
         switch ( output.length % 4 ) {
             case 0:
                 break;
@@ -60,6 +58,17 @@ class OAuth2 {
     }
 
     /**
+     * @return {object} Claims do usuário
+     */
+    get tokenClaims() {
+        return this.$localStorage.tokenClaims;
+    }
+
+    get userInfo() {
+        return this.$localStorage.userInfo;
+    }
+
+    /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
     _getToken( data, success, error ) {
@@ -72,25 +81,24 @@ class OAuth2 {
             transformRequest: function( obj ) {
                 let str = [];
                 for ( let p in obj ) {
-                    str.push( `${encodeURIComponent( p )}=${encodeURIComponent( obj[ p ] )}` );
+                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
                 }
                 return str.join( '&' );
             },
             data: data
         };
 
-        this.$http( options )
-            .success( ( response ) => {
-                this.$localStorage.token = response;
-                this.$localStorage.tokenClaims = this.user;
+        return this.$http( options )
+                   .then( ( response ) => {
+                       this.$localStorage.token = response.data;
+                       this.$localStorage.tokenClaims = this.user;
 
-                success( response );
-            } )
-            .error( error );
+                       success( response );
+                   }, error );
 
     }
 
-    fetchUserInfo( success, error ) {
+    fetchUserInfo() {
         let userInfoUrl = `${this.identityServerUrl}connect/userinfo`;
 
         /**
@@ -109,9 +117,7 @@ class OAuth2 {
          * }
          */
 
-        this.$http.get( userInfoUrl )
-            .success( success )
-            .error( error );
+        return this.$http.get( userInfoUrl );
     }
 
     isValidToken() {
@@ -124,7 +130,6 @@ class OAuth2 {
         /*let options = {
          token: this.token
          };
-
          this.$http.post( `${this.identityServerUrl}connect/introspect`, options )
          .then( ( tokenClaims ) => {
          return true;
@@ -133,34 +138,14 @@ class OAuth2 {
          } );*/
     }
 
-    /**
-     * @return {object} Claims do usuário
-     */
-    get tokenClaims() {
-        return this.$localStorage.tokenClaims;
-    }
-
-    get userInfo() {
-        return this.$localStorage.userInfo;
-    }
-
-    /*
-     signUp( data, success, error ) {
-     $http.post( this.urls.BASE + '/signup', data ).success( success ).error( error );
-     }
-     */
-
-    signIn( data, success, error ) {
+    signIn( data ) {
         //Get Token
-        this._getToken( data, ( response ) => {
-            success( response );
-
+        return this._getToken( data, () => {
             //Fetch and save User Info
-            this.fetchUserInfo( ( response ) => {
-                this.$localStorage.userInfo = response;
-            }, () => {
+            this.fetchUserInfo().then( ( response ) => {
+                this.$localStorage.userInfo = response.data;
             } );
-        }, error );
+        } );
     }
 
     /**

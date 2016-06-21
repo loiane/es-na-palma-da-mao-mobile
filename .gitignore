@@ -1,3 +1,6 @@
+# application keys
+*.keystore
+
 /.vs
 # Logs
 logs
