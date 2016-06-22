@@ -20,7 +20,7 @@ class SourceController {
      *
      */
     ok( selectedOrigins ) {
-        this.$mdDialog.hide( selectedOrigins );
+        this.$mdDialog.hide( { origins: selectedOrigins } );
     }
 
     /**

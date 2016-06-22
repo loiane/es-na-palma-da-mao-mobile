@@ -5,6 +5,9 @@
 				<md-button class="md-accent md-raised" ng-click="vm.openOriginsFilter($event)">
 					Fontes
 				</md-button>
+				<md-button class="md-accent md-raised" ng-click="vm.openDateFilter($event)">
+					Data
+				</md-button>
 			</div>
 		</md-toolbar>
 		<md-content>
@@ -24,7 +27,7 @@
 						</md-card-title-text>
 						<md-card-title-media>
 							<div class="md-media-md card-media">
-								<img alt="" ng-src="{{news.image}}" />
+								<img alt="" ng-src="{{news.image}}"/>
 							</div>
 						</md-card-title-media>
 					</md-list-item>
@@ -37,9 +40,9 @@
 					</div>
 				</div>
 			</md-list>
-			<ion-infinite-scroll 
-				ng-if="vm.activated && vm.hasMoreNews" 
-				on-infinite="vm.getNews(vm.selectedOrigins, { pageNumber: vm.currentPage + 1  })" 
+			<ion-infinite-scroll
+				ng-if="vm.activated && vm.hasMoreNews"
+				on-infinite="vm.getNews({ pageNumber: vm.currentPage + 1  })"
 				distance="1%">
 			</ion-infinite-scroll>
 		</md-content>
