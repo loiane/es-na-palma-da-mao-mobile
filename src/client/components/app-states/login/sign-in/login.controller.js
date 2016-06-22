@@ -45,7 +45,7 @@ class LoginController {
     }
 
     _isAccountNotLinked(data) {
-        return data.error = this.errorMsgs.accountNotLinked;
+        return data.error == this.errorMsgs.accountNotLinked;
     }
 
     _showDialogAccountNotLinked() {
