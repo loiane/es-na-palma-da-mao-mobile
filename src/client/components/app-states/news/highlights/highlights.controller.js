@@ -29,7 +29,7 @@ class HighlightsController {
      * @returns {*|{}}
      */
     get firstNews() {
-        return this.highlights[ 0 ] || {};
+        return this.highlights[ 0 ];
     }
 
     /**

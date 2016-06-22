@@ -2,7 +2,7 @@
 	<ion-content id="states-news-highlights">
 
 		<!-- Primeira Notícia -->
-		<md-card>
+		<md-card ng-if="!!vm.firstNews">
 			<img ng-src="{{vm.firstNews.image}}" class="md-card-image" alt="">
 			<md-card-title>
 				<md-card-title-text>
