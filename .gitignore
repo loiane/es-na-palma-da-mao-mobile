@@ -1,3 +1,6 @@
+# Apk output for release
+apk/
+
 # application keys
 *.keystore
 

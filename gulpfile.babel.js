@@ -34,10 +34,17 @@ import open from 'open';
 import spawn from 'win-spawn';
 import semver from 'semver';
 
+//import 'gulp-cordova-build-android';
+
 const gulp = gulpHelp( innerGulp ); // wrap in gulp help
 const taskMaker = gulpHelpers.taskMaker( gulp );
 const environment = gulpHelpers.environment();
 const Promise = bluebird;
+
+//Android specific
+const cordovaCreate = require('gulp-cordova-create');
+const cordovaPlugin = require('gulp-cordova-plugin');
+const android = require('gulp-cordova-build-android');
 
 /**
  * Realiza o parse dos argumentos da linha de comando
@@ -646,3 +653,21 @@ gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//Android Specific tasks
+gulp.task('build-android', ( ) => {
+    return gulp.src('dist')
+        .pipe(cordovaCreate())
+        //.pipe(plugin('org.apache.cordova.dialogs'))
+        //.pipe(plugin('org.apache.cordova.camera'))
+        .pipe(android( ))
+        .pipe(gulp.dest('apk'));
+});
+
+gulp.task('build-android-release', ( ) => {
+    return gulp.src('dist')
+        .pipe(cordovaCreate())
+        //.pipe(plugin('org.apache.cordova.dialogs'))
+        //.pipe(plugin('org.apache.cordova.camera'))
+        .pipe(android({ release: true, storeFile: '../../espm.keystore', keyAlias: 'espm' } ))
+        .pipe(gulp.dest('apk'));
+});
