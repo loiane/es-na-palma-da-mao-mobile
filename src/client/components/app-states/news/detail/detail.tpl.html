@@ -7,15 +7,20 @@
 	</ion-nav-buttons>
 	<ion-content id="state-news-detail">
 
-		<md-content flex layout-padding class="espm-full-content">
+		<md-content layout-padding class="espm-full-content">
 			<img ng-src="{{::vm.news.image}}" class="md-card-image espm-img-noticia-detalhe" alt="">
 			<div>
 				<span md-colors="::{color: 'accent'}">
 					{{::vm.news.origin}}
 				</span>
 				<span class="noticia-info-origem">
-					{{ vm.news.date | fromNow }}
+					{{ vm.news.date | date: 'dd/MM/yyyy' }}
 				</span>
+				<br>
+
+				<small ng-if="!moment(vm.news.date).isSame(vm.news.lastModified, 'day')"
+					   class="last-updated">Atualizada em: {{ vm.news.lastModified | date: 'dd/MM/yyyy' }}
+				</small>
 			</div>
 
 			<h2>{{::vm.news.title}}</h2>

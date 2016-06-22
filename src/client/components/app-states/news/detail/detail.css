@@ -1,8 +1,9 @@
 #state-news-detail .noticia-info-origem,
 #state-news-detail .noticia-info-origem {
-	opacity: 0.5;
+	/*opacity: 0.5;*/
 	padding-left: 5px;
-	border-left: 1px solid rgba(0, 0, 0, 0.5);
+	border-left: 1px solid #999;
+	color: #999;
 }
 
 #state-news-detail * {
@@ -11,6 +12,10 @@
 
 #state-news-detail .espm-img-noticia-detalhe {
 	width: 100%;
+}
+
+#state-news-detail .last-updated {
+	color: #999;
 }
 
 #state-news-detail .espm-full-content {

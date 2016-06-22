@@ -38,16 +38,17 @@ class NewsApiService {
      * @param options
      * @returns {Array}
      */
-    getNews( origins, options = {} ) {
+    getNews( options = {} ) {
         let today = new Date();
         let defaults = {
+            origins: [],
             dateMin: new Date( today.getFullYear(), 0, 1, 0 ),   // começo do ano corrente
             dateMax: new Date( today.getFullYear(), 11, 31, 0 ),  // final do ano corrente
             pageNumber: this.defaultPage,
             pageSize: this.defaultPageSize
         };
 
-        let params = angular.extend( { origins: origins }, defaults, options );
+        let params = angular.extend( {}, defaults, options );
 
         return this.$http.get( this.appConfig.api.news, { params: params } )
                    .then( response => {
