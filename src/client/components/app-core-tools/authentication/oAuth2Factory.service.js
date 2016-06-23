@@ -20,16 +20,16 @@ class OAuth2 {
     _urlBase64Decode( str ) {
         var output = str.replace( '-', '+' ).replace( '_', '/' );
         switch ( output.length % 4 ) {
-            case 0:
-                break;
-            case 2:
-                output += '==';
-                break;
-            case 3:
-                output += '=';
-                break;
-            default:
-                throw 'Illegal base64url string!';
+        case 0:
+            break;
+        case 2:
+            output += '==';
+            break;
+        case 3:
+            output += '=';
+            break;
+        default:
+            throw 'Illegal base64url string!';
         }
         return this.$window.atob( output );
     }
@@ -89,12 +89,12 @@ class OAuth2 {
         };
 
         return this.$http( options )
-                   .then( ( response ) => {
-                       this.$localStorage.token = response.data;
-                       this.$localStorage.tokenClaims = this.user;
+            .then( ( response ) => {
+                this.$localStorage.token = response.data;
+                this.$localStorage.tokenClaims = this.user;
 
-                       success( response );
-                   }, error );
+                success( response );
+            }, error );
 
     }
 
@@ -118,24 +118,6 @@ class OAuth2 {
          */
 
         return this.$http.get( userInfoUrl );
-    }
-
-    isValidToken() {
-        if ( !this.token ) {
-            return false;
-        }
-
-        return true; //TODO: Remover assim que Tadeu verificar isso
-
-        /*let options = {
-         token: this.token
-         };
-         this.$http.post( `${this.identityServerUrl}connect/introspect`, options )
-         .then( ( tokenClaims ) => {
-         return true;
-         }, ( error ) => {
-         return false;
-         } );*/
     }
 
     signIn( data ) {

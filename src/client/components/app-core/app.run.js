@@ -46,7 +46,7 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
      */
     function isAuthenticated() {
         OAuth2.initialize( appConfig.identityServer.url );
-        return OAuth2.isValidToken();
+        return OAuth2.fetchUserInfo();
     }
 
     $ionicPlatform.ready( () => {
@@ -63,20 +63,23 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
             hideActionControl();
         } );
 
-        if ( $window.navigator.splashscreen ){
-            $window.navigator.splashscreen.hide();
-        }
+        //Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
+        isAuthenticated()
+            .then( () => {
+                $state.go( 'app.dashboard.newsHighlights' );
+            }, () => {
+                $state.go( 'home' );
+            })
+            .finally( () => {
+                if ( $window.navigator.splashscreen ) {
+                    $window.navigator.splashscreen.hide();
+                }
+            } );
 
-        if ( !isAuthenticated() ) {
-            $state.go( 'home' );
-        }
-        /*else {
-         $state.go( 'app.dashboard' );
-         }*/
     } );
 }
 
-export default[
+export default [
     '$rootScope',
     '$window',
     '$state',
