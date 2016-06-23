@@ -24,13 +24,6 @@
 	margin: 6px 0;
 }
 
-#state-login > div {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
 #state-login input {
 	border-color: #eee;
 	color: white;
