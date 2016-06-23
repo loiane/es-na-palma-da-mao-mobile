@@ -8,7 +8,7 @@ import menuTemplate from './menu.tpl.html!text';
  *
  * @returns {void}
  */
-function routesConfig( $stateProvider, $urlRouterProvider ) {
+function routesConfig( $stateProvider/*, $urlRouterProvider*/ ) {
     $stateProvider
         .state( 'app', {
             url: '/app/',
@@ -17,7 +17,7 @@ function routesConfig( $stateProvider, $urlRouterProvider ) {
             controller: 'menuController as vm'
         } );
 
-    $urlRouterProvider.otherwise( '/home' );
+    //$urlRouterProvider.otherwise( '/home' );
 }
 
 export default [

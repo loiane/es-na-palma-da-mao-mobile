@@ -117,16 +117,19 @@ class OAuth2 {
          * }
          */
 
-        return this.$http.get( userInfoUrl );
+        return this.$http.get( userInfoUrl ).then( ( response ) => {
+            //Check if the object is correct (This request can return the Acesso Cidadão login page)
+            if ( angular.isDefined( response.data.sid ) ) {
+                this.$localStorage.userInfo = response.data;
+            }
+        } );
     }
 
     signIn( data ) {
         //Get Token
         return this._getToken( data, () => {
             //Fetch and save User Info
-            this.fetchUserInfo().then( ( response ) => {
-                this.$localStorage.userInfo = response.data;
-            } );
+            this.fetchUserInfo();
         } );
     }
 

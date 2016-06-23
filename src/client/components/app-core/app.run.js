@@ -66,10 +66,14 @@ function appRun( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $md
         //Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
         isAuthenticated()
             .then( () => {
-                $state.go( 'app.dashboard.newsHighlights' );
+                if ( angular.isDefined( OAuth2.userInfo ) ) {
+                    $state.go( 'app.dashboard.newsHighlights' );
+                } else {
+                    $state.go( 'home' );
+                }
             }, () => {
                 $state.go( 'home' );
-            })
+            } )
             .finally( () => {
                 if ( $window.navigator.splashscreen ) {
                     $window.navigator.splashscreen.hide();

@@ -29,7 +29,7 @@
 			<!--It will disable animation to better performance on android.-->
 			<!--list section-->
 			<div ng-if="isAndroid" class="menu-list">
-				<div class="row menu-item" ng-click="vm.navigateTo('app.login')" ng-hide="vm.authenticated">
+				<div class="row menu-item" ng-click="vm.navigateTo('home')" ng-hide="vm.authenticated">
 					<div class="col-25">
 						<i class="fa fa-database"></i>
 					</div>
@@ -79,7 +79,7 @@
 			<!--If device is not Android application will present below code.-->
 			<!--It will show animation when selecting row.-->
 			<md-list ng-if="!isAndroid">
-				<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.login')" ng-hide="vm.authenticated">
+				<md-list-item class="menu-list-item" ng-click="vm.navigateTo('home')" ng-hide="vm.authenticated">
 					<i class="fa fa-database"></i>
 					<span>Login</span>
 				</md-list-item>
