@@ -30,15 +30,16 @@ class ListController {
         };
 
         this.$ionicScrollDelegate = $ionicScrollDelegate;
+        this.news = [];
 
-        this.activate();
+        this.resetPagination();
+        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
     /**
      *
      */
     activate() {
-        this.resetPagination();
         this.getAvailableOrigins()
             .finally( () => {
                 this.activated = true;
@@ -152,13 +153,13 @@ class ListController {
 }
 
 export default
-[
-    '$scope',
-    '$state',
-    '$mdDialog',
-    '$ionicLoading',
-    'newsApiService',
-    '$ionicScrollDelegate',
-    ListController
-]
+    [
+        '$scope',
+        '$state',
+        '$mdDialog',
+        '$ionicLoading',
+        'newsApiService',
+        '$ionicScrollDelegate',
+        ListController
+    ]
 ;

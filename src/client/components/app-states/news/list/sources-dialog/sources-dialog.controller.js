@@ -28,7 +28,7 @@ class SourceController {
      * @returns {boolean}
      */
     isIndeterminate() {
-        return (this.selectedOrigins.length !== 0 && this.selectedOrigins.length !== this.availableOrigins.length);
+        return ( this.selectedOrigins.length !== 0 && this.selectedOrigins.length !== this.availableOrigins.length );
     }
 
     /**
@@ -48,7 +48,7 @@ class SourceController {
         } else if ( this.selectedOrigins.length === 0 || this.selectedOrigins.length > 0 ) {
             this.selectedOrigins = this.availableOrigins.slice( 0 );
         }
-    };
+    }
 
     /**
      *

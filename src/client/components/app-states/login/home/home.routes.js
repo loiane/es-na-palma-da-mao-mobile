@@ -7,16 +7,16 @@ import templateHome from './home.tpl.html!text';
  *
  * @returns {void}
  */
-function homeRoutes($stateProvider) {
+function homeRoutes( $stateProvider ) {
     $stateProvider
-        .state('home', {
+        .state( 'home', {
             url: '/home',
             nativeTransitions: {
                 'type': 'fade'
             },
             controller: 'homeController as vm',
             template: templateHome
-        });
+        } );
 }
 
 export default [

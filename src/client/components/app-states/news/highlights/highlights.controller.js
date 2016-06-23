@@ -6,13 +6,14 @@ class HighlightsController {
      * @param $ionicLoading
      * @param $state
      */
-    constructor( newsApiService, $ionicLoading, $state ) {
+    constructor( $scope, newsApiService, $ionicLoading, $state ) {
+        this.$scope = $scope;
         this.$state = $state;
         this.newsApiService = newsApiService;
         this.$ionicLoading = $ionicLoading;
         this.highlights = [];
 
-        this.activate();
+        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
     /**
@@ -61,6 +62,6 @@ class HighlightsController {
     }
 }
 
-export default [ 'newsApiService', '$ionicLoading', '$state', HighlightsController ];
+export default [ '$scope', 'newsApiService', '$ionicLoading', '$state', HighlightsController ];
 
 

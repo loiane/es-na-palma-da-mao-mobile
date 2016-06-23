@@ -20,8 +20,8 @@ class HomeController {
      * Redireciona para 1ª tela do processo de criação de conta
      */
     createAccount() {
-        
-        this.$window.open("https://acessocidadao.es.gov.br/Conta/VerificarCPF", "_system");
+
+        this.$window.open( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' );
 
         //TODO: Criar funcionalidade de cadastro
         //this.$state.go( 'app.cpfVerificar' );

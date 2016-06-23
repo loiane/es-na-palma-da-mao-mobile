@@ -13,7 +13,7 @@ function appThemeConfig( $mdThemingProvider ) {
         '50': '#67c7e2',
         '100': '#52bfde',
         '200': '#3cb7da',
-        '300': '#549db2',//#549db2
+        '300': '#549db2', //#549db2
         '400': '#249dbf',
         '500': '#208BAA',
         '600': '#1c7994',

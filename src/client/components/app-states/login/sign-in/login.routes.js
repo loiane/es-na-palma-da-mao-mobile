@@ -7,16 +7,16 @@ import templateLogin from './login.tpl.html!text';
  *
  * @returns {void}
  */
-function loginRoutes($stateProvider) {
+function loginRoutes( $stateProvider ) {
     $stateProvider
-        .state('login', {
+        .state( 'login', {
             url: '/login',
             nativeTransitions: {
                 'type': 'fade'
             },
             controller: 'loginController as vm',
             template: templateLogin
-        });
+        } );
 }
 
 export default [

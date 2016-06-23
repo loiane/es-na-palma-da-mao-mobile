@@ -7,12 +7,13 @@ class DetailController {
      * @param $ionicLoading
      * @param $stateParams
      */
-    constructor( newsApiService, $ionicLoading, $stateParams ) {
+    constructor( $scope, newsApiService, $ionicLoading, $stateParams ) {
+        this.$scope = $scope;
         this.$stateParams = $stateParams;
         this.newsApiService = newsApiService;
         this.$ionicLoading = $ionicLoading;
 
-        this.activate();
+        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate( ) );
     }
 
     /**
@@ -39,7 +40,7 @@ class DetailController {
 }
 
 export default [
-    'newsApiService', '$ionicLoading', '$stateParams', DetailController
+    '$scope', 'newsApiService', '$ionicLoading', '$stateParams', DetailController
 ];
 
 
