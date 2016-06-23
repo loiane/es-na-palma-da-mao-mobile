@@ -65,6 +65,11 @@ var parseRawCommit = function( raw ) {
     msg.component = match[ 2 ];
     msg.subject = match[ 3 ];
 
+    // normalização
+    if ( msg.type === 'bugFix' ) {
+        msg.type = 'fix';
+    }
+
     return msg;
 };
 
@@ -263,7 +268,7 @@ var generate = function( version, from, file ) {
             }
             //console.log( 'Parsed', commits.length, 'commits' );
             //console.log( 'Generating changelog to', file || 'stdout', '(', version, ')' );
-            readGitLog( '^fix|^feat|^perf|^refact|BREAKING', tag ).then( function( commits ) {
+            readGitLog( '^fix|^bugFix|^feat|^perf|^refact|BREAKING', tag ).then( function( commits ) {
                 writeChangelog( file ? fs.createWriteStream( file ) : process.stdout, commits, version );
             } );
         } );
