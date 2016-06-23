@@ -145,6 +145,10 @@ class MenuController {
     updateUser() {
         this.user = this.OAuth2.userInfo;
         this.authenticated = this.user ? true : false;
+
+        if ( angular.isDefined( this.OAuthGoogle.avatarUrl ) ) {
+            this.avatarUrl = this.OAuthGoogle.avatarUrl;
+        }
     }
 
     /**

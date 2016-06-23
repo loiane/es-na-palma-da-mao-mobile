@@ -39,6 +39,12 @@ class OAuthGoogle {
         }, error );
     }
 
+    get avatarUrl() {
+        if ( angular.isDefined( this.$localStorage.googleAccessToken ) ) {
+            return this.$localStorage.googleAccessToken.imageUrl;
+        }
+    }
+
     trySilentLogin( options, success, error ) {
         this.$window.plugins.googleplus.trySilentLogin( options, success, error );
     }
