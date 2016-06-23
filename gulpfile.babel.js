@@ -42,9 +42,9 @@ const environment = gulpHelpers.environment();
 const Promise = bluebird;
 
 //Android specific
-const cordovaCreate = require('gulp-cordova-create');
-const cordovaPlugin = require('gulp-cordova-plugin');
-const android = require('gulp-cordova-build-android');
+const cordovaCreate = require( 'gulp-cordova-create' );
+const cordovaPlugin = require( 'gulp-cordova-plugin' );
+const android = require( 'gulp-cordova-build-android' );
 
 /**
  * Realiza o parse dos argumentos da linha de comando
@@ -54,10 +54,8 @@ let argv = yargs.alias( 't', 'transpile' )
                 .alias( 's', 'serve' )
                 .alias( 'e', 'emulate' )
                 .alias( 'r', 'run' )
-                .alias( 'c', 'cacheBust' )
                 .alias( 'h', 'htmlmin' )
                 .alias( 'j', 'jsmin' )
-                .default( 'cacheBust', false )
                 .default( 'jsmin', false )
                 .default( 'htmlmin', false )
                 .default( 'watch', false )
@@ -654,20 +652,24 @@ gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Android Specific tasks
-gulp.task('build-android', ( ) => {
-    return gulp.src('dist')
-        .pipe(cordovaCreate())
-        //.pipe(plugin('org.apache.cordova.dialogs'))
-        //.pipe(plugin('org.apache.cordova.camera'))
-        .pipe(android( ))
-        .pipe(gulp.dest('apk'));
-});
+gulp.task( 'build-android', () => {
+    return gulp.src( 'dist' )
+               .pipe( cordovaCreate() )
+               //.pipe(plugin('org.apache.cordova.dialogs'))
+               //.pipe(plugin('org.apache.cordova.camera'))
+               .pipe( android() )
+               .pipe( gulp.dest( 'apk' ) );
+} );
 
-gulp.task('build-android-release', ( ) => {
-    return gulp.src('dist')
-        .pipe(cordovaCreate())
-        //.pipe(plugin('org.apache.cordova.dialogs'))
-        //.pipe(plugin('org.apache.cordova.camera'))
-        .pipe(android({ release: true, storeFile: '../../espm.keystore', keyAlias: 'espm' } ))
-        .pipe(gulp.dest('apk'));
-});
+gulp.task( 'build-android-release', () => {
+    return gulp.src( 'dist' )
+               .pipe( cordovaCreate() )
+               //.pipe(plugin('org.apache.cordova.dialogs'))
+               //.pipe(plugin('org.apache.cordova.camera'))
+               .pipe( android( {
+                   release: true,
+                   storeFile: '../../espm.keystore',
+                   keyAlias: 'espm'
+               } ) )
+               .pipe( gulp.dest( 'apk' ) );
+} );
