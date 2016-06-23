@@ -102,6 +102,7 @@
     "htmlhint": "^0.9.7",
     "ionic": "^1.7.14",
     "jasmine-core": "^2.4.0",
+    "jscs": "^3.0.5",
     "jsdoc": "^3.4.0",
     "jshint-stylish": "^2.1.0",
     "jspm": "^0.16.30",
