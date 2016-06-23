@@ -89,11 +89,10 @@ class ListController {
      *
      * @param $event
      */
-    openOriginsFilter( $event ) {
+    openOriginsFilter() {
         this.$mdDialog.show( {
             controller: SourcesDialogController,
             template: sourcesDialogTemplate,
-            targetEvent: $event,
             bindToController: true,
             controllerAs: 'vm',
             locals: {
@@ -108,11 +107,10 @@ class ListController {
      *
      * @param $event
      */
-    openDateFilter( $event ) {
+    openDateFilter() {
         this.$mdDialog.show( {
             controller: DatesDialogController,
             template: datesDialogTemplate,
-            targetEvent: $event,
             bindToController: true,
             controllerAs: 'vm',
             locals: {
