@@ -410,7 +410,7 @@ gulp.task( 'serve', 'Serve a aplicação através de web server', [ 'nodemon' ],
     open( `${appBaseUrl}/index.html` );
 } );
 
-gulp.task( 'ensuresMaster', false, ( cb ) => {
+gulp.task( 'ensures-master', false, ( cb ) => {
 
     /**
      * Loga o erro encontrado.
@@ -442,7 +442,39 @@ gulp.task( 'ensuresMaster', false, ( cb ) => {
         .catch( onError );
 } );
 
-gulp.task( 'bump', false, [ 'ensuresMaster' ], ( cb ) => {
+gulp.task( 'ensures-release-branch', false, ( cb ) => {
+
+    /**
+     * Loga o erro encontrado.
+     *
+     * @param {String} err - o erro disparado
+     *
+     * @returns {void}
+     */
+    const onError = err => {
+        gutil.log( gutil.colors.red( err ) );
+    };
+
+    /**
+     * Dispara um erro se a branch atual não se chamar config.masterBranch
+     *
+     * @param {String} branch - o nome da branch atual
+     *
+     * @returns {void}
+     */
+    const throwErrorIfNotInReleaseBranch = branch => {
+        if ( !branch.trim().startsWith( 'release-' ) ) {
+            throw new Error( `Branch atual: "${branch.trim()}". Só é possível preparar um release estando numa release branch (release-*).` );
+        }
+        cb();
+    };
+
+    getCurrentBranchAsync()
+        .then( throwErrorIfNotInReleaseBranch )
+        .catch( onError );
+} );
+
+gulp.task( 'bump', false, [ 'ensures-release-branch' ], ( cb ) => {
     let bumpType = 'prerelease';
 
     if ( argv.patch ) {
@@ -473,9 +505,9 @@ gulp.task( 'bump', false, [ 'ensuresMaster' ], ( cb ) => {
         } );
 } );
 
-gulp.task( 'commit', false, [ 'ensuresMaster' ], () => {
+gulp.task( 'commit', false, [ 'ensures-release-branch' ], () => {
     const pkg = readJsonFile( config.paths.packageJson );
-    const message = `docs(changelog): version ${pkg.version}`;
+    const message = `refact(version): atualiza versão para ${pkg.version}`;
 
     return gulp.src( config.paths.packageJson )
                .pipe( git.add( {
@@ -484,7 +516,7 @@ gulp.task( 'commit', false, [ 'ensuresMaster' ], () => {
                .pipe( git.commit( message ) );
 } );
 
-gulp.task( 'tag', false, [ 'ensuresMaster' ], ( cb ) => {
+gulp.task( 'tag', false, [ 'ensures-master' ], ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const v = `v${pkg.version}`;
     const message = pkg.version;
@@ -497,7 +529,7 @@ gulp.task( 'tag', false, [ 'ensuresMaster' ], ( cb ) => {
     } );
 } );
 
-gulp.task( 'push', false, [ 'ensuresMaster' ], ( cb ) => {
+gulp.task( 'push', false, [ 'ensures-master' ], ( cb ) => {
     git.push( 'origin', config.masterBranch, ( err ) => {
         if ( err ) {
             throw new Error( err );
@@ -506,7 +538,7 @@ gulp.task( 'push', false, [ 'ensuresMaster' ], ( cb ) => {
     } );
 } );
 
-gulp.task( 'pushTags', false, [ 'ensuresMaster' ], ( cb ) => {
+gulp.task( 'push-tags', false, [ 'ensures-master' ], ( cb ) => {
     git.push( 'origin', config.masterBranch, { args: '--tags' }, ( err ) => {
         if ( err ) {
             throw new Error( err );
@@ -515,7 +547,7 @@ gulp.task( 'pushTags', false, [ 'ensuresMaster' ], ( cb ) => {
     } );
 } );
 
-gulp.task( 'changelog', false, [ 'ensuresMaster' ], ( cb ) => {
+gulp.task( 'changelog', false, [ 'ensures-master' ], ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const options = argv;
     const version = options.version || pkg.version;
@@ -533,7 +565,7 @@ gulp.task( 'changelog', false, [ 'ensuresMaster' ], ( cb ) => {
         .on( 'end', cb );
 } );
 
-gulp.task( 'githubApi:authenticate', false, [ 'ensuresMaster' ], () => {
+gulp.task( 'github:authenticate', false, [ 'ensures-master' ], () => {
     const authToken = process.env.GITHUB_AUTH_TOKEN;
 
     if ( authToken ) {
@@ -547,7 +579,7 @@ gulp.task( 'githubApi:authenticate', false, [ 'ensuresMaster' ], () => {
     }
 } );
 
-gulp.task( 'githubApi:createRelease', false, [ 'ensuresMaster', 'githubApi:authenticate' ], () => {
+gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authenticate' ], () => {
     const pkg = readJsonFile( config.paths.packageJson );
     const v = `v${pkg.version}`;
     const message = pkg.version;
@@ -580,8 +612,13 @@ gulp.task( 'delay', false, ( cb ) => {
     setTimeout( cb, 3000 );
 } );
 
-gulp.task( 'publish', 'Cria e publica uma nova release no Github e faz upload do changelog.', ( cb ) => {
-    return runSequence( 'ensuresMaster', 'bump', 'commit', 'tag', 'push', 'pushTags', 'delay', 'changelog', 'githubApi:createRelease', cb );
+/* Prepare release */
+gulp.task( 'increment-version', 'Incrementa a versão da aplicação.', ( cb ) => {
+    return runSequence( 'ensures-release-branch', 'bump', 'commit', cb );
+} );
+
+gulp.task( 'create-release', 'Cria e publica uma nova release no Github e faz upload do changelog.', ( cb ) => {
+    return runSequence( 'ensures-master', 'tag', 'push', 'push-tags', 'delay', 'changelog', 'github:create-release', cb );
 } );
 
 gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
@@ -650,8 +687,7 @@ gulp.task( 'run', 'Executa a aplicação', ( cb ) => {
 gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//Android Specific tasks
+// Android Specific tasks
 gulp.task( 'build-android', () => {
     return gulp.src( 'dist' )
                .pipe( cordovaCreate() )
