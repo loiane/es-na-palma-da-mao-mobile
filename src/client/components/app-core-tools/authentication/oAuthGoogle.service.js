@@ -44,7 +44,7 @@ class OAuthGoogle {
     }
 
     logout( cb ) {
-        if (this.$window.plugins && this.$window.plugins.googleplus) {
+        if ( this.$window.plugins && this.$window.plugins.googleplus ) {
             this.$window.plugins.googleplus.logout( cb );
         }
     }

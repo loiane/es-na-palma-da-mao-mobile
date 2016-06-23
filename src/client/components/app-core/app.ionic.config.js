@@ -14,6 +14,8 @@ function appIonicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider )
     //console.log( 'disable ionic transitions' );
     $ionicConfigProvider.views.transition( 'none' );
 
+    $ionicConfigProvider.scrolling.jsScrolling( false );
+
     $ionicNativeTransitionsProvider.setDefaultOptions( {
         duration: 300, // in milliseconds (ms), default 400,
         slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4

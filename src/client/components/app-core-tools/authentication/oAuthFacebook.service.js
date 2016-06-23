@@ -44,7 +44,7 @@ class OAuthFacebook {
     }
 
     logout( success, error ) {
-        if (this.$window.facebookConnectPlugin){
+        if ( this.$window.facebookConnectPlugin ) {
             this.$window.facebookConnectPlugin.logout( success, error );
         }
     }

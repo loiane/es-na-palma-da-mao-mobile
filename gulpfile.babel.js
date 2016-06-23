@@ -369,7 +369,6 @@ taskMaker.defineTask( 'eslint', {
     taskName: 'eslint-src',
     src: config.paths.js.src,
     dest: './src',
-    lintConfig: { quiet: true },
     debug: config.debugOptions
 } );
 

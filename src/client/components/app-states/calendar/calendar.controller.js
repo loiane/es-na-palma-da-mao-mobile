@@ -6,15 +6,16 @@ class CalendarController {
      * @param {Object} calendarApiService - calendarApiService service
      * @param {Object} $ionicLoading - ionic $ionicLoading service
      */
-    constructor( calendarApiService, $ionicLoading ) {
+    constructor( $scope, calendarApiService, $ionicLoading ) {
+        this.$scope = $scope;
         this.calendarApiService = calendarApiService;
         this.$ionicLoading = $ionicLoading;
 
         this.calendar = {};
         this.selectedCalendars = [];
         this.availableCalendars = [];
-        
-        this.activate();
+
+        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate( ) );
     }
 
     /**
@@ -54,7 +55,7 @@ class CalendarController {
                    .finally( () => {
                        this.$ionicLoading.hide();
                    } );
-    };
+    }
 
     /**
      * Evento disparado quando título do calendário é alterado
@@ -65,7 +66,7 @@ class CalendarController {
      */
     onViewTitleChanged( title ) {
         this.viewTitle = title;
-    };
+    }
 
     /**
      * Altera a data do calendário para a data corrente (hoje e agora)
@@ -94,7 +95,7 @@ class CalendarController {
 }
 
 export default [
-    'calendarApiService', '$ionicLoading', CalendarController
+    '$scope', 'calendarApiService', '$ionicLoading', CalendarController
 ];
 
 /////////////////////////////////////////////////////////////////////////////////////////////
