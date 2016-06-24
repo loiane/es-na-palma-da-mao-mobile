@@ -23,7 +23,7 @@ class LoginController {
         this.$ionicLoading = $ionicLoading;
 
         this.errorMsgs = {
-            accountNotLinked: 'User not found.'
+            accountNotLinked: 'Usuário não encontrado.'
         };
 
         this.activate();
@@ -31,7 +31,6 @@ class LoginController {
 
     activate() {
         this.user = {};
-        this.apiResponse = '';
         this.tokenClaims = this.OAuth2.tokenClaims;
     }
 
@@ -50,7 +49,7 @@ class LoginController {
 
     _showDialogAccountNotLinked() {
         this.dialog.confirm( {
-            title: 'Conta não vínculada',
+            title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
             ok: 'Criar conta'
         } ).then( () => {
@@ -122,7 +121,6 @@ class LoginController {
             data.authHeader = authHeader;
         }
 
-
         return angular.extend( {}, options, data );
     }
 
@@ -139,7 +137,7 @@ class LoginController {
         }, () => {
             //TODO: Tratar error
             this.toast.error( {
-                title: 'Credênciais inválidas'
+                title: 'Credenciais inválidas'
             } );
         } )
             .finally( () => {
@@ -168,9 +166,9 @@ class LoginController {
                     } );
                 }
             } )
-            .finally( () => {
-                this.$ionicLoading.hide();
-            } );
+                .finally( () => {
+                    this.$ionicLoading.hide();
+                } );
         }, () => {
             this.toast.error( {
                 title: '[Facebook] Falha no login'
@@ -202,9 +200,9 @@ class LoginController {
                     } );
                 }
             } )
-            .finally( () => {
-                this.$ionicLoading.hide();
-            } );
+                .finally( () => {
+                    this.$ionicLoading.hide();
+                } );
         }, () => {
             this.toast.error( {
                 title: '[Google] Falha no login'
@@ -231,9 +229,9 @@ class LoginController {
                     } );
                 }
             } )
-            .finally( () => {
-                this.$ionicLoading.hide();
-            } );
+                .finally( () => {
+                    this.$ionicLoading.hide();
+                } );
         }, () => {
             this.toast.error( {
                 title: '[SMS] Falha no login'
