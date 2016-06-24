@@ -1,14 +1,15 @@
-let baseUrl = 'https://api.es.gov.br/calendars';
-let eventsEndPoint = 'https://api.es.gov.br/calendars/events';
-
 class CalendarApiService {
 
     /**
+     * @constructor
      *
      * @param {Object} $http - angular $http service
+     * @param appConfig
      */
-    constructor( $http ) {
+    constructor( $http, appConfig ) {
         this.$http = $http;
+        this.calendarsEndPoint = appConfig.api.calendars;
+        this.eventsEndPoint = `${appConfig.api.calendars}/events`;
     }
 
     /**
@@ -17,7 +18,7 @@ class CalendarApiService {
      */
     getAvailableCalendars() {
         return this.$http
-                   .get( baseUrl )
+                   .get( this.calendarsEndPoint )
                    .then( response => response.data );
     }
 
@@ -36,8 +37,8 @@ class CalendarApiService {
             timeMax: new Date( today.getFullYear(), 11, 31, 0 ), // final do ano corrente
             timeZone: 'America/Sao_Paulo' // an option!
         };
-        return this.$http.get( eventsEndPoint, { params: angular.extend( { calendars: calendars }, defaults, options ) } )
+        return this.$http.get( this.eventsEndPoint, { params: angular.extend( { calendars: calendars }, defaults, options ) } )
                    .then( response => response.data );
     }
 }
-export default [ '$http', CalendarApiService ];
+export default [ '$http', 'appConfig', CalendarApiService ];
