@@ -4,7 +4,7 @@ class LoginController {
     /**
      * @constructor
      */
-    constructor( $rootScope, $state, $localStorage, OAuth2, OAuthDigits, OAuthFacebook, OAuthGoogle, dialog, toast, appConfig, $window, $ionicHistory, $ionicLoading ) {
+    constructor( $state, OAuth2, OAuthDigits, OAuthFacebook, OAuthGoogle, dialog, toast, appConfig, $window, $ionicHistory, $ionicLoading ) {
         this.appConfig = appConfig;
         this.OAuth2 = OAuth2;
         this.OAuth2.initialize( appConfig.identityServer.url );
@@ -16,8 +16,6 @@ class LoginController {
         this.toast = toast;
         this.dialog = dialog;
         this.$state = $state;
-        this.$rootScope = $rootScope;
-        this.$localStorage = $localStorage;
         this.$window = $window;
         this.$ionicHistory = $ionicHistory;
         this.$ionicLoading = $ionicLoading;
@@ -55,10 +53,6 @@ class LoginController {
         } ).then( () => {
             this.$window.open( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' );
         } );
-    }
-
-    _getOAuth2AppConfig( obj ) {
-        return this.$.extend( {}, this.appConfig, obj );
     }
 
     _signInSuccess() {
@@ -245,9 +239,7 @@ class LoginController {
 }
 
 export default [
-    '$rootScope',
     '$state',
-    '$localStorage',
     'OAuth2',
     'OAuthDigits',
     'OAuthFacebook',
