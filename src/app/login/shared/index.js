@@ -5,7 +5,7 @@ import oAuthFacebook from './oAuthFacebook.service.js';
 import oAuthGoogle from './oAuthGoogle.service.js';
 
 export default angular
-    .module( 'shared.authentication', [] )
+    .module( 'login.shared', [] )
     .service( 'OAuth2', oAuth2Factory )
     .service( 'OAuthDigits', oAuthDigits )
     .service( 'OAuthFacebook', oAuthFacebook )

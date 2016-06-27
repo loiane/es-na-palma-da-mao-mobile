@@ -2,9 +2,10 @@ import angular from 'angular';
 import 'angular-ui-router';
 
 import loginComponent from './login.component.js';
+import loginShared from './shared/index.js';
 
 const dependencies = [
-    'ui.router'
+    'ui.router', loginShared.name
 ];
 
 export default angular.module( 'login.component', dependencies )

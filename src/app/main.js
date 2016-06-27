@@ -32,7 +32,6 @@ let dependencies = [
     shared.name
 ];
 
-
 let app = angular.module( 'app', dependencies )
                  .directive( 'app', appComponent )
                  .config( [
