@@ -30,7 +30,6 @@ import github from 'octonode';
 import gulpExec from 'gulp-exec';
 import config from './config/gulp.config';
 import del from 'del';
-import open from 'open';
 import spawn from 'win-spawn';
 import semver from 'semver';
 
@@ -261,7 +260,7 @@ gulp.task( 'ionic:run', ( cb ) => {
 taskMaker.defineTask( 'css', {
     taskName: 'css',
     src: config.paths.css,
-    dest: config.paths.output.root,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
@@ -272,26 +271,18 @@ taskMaker.defineTask( 'clean', {
 } );
 
 taskMaker.defineTask( 'babel', {
-    taskName: 'transpile-client-js',
-    src: config.paths.js.client,
-    dest: config.paths.output.root,
+    taskName: 'transpile-app-js',
+    src: config.paths.js.app,
+    dest: config.paths.output.app,
     ngAnnotate: true,
     compilerOptions: config.babelOptions,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'client-js',
-    src: config.paths.js.client,
-    dest: config.paths.output.root,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
-} );
-
-taskMaker.defineTask( 'copy', {
-    taskName: 'server-js',
-    src: config.paths.js.server,
-    dest: config.paths.output.server,
+    taskName: 'app-js',
+    src: config.paths.js.app,
+    dest: config.paths.output.app,
     changed: { extension: '.js' },
     debug: config.debugOptions
 } );
@@ -299,7 +290,7 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'copy', {
     taskName: 'html',
     src: config.paths.html,
-    dest: config.paths.output.root,
+    dest: config.paths.output.app,
     changed: { extension: '.html' },
     debug: config.debugOptions
 } );
@@ -323,14 +314,14 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'copy', {
     taskName: 'assets',
     src: config.paths.assets,
-    dest: config.paths.output.root,
+    dest: config.paths.output.app,
     debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
     taskName: 'json',
     src: config.paths.json,
-    dest: config.paths.output.root,
+    dest: config.paths.output.app,
     changed: { extension: '.json' },
     debug: config.debugOptions
 } );
@@ -347,7 +338,7 @@ taskMaker.defineTask( 'copy', {
 taskMaker.defineTask( 'htmlMinify', {
     taskName: 'htmlmin',
     src: config.paths.html,
-    dest: config.paths.output.root,
+    dest: config.paths.output.app,
     debug: config.debugOptions,
     minimize: config.htmlMinOptions
 } );
@@ -393,20 +384,14 @@ taskMaker.defineTask( 'watch', {
     tasks: [ 'compile' ]
 } );
 
-taskMaker.defineTask( 'nodemon', {
-    taskName: 'nodemon',
-    browserSyncConfig: config.browserSyncConfig,
-    nodemonConfig: config.nodemonConfig
+taskMaker.defineTask( 'browserSync', {
+    taskName: 'serve',
+    browserSyncConfig: config.browserSyncConfig
 } );
 
 // no-op = empty function
 gulp.task( 'noop', ( cb ) => {
     cb();
-} );
-
-gulp.task( 'serve', 'Serve a aplicação através de web server', [ 'nodemon' ], () => {
-    const appBaseUrl = `http://localhost:${config.browserSyncConfig.port}`;
-    open( `${appBaseUrl}/index.html` );
 } );
 
 gulp.task( 'ensures-master', false, ( cb ) => {
@@ -640,9 +625,8 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'assets',
         'systemConfig',
         'system.yuml',
-        'server-js',
         'index.html',
-        transpile ? 'transpile-client-js' : 'client-js',
+        transpile ? 'transpile-app-js' : 'app-js',
         htmlmin ? 'htmlmin' : 'html'
     ];
 

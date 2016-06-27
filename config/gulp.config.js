@@ -14,39 +14,36 @@ let paths = {
             '!./node_modules/**/*.js',
             '!./hooks/**/*.js',
             '!./plugins/**/*.js',
-            '!./jspm_packages/**/*.js',
+            '!./www/lib/**/*.js',
             '!./config/system.js',
             '!system.yuml.js'
         ],
         src: './src/**/*.js',
-        client: 'src/client/**/*.js',
-        server: 'src/server/**/*.js',
-        output: 'www/components/**/*.js'
+        app: 'src/app/**/*.js',
+        output: 'www/app/**/*.js'
     },
     html: [
-        'src/client/**/*.html',
-        '!src/client/components/app-core/index.tpl.html'
+        'src/app/**/*.html', '!src/index.html'
     ],
     templates: [
-        'src/client/**/*.tpl.html',
-        '!src/client/components/app-core/index.tpl.html'
+        'src/app/**/*.tpl.html', '!src/index.html'
     ],
-    css: [ 'src/client/**/*.css' ],
+    css: [ 'src/app/**/*.css' ],
     assets: [
-        './src/client/**/*.svg',
-        './src/client/**/*.woff',
-        './src/client/**/*.ttf',
-        './src/client/**/*.png',
-        './src/client/**/*.ico',
-        './src/client/**/*.gif',
-        './src/client/**/*.jpg',
-        './src/client/**/*.eot'
+        './src/app/**/*.svg',
+        './src/app/**/*.woff',
+        './src/app/**/*.ttf',
+        './src/app/**/*.png',
+        './src/app/**/*.ico',
+        './src/app/**/*.gif',
+        './src/app/**/*.jpg',
+        './src/app/**/*.eot'
     ],
-    json: './src/client/**/*.json',
+    json: './src/app/**/*.json',
     index: {
-        src: './src/client/components/app-core/index.tpl.html'
+        src: './src/index.html'
     },
-    watch: './src/client/**/*',
+    watch: './src/app/**/*',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './config/system.config.js',
     systemYuml: './system.yuml.js',
@@ -55,16 +52,11 @@ let paths = {
     output: {
         root: 'www',
         lib: 'www/lib',
-        app: 'www/components',
-        html: [ 'www/components/**/*.html', 'www/*.html' ],
-        server: 'www/web-server',
-        temp: [ 'www/components', 'www/web-server', 'www/*.html', 'www/*.js' ]
+        app: 'www/app',
+        html: [ 'www/app/**/*.html', 'www/*.html' ],
+        temp: [ 'www/app', 'www/*.html', 'www/*.js' ]
     },
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ],
-
-    //server
-    server: 'src/server/',
-    nodeServer: 'www/web-server/app.js'
 };
 
 let config = {
@@ -83,19 +75,8 @@ let config = {
         minifyJS: true,
         minifyCSS: true
     },
-    nodemonConfig: {
-        script: paths.nodeServer,
-        delayTime: 1,
-        ext: 'js html json',
-        env: {
-            'PORT': environment.port(),
-            'NODE_ENV': environment.name()
-        },
-        watch: paths.server
-    },
     browserSyncConfig: {
-        proxy: `localhost:${environment.port()}`,
-        port: '3000',
+        port: environment.port(),
         ghostMode: { // these are the defaults t,f,t,t
             clicks: true,
             location: false,
@@ -107,7 +88,10 @@ let config = {
         logLevel: 'info',
         logPrefix: 'ES na palma da mão',
         notify: true,
-        open: false
+        files: [ 'src/app/**/*' ],
+        server: {
+            baseDir: 'www'
+        },
     },
     cacheBustConfig: {
         usePrefix: false,

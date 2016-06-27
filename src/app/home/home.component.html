@@ -1,0 +1,20 @@
+<ion-view>
+	<!--login content section-->
+	<ion-content id="home-component" md-colors="::{backgroundColor: 'primary'}">
+		<div class="espm-home-logo">
+			<img src="app/home/img/logo-es.png" alt="">
+			<h2>ES na Palma da Mão</h2>
+		</div>
+		<md-button class="md-raised"
+				   md-colors="::{color: 'primary'}"
+				   md-no-ink="isAndroid"
+				   ng-click="vm.createAccount()">CADASTRE-SE
+		</md-button>
+		<md-button class="md-accent md-raised"
+				   md-no-ink="isAndroid"
+				   ng-click="vm.login()">ACESSE SUA CONTA
+		</md-button>
+
+	</ion-content>
+	<!--end login content section-->
+</ion-view>
