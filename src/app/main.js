@@ -7,6 +7,11 @@ import 'ionic-native-transitions';
 import 'ngstorage';
 import 'angular-ui-router';
 
+import 'app/app.component.css!';
+import 'angular-material/angular-material.css!';
+import 'font-awesome';
+import 'robotoDraft/robotodraft.css!';
+
 // shared
 import shared from './shared/index.js';
 
