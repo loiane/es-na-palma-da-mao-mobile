@@ -2,10 +2,9 @@ import angular from 'angular';
 import 'angular-ui-router';
 
 import loginComponent from './login.component.js';
-import loginShared from './shared/index.js';
 
 const dependencies = [
-    'ui.router', loginShared.name
+    'ui.router'
 ];
 
 export default angular.module( 'login.component', dependencies )
@@ -14,7 +13,7 @@ export default angular.module( 'login.component', dependencies )
                           '$stateProvider', ( $stateProvider ) => {
                               $stateProvider
                                   .state( 'login', {
-                                      url: '/login',
+                                      url: 'login',
                                       nativeTransitions: {
                                           'type': 'fade'
                                       },
@@ -22,4 +21,5 @@ export default angular.module( 'login.component', dependencies )
                                   } );
                           }
                       ] );
+
 

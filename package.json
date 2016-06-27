@@ -119,6 +119,7 @@
     "request": "^2.72.0",
     "run-sequence": "^1.1.5",
     "semver": "^5.1.0",
+    "ui-router-extras": "^0.1.2",
     "vinyl-paths": "^2.1.0",
     "win-spawn": "^2.0.0",
     "yargs": "^4.3.1"

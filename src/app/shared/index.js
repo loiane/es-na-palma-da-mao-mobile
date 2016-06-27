@@ -8,9 +8,12 @@ import ionicConfig from './ionic.config.js';
 import themeConfig from './theme.config.js';
 import httpInterceptorsConfig from './http-interceptors.config.js';
 import appRun from './run.js';
+import loader from './loader/index.js';
+import routes from './routes/index.js';
+import authentication from './authentication/index.js';
 
 let dependencies = [
-    menu.name, toast.name, dialog.name
+    menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name
 ];
 
 export default angular.module( 'shared', dependencies )

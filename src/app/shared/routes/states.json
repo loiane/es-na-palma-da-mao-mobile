@@ -1,0 +1,62 @@
+[
+  {
+    "name": "app",
+    "url": "/app/",
+    "type": "load",
+    "src": "app/shared/menu/index"
+  },
+  {
+    "name": "app.dashboard",
+    "url": "dashboard/",
+    "type": "load",
+    "src": "app/dashboard/index"
+  },
+  {
+    "name": "app.calendar",
+    "url": "agenda",
+    "type": "load",
+    "src": "app/calendar/index"
+  },
+  {
+    "name": "app.dashboard.calendar",
+    "url": "agenda",
+    "type": "load",
+    "src": "app/calendar/index"
+  },
+  {
+    "name": "app.news",
+    "url": "news",
+    "type": "load",
+    "src": "app/news/list/index"
+  },
+  {
+    "name": "app.dashboard.newsHighlights",
+    "url": "news/highlights",
+    "type": "load",
+    "src": "app/news/highlights/index"
+  },
+  {
+    "name": "app.news/:id",
+    "url": "news/:id",
+    "type": "load",
+    "src": "app/news/detail/index"
+  },
+  {
+    "name": "app.dashboard.calendar",
+    "url": "agenda",
+    "type": "load",
+    "src": "app/calendar/index"
+  },
+  {
+    "name": "home",
+    "url": "home",
+    "type": "load",
+    "src": "app/home/index"
+  },
+  {
+    "name": "login",
+    "url": "login",
+    "type": "load",
+    "src": "app/login/index"
+  }
+]

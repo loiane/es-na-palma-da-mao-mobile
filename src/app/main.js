@@ -6,6 +6,8 @@ import 'angular-material';
 import 'ionic-native-transitions';
 import 'ngstorage';
 import 'angular-ui-router';
+import 'ui-router-extras';
+import ocLazyLoad from 'oclazyload';
 
 import 'app/app.component.css!';
 import 'angular-material/angular-material.css!';
@@ -17,11 +19,11 @@ import shared from './shared/index.js';
 
 // Features
 import appComponent from './app.component.js';
-import dashboard from './dashboard/index.js';
-import calendar from './calendar/index.js';
-import login from './login/index.js';
-import home from './home/index.js';
-import news from './news/index.js';
+/*import dashboard from './dashboard/index.js';
+ import calendar from './calendar/index.js';*/
+//import login from './login/index.js';
+//import home from './home/index.js';
+//import news from './news/index.js';
 
 let dependencies = [
     'ionic',
@@ -29,11 +31,9 @@ let dependencies = [
     'ngStorage',
     'ionic-native-transitions',
     'ui.router',
-    dashboard.name,
-    login.name,
-    calendar.name,
-    home.name,
-    news.name,
+    'ct.ui.router.extras',
+    'ct.ui.router.extras.future',
+    ocLazyLoad,
     shared.name
 ];
 

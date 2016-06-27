@@ -13,7 +13,7 @@ export default angular.module( 'home.component', dependencies )
                           '$stateProvider', ( $stateProvider ) => {
                               $stateProvider
                                   .state( 'home', {
-                                      url: '/home',
+                                      url: 'home',
                                       nativeTransitions: {
                                           'type': 'fade'
                                       },
