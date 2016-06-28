@@ -4,7 +4,9 @@ apk/
 # application keys
 *.keystore
 
-/.vs
+#vscode files
+.vs/
+
 # Logs
 logs
 *.log
@@ -14,7 +16,7 @@ npm-debug.log*
 config.xml
 
 # Arquivo de configuração do portal com informações sensiveis
-src/app/shared/settings.js
+src/components/shared/settings.js
 
 # Runtime data
 pids
