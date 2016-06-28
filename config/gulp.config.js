@@ -19,31 +19,31 @@ let paths = {
             '!system.yuml.js'
         ],
         src: './src/**/*.js',
-        app: 'src/app/**/*.js',
-        output: 'www/app/**/*.js'
+        app: 'src/components/**/*.js',
+        output: 'www/components/**/*.js'
     },
     html: [
-        'src/app/**/*.html', '!src/index.html'
+        'src/components/**/*.html', '!src/index.html'
     ],
     templates: [
-        'src/app/**/*.tpl.html', '!src/index.html'
+        'src/components/**/*.tpl.html', '!src/index.html'
     ],
-    css: [ 'src/app/**/*.css' ],
+    css: [ 'src/components/**/*.css' ],
     assets: [
-        './src/app/**/*.svg',
-        './src/app/**/*.woff',
-        './src/app/**/*.ttf',
-        './src/app/**/*.png',
-        './src/app/**/*.ico',
-        './src/app/**/*.gif',
-        './src/app/**/*.jpg',
-        './src/app/**/*.eot'
+        './src/components/**/*.svg',
+        './src/components/**/*.woff',
+        './src/components/**/*.ttf',
+        './src/components/**/*.png',
+        './src/components/**/*.ico',
+        './src/components/**/*.gif',
+        './src/components/**/*.jpg',
+        './src/components/**/*.eot'
     ],
-    json: './src/app/**/*.json',
+    json: './src/components/**/*.json',
     index: {
         src: './src/index.html'
     },
-    watch: './src/app/**/*',
+    watch: './src/components/**/*',
     karmaConfig: `${__dirname}/karma.conf.js`,
     systemConfig: './config/system.config.js',
     systemYuml: './system.yuml.js',
@@ -52,9 +52,9 @@ let paths = {
     output: {
         root: 'www',
         lib: 'www/lib',
-        app: 'www/app',
-        html: [ 'www/app/**/*.html', 'www/*.html' ],
-        temp: [ 'www/app', 'www/*.html', 'www/*.js' ]
+        app: 'www/components',
+        html: [ 'www/components/**/*.html', 'www/*.html' ],
+        temp: [ 'www/components', 'www/bundles', 'www/*.html', 'www/*.js' ]
     },
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ],
 };
@@ -88,7 +88,7 @@ let config = {
         logLevel: 'info',
         logPrefix: 'ES na palma da mão',
         notify: true,
-        files: [ 'src/app/**/*' ],
+        files: [ 'src/components/**/*' ],
         server: {
             baseDir: 'www'
         },

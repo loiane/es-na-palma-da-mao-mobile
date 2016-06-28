@@ -3,60 +3,60 @@
     "name": "app",
     "url": "/app/",
     "type": "load",
-    "src": "app/shared/menu/index"
+    "src": "components/shared/menu/index"
   },
   {
     "name": "app.dashboard",
     "url": "dashboard/",
     "type": "load",
-    "src": "app/dashboard/index"
+    "src": "components/dashboard/index"
   },
   {
     "name": "app.calendar",
     "url": "agenda",
     "type": "load",
-    "src": "app/calendar/index"
+    "src": "components/calendar/index"
   },
   {
     "name": "app.dashboard.calendar",
     "url": "agenda",
     "type": "load",
-    "src": "app/calendar/index"
+    "src": "components/calendar/index"
   },
   {
     "name": "app.news",
     "url": "news",
     "type": "load",
-    "src": "app/news/list/index"
+    "src": "components/news/list/index"
   },
   {
     "name": "app.dashboard.newsHighlights",
     "url": "news/highlights",
     "type": "load",
-    "src": "app/news/highlights/index"
+    "src": "components/news/highlights/index"
   },
   {
     "name": "app.news/:id",
     "url": "news/:id",
     "type": "load",
-    "src": "app/news/detail/index"
+    "src": "components/news/detail/index"
   },
   {
     "name": "app.dashboard.calendar",
     "url": "agenda",
     "type": "load",
-    "src": "app/calendar/index"
+    "src": "components/calendar/index"
   },
   {
     "name": "home",
     "url": "home",
     "type": "load",
-    "src": "app/home/index"
+    "src": "components/home/index"
   },
   {
     "name": "login",
     "url": "login",
     "type": "load",
-    "src": "app/login/index"
+    "src": "components/login/index"
   }
 ]
