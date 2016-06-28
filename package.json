@@ -179,14 +179,22 @@
     "cordova-plugin-inappbrowser",
     {
       "variables": {
-        "FABRIC_API_KEY": "a280e4739950d91784dd9b1e5bcdfc8e977a73cd",
-        "FABRIC_CONSUMER_KEY": "gFpU3PLmi4sPb7F8BxRvtNaXh",
-        "FABRIC_CONSUMER_SECRET": "jDM7b8xHw1KgOdhFjsXiWguqmxoCo3CsSe4TH4cSYlzkQh2okb"
+        "FABRIC_API_KEY": "",
+        "FABRIC_CONSUMER_KEY": "",
+        "FABRIC_CONSUMER_SECRET": ""
       },
       "locator": "cordova-plugin-digits",
       "id": "cordova-plugin-digits"
     },
     "cordova-plugin-googleplus",
+    {
+      "variables": {
+        "APP_ID": "926428880739042",
+        "APP_NAME": "Acesso Cidadão"
+      },
+      "locator": "cordova-plugin-facebook4@~1.7.1",
+      "id": "cordova-plugin-facebook4"
+    },
     "cordova-plugin-facebook4@~1.7.1",
     "cordova-plugin-digits"
   ],

@@ -33,7 +33,11 @@
     "name": "app.dashboard.newsHighlights",
     "url": "news/highlights",
     "type": "load",
-    "src": "components/news/highlights/index"
+    "src": "components/news/highlights/index",
+    "prefetch": [
+      "components/news/list/index",
+      "components/calendar/index"
+    ]
   },
   {
     "name": "app.news/:id",
@@ -51,7 +55,10 @@
     "name": "home",
     "url": "home",
     "type": "load",
-    "src": "components/home/index"
+    "src": "components/home/index",
+    "prefetch": [
+      "components/login/index"
+    ]
   },
   {
     "name": "login",

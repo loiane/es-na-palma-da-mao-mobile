@@ -734,6 +734,7 @@ gulp.task( 'bundle', ( done ) => {
                 'oclazyload',
                 'moment',
                 'moment/locale/pt-br.js',
+                'font-awesome',
                 'css',
                 'json',
                 'text'
