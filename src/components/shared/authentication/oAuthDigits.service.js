@@ -1,5 +1,3 @@
-import 'underscore';
-
 /**
  * https://github.com/JimmyMakesThings/cordova-plugin-digits
  */
@@ -28,7 +26,7 @@ class OAuthDigits {
             backgroundColor: '#ffffff'
         };
 
-        options = _.extend( options, defaultOptions );
+        options = angular.extend( options, defaultOptions );
 
         /**
          * Exemplo de objeto retornado pelo digits

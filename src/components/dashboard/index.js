@@ -31,3 +31,4 @@ export default angular.module( 'dashboard.component', dependencies )
 
 
 
+

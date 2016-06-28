@@ -1,23 +1,25 @@
 import angular from 'angular';
 import 'angular-ui-router';
 
-import HomeComponent from './home.component.js';
+import loginComponent from './login.component.js';
 
 const dependencies = [
     'ui.router'
 ];
 
-export default angular.module( 'home.component', dependencies )
-                      .directive( 'home', HomeComponent )
+export default angular.module( 'login.component', dependencies )
+                      .directive( 'login', loginComponent )
                       .config( [
                           '$stateProvider', ( $stateProvider ) => {
                               $stateProvider
-                                  .state( 'home', {
-                                      url: '/home',
+                                  .state( 'login', {
+                                      url: 'login',
                                       nativeTransitions: {
                                           'type': 'fade'
                                       },
-                                      template: '<home></home>'
+                                      template: '<login></login>'
                                   } );
                           }
                       ] );
+
+

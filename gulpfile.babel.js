@@ -32,6 +32,7 @@ import config from './config/gulp.config';
 import del from 'del';
 import spawn from 'win-spawn';
 import semver from 'semver';
+import Bundler from 'angular-lazy-bundler';
 
 //import 'gulp-cordova-build-android';
 
@@ -55,7 +56,9 @@ let argv = yargs.alias( 't', 'transpile' )
                 .alias( 'r', 'run' )
                 .alias( 'h', 'htmlmin' )
                 .alias( 'j', 'jsmin' )
+                .alias( 'b', 'bundle' )
                 .default( 'jsmin', false )
+                .default( 'bundle', false )
                 .default( 'htmlmin', false )
                 .default( 'watch', false )
                 .default( 'emulate', false )
@@ -616,6 +619,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
     const transpile = argv.transpile || environment.isProduction();
     const jsmin = argv.jsmin || environment.isProduction();
     const htmlmin = argv.htmlmin || environment.isProduction();
+    const bundle = argv.bundle || environment.isProduction();
 
     // tasks que transformam/copiam arquivos para a pasta de distribuição
     let compileTasks = [
@@ -623,7 +627,6 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'css',
         'json',
         'assets',
-        'systemConfig',
         'system.yuml',
         'index.html',
         transpile ? 'transpile-app-js' : 'app-js',
@@ -634,6 +637,11 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
     if ( jsmin ) {
         compileTasks.push( [ 'jsmin' ] );
     }
+
+    if ( bundle ) {
+        compileTasks.push( 'bundle' );
+    }
+    compileTasks.push( 'systemConfig' ); // sempre copia systemConfig por ultimo por causa do bundle
 
     compileTasks.push( cb );   // adiciona callback no fim de copy tasks
 
@@ -691,4 +699,49 @@ gulp.task( 'build-android-release', () => {
                    keyAlias: 'espm'
                } ) )
                .pipe( gulp.dest( 'apk' ) );
+} );
+
+gulp.task( 'bundle', ( done ) => {
+    const bundler = new Bundler( {
+        baseUrl: 'www',
+        dest: 'www/bundles',
+        cssOptimize: true,
+        systemJsConfig: 'config/system.config.js'
+    } );
+
+    bundler
+        .bundle( {
+            components: [
+                'app',
+                'home',
+                'news/highlights',
+                'shared',
+                'shared/authentication',
+                'shared/dialog',
+                'shared/toast',
+                'shared/loader',
+                'shared/menu',
+                'shared/routes'
+            ],
+            packages: [
+                'ionic', // carrega angular e ui-router junto
+                'angular-i18n/pt-br',   // on pt-br you can use your locale
+                'angular-material',
+                'ionic-native-transitions',
+                'ngstorage',
+                'angular-ui-router',
+                'ui-router-extras',
+                'oclazyload',
+                'moment',
+                'moment/locale/pt-br.js',
+                'css',
+                'json',
+                'text'
+            ]
+        }, 'main' )
+        .then( () => bundler.bundleRemainingComponents() )
+        .then( () => bundler.bundleRemainingPackages() )
+        .then( () => bundler.saveConfig() )
+        .then( () => done() )
+        .catch( ( err ) => done( err ) );
 } );

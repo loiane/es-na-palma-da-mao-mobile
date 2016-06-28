@@ -28,7 +28,7 @@ export default angular.module( 'calendar.component', dependencies )
                                       }
                                   } )
                                   .state( 'app.dashboard.calendar', {
-                                      url: 'calendar',
+                                      url: 'agenda',
                                       data: { title: 'AGENDA ES' },
                                       nativeTransitions: null,
                                       views: {

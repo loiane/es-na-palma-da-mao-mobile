@@ -11,9 +11,9 @@ const dependencies = [
 export default angular.module( 'news-highlights.component', dependencies )
                       .directive( 'newsHighlights', newsHighlightsComponent )
                       .config( [
-                          '$stateProvider', $stateProvider => $stateProvider
+                          '$stateProvider', ( $stateProvider ) => $stateProvider
                               .state( 'app.dashboard.newsHighlights', {
-                                  url: '',
+                                  url: 'news/highlights',
                                   data: { title: 'DESTAQUES' },
                                   nativeTransitions: null,
                                   views: {
@@ -23,3 +23,6 @@ export default angular.module( 'news-highlights.component', dependencies )
                                   }
                               } )
                       ] );
+
+
+
