@@ -1,0 +1,26 @@
+<ion-view title="Consulta SEP">
+	<ion-content id="state-sep-consulta">
+
+		<md-input-container padding md-no-float class="md-block">
+			<input ng-model="vm.processNumber" type="search" placeholder="Número do Processo">
+			<md-icon style="display:inline-block;"><i class="fa fa-search" aria-hidden="true"></i></md-icon>
+		</md-input-container>
+
+		<md-content>
+			<md-list>
+				<div ng-repeat="proc in vm.processes">
+					<md-list-item class="md-3-line" ng-click="vm.goToProcess(proc.id)">
+
+					</md-list-item>
+				</div>
+				<div ng-if="vm.populated && !vm.processes.length" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+					<div class="md-padding" style="padding: 20px;">
+						<div class="md-subhead">Nenhum processo encontrado</div>
+						<div style="color: #999;">Verifique o número informado</div>
+					</div>
+				</div>
+			</md-list>
+		</md-content>
+	</ion-content>
+	<!--Dashboard section-->
+</ion-view>

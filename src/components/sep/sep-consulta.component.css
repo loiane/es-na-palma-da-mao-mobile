@@ -1,0 +1,11 @@
+#state-sep-consulta md-input-container md-icon {
+    font-size: 1.4em;
+}
+
+#state-sep-consulta md-input-container.md-icon-right {
+    padding-left: 10px;
+    margin: 0px;
+    height: 44px;
+}
+
+
