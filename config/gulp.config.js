@@ -14,7 +14,7 @@ let paths = {
             '!./node_modules/**/*.js',
             '!./hooks/**/*.js',
             '!./plugins/**/*.js',
-            '!./www/lib/**/*.js',
+            '!./www/jspm_packages/**/*.js',
             '!./config/system.js',
             '!system.yuml.js'
         ],
@@ -51,7 +51,7 @@ let paths = {
     // output
     output: {
         root: 'www',
-        lib: 'www/lib',
+        jspm_packages: 'www/jspm_packages',
         app: 'www/components',
         html: [ 'www/components/**/*.html', 'www/*.html' ],
         temp: [ 'www/components', 'www/bundles', 'www/*.html', 'www/*.js' ]
