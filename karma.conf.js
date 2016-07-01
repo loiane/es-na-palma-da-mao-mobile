@@ -2,29 +2,27 @@
 // ref: https://github.com/gunnarlium/babel-jspm-karma-jasmine-istanbul
 
 var browsers = [ 'PhantomJS' ]; // para builds locais
-//var coverage_reporters = [ { type: 'text' } ];
+var coverage_reporters = [ { type: 'text' } ];
 var reporters = [ 'mocha', 'coverage' ];
-/*
 
- if ( process.env.TRAVIS ) {
+if ( process.env.TRAVIS ) {
 
- console.log( 'Executando no Travis: enviando coveralls' );
+    console.log( 'Executando no Travis: enviando coveralls' );
 
- coverage_reporters.push( {
- type: 'lcov',
- subdir: 'report-lcov'
- } );
- reporters.push( 'coveralls' );
- } else {
+    coverage_reporters.push( {
+        type: 'lcov',
+        subdir: 'report-lcov'
+    } );
+    reporters.push( 'coveralls' );
+} else {
 
- console.log( 'Executando localmente: não enviando coveralls' );
+    console.log( 'Executando localmente: não enviando coveralls' );
 
- coverage_reporters.push( {
- type: 'html',
- subdir: 'report-html'
- } );
- }
- */
+    coverage_reporters.push( {
+        type: 'html',
+        subdir: 'report-html'
+    } );
+}
 
 module.exports = function( config ) {
     config.set( {
@@ -52,26 +50,19 @@ module.exports = function( config ) {
             // - Arquivos fontes para os quais queremos gerar coverage
             // - Não inclua arquivos de testes ou bibliotecas
             // - Esses arquivos serão instrumentados pelo Istanbul
-            'src/components/**/*.js': [ 'babel' ]
+            'src/components/**/!(*specs).js': [ 'babel', 'sourcemap' ]
         },
 
         babelPreprocessor: {
             options: {
-                presets: [ 'es2015' ]//,
-                //sourceMap: 'inline'
+                presets: [ 'es2015' ]
             }
         },
 
-        /*       coverageReporter: {
-         // configure the reporter to use isparta for JavaScript coverage
-         // Only on { "karma-coverage": "douglasduteil/karma-coverage#next" }
-         instrumenters: { isparta: require( 'isparta' ) },
-         instrumenter: {
-         'src/components/!**!/!(*specs).js': 'isparta'
-         },
-         dir: 'coverage/',
-         reporters: coverage_reporters
-         },*/
+        coverageReporter: {
+            dir: 'coverage/',
+            reporters: coverage_reporters
+        },
 
         proxies: {
             '/node_modules': '/base/node_modules',

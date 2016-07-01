@@ -44,10 +44,15 @@ describe( 'Calendar', () => {
         let $scope;
         let calendarApiService;
         let $ionicLoading;
+        let onIonicBeforeEnterEvent;
 
         beforeEach( () => {
             $scope = {
-                $on: sandbox.stub()
+                $on: ( event, callback ) => {
+                    if ( event === '$ionicView.beforeEnter' ) {
+                        onIonicBeforeEnterEvent = callback;
+                    }
+                }
             };
             $ionicLoading = {
                 show: sandbox.stub().returnsPromise().resolves(),
@@ -74,6 +79,15 @@ describe( 'Calendar', () => {
             it( 'no calendar should be available', () => {
                 expect( controller.availableCalendars ).to.be.empty;
             } );
+
+            it( 'should activate on $ionicView.beforeEnter event', () => {
+                sandbox.stub( controller, 'activate' );// replace original activate
+
+                // simulates ionic before event trigger
+                onIonicBeforeEnterEvent();
+
+                expect( controller.activate.called ).to.be.true;
+            } );
         } );
 
         describe( 'activate()', () => {
@@ -99,6 +113,7 @@ describe( 'Calendar', () => {
             it( 'should hide loading spinner on complete', () => {
                 expect( controller.$ionicLoading.hide.called ).to.be.true;
             } );
+
         } );
 
         describe( 'getAvailableCalendars()', () => {
@@ -125,7 +140,7 @@ describe( 'Calendar', () => {
             } );
         } );
 
-        describe( 'loadEvents()', () => {
+        describe( 'loadEvents( selectedCalendars )', () => {
 
             let selectedCalendars = [ 'SEFAZ', 'SEGER' ];
             let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER 2' }, { name: 'SEJUS' } ];
@@ -146,12 +161,69 @@ describe( 'Calendar', () => {
 
             } );
 
-            it( 'should fill calendar event sources', () => {
+            it( 'should fill calendar.eventSources', () => {
                 expect( controller.calendar.eventSources ).to.equal( fullCalendars );
             } );
 
             it( 'should hide loading spinner on complete', () => {
                 expect( controller.$ionicLoading.hide.calledOnce ).to.be.true;
+            } );
+        } );
+
+        describe( 'onViewTitleChanged( title )', () => {
+            it( 'should assign title to controller.viewTitle property', () => {
+                let title = 'Title Fake';
+
+                controller.onViewTitleChanged( title );
+
+                expect( controller.viewTitle ).to.equal( title );
+            } );
+        } );
+
+        describe( 'today()', () => {
+            it( 'should assign current date to calendar.currentDate property', () => {
+
+                let futureDate = new Date( 2020, 10, 10 );
+                let today = new Date();
+
+                controller.calendar.currentDate = futureDate;
+
+                expect( controller.calendar.currentDate.getTime() ).to.equal( futureDate.getTime() );
+
+                controller.today();
+
+                expect( controller.calendar.currentDate.getTime() ).to.equal( today.getTime() );
+            } );
+        } );
+
+        describe( 'isToday()', () => {
+            it( 'should check if calendar current date is today', () => {
+
+                let futureDate = new Date( 2020, 10, 10 );
+                let today = new Date();
+
+                controller.calendar.currentDate = futureDate;
+
+                expect( controller.isToday() ).to.be.false;
+
+                controller.calendar.currentDate = today;
+
+                expect( controller.isToday() ).to.be.true;
+            } );
+
+            it( 'should ignore date time part on comparation', () => {
+
+                let todayMorning = new Date();
+                let todayAfternoon = new Date();
+
+                todayMorning.setHours( 9, 0, 0, 0 );
+                todayAfternoon.setHours( 22, 0, 0, 0 );
+
+                controller.calendar.currentDate = todayMorning;
+                expect( controller.isToday() ).to.be.true;
+
+                controller.calendar.currentDate = todayAfternoon;
+                expect( controller.isToday() ).to.be.true;
             } );
         } );
     } );

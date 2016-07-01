@@ -89,7 +89,7 @@ class CalendarController {
      *
      * @param {String} title - o novo title do calendário
      *
-     * @returns {Bool} - true ou false dependendo se a data selecionada no calendário é a data corrente
+     * @returns {boolean} - true ou false dependendo se a data selecionada no calendário é a data corrente
      */
     isToday() {
         let today = new Date();
@@ -97,6 +97,7 @@ class CalendarController {
 
         today.setHours( 0, 0, 0, 0 );
         currentCalendarDate.setHours( 0, 0, 0, 0 );
+
         return today.getTime() === currentCalendarDate.getTime();
     }
 }
