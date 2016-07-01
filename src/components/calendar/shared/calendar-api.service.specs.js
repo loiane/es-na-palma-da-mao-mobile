@@ -89,19 +89,10 @@ describe( 'CalendarApiService', () => {
             it( 'should use defaut empty calendar list', () => {
 
                 calendarApiService.getFullCalendars();
-
-                let spyCall = $http.get.getCall( 0 );
-                expect( spyCall.args[ 1 ].params.calendars ).to.deep.equal( [] );
-
-                calendarApiService.getFullCalendars( null );
-
-                spyCall = $http.get.getCall( 0 );
-                expect( spyCall.args[ 1 ].params.calendars ).to.deep.equal( [] );
-
                 calendarApiService.getFullCalendars( undefined );
 
-                spyCall = $http.get.getCall( 0 );
-                expect( spyCall.args[ 1 ].params.calendars ).to.deep.equal( [] );
+                expect( $http.get.getCall( 0 ).args[ 1 ].params.calendars ).to.deep.equal( [] );
+                expect( $http.get.getCall( 1 ).args[ 1 ].params.calendars ).to.deep.equal( [] );
             } );
         } );
 
