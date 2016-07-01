@@ -9,8 +9,8 @@ System.config({
     ]
   },
   paths: {
-    "github:*": "lib/github/*",
-    "npm:*": "lib/npm/*"
+    "github:*": "jspm_packages/github/*",
+    "npm:*": "jspm_packages/npm/*"
   },
   buildCSS: true,
 

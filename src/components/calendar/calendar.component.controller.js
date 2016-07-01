@@ -24,10 +24,18 @@ class CalendarController {
      * @returns {void}
      */
     activate() {
-        this.$ionicLoading.show();
-        this.getAvailableCalendars()
-            .then( () => this.loadEvents() )
-            .finally( () => this.$ionicLoading.hide() );
+        this.showLoading()
+            .then( () => this.getAvailableCalendars() )
+            .then( availableCalendars => this.loadEvents( availableCalendars ) )
+            .finally( () => this.hideLoading() );
+    }
+
+    showLoading( delay = 0 ) {
+        return this.$ionicLoading.show( { delay: delay } );
+    }
+
+    hideLoading() {
+        return this.$ionicLoading.hide();
     }
 
     /**
@@ -39,22 +47,21 @@ class CalendarController {
         return this.calendarApiService.getAvailableCalendars()
                    .then( calendars => {
                        this.selectedCalendars = this.availableCalendars = calendars.map( calendar => calendar.name );
+                       return this.selectedCalendars;
                    } );
     }
 
     /**
      * Carrega os eventos no calendário
      */
-    loadEvents() {
-        this.$ionicLoading.show( 200 );
-
-        return this.calendarApiService.getFullCalendars( this.selectedCalendars )
-                   .then( fullCalendars => {
-                       this.calendar.eventSources = fullCalendars;
+    loadEvents( selectedCalendars ) {
+        return this.showLoading( 200 )
+                   .then( () => this.calendarApiService.getFullCalendars( selectedCalendars ) )
+                   .then( calendars => {
+                       this.calendar.eventSources = calendars;
+                       return calendars;
                    } )
-                   .finally( () => {
-                       this.$ionicLoading.hide();
-                   } );
+                   .finally( () => this.hideLoading() );
     }
 
     /**
@@ -82,7 +89,7 @@ class CalendarController {
      *
      * @param {String} title - o novo title do calendário
      *
-     * @returns {Bool} - true ou false dependendo se a data selecionada no calendário é a data corrente
+     * @returns {boolean} - true ou false dependendo se a data selecionada no calendário é a data corrente
      */
     isToday() {
         let today = new Date();
@@ -90,10 +97,11 @@ class CalendarController {
 
         today.setHours( 0, 0, 0, 0 );
         currentCalendarDate.setHours( 0, 0, 0, 0 );
+
         return today.getTime() === currentCalendarDate.getTime();
     }
 }
 
-export default [
-    '$scope', 'calendarApiService', '$ionicLoading', CalendarController
-];
+CalendarController.$inject = [ '$scope', 'calendarApiService', '$ionicLoading' ];
+
+export default CalendarController;
