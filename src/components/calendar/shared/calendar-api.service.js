@@ -25,10 +25,10 @@ class CalendarApiService {
     /**
      *
      * @param calendars
-     * @param options
+     * @param filter
      * @returns {Array}
      */
-    getFullCalendars( calendars, options = {} ) {
+    getFullCalendars( calendars = [], filter = {} ) {
         let today = new Date();
         let defaults = {
             singleEvents: true,
@@ -37,8 +37,11 @@ class CalendarApiService {
             timeMax: new Date( today.getFullYear(), 11, 31, 0 ), // final do ano corrente
             timeZone: 'America/Sao_Paulo' // an option!
         };
-        return this.$http.get( this.eventsEndPoint, { params: angular.extend( { calendars: calendars }, defaults, options ) } )
+        return this.$http.get( this.eventsEndPoint, { params: angular.extend( { calendars: calendars }, defaults, filter ) } )
                    .then( response => response.data );
     }
 }
-export default [ '$http', 'settings', CalendarApiService ];
+
+CalendarApiService.$inject = [ '$http', 'settings' ];
+
+export default  CalendarApiService;

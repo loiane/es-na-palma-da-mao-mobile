@@ -15,7 +15,8 @@
     "test": "karma start karma.conf.js",
     "test:dev": "npm run test -- --no-single-run",
     "test:web": "npm run test -- --browsers Chrome",
-    "test:dev:web": "npm run test:web -- --no-single-run"
+    "test:dev:web": "npm run test:web -- --no-single-run",
+    "view-coverage": "serveur -R -L -b -o coverage/report-html -p 3001"
   },
   "repository": {
     "type": "git",
@@ -138,6 +139,7 @@
     "request": "^2.72.0",
     "run-sequence": "^1.1.5",
     "semver": "^5.1.0",
+    "serveur": "^2.1.0",
     "sinon": "^1.17.4",
     "sinon-stub-promise": "^2.1.0",
     "ui-router-extras": "^0.1.2",
