@@ -17,12 +17,9 @@ class SepApiService {
      */
     getProcessByNumber( number ) {
         return this.$http
-                   .get( `${this.settings.api.sep}/${number}` )
-                   //.then( response => response.data );
-                   .then( () => {
-                       return { number: 123456, description: 'Mock Process' };
-                   } );
+            .get( `${this.settings.api.sep}${number}` )
+            .then( response => response.data );
     }
-
 }
+
 export default [ '$http', 'settings', SepApiService ];

@@ -3,20 +3,17 @@ class SepConsultaController {
     /**
      * @constructor
      *
-     * @param $state
-     * @param $mdDialog
-     * @param $ionicLoading
-     * @param newsApiService
+     * @param {Object} $scope: $scope
+     * @param {Object} $state: $state
+     * @param {Object} $mdDialog: $mdDialog
+     * @param {Object} sepApiService: Api do SEP
+     * @return {undefined}
      */
-    constructor( $scope, $state, $mdDialog, $ionicLoading, sepApiService ) {
+    constructor( $scope, $state, $mdDialog, sepApiService ) {
         this.$state = $state;
         this.$scope = $scope;
         this.sepApiService = sepApiService;
         this.$mdDialog = $mdDialog;
-        this.$ionicLoading = $ionicLoading;
-        this.activated = false;
-
-        this.processes = [];
 
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -25,44 +22,63 @@ class SepConsultaController {
      *
      */
     activate() {
-/*        this.getAvailableOrigins()
-            .finally( () => {
-                this.activated = true;
-            } );*/
+        this.seeMoreUpdates = 'VER MAIS';
+        this.processNumber = '';
+        this.process = undefined;
+        this.populated = false;
+        this.showAllUpdates = false;
+
+        //TODO: remover
+        //this.getProcess( 68985037 );
+    }
+
+    fixTop( a, b, c ) {
+        console.log( a, b, c );
+    }
+
+    get firstUpdate() {
+        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
+            return this.process.updates[ this.process.updates.length - 1 ];
+        }
+    }
+
+    get lastUpdate() {
+        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
+            return this.process.updates[ 0 ];
+        }
+    }
+
+    get hiddenUpdates() {
+        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
+            return this.process.updates.slice( 1 );
+        }
+    }
+
+    get hasProcess() {
+        return angular.isDefined( this.process ) && this.process !== '';
+    }
+
+    toggleUpdates() {
+        this.showAllUpdates = !this.showAllUpdates;
+        this.seeMoreUpdates = this.showAllUpdates ? 'OCULTAR' : 'VER MAIS';
     }
 
     /**
-     *
+     * @param {Number} number: Process number
+     * @return {undefined}
      */
-    getProcesses( options ) {
-
-        /*angular.extend( this.filter, options || {} ); // atualiza o filtro
-
-        if ( this.filter.pageNumber ) {
-            this.currentPage = this.filter.pageNumber;
-        }
-
-        this.newsApiService.getNews( this.filter )
-            .then( nextNews => {
-                this.news = this.news.concat( nextNews );
-
-                if ( !nextNews.length ) {
-                    this.hasMoreNews = false;
-                }
-
-                this.populated = true;
+    getProcess( number ) {
+        this.sepApiService.getProcessByNumber( number )
+            .then( process => {
+                this.process = process;
+                return;
+            }, () => {
+                this.process = undefined;
+                return;
             } )
             .finally( () => {
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-            } );*/
-    }
-
-    /**
-     *
-     * @param id
-     */
-    goToProcess( id ) {
-        this.$state.go( 'app.news/:id', { id: id } );
+                this.populated = true;
+            } );
     }
 }
 
@@ -71,7 +87,6 @@ export default
         '$scope',
         '$state',
         '$mdDialog',
-        '$ionicLoading',
         'sepApiService',
         SepConsultaController
     ];
