@@ -3,6 +3,7 @@ import dialog from './dialog/index.js';
 import cpfService from './cpf.service.js';
 import fromNowFilter from './from-now.filter.js';
 import calendarFilter from './date-calendar.filter.js';
+import capitalizeFilter from './capitalize.filter.js';
 import menu from './menu/index.js';
 import settings from './settings.js';
 import ionicConfig from './ionic.config.js';
@@ -27,4 +28,5 @@ export default angular.module( 'shared', dependencies )
                       .service( 'cpfService', cpfService )
                       .filter( 'fromNow', fromNowFilter )
                       .filter( 'calendar', calendarFilter )
+                      .filter( 'capitalize', capitalizeFilter )
                       .run( appRun );

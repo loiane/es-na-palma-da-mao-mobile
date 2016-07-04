@@ -9,11 +9,13 @@ class SepConsultaController {
      * @param {Object} sepApiService: Api do SEP
      * @return {undefined}
      */
-    constructor( $scope, $state, $mdDialog, sepApiService ) {
+    constructor( $window, $scope, $state, $mdDialog, $ionicScrollDelegate, sepApiService ) {
+        this.$window = $window;
         this.$state = $state;
         this.$scope = $scope;
         this.sepApiService = sepApiService;
         this.$mdDialog = $mdDialog;
+        this.$ionicScrollDelegate = $ionicScrollDelegate;
 
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -29,11 +31,7 @@ class SepConsultaController {
         this.showAllUpdates = false;
 
         //TODO: remover
-        //this.getProcess( 68985037 );
-    }
-
-    fixTop( a, b, c ) {
-        console.log( a, b, c );
+        this.getProcess( 68985037 );
     }
 
     get firstUpdate() {
@@ -60,7 +58,13 @@ class SepConsultaController {
 
     toggleUpdates() {
         this.showAllUpdates = !this.showAllUpdates;
-        this.seeMoreUpdates = this.showAllUpdates ? 'OCULTAR' : 'VER MAIS';
+
+        if ( this.showAllUpdates ) {
+            this.seeMoreUpdates = 'OCULTAR';
+            this.$ionicScrollDelegate.scrollTo( 0, 300, true ); //TODO: try to search the element to scroll: anchorScroll
+        } else {
+            this.seeMoreUpdates = 'VER MAIS';
+        }
     }
 
     /**
@@ -84,9 +88,11 @@ class SepConsultaController {
 
 export default
     [
+        '$window',
         '$scope',
         '$state',
         '$mdDialog',
+        '$ionicScrollDelegate',
         'sepApiService',
         SepConsultaController
     ];

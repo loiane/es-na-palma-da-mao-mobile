@@ -19,6 +19,7 @@
 }
 
 .state-sep-subheader {
+    transition: all 1s;
     background: none;
     background-color: rgb(250,250,250);
 }
@@ -41,3 +42,4 @@
     height: 44px;
     background-color: white;
 }
+

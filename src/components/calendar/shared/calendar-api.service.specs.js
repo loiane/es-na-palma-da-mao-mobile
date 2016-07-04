@@ -117,7 +117,7 @@ describe( 'CalendarApiService', () => {
                 expect( spyCall.args[ 1 ].params.selectedCalendars ).to.equal( options.calendars );
                 expect( spyCall.args[ 1 ].params.singleEvents ).to.equal( options.singleEvents );
                 expect( spyCall.args[ 1 ].params.orderBy ).to.equal( options.orderBy );
-                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( options.timeMin.getTime() )
+                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( options.timeMin.getTime() );
                 expect( spyCall.args[ 1 ].params.timeMax.getTime() ).to.equal( options.timeMax.getTime() );
                 expect( spyCall.args[ 1 ].params.timeZone ).to.equal( options.timeZone );
             } );
@@ -142,7 +142,7 @@ describe( 'CalendarApiService', () => {
 
                 expect( spyCall.args[ 1 ].params.singleEvents ).to.equal( defaults.singleEvents );
                 expect( spyCall.args[ 1 ].params.orderBy ).to.equal( defaults.orderBy );
-                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( defaults.timeMin.getTime() )
+                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( defaults.timeMin.getTime() );
                 expect( spyCall.args[ 1 ].params.timeMax.getTime() ).to.equal( defaults.timeMax.getTime() );
                 expect( spyCall.args[ 1 ].params.timeZone ).to.equal( defaults.timeZone );
             } );
