@@ -23,6 +23,7 @@ let dependencies = [
     'ionic',
     'ngMaterial',
     'ngStorage',
+    'ngAnimate',
     'ionic-native-transitions',
     'ui.router',
     'ct.ui.router.extras',
