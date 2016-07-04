@@ -35,7 +35,6 @@
     "type": "load",
     "src": "components/news/highlights/index",
     "prefetch": [
-      "components/news/list/index",
       "components/calendar/index"
     ]
   },
@@ -65,5 +64,11 @@
     "url": "login",
     "type": "load",
     "src": "components/login/index"
+  },
+  {
+    "name": "app.sepConsulta",
+    "url": "sepConsulta",
+    "type": "load",
+    "src": "components/sep/index"
   }
 ]

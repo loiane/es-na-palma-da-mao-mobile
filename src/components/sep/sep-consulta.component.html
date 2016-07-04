@@ -1,0 +1,105 @@
+<ion-view title="Consulta SEP">
+
+	<div class="bar bar-subheader state-sep-subheader">
+		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
+			<input ng-model="vm.processNumber" type="number" placeholder="Número do Processo">
+			<md-icon style="display:inline-block;" ng-click="vm.getProcess(vm.processNumber)"><i class="fa fa-search" aria-hidden="true"></i></md-icon>
+		</md-input-container>
+	</div>
+
+	<ion-content id="state-sep-consulta" class="md-espm-content has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-sep-subheader" offset="25">
+		<md-content class="md-padding">
+			<md-list id="device-information-content" class="fade-in" ng-show="vm.hasProcess">
+				<md-list-item class="row">
+					<div class="col-50 title">
+						<strong>Autuado em</strong>
+					</div>
+					<div class="col-50">
+						{{vm.firstUpdate.date | calendar}}
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item class="row">
+					<div class="col-50 title">
+						<strong>Assunto</strong>
+					</div>
+					<div class="col-50">
+						{{vm.process.subject}}
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item class="row">
+					<div class="col-50 title">
+						<strong>Partes</strong>
+					</div>
+					<div class="col-50">
+						<span ng-repeat="part in vm.process.parts">{{part}} </span>
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item>
+					<div class="col-50 title">
+						<strong>Município</strong>
+					</div>
+					<div class="col">
+						{{vm.process.district}}
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item>
+					<div class="col-50 title">
+						<strong>Informações diversas</strong>
+					</div>
+					<div class="col">
+						{{vm.process.extra}}
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item>
+					<div class="item-text-padding">
+						<strong>Resumo</strong>
+						<p>{{vm.process.summary}}</p>
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item>
+					<div class="col-50 title">
+						<strong>Situação</strong>
+					</div>
+					<div class="col">
+						{{vm.process.status}}
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+				<md-list-item>
+					<div class="item-text-padding">
+						<strong>Última Atualização</strong>
+						<p>{{vm.lastUpdate.date | calendar}}</p>
+						<md-button class="md-secondary more-updates md-accent" ng-click="vm.toggleUpdates()">{{vm.seeMoreUpdates}}</md-button>
+					</div>
+				</md-list-item>
+				<md-list-item>
+					<div>
+						<p>{{vm.lastUpdate.area}}</p>
+						<p>{{vm.lastUpdate.agency}}</p>
+					</div>
+				</md-list-item>
+				<md-list-item ng-repeat="update in vm.hiddenUpdates" ng-show="vm.showAllUpdates">
+					<div class="other-updates">
+						<strong>{{update.date | calendar}}</strong> 
+						<p md-colors="::{color: 'accent'}">{{update.status}}</p>
+						<p>{{update.area}}</p>
+						<p>{{update.agency}}</p>
+					</div>
+				</md-list-item>
+			</md-list>
+			<div ng-show="vm.populated && !vm.hasProcess" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+				<div class="md-padding" style="padding: 20px;">
+					<div class="md-subhead">Nenhum processo encontrado</div>
+					<div style="color: #999;">Verifique o número informado</div>
+				</div>
+			</div>
+		</md-content>
+	</ion-content>
+	<!--Dashboard section-->
+</ion-view>

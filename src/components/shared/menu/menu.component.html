@@ -65,6 +65,15 @@
 						</div>
 					</div>
 
+					<div class="row menu-item" ng-click="vm.navigateTo('app.sepConsulta')">
+						<div class="col-25">
+							<i class="fa fa-search"></i>
+						</div>
+						<div class="col-75">
+							<span>Consulta SEP</span>
+						</div>
+					</div>
+
 					<div class="row menu-item" ng-click="vm.signOut()">
 						<div class="col-25">
 							<i class="ion-android-exit"></i>
@@ -96,6 +105,10 @@
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.news')">
 						<i class="fa fa-newspaper-o"></i>
 						<span>Notícias</span>
+					</md-list-item>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.sepConsulta')">
+						<i class="fa fa-search"></i>
+						<span>Consulta SEP</span>
 					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
 						<i class="ion-ios-undo"></i>
