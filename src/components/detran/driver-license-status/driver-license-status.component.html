@@ -1,0 +1,35 @@
+<ion-view title="Situação CNH">
+	<ion-content id="state-driver-license-status" class="md-espm-content">
+		<md-content>
+			<!-- Card with status -->
+			<md-card>
+				<md-card-title>
+					<md-card-title-text>
+						<span class="md-headline">Situação: {{vm.licenseBlocked}}</span>
+						<span class="md-subhead">{{vm.licenseData.blockMotive}}</span>
+					</md-card-title-text>
+				</md-card-title>
+				<md-card-content>
+					<label for="">Expira em: </label> {{vm.licenseData.expirationDate | calendar}}
+				</md-card-content>
+			</md-card>
+
+			<!--List with tickets-->
+			<md-list id="device-information-content" class="fade-in" ng-show="vm.hasProcess">
+				<md-list-item ng-repeat="ticket in vm.tickets">
+					<div class="col-10">
+						{{ticket.pontuacao}}
+					</div>
+					<div class="col-30">
+						{{ticket.date}}
+					</div>
+					<div class="col-60">
+						{{ticket.desctipoinfracao}}
+					</div>
+				</md-list-item>
+				<md-divider></md-divider>
+			</md-list>
+		</md-content>
+	</ion-content>
+	<!--Dashboard section-->
+</ion-view>

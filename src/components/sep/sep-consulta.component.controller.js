@@ -25,9 +25,6 @@ class SepConsultaController {
         this.process = undefined;
         this.populated = false;
         this.showAllUpdates = false;
-
-        //TODO: remover
-        //this.getProcess( 68985037 );
     }
 
     get firstUpdate() {
@@ -64,6 +61,7 @@ class SepConsultaController {
     }
 
     /**
+     * Test case: 68985037
      * @param {Number} number: Process number
      * @return {undefined}
      */

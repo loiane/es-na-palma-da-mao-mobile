@@ -1,3 +1,4 @@
+/** @class */
 class SepApiService {
 
     /**
@@ -13,11 +14,10 @@ class SepApiService {
     /**
      * @param {string} number: Process number
      * @returns {Object} angular HTTP promisse with response.data
-     * //TODO: Refact after api is done
      */
     getProcessByNumber( number ) {
         return this.$http
-            .get( `${this.settings.api.sep}${number}` )
+            .get( `${this.settings.api.sep}/${number}` )
             .then( response => response.data );
     }
 }

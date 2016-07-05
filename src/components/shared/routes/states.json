@@ -70,5 +70,11 @@
     "url": "sepConsulta",
     "type": "load",
     "src": "components/sep/index"
+  },
+  {
+    "name": "app.driverLicenseStatus",
+    "url": "driverLicenseStatus",
+    "type": "load",
+    "src": "components/detran/driver-license-status/index"
   }
 ]
