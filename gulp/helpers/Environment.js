@@ -55,7 +55,7 @@ class Environment {
      *
      * @returns {*|string} - O nome do ambiente de execução
      */
-    name() {
+    get name() {
         return this._name;
     }
 

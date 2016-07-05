@@ -44,4 +44,4 @@ class CalendarApiService {
 
 CalendarApiService.$inject = [ '$http', 'settings' ];
 
-export default  CalendarApiService;
+export default CalendarApiService;

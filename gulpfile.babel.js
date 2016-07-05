@@ -672,6 +672,8 @@ gulp.task( 'run', 'Executa a aplicação', ( cb ) => {
         }
 
         runSequence( 'recompile', serveTasks, argv.watch ? 'watch' : 'noop', cb );
+    } else {
+        gutil.log( gutil.colors.yellow( `Nenhuma task configurada para o ENV: ${environment.name}` ) )
     }
 } );
 

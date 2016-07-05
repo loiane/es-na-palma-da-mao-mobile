@@ -3,7 +3,7 @@
     "es2015"
   ],
   "env": {
-    "test": {
+    "desenvolvimento": {
       "plugins": [
         [
           "__coverage__",
