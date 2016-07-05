@@ -4,17 +4,13 @@ class SepConsultaController {
      * @constructor
      *
      * @param {Object} $scope: $scope
-     * @param {Object} $state: $state
-     * @param {Object} $mdDialog: $mdDialog
+     * @param {Object} $ionicScrollDelegate: $ionicScrollDelegate
      * @param {Object} sepApiService: Api do SEP
      * @return {undefined}
      */
-    constructor( $window, $scope, $state, $mdDialog, $ionicScrollDelegate, sepApiService ) {
-        this.$window = $window;
-        this.$state = $state;
+    constructor( $scope, $ionicScrollDelegate, sepApiService ) {
         this.$scope = $scope;
         this.sepApiService = sepApiService;
-        this.$mdDialog = $mdDialog;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
 
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
@@ -31,7 +27,7 @@ class SepConsultaController {
         this.showAllUpdates = false;
 
         //TODO: remover
-        this.getProcess( 68985037 );
+        //this.getProcess( 68985037 );
     }
 
     get firstUpdate() {
@@ -76,7 +72,8 @@ class SepConsultaController {
             .then( process => {
                 this.process = process;
                 return;
-            }, () => {
+            } )
+            .catch( () => {
                 this.process = undefined;
                 return;
             } )
@@ -86,13 +83,6 @@ class SepConsultaController {
     }
 }
 
-export default
-    [
-        '$window',
-        '$scope',
-        '$state',
-        '$mdDialog',
-        '$ionicScrollDelegate',
-        'sepApiService',
-        SepConsultaController
-    ];
+SepConsultaController.$inject = [ '$scope', '$ionicScrollDelegate', 'sepApiService' ];
+
+export default SepConsultaController;
