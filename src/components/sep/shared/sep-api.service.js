@@ -22,4 +22,6 @@ class SepApiService {
     }
 }
 
-export default [ '$http', 'settings', SepApiService ];
+SepApiService.$inject = [ '$http', 'settings' ];
+
+export default SepApiService;
