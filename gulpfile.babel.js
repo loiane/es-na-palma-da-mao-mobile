@@ -33,6 +33,8 @@ import del from 'del';
 import spawn from 'win-spawn';
 import semver from 'semver';
 import Bundler from 'angular-lazy-bundler';
+import typescript from 'gulp-typescript';
+import sourcemaps from 'gulp-sourcemaps';
 
 //import 'gulp-cordova-build-android';
 
@@ -65,6 +67,8 @@ let argv = yargs.alias( 't', 'transpile' )
                 .default( 'run', false )
                 .default( 'serve', false )
                 .default( 'transpile', false ).argv;
+
+let tsProject = typescript.createProject( 'tsconfig.json' );
 
 ////////////////////////////////////////// HELPERS /////////////////////////////////////////////////
 
@@ -595,6 +599,14 @@ gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authentic
                } ) );
 } );
 
+gulp.task( 'app-ts', function() {
+    return gulp.src( config.paths.ts.app )
+               .pipe( sourcemaps.init() )
+               .pipe( typescript( tsProject ) )
+               .pipe( sourcemaps.write() )
+               .pipe( gulp.dest( config.paths.output.app ) );
+} );
+
 gulp.task( 'delay', false, ( cb ) => {
     setTimeout( cb, 3000 );
 } );
@@ -629,6 +641,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'assets',
         'system.yuml',
         'index.html',
+        'app-ts',
         transpile ? 'transpile-app-js' : 'app-js',
         htmlmin ? 'htmlmin' : 'html'
     ];

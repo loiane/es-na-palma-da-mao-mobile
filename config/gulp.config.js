@@ -8,6 +8,10 @@ let paths = {
     e2eOutput: 'test-e2e-compile/',
     packageJson: './package.json',
     changelog: './CHANGELOG.md',
+    ts: {
+        src: './src/**/*.ts',
+        app: 'src/components/**/*.ts'
+    },
     js: {
         all: [
             './**/*.js',
