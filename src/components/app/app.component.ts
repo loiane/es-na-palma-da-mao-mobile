@@ -1,4 +1,4 @@
-import template from './app.component.html!text';
+import template from './app.component.html';
 import './app.component.css!';
 
 let appComponent = () => {

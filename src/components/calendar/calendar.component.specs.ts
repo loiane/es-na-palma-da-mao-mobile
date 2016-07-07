@@ -8,7 +8,7 @@
 
 import CalendarController from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
-import CalendarTemplate from './calendar.component.html!text';
+import CalendarTemplate from './calendar.component.html';
 
 let expect = chai.expect;
 

@@ -1,6 +1,6 @@
-import sourcesDialogTemplate from './sources-dialog/sources-dialog.tpl.html!text';
+import sourcesDialogTemplate from './sources-dialog/sources-dialog.tpl.html';
 import SourcesDialogController from './sources-dialog/sources-dialog.controller';
-import datesDialogTemplate from './dates-dialog/dates-dialog.tpl.html!text';
+import datesDialogTemplate from './dates-dialog/dates-dialog.tpl.html';
 import DatesDialogController from './dates-dialog/dates-dialog.controller';
 import NewsApiService from '../shared/news-api.service';
 

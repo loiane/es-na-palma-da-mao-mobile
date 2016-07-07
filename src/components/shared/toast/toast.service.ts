@@ -1,4 +1,4 @@
-import template from './toast.html!text';
+import template from './toast.html';
 
 /**
  * Supplies a function that will continue to operate until the

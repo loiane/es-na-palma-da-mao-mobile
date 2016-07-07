@@ -1,7 +1,7 @@
-import templateCPF from './views/cpfVerificar.tpl.html!text';
-import templateCPFCadastrado from './views/cpfCadastrado.tpl.html!text';
-import templateCadastro from './views/cadastro.tpl.html!text';
-import templateConfirmarEmail from './views/confirmarEmail.tpl.html!text';
+import templateCPF from './views/cpfVerificar.tpl.html';
+import templateCPFCadastrado from './views/cpfCadastrado.tpl.html';
+import templateCadastro from './views/cadastro.tpl.html';
+import templateConfirmarEmail from './views/confirmarEmail.tpl.html';
 
 /**
  * Configura rotas para o componente

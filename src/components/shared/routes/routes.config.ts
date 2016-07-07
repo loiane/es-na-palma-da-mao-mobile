@@ -1,4 +1,4 @@
-import futureStates from './states.json!';
+import futureStates from './states.json';
 
 /**
  *

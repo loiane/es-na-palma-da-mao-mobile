@@ -1,5 +1,5 @@
 import './home.component.css!';
-import template from './home.component.html!text';
+import template from './home.component.html';
 import HomeController from './home.component.controller';
 
 const directive = () => {
