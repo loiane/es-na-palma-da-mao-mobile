@@ -1,18 +1,21 @@
+import NewsApiService from '../shared/news-api.service';
+
 class NewsDetailController {
+
+    private news = [];
 
     /**
      * @constructor
      *
+     * @param $scope
      * @param newsApiService
      * @param $ionicLoading
      * @param $stateParams
      */
-    constructor( $scope, newsApiService, $ionicLoading, $stateParams ) {
-        this.$scope = $scope;
-        this.$stateParams = $stateParams;
-        this.newsApiService = newsApiService;
-        this.$ionicLoading = $ionicLoading;
-
+    constructor( private $scope,
+                 private newsApiService:NewsApiService,
+                 private $ionicLoading,
+                 private $stateParams ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -39,6 +42,6 @@ class NewsDetailController {
     }
 }
 
-export default [
-    '$scope', 'newsApiService', '$ionicLoading', '$stateParams', NewsDetailController
-];
+NewsDetailController.$inject = ['$scope', 'newsApiService', '$ionicLoading', '$stateParams'];
+
+export default NewsDetailController;

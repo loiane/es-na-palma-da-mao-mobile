@@ -12,8 +12,7 @@ class ToastController {
 
      * @returns {void}
      */
-    constructor( displayOption ) {
-        this.displayOption = displayOption;
+    constructor( private displayOption ) {
         this.activate();
     }
 
@@ -26,6 +25,6 @@ class ToastController {
     }
 }
 
-export default [
-    'displayOption', ToastController
-];
+ToastController.$inject = ['displayOption'];
+
+export default ToastController;

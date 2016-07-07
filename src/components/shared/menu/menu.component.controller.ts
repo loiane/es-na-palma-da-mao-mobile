@@ -5,45 +5,48 @@ import avatar from './img/user.png!image';
  */
 class MenuController {
 
-    /**
-     * Menu controller
-     *
-     * @constructor
-     *
-     * @param {Object} $scope - xxx
-     * @param {Function} $timeout - xxx
-     * @param {Object} $mdSidenav - xxx
-     * @param {Object} $log - xxx
-     * @param {Object} $ionicHistory - xxx
-     * @param {Object} $state - xxx
-     * @param {Object} $ionicPlatform - xxx
-     * @param {Object} $mdDialog - xxx
-     * @param {Object} $mdBottomSheet - xxx
-     * @param {Object} $mdMenu - xxx
-     * @param {Object} $mdSelect - xxx
-     *
-     * @returns {void}
-     */
+    private avatarUrl:string;
+    private user;
+    private authenticated:boolean;
 
-    constructor( $scope, $window, $timeout, $mdSidenav, $log, $ionicHistory, $state, $ionicNativeTransitions, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, OAuth2, OAuthFacebook, OAuthGoogle, OAuthDigits ) {
-        this.$scope = $scope;
-        this.$window = $window;
-        this.$timeout = $timeout;
-        this.$mdSidenav = $mdSidenav;
-        this.$log = $log;
-        this.$ionicHistory = $ionicHistory;
-        this.$state = $state;
-        this.$ionicNativeTransitions = $ionicNativeTransitions;
-        this.$ionicPlatform = $ionicPlatform;
-        this.$mdDialog = $mdDialog;
-        this.$mdBottomSheet = $mdBottomSheet;
-        this.$mdMenu = $mdMenu;
-        this.$mdSelect = $mdSelect;
+    /**
+     *
+     * @param $scope
+     * @param $window
+     * @param $timeout
+     * @param $mdSidenav
+     * @param $log
+     * @param $ionicHistory
+     * @param $state
+     * @param $ionicNativeTransitions
+     * @param $ionicPlatform
+     * @param $mdDialog
+     * @param $mdBottomSheet
+     * @param $mdMenu
+     * @param $mdSelect
+     * @param OAuth2
+     * @param OAuthFacebook
+     * @param OAuthGoogle
+     * @param OAuthDigits
+     */
+    constructor( private $scope,
+                 private $window,
+                 private $timeout,
+                 private $mdSidenav,
+                 private $log,
+                 private $ionicHistory,
+                 private $state,
+                 private $ionicNativeTransitions,
+                 private $ionicPlatform,
+                 private $mdDialog,
+                 private $mdBottomSheet,
+                 private $mdMenu,
+                 private $mdSelect,
+                 private OAuth2,
+                 private OAuthFacebook,
+                 private OAuthGoogle,
+                 private OAuthDigits ) {
         this.avatarUrl = avatar.src;
-        this.OAuth2 = OAuth2;
-        this.OAuthFacebook = OAuthFacebook;
-        this.OAuthGoogle = OAuthGoogle;
-        this.OAuthDigits = OAuthDigits;
 
         this.activate();
     }
@@ -208,7 +211,7 @@ class MenuController {
     }
 }
 
-export default [
+MenuController.$inject = [
     '$scope',
     '$window',
     '$timeout',
@@ -225,7 +228,8 @@ export default [
     'OAuth2',
     'OAuthFacebook',
     'OAuthGoogle',
-    'OAuthDigits',
-    MenuController
+    'OAuthDigits'
 ];
+
+export default MenuController;
 

@@ -4,11 +4,9 @@
 class OAuthDigits {
 
     /**
-     *
+     * @constructor
      */
-    constructor( $window, $localStorage ) {
-        this.$window = $window;
-        this.$localStorage = $localStorage;
+    constructor( private $window, private $localStorage ) {
     }
 
     buildDigitsObject( data ) {
@@ -64,4 +62,6 @@ class OAuthDigits {
     }
 }
 
-export default ['$window', '$localStorage', OAuthDigits];
+OAuthDigits.$inject = ['$window', '$localStorage'];
+
+export default OAuthDigits;

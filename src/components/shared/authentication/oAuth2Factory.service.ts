@@ -1,15 +1,17 @@
 /** Classe para acesso ao IdentityServer3 */
 class OAuth2 {
 
-    /** @constructor */
-    constructor( $window, $http, $localStorage ) {
-        this.$http = $http;
-        this.$localStorage = $localStorage;
-        this.$window = $window;
+    private identityServerUrl:string;
 
+    /** @constructor */
+    constructor( private $window, private $http, private $localStorage ) {
         this.$localStorage.tokenClaims = this.user;
     }
 
+    /**
+     *
+     * @param identityServerUrl
+     */
     initialize( identityServerUrl ) {
         this.identityServerUrl = identityServerUrl;
     }
@@ -71,7 +73,7 @@ class OAuth2 {
     /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
-    getToken( data, success, error ) {
+    getToken( data, success?, error? ) {
         let getTokenUrl = `${this.identityServerUrl}connect/token`;
 
         let options = {
@@ -144,7 +146,6 @@ class OAuth2 {
     }
 }
 
-/**
- * @module OAuth2
- */
-export default ['$window', '$http', '$localStorage', OAuth2];
+OAuth2.$inject = ['$window', '$http', '$localStorage'];
+
+export default OAuth2;

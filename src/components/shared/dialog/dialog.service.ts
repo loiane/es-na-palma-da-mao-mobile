@@ -3,6 +3,8 @@
  */
 class DialogService {
 
+    private defaultOptions;
+
     /**
      * @constructor
      *
@@ -10,8 +12,7 @@ class DialogService {
      *
      * @returns {void}
      */
-    constructor( $mdDialog ) {
-        this.$mdDialog = $mdDialog;
+    constructor( private $mdDialog ) {
         this.defaultOptions = {
             confirm: {
                 ok: 'Confirmar',
@@ -98,7 +99,6 @@ class DialogService {
     }
 
 }
+DialogService.$inject = ['$mdDialog'];
 
-export default [
-    '$mdDialog', DialogService
-];
+export default DialogService;

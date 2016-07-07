@@ -83,7 +83,7 @@ function run( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDia
     } );
 }
 
-export default [
+run.$inject = [
     '$rootScope',
     '$window',
     '$state',
@@ -92,7 +92,8 @@ export default [
     '$mdDialog',
     '$mdBottomSheet',
     'OAuth2',
-    'settings',
-    run
+    'settings'
 ];
+
+export default run;
 

@@ -5,8 +5,8 @@ class DatesDialogController {
      *
      * @param $mdDialog
      */
-    constructor( $mdDialog ) {
-        this.$mdDialog = $mdDialog;
+    constructor( private $mdDialog ) {
+
     }
 
     /**
@@ -27,6 +27,8 @@ class DatesDialogController {
     }
 }
 
-export default ['$mdDialog', DatesDialogController];
+DatesDialogController.$inject = ['$mdDialog'];
+
+export default DatesDialogController;
 
 

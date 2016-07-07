@@ -1,15 +1,15 @@
 class NewsApiService {
 
+    private defaultPage = 0;
+    private defaultPageSize = 10;
+
     /**
      *
      * @param {Object} $http - angular $http service
      */
-    constructor( $http, settings ) {
+    constructor( private $http, private settings ) {
         this.$http = $http;
         this.settings = settings;
-
-        this.defaultPage = 0;
-        this.defaultPageSize = 10;
     }
 
     /**
@@ -66,4 +66,7 @@ class NewsApiService {
                    .then( response => response.data );
     }
 }
-export default ['$http', 'settings', NewsApiService];
+
+NewsApiService.$inject = ['$http', 'settings'];
+
+export default NewsApiService;

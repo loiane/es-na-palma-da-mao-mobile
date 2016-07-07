@@ -70,3 +70,7 @@ platforms/
 plugins/
 www/
 hooks/
+
+
+#typings
+typings/

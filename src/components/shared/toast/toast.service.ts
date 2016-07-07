@@ -19,8 +19,7 @@ class ToastService {
      *
      * @returns {void}
      */
-    constructor( $mdToast ) {
-        this.$mdToast = $mdToast;
+    constructor( private $mdToast ) {
     }
 
     /**
@@ -109,6 +108,8 @@ class ToastService {
     }
 }
 
-export default [
-    '$mdToast', ToastService
+ToastService.$inject = [
+    '$mdToast'
 ];
+
+export default ToastService;

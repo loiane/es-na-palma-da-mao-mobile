@@ -1,13 +1,15 @@
 class CalendarApiService {
 
+    private calendarsEndPoint:string;
+    private eventsEndPoint:string;
+
     /**
      * @constructor
      *
      * @param {Object} $http - angular $http service
      * @param settings
      */
-    constructor( $http, settings ) {
-        this.$http = $http;
+    constructor( private $http, private settings ) {
         this.calendarsEndPoint = settings.api.calendars;
         this.eventsEndPoint = `${settings.api.calendars}/events`;
     }

@@ -3,8 +3,7 @@
  */
 class SystemService {
 
-    constructor( $log ) {
-        this.$log = $log;
+    constructor( private $log ) {
     }
 
     /**
@@ -20,4 +19,6 @@ class SystemService {
     }
 }
 
-export default [SystemService];
+SystemService.$inject = ['$log'];
+
+export default SystemService;

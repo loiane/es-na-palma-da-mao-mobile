@@ -13,10 +13,7 @@ class DialogController {
      *
      * @returns {void}
      */
-    constructor( displayOption, dialog ) {
-        this.displayOption = displayOption;
-        this.dialog = dialog;
-
+    constructor( private displayOption, private dialog ) {
         this.activate();
     }
 
@@ -48,6 +45,8 @@ class DialogController {
 
 }
 
-export default [
-    'displayOption', 'dialog', DialogController
+DialogController.$inject = [
+    'displayOption', 'dialog'
 ];
+
+export default DialogController;

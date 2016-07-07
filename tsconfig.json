@@ -12,8 +12,11 @@
   "filesGlob": [
     ".src/components/**/*.ts"
   ],
+  "files": [
+    "typings/index.d.ts"
+  ],
   "exclude": [
-    "www/*",
+    "www",
     "config",
     "coverage",
     "gulp",
@@ -22,10 +25,7 @@
     "resources",
     "plugins",
     "node_modules",
-    "typings",
-    "typings/*",
-    "typings/main.d.ts",
-    "typings/main"
+    "typings"
   ],
   "compileOnSave": true,
   "buildOnSave": true

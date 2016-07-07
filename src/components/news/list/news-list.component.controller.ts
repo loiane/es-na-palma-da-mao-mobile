@@ -2,38 +2,42 @@ import sourcesDialogTemplate from './sources-dialog/sources-dialog.tpl.html!text
 import SourcesDialogController from './sources-dialog/sources-dialog.controller';
 import datesDialogTemplate from './dates-dialog/dates-dialog.tpl.html!text';
 import DatesDialogController from './dates-dialog/dates-dialog.controller';
+import NewsApiService from '../shared/news-api.service';
 
 class NewsListController {
+
+    private availableOrigins = [];
+    private news = [];
+    private activated:boolean = false;
+    private populated = false;
+    private hasMoreNews = true;
+    private currentPage = 0;
+    private filter = {
+        origins: [],
+        dateMin: undefined,
+        dateMax: undefined,
+        pageNumber: 1
+    };
 
     /**
      * @constructor
      *
+     * @param $scope
      * @param $state
      * @param $mdDialog
      * @param $ionicLoading
      * @param newsApiService
+     * @param $ionicScrollDelegate
      */
-    constructor( $scope, $state, $mdDialog, $ionicLoading, newsApiService, $ionicScrollDelegate ) {
-        this.$state = $state;
-        this.$scope = $scope;
-        this.newsApiService = newsApiService;
-        this.$mdDialog = $mdDialog;
-        this.$ionicLoading = $ionicLoading;
-        this.availableOrigins = [];
-        this.selectedOrigins = [];
-        this.activated = false;
-        this.filter = {
-            origins: [],
-            dateMin: undefined,
-            dateMax: undefined,
-            pageNumber: 1
-        };
+    constructor( private $scope,
+                 private $state,
+                 private $mdDialog,
+                 private $ionicLoading,
+                 private newsApiService:NewsApiService,
+                 private $ionicScrollDelegate ) {
 
-        this.$ionicScrollDelegate = $ionicScrollDelegate;
-        this.news = [];
-
-        this.resetPagination();
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+        this.resetPagination();
     }
 
     /**
@@ -88,7 +92,6 @@ class NewsListController {
 
     /**
      *
-     * @param $event
      */
     openOriginsFilter() {
         this.$mdDialog.show( {
@@ -106,7 +109,6 @@ class NewsListController {
 
     /**
      *
-     * @param $event
      */
     openDateFilter() {
         this.$mdDialog.show( {

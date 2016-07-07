@@ -1,20 +1,20 @@
 class CalendarController {
 
+    private calendar = {};
+    private selectedCalendars = [];
+    private availableCalendars = [];
+    private viewTitle:string = '';
+
     /**
      * @constructor
      *
+     * @param {Object} $scope
      * @param {Object} calendarApiService - calendarApiService service
      * @param {Object} $ionicLoading - ionic $ionicLoading service
      */
-    constructor( $scope, calendarApiService, $ionicLoading ) {
-        this.$scope = $scope;
-        this.calendarApiService = calendarApiService;
-        this.$ionicLoading = $ionicLoading;
-
-        this.calendar = {};
-        this.selectedCalendars = [];
-        this.availableCalendars = [];
-
+    constructor( private $scope,
+                 private calendarApiService,
+                 private $ionicLoading ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -30,10 +30,19 @@ class CalendarController {
             .finally( () => this.hideLoading() );
     }
 
+    /**
+     *
+     * @param delay
+     * @returns {any}
+     */
     showLoading( delay = 0 ) {
         return this.$ionicLoading.show( {delay: delay} );
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     hideLoading() {
         return this.$ionicLoading.hide();
     }

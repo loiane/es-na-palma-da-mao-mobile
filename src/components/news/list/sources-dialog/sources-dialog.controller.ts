@@ -1,12 +1,15 @@
 class SourceController {
 
+    private selectedOrigins:any[];
+    private availableOrigins:any[];
+
     /**
      * @constructor
      *
      * @param $mdDialog
      */
-    constructor( $mdDialog ) {
-        this.$mdDialog = $mdDialog;
+    constructor( private $mdDialog ) {
+
     }
 
     /**
@@ -73,6 +76,8 @@ class SourceController {
     }
 }
 
-export default ['$mdDialog', SourceController];
+SourceController.$inject = ['$mdDialog'];
+
+export default SourceController;
 
 

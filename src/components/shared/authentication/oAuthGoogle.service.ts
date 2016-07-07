@@ -6,9 +6,7 @@ class OAuthGoogle {
     /**
      *
      */
-    constructor( $window, $localStorage ) {
-        this.$window = $window;
-        this.$localStorage = $localStorage;
+    constructor( private $window, private $localStorage ) {
     }
 
     /**
@@ -59,4 +57,6 @@ class OAuthGoogle {
     }
 }
 
-export default ['$window', '$localStorage', OAuthGoogle];
+OAuthGoogle.$inject = ['$window', '$localStorage'];
+
+export default OAuthGoogle;

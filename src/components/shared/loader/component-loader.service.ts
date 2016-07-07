@@ -11,10 +11,7 @@ class ComponentLoaderService {
      *
      * @returns {void}
      */
-    constructor( $q, $ocLazyLoad, system ) {
-        this.$q = $q;
-        this.$ocLazyLoad = $ocLazyLoad;
-        this.system = system;
+    constructor( private $q, private $ocLazyLoad, private system ) {
     }
 
     /**
@@ -39,6 +36,6 @@ class ComponentLoaderService {
 
 }
 
-export default[
-    '$q', '$ocLazyLoad', 'system', ComponentLoaderService
-];
+ComponentLoaderService.$inject = ['$q', '$ocLazyLoad', 'system'];
+
+export default ComponentLoaderService;

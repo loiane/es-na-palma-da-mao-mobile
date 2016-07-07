@@ -1,37 +1,58 @@
-/** Login Controller */
+import ToastService from '../shared/toast/toast.service';
+import OAuth2 from '../shared/authentication/oAuth2Factory.service';
+import OAuthFacebook from '../shared/authentication/oAuthFacebook.service';
+import OAuthGoogle from '../shared/authentication/oAuthGoogle.service';
+
 class LoginController {
+
+    private user = {};
+    private tokenClaims;
+    private errorMsgs = {
+        accountNotLinked: 'Usuário não encontrado.'
+    };
 
     /**
      * @constructor
+     *
+     * @param $state
+     * @param OAuth2
+     * @param OAuthDigits
+     * @param OAuthFacebook
+     * @param OAuthGoogle
+     * @param dialog
+     * @param toast
+     * @param settings
+     * @param $window
+     * @param $ionicHistory
+     * @param $ionicLoading
      */
-    constructor( $state, OAuth2, OAuthDigits, OAuthFacebook, OAuthGoogle, dialog, toast, settings, $window, $ionicHistory, $ionicLoading ) {
-        this.settings = settings;
-        this.OAuth2 = OAuth2;
+    constructor( private $state,
+                 private OAuth2:OAuth2,
+                 private OAuthDigits:OAuthDigits,
+                 private OAuthFacebook:OAuthFacebook,
+                 private OAuthGoogle:OAuthGoogle,
+                 private dialog,
+                 private toast:ToastService,
+                 private settings,
+                 private $window,
+                 private $ionicHistory,
+                 private $ionicLoading ) {
+
         this.OAuth2.initialize( settings.identityServer.url );
-
-        this.OAuthDigits = OAuthDigits;
-        this.OAuthFacebook = OAuthFacebook;
-        this.OAuthGoogle = OAuthGoogle;
-
-        this.toast = toast;
-        this.dialog = dialog;
-        this.$state = $state;
-        this.$window = $window;
-        this.$ionicHistory = $ionicHistory;
-        this.$ionicLoading = $ionicLoading;
-
-        this.errorMsgs = {
-            accountNotLinked: 'Usuário não encontrado.'
-        };
 
         this.activate();
     }
 
+    /**
+     *
+     */
     activate() {
-        this.user = {};
         this.tokenClaims = this.OAuth2.tokenClaims;
     }
 
+    /**
+     *
+     */
     goToDashboard() {
         this.$ionicHistory.nextViewOptions( {
             disableAnimate: true,
@@ -41,10 +62,18 @@ class LoginController {
         this.$state.go( 'app.dashboard.newsHighlights' );
     }
 
+    /**
+     *
+     * @param data
+     * @returns {boolean}
+     */
     isAccountNotLinked( data ) {
         return data.error == this.errorMsgs.accountNotLinked;
     }
 
+    /**
+     *
+     */
     showDialogAccountNotLinked() {
         this.dialog.confirm( {
             title: 'Conta não vinculada',
@@ -55,11 +84,22 @@ class LoginController {
         } );
     }
 
+    /**
+     *
+     */
     signInSuccess() {
         this.user = {};
         this.goToDashboard();
     }
 
+    /**
+     *
+     * @param clientId
+     * @param clientSecret
+     * @param grantType
+     * @param scope
+     * @returns {{client_id: any, client_secret: any, grant_type: any, scope: any}}
+     */
     getDataIdentityServer( clientId, clientSecret, grantType, scope ) {
         let data = {
             client_id: clientId,
@@ -238,7 +278,7 @@ class LoginController {
     }
 }
 
-export default [
+LoginController.$inject = [
     '$state',
     'OAuth2',
     'OAuthDigits',
@@ -249,6 +289,7 @@ export default [
     'settings',
     '$window',
     '$ionicHistory',
-    '$ionicLoading',
-    LoginController
+    '$ionicLoading'
 ];
+
+export default LoginController;

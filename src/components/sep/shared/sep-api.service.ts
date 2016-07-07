@@ -5,9 +5,7 @@ class SepApiService {
      * @param {Object} settings - application settings
      * @constructor
      */
-    constructor( $http, settings ) {
-        this.$http = $http;
-        this.settings = settings;
+    constructor( private $http, private settings ) {
     }
 
     /**
@@ -21,5 +19,6 @@ class SepApiService {
                    .then( response => response.data );
     }
 }
+SepApiService.$inject = ['$http', 'settings'];
 
-export default ['$http', 'settings', SepApiService];
+export default SepApiService;

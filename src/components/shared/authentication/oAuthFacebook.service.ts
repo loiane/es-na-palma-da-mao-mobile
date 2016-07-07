@@ -6,9 +6,7 @@ class OAuthFacebook {
     /**
      *
      */
-    constructor( $window, $localStorage ) {
-        this.$window = $window;
-        this.$localStorage = $localStorage;
+    constructor( private $window, private $localStorage ) {
     }
 
     /**
@@ -62,4 +60,6 @@ class OAuthFacebook {
     }
 }
 
-export default ['$window', '$localStorage', OAuthFacebook];
+OAuthFacebook.$inject = ['$window', '$localStorage'];
+
+export default OAuthFacebook;

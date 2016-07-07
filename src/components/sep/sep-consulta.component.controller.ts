@@ -1,4 +1,12 @@
+import SepApiService from './shared/sep-api.service';
+
 class SepConsultaController {
+
+    private seeMoreUpdates:string = 'VER MAIS';
+    private processNumber:string = '';
+    private process = undefined;
+    private populated:boolean = false;
+    private showAllUpdates:boolean = false;
 
     /**
      * @constructor
@@ -6,17 +14,15 @@ class SepConsultaController {
      * @param {Object} $scope: $scope
      * @param {Object} $state: $state
      * @param {Object} $mdDialog: $mdDialog
-     * @param {Object} sepApiService: Api do SEP
+     * @param {SepApiService} sepApiService: Api do SEP
      * @return {undefined}
      */
-    constructor( $window, $scope, $state, $mdDialog, $ionicScrollDelegate, sepApiService ) {
-        this.$window = $window;
-        this.$state = $state;
-        this.$scope = $scope;
-        this.sepApiService = sepApiService;
-        this.$mdDialog = $mdDialog;
-        this.$ionicScrollDelegate = $ionicScrollDelegate;
-
+    constructor( private $window,
+                 private $scope,
+                 private $state,
+                 private $mdDialog,
+                 private $ionicScrollDelegate,
+                 private sepApiService:SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -24,13 +30,12 @@ class SepConsultaController {
      *
      */
     activate() {
-        this.seeMoreUpdates = 'VER MAIS';
-        this.processNumber = '';
-        this.process = undefined;
-        this.populated = false;
-        this.showAllUpdates = false;
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     get firstUpdate() {
         if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
             return this.process.updates[this.process.updates.length - 1];
@@ -83,13 +88,13 @@ class SepConsultaController {
     }
 }
 
-export default
-[
+SepConsultaController.$inject = [
     '$window',
     '$scope',
     '$state',
     '$mdDialog',
     '$ionicScrollDelegate',
-    'sepApiService',
-    SepConsultaController
+    'sepApiService'
 ];
+
+export default SepConsultaController;
