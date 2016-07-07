@@ -52,21 +52,21 @@ const android = require( 'gulp-cordova-build-android' );
  * Realiza o parse dos argumentos da linha de comando
  */
 let argv = yargs.alias( 't', 'transpile' )
-                .alias( 'w', 'watch' )
-                .alias( 's', 'serve' )
-                .alias( 'e', 'emulate' )
-                .alias( 'r', 'run' )
-                .alias( 'h', 'htmlmin' )
-                .alias( 'j', 'jsmin' )
-                .alias( 'b', 'bundle' )
-                .default( 'jsmin', false )
-                .default( 'bundle', false )
-                .default( 'htmlmin', false )
-                .default( 'watch', false )
-                .default( 'emulate', false )
-                .default( 'run', false )
-                .default( 'serve', false )
-                .default( 'transpile', false ).argv;
+								.alias( 'w', 'watch' )
+								.alias( 's', 'serve' )
+								.alias( 'e', 'emulate' )
+								.alias( 'r', 'run' )
+								.alias( 'h', 'htmlmin' )
+								.alias( 'j', 'jsmin' )
+								.alias( 'b', 'bundle' )
+								.default( 'jsmin', false )
+								.default( 'bundle', false )
+								.default( 'htmlmin', false )
+								.default( 'watch', false )
+								.default( 'emulate', false )
+								.default( 'run', false )
+								.default( 'serve', false )
+								.default( 'transpile', false ).argv;
 
 let tsProject = typescript.createProject( 'tsconfig.json' );
 
@@ -85,7 +85,7 @@ let client;
  * @returns {Object} - uma objeto JSON
  */
 const readJsonFile = ( file ) => {
-    return JSON.parse( fs.readFileSync( file ) );
+		return JSON.parse( fs.readFileSync( file ) );
 };
 
 /**
@@ -100,8 +100,8 @@ const readJsonFile = ( file ) => {
  * .gulp.dest();
  */
 const addSrc = ( src ) => {
-    let pass = es.through();
-    return es.duplex( pass, es.merge( gulp.src.apply( gulp.src, [ src ] ), pass ) );
+		let pass = es.through();
+		return es.duplex( pass, es.merge( gulp.src.apply( gulp.src, [ src ] ), pass ) );
 };
 
 /**
@@ -110,8 +110,8 @@ const addSrc = ( src ) => {
  * @returns {Promise} - uma promise
  */
 const getEmailAsync = Promise.promisify( git.exec.bind( git, {
-    args: 'config --get user.email',
-    quiet: false
+		args: 'config --get user.email',
+		quiet: false
 } ) );
 
 /**
@@ -120,8 +120,8 @@ const getEmailAsync = Promise.promisify( git.exec.bind( git, {
  * @returns {Promise} - uma promise
  */
 const getCurrentBranchAsync = Promise.promisify( git.exec.bind( git, {
-    args: 'rev-parse --abbrev-ref HEAD',
-    quiet: false
+		args: 'rev-parse --abbrev-ref HEAD',
+		quiet: false
 } ) );
 
 /**
@@ -132,21 +132,21 @@ const getCurrentBranchAsync = Promise.promisify( git.exec.bind( git, {
  * @returns {Promise} - uma promise
  */
 const getUsernameAsync = ( email ) => {
-    return new Promise( ( resolve, reject ) => {
-        const query = {
-            q: `${email} in:email`
-        };
+		return new Promise( ( resolve, reject ) => {
+				const query = {
+						q: `${email} in:email`
+				};
 
-        github.client()
-              .get( '/search/users', query, ( err, res, body ) => {
-                  if ( err ) {
-                      reject( gutil.colors.red( `Error: ${err}` ) );
-                  } else {
-                      const user = body.items[ 0 ];
-                      resolve( user ? user.login : null );
-                  }
-              } );
-    } );
+				github.client()
+							.get( '/search/users', query, ( err, res, body ) => {
+									if ( err ) {
+											reject( gutil.colors.red( `Error: ${err}` ) );
+									} else {
+											const user = body.items[ 0 ];
+											resolve( user ? user.login : null );
+									}
+							} );
+		} );
 };
 
 /**
@@ -159,36 +159,36 @@ const getUsernameAsync = ( email ) => {
  * @returns {Promise} - uma promise
  */
 const prompCredentialsAsync = ( username ) => {
-    return new Promise( ( resolve ) => {
-        const questions = [
-            {
-                type: 'input',
-                message: 'Digite seu username do github',
-                name: 'username',
-                default: username,
-                validate: ( input ) => {
-                    return input !== ''; // obrigatório
-                },
-                when: () => {
-                    return !username; // Só exibe o prompt de username se um username não tiver sido fornecido.
-                }
-            }, {
-                type: 'password',
-                message: 'Digite sua senha do github',
-                name: 'password',
-                validate: ( input ) => {
-                    return input !== ''; // obrigatório
-                }
-            }
-        ];
+		return new Promise( ( resolve ) => {
+				const questions = [
+						{
+								type: 'input',
+								message: 'Digite seu username do github',
+								name: 'username',
+								default: username,
+								validate: ( input ) => {
+										return input !== ''; // obrigatório
+								},
+								when: () => {
+										return !username; // Só exibe o prompt de username se um username não tiver sido fornecido.
+								}
+						}, {
+								type: 'password',
+								message: 'Digite sua senha do github',
+								name: 'password',
+								validate: ( input ) => {
+										return input !== ''; // obrigatório
+								}
+						}
+				];
 
-        inquirer.prompt( questions, ( answers ) => {
-            resolve( {
-                username: answers.username || username,
-                password: answers.password
-            } );
-        } );
-    } );
+				inquirer.prompt( questions, ( answers ) => {
+						resolve( {
+								username: answers.username || username,
+								password: answers.password
+						} );
+				} );
+		} );
 };
 
 /**
@@ -200,20 +200,20 @@ const prompCredentialsAsync = ( username ) => {
  * @returns {Promise} - uma promise
  */
 const authenticateAsync = ( tokenOrCredentials ) => {
-    return new Promise( ( resolve, reject ) => {
+		return new Promise( ( resolve, reject ) => {
 
-        // cria client node para api do github, usando credenciais do usuário
-        client = github.client( tokenOrCredentials );
+				// cria client node para api do github, usando credenciais do usuário
+				client = github.client( tokenOrCredentials );
 
-        // tenta fazer um requisição que necessita de autenticação para poder verificar
-        // o sucesso da mesma
-        client.get( '/user', {}, ( err, status, body, headers ) => { //eslint-disable-line no-unused-vars
-            if ( err ) {
-                reject( `${gutil.colors.red( 'autenticação no github falhou! ' )} resposta do server: ${gutil.colors.yellow( err )}` );
-            }
-            resolve( gutil.colors.green( 'Autenticou no github com sucesso!' ) );
-        } );
-    } );
+				// tenta fazer um requisição que necessita de autenticação para poder verificar
+				// o sucesso da mesma
+				client.get( '/user', {}, ( err, status, body, headers ) => { //eslint-disable-line no-unused-vars
+						if ( err ) {
+								reject( `${gutil.colors.red( 'autenticação no github falhou! ' )} resposta do server: ${gutil.colors.yellow( err )}` );
+						}
+						resolve( gutil.colors.green( 'Autenticou no github com sucesso!' ) );
+				} );
+		} );
 };
 
 /**
@@ -227,15 +227,15 @@ const authenticateAsync = ( tokenOrCredentials ) => {
  */
 const ionic = ( command, args, cb ) => {
 
-    const script = path.resolve( './node_modules/ionic/bin/', 'ionic' );
-    const flags = process.argv.splice( 3 );
-    const ionicArgs = [ command ].concat( args || [] ).concat( flags );
+		const script = path.resolve( './node_modules/ionic/bin/', 'ionic' );
+		const flags = process.argv.splice( 3 );
+		const ionicArgs = [ command ].concat( args || [] ).concat( flags );
 
-    const child = spawn( script, ionicArgs, { stdio: 'inherit' } );
+		const child = spawn( script, ionicArgs, { stdio: 'inherit' } );
 
-    child.on( 'close', ( code ) => {
-        cb( !!code );
-    } );
+		child.on( 'close', ( code ) => {
+				cb( !!code );
+		} );
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -243,451 +243,459 @@ const ionic = ( command, args, cb ) => {
 ///////////////////////////////////////// TASKS ////////////////////////////////////////////////////
 
 gulp.task( 'ionic:serve', ( cb ) => {
-    ionic( 'serve', [ '--flag' ], cb );
+		ionic( 'serve', [ '--flag' ], cb );
 } );
 
 gulp.task( 'ionic:emulate', ( cb ) => {
 
-    if ( argv.emulate === true ) {
-        argv.emulate = 'android'; // usa android por default
-    }
+		if ( argv.emulate === true ) {
+				argv.emulate = 'android'; // usa android por default
+		}
 
-    ionic( `emulate ${argv.emulate}`, [ '--livereload', '--consolelogs' ], cb );
+		ionic( `emulate ${argv.emulate}`, [ '--livereload', '--consolelogs' ], cb );
 } );
 
 gulp.task( 'ionic:run', ( cb ) => {
 
-    if ( argv.run === true ) {
-        argv.run = 'android'; // usa android por default
-    }
+		if ( argv.run === true ) {
+				argv.run = 'android'; // usa android por default
+		}
 
-    ionic( `run ${argv.run}`, [], cb );
+		ionic( `run ${argv.run}`, [], cb );
 } );
 
 taskMaker.defineTask( 'css', {
-    taskName: 'css',
-    src: config.paths.css,
-    dest: config.paths.output.app,
-    debug: config.debugOptions
+		taskName: 'css',
+		src: config.paths.css,
+		dest: config.paths.output.app,
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'clean', {
-    taskName: 'clean',
-    src: config.paths.output.temp,
-    debug: config.debugOptions
+		taskName: 'clean',
+		src: config.paths.output.temp,
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'babel', {
-    taskName: 'transpile-app-js',
-    src: config.paths.js.app,
-    dest: config.paths.output.app,
-    ngAnnotate: true,
-    compilerOptions: config.babelOptions,
-    debug: config.debugOptions
+		taskName: 'transpile-app-js',
+		src: config.paths.js.app,
+		dest: config.paths.output.app,
+		ngAnnotate: true,
+		compilerOptions: config.babelOptions,
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'app-js',
-    src: config.paths.js.app,
-    dest: config.paths.output.app,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
+		taskName: 'app-js',
+		src: config.paths.js.app,
+		dest: config.paths.output.app,
+		changed: { extension: '.js' },
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'html',
-    src: config.paths.html,
-    dest: config.paths.output.app,
-    changed: { extension: '.html' },
-    debug: config.debugOptions
+		taskName: 'app-ts',
+		src: config.paths.ts.app,
+		dest: config.paths.output.app,
+		changed: { extension: '.ts' },
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'systemConfig',
-    src: config.paths.systemConfig,
-    dest: config.paths.output.root,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
+		taskName: 'html',
+		src: config.paths.html,
+		dest: config.paths.output.app,
+		changed: { extension: '.html' },
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'system.yuml',
-    src: config.paths.systemYuml,
-    dest: config.paths.output.root,
-    changed: { extension: '.js' },
-    debug: config.debugOptions
+		taskName: 'systemConfig',
+		src: config.paths.systemConfig,
+		dest: config.paths.output.root,
+		changed: { extension: '.js' },
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'assets',
-    src: config.paths.assets,
-    dest: config.paths.output.app,
-    debug: config.debugOptions
+		taskName: 'system.yuml',
+		src: config.paths.systemYuml,
+		dest: config.paths.output.root,
+		changed: { extension: '.js' },
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'json',
-    src: config.paths.json,
-    dest: config.paths.output.app,
-    changed: { extension: '.json' },
-    debug: config.debugOptions
+		taskName: 'assets',
+		src: config.paths.assets,
+		dest: config.paths.output.app,
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'copy', {
-    taskName: 'index.html',
-    src: config.paths.index.src,
-    dest: config.paths.output.root,
-    rename: 'index.html',
-    changed: { extension: '.html' },
-    debug: config.debugOptions
+		taskName: 'json',
+		src: config.paths.json,
+		dest: config.paths.output.app,
+		changed: { extension: '.json' },
+		debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'copy', {
+		taskName: 'index.html',
+		src: config.paths.index.src,
+		dest: config.paths.output.root,
+		rename: 'index.html',
+		changed: { extension: '.html' },
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'htmlMinify', {
-    taskName: 'htmlmin',
-    src: config.paths.html,
-    dest: config.paths.output.app,
-    debug: config.debugOptions,
-    minimize: config.htmlMinOptions
+		taskName: 'htmlmin',
+		src: config.paths.html,
+		dest: config.paths.output.app,
+		debug: config.debugOptions,
+		minimize: config.htmlMinOptions
 } );
 
 taskMaker.defineTask( 'htmlHint', {
-    taskName: 'html-hint',
-    src: config.paths.html,
-    debug: config.debugOptions
+		taskName: 'html-hint',
+		src: config.paths.html,
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'minify', {
-    taskName: 'jsmin',
-    src: config.paths.js.output,
-    dest: config.paths.output.app,
-    debug: config.debugOptions
+		taskName: 'jsmin',
+		src: config.paths.js.output,
+		dest: config.paths.output.app,
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint-src',
-    src: config.paths.js.src,
-    dest: './src',
-    debug: config.debugOptions
+		taskName: 'eslint-src',
+		src: config.paths.js.src,
+		dest: './src',
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint',
-    src: config.paths.js.all,
-    dest: './',
-    debug: config.debugOptions
+		taskName: 'eslint',
+		src: config.paths.js.all,
+		dest: './',
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'eslint', {
-    taskName: 'eslint-gulp',
-    src: config.paths.gulp,
-    base: './',
-    dest: './',
-    debug: config.debugOptions
+		taskName: 'eslint-gulp',
+		src: config.paths.gulp,
+		base: './',
+		dest: './',
+		debug: config.debugOptions
 } );
 
 taskMaker.defineTask( 'watch', {
-    taskName: 'watch',
-    src: config.paths.watch,
-    tasks: [ 'compile' ]
+		taskName: 'watch',
+		src: config.paths.watch,
+		tasks: [ 'compile' ]
 } );
 
 taskMaker.defineTask( 'browserSync', {
-    taskName: 'serve',
-    browserSyncConfig: config.browserSyncConfig
+		taskName: 'serve',
+		browserSyncConfig: config.browserSyncConfig
 } );
 
 // no-op = empty function
 gulp.task( 'noop', ( cb ) => {
-    cb();
+		cb();
 } );
 
 gulp.task( 'ensures-master', false, ( cb ) => {
 
-    /**
-     * Loga o erro encontrado.
-     *
-     * @param {String} err - o erro disparado
-     *
-     * @returns {void}
-     */
-    const onError = err => {
-        gutil.log( gutil.colors.red( err ) );
-    };
+		/**
+		 * Loga o erro encontrado.
+		 *
+		 * @param {String} err - o erro disparado
+		 *
+		 * @returns {void}
+		 */
+		const onError = err => {
+				gutil.log( gutil.colors.red( err ) );
+		};
 
-    /**
-     * Dispara um erro se a branch atual não se chamar config.masterBranch
-     *
-     * @param {String} branch - o nome da branch atual
-     *
-     * @returns {void}
-     */
-    const throwErrorIfNotInMaster = branch => {
-        if ( branch.trim() !== config.masterBranch ) {
-            throw new Error( `Branch atual: "${branch.trim()}". Só é possível criar um release da branch "${config.masterBranch}".` );
-        }
-        cb();
-    };
+		/**
+		 * Dispara um erro se a branch atual não se chamar config.masterBranch
+		 *
+		 * @param {String} branch - o nome da branch atual
+		 *
+		 * @returns {void}
+		 */
+		const throwErrorIfNotInMaster = branch => {
+				if ( branch.trim() !== config.masterBranch ) {
+						throw new Error( `Branch atual: "${branch.trim()}". Só é possível criar um release da branch "${config.masterBranch}".` );
+				}
+				cb();
+		};
 
-    getCurrentBranchAsync()
-        .then( throwErrorIfNotInMaster )
-        .catch( onError );
+		getCurrentBranchAsync()
+				.then( throwErrorIfNotInMaster )
+				.catch( onError );
 } );
 
 gulp.task( 'ensures-release-branch', false, ( cb ) => {
 
-    /**
-     * Loga o erro encontrado.
-     *
-     * @param {String} err - o erro disparado
-     *
-     * @returns {void}
-     */
-    const onError = err => {
-        gutil.log( gutil.colors.red( err ) );
-    };
+		/**
+		 * Loga o erro encontrado.
+		 *
+		 * @param {String} err - o erro disparado
+		 *
+		 * @returns {void}
+		 */
+		const onError = err => {
+				gutil.log( gutil.colors.red( err ) );
+		};
 
-    /**
-     * Dispara um erro se a branch atual não se chamar config.masterBranch
-     *
-     * @param {String} branch - o nome da branch atual
-     *
-     * @returns {void}
-     */
-    const throwErrorIfNotInReleaseBranch = branch => {
-        if ( !branch.trim().startsWith( 'release-' ) ) {
-            throw new Error( `Branch atual: "${branch.trim()}". Só é possível preparar um release estando numa release branch (release-*).` );
-        }
-        cb();
-    };
+		/**
+		 * Dispara um erro se a branch atual não se chamar config.masterBranch
+		 *
+		 * @param {String} branch - o nome da branch atual
+		 *
+		 * @returns {void}
+		 */
+		const throwErrorIfNotInReleaseBranch = branch => {
+				if ( !branch.trim().startsWith( 'release-' ) ) {
+						throw new Error( `Branch atual: "${branch.trim()}". Só é possível preparar um release estando numa release branch (release-*).` );
+				}
+				cb();
+		};
 
-    getCurrentBranchAsync()
-        .then( throwErrorIfNotInReleaseBranch )
-        .catch( onError );
+		getCurrentBranchAsync()
+				.then( throwErrorIfNotInReleaseBranch )
+				.catch( onError );
 } );
 
 gulp.task( 'bump', false, [ 'ensures-release-branch' ], ( cb ) => {
-    let bumpType = 'prerelease';
+		let bumpType = 'prerelease';
 
-    if ( argv.patch ) {
-        bumpType = 'patch';
-    }
-    if ( argv.minor ) {
-        bumpType = 'minor';
-    }
-    if ( argv.major ) {
-        bumpType = 'major';
-    }
-    if ( argv.prerelease ) {
-        bumpType = 'prerelease';
-    }
-    bumpType = process.env.BUMP || bumpType;
+		if ( argv.patch ) {
+				bumpType = 'patch';
+		}
+		if ( argv.minor ) {
+				bumpType = 'minor';
+		}
+		if ( argv.major ) {
+				bumpType = 'major';
+		}
+		if ( argv.prerelease ) {
+				bumpType = 'prerelease';
+		}
+		bumpType = process.env.BUMP || bumpType;
 
-    let version = argv.version;
+		let version = argv.version;
 
-    gulp.src( config.paths.packageJson )
-        .pipe( gulpif( version !== undefined, bump( {
-            version: version
-        } ), bump( {
-            type: bumpType
-        } ) ) )
-        .pipe( gulp.dest( './' ) )
-        .on( 'end', () => {
-            cb();
-        } );
+		gulp.src( config.paths.packageJson )
+				.pipe( gulpif( version !== undefined, bump( {
+						version: version
+				} ), bump( {
+						type: bumpType
+				} ) ) )
+				.pipe( gulp.dest( './' ) )
+				.on( 'end', () => {
+						cb();
+				} );
 } );
 
 gulp.task( 'commit', false, [ 'ensures-release-branch' ], () => {
-    const pkg = readJsonFile( config.paths.packageJson );
-    const message = `refact(version): atualiza versão para ${pkg.version}`;
+		const pkg = readJsonFile( config.paths.packageJson );
+		const message = `refact(version): atualiza versão para ${pkg.version}`;
 
-    return gulp.src( config.paths.packageJson )
-               .pipe( git.add( {
-                   args: '.'
-               } ) )
-               .pipe( git.commit( message ) );
+		return gulp.src( config.paths.packageJson )
+							 .pipe( git.add( {
+									 args: '.'
+							 } ) )
+							 .pipe( git.commit( message ) );
 } );
 
 gulp.task( 'tag', false, [ 'ensures-master' ], ( cb ) => {
-    const pkg = readJsonFile( config.paths.packageJson );
-    const v = `v${pkg.version}`;
-    const message = pkg.version;
+		const pkg = readJsonFile( config.paths.packageJson );
+		const v = `v${pkg.version}`;
+		const message = pkg.version;
 
-    git.tag( v, message, ( err ) => {
-        if ( err ) {
-            throw new Error( err );
-        }
-        cb();
-    } );
+		git.tag( v, message, ( err ) => {
+				if ( err ) {
+						throw new Error( err );
+				}
+				cb();
+		} );
 } );
 
 gulp.task( 'push', false, [ 'ensures-master' ], ( cb ) => {
-    git.push( 'origin', config.masterBranch, ( err ) => {
-        if ( err ) {
-            throw new Error( err );
-        }
-        cb();
-    } );
+		git.push( 'origin', config.masterBranch, ( err ) => {
+				if ( err ) {
+						throw new Error( err );
+				}
+				cb();
+		} );
 } );
 
 gulp.task( 'push-tags', false, [ 'ensures-master' ], ( cb ) => {
-    git.push( 'origin', config.masterBranch, { args: '--tags' }, ( err ) => {
-        if ( err ) {
-            throw new Error( err );
-        }
-        cb();
-    } );
+		git.push( 'origin', config.masterBranch, { args: '--tags' }, ( err ) => {
+				if ( err ) {
+						throw new Error( err );
+				}
+				cb();
+		} );
 } );
 
 gulp.task( 'changelog', false, [ 'ensures-master' ], ( cb ) => {
-    const pkg = readJsonFile( config.paths.packageJson );
-    const options = argv;
-    const version = options.version || pkg.version;
-    const from = options.from || '';
+		const pkg = readJsonFile( config.paths.packageJson );
+		const options = argv;
+		const version = options.version || pkg.version;
+		const from = options.from || '';
 
-    gulp.src( '' )
-        .pipe( gulpExec( `node ./gulp/helpers/changelog-script.js ${version} ${from}`, {
-            pipeStdout: true
-        } ) )
-        .pipe( concat( 'updates.md' ) )
-        .pipe( addSrc( 'CHANGELOG.md' ) )
-        .pipe( order( [ 'updates.md', 'CHANGELOG.md' ] ) )
-        .pipe( concat( 'CHANGELOG.md' ) )
-        .pipe( gulp.dest( './' ) )
-        .on( 'end', cb );
+		gulp.src( '' )
+				.pipe( gulpExec( `node ./gulp/helpers/changelog-script.js ${version} ${from}`, {
+						pipeStdout: true
+				} ) )
+				.pipe( concat( 'updates.md' ) )
+				.pipe( addSrc( 'CHANGELOG.md' ) )
+				.pipe( order( [ 'updates.md', 'CHANGELOG.md' ] ) )
+				.pipe( concat( 'CHANGELOG.md' ) )
+				.pipe( gulp.dest( './' ) )
+				.on( 'end', cb );
 } );
 
 gulp.task( 'github:authenticate', false, [ 'ensures-master' ], () => {
-    const authToken = process.env.GITHUB_AUTH_TOKEN;
+		const authToken = process.env.GITHUB_AUTH_TOKEN;
 
-    if ( authToken ) {
-        gutil.log( gutil.colors.blue( 'Autenticando no Github via token contido em "process.env.GITHUB_AUTH_TOKEN"' ) );
-        return authenticateAsync( authToken ).tap( gutil.log );
-    } else {
-        return getEmailAsync().then( getUsernameAsync )
-                              .then( prompCredentialsAsync )
-                              .then( authenticateAsync )
-                              .tap( gutil.log );
-    }
+		if ( authToken ) {
+				gutil.log( gutil.colors.blue( 'Autenticando no Github via token contido em "process.env.GITHUB_AUTH_TOKEN"' ) );
+				return authenticateAsync( authToken ).tap( gutil.log );
+		} else {
+				return getEmailAsync().then( getUsernameAsync )
+															.then( prompCredentialsAsync )
+															.then( authenticateAsync )
+															.tap( gutil.log );
+		}
 } );
 
 gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authenticate' ], () => {
-    const pkg = readJsonFile( config.paths.packageJson );
-    const v = `v${pkg.version}`;
-    const message = pkg.version;
-    const isPrerelease = !!semver.parse( pkg.version ).prerelease.length;
+		const pkg = readJsonFile( config.paths.packageJson );
+		const v = `v${pkg.version}`;
+		const message = pkg.version;
+		const isPrerelease = !!semver.parse( pkg.version ).prerelease.length;
 
-    return gulp.src( config.paths.changelog )
-               .pipe( tap( ( file ) => {
+		return gulp.src( config.paths.changelog )
+							 .pipe( tap( ( file ) => {
 
-                   let releaseBody = file.contents.toString();
+									 let releaseBody = file.contents.toString();
 
-                   const release = {
-                       'tag_name': v,
-                       'name': `${v}: version ${message}`,
-                       'target_commitish': config.masterBranch,
-                       'body': releaseBody.slice( releaseBody.indexOf( '###' ) ),
-                       'prerelease': isPrerelease
-                   };
+									 const release = {
+											 'tag_name': v,
+											 'name': `${v}: version ${message}`,
+											 'target_commitish': config.masterBranch,
+											 'body': releaseBody.slice( releaseBody.indexOf( '###' ) ),
+											 'prerelease': isPrerelease
+									 };
 
-                   client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => { // eslint-disable-line no-unused-vars
-                       if ( err ) {
-                           gutil.log( gutil.colors.red( `Error: ${err}` ) );
-                       } else {
-                           del( config.paths.changelog );
-                       }
-                   } );
-               } ) );
+									 client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => { // eslint-disable-line no-unused-vars
+											 if ( err ) {
+													 gutil.log( gutil.colors.red( `Error: ${err}` ) );
+											 } else {
+													 del( config.paths.changelog );
+											 }
+									 } );
+							 } ) );
 } );
 
-gulp.task( 'app-ts', function() {
-    return gulp.src( config.paths.ts.app )
-               .pipe( sourcemaps.init() )
-               .pipe( typescript( tsProject ) )
-               .pipe( sourcemaps.write() )
-               .pipe( gulp.dest( config.paths.output.app ) );
+gulp.task( 'transpile-app-ts', function() {
+		return gulp.src( config.paths.ts.app )
+							 .pipe( sourcemaps.init() )
+							 .pipe( typescript( tsProject ) )
+							 .pipe( sourcemaps.write() )
+							 .pipe( gulp.dest( config.paths.output.app ) );
 } );
 
 gulp.task( 'delay', false, ( cb ) => {
-    setTimeout( cb, 3000 );
+		setTimeout( cb, 3000 );
 } );
 
 /* Prepare release */
 gulp.task( 'increment-version', 'Incrementa a versão da aplicação.', ( cb ) => {
-    return runSequence( 'ensures-release-branch', 'bump', 'commit', cb );
+		return runSequence( 'ensures-release-branch', 'bump', 'commit', cb );
 } );
 
 gulp.task( 'create-release', 'Cria e publica uma nova release no Github e faz upload do changelog.', ( cb ) => {
-    return runSequence( 'ensures-master', 'tag', 'push', 'push-tags', 'delay', 'changelog', 'github:create-release', cb );
+		return runSequence( 'ensures-master', 'tag', 'push', 'push-tags', 'delay', 'changelog', 'github:create-release', cb );
 } );
 
 gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
 
-    // Se flag argv.transpile seja informado, realiza o transpile do js e copia o resultado para
-    // a pasta de onde a app será executada. Caso argv.transpile NÃO seja informado, copia o código
-    // js como está a "transpilation" será delegada automaticamente para o systemJS, o que é bom
-    // em tempo de desenvolvimento mas que aumenta significativamente número e o tamanho das
-    // requisições.
+		// Se flag argv.transpile seja informado, realiza o transpile do js e copia o resultado para
+		// a pasta de onde a app será executada. Caso argv.transpile NÃO seja informado, copia o código
+		// js como está a "transpilation" será delegada automaticamente para o systemJS, o que é bom
+		// em tempo de desenvolvimento mas que aumenta significativamente número e o tamanho das
+		// requisições.
 
-    const transpile = argv.transpile || environment.isProduction();
-    const jsmin = argv.jsmin || environment.isProduction();
-    const htmlmin = argv.htmlmin || environment.isProduction();
-    const bundle = argv.bundle || environment.isProduction();
+		const transpile = argv.transpile || environment.isProduction();
+		const jsmin = argv.jsmin || environment.isProduction();
+		const htmlmin = argv.htmlmin || environment.isProduction();
+		const bundle = argv.bundle || environment.isProduction();
 
-    // tasks que transformam/copiam arquivos para a pasta de distribuição
-    let compileTasks = [
-        'eslint-src',
-        'css',
-        'json',
-        'assets',
-        'system.yuml',
-        'index.html',
-        'app-ts',
-        transpile ? 'transpile-app-js' : 'app-js',
-        htmlmin ? 'htmlmin' : 'html'
-    ];
+		// tasks que transformam/copiam arquivos para a pasta de distribuição
+		let compileTasks = [
+				'eslint-src',
+				'css',
+				'json',
+				'assets',
+				'system.yuml',
+				'systemConfig',
+				'index.html',
+				transpile ? 'transpile-app-ts' : 'app-ts',
+				transpile ? 'transpile-app-js' : 'app-js',
+				htmlmin ? 'htmlmin' : 'html'
+		];
 
-    // tasks executadas nos arquivos copiados na pasta de distribuição.
-    if ( jsmin ) {
-        compileTasks.push( [ 'jsmin' ] );
-    }
+		// tasks executadas nos arquivos copiados na pasta de distribuição.
+		if ( jsmin ) {
+				compileTasks.push( [ 'jsmin' ] );
+		}
 
-    if ( bundle ) {
-        compileTasks.push( 'bundle' );
-    }
-    compileTasks.push( 'systemConfig' ); // sempre copia systemConfig por ultimo por causa do bundle
+		if ( bundle ) {
+				compileTasks.push( 'bundle' );
+		}
 
-    compileTasks.push( cb );   // adiciona callback no fim de copy tasks
+		compileTasks.push( cb );   // adiciona callback no fim de copy tasks
 
-    runSequence.apply( null, compileTasks );
+		runSequence.apply( null, compileTasks );
 } );
 
 gulp.task( 'recompile', 'Limpa diretório destino e compila aplicação.', ( cb ) => {
-    runSequence( 'clean', [ 'compile' ], cb );
+		runSequence( 'clean', [ 'compile' ], cb );
 } );
 
 gulp.task( 'run', 'Executa a aplicação', ( cb ) => {
-    if ( environment.isProduction() ) {
-        runSequence( 'recompile', 'serve', cb );
-    } else if ( environment.isDevelopment() ) {
+		if ( environment.isProduction() ) {
+				runSequence( 'recompile', 'serve', cb );
+		} else if ( environment.isDevelopment() ) {
 
-        let serveTasks = [ 'noop' ];
+				let serveTasks = [ 'noop' ];
 
-        if ( argv.emulate ) {
-            serveTasks.push( 'ionic:emulate' );
-        }
+				if ( argv.emulate ) {
+						serveTasks.push( 'ionic:emulate' );
+				}
 
-        if ( argv.run ) {
-            serveTasks.push( 'ionic:run' );
-        }
+				if ( argv.run ) {
+						serveTasks.push( 'ionic:run' );
+				}
 
-        if ( argv.serve ) {
-            serveTasks.push( 'serve' );
-        }
+				if ( argv.serve ) {
+						serveTasks.push( 'serve' );
+				}
 
-        runSequence( 'recompile', serveTasks, argv.watch ? 'watch' : 'noop', cb );
-    } else {
-        gutil.log( gutil.colors.yellow( `Nenhuma task configurada para o ENV: ${environment.name}` ) )
-    }
+				runSequence( 'recompile', serveTasks, argv.watch ? 'watch' : 'noop', cb );
+		} else {
+				gutil.log( gutil.colors.yellow( `Nenhuma task configurada para o ENV: ${environment.name}` ) )
+		}
 } );
 
 gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
@@ -695,69 +703,70 @@ gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Android Specific tasks
 gulp.task( 'build-android', () => {
-    return gulp.src( 'dist' )
-               .pipe( cordovaCreate() )
-               //.pipe(plugin('org.apache.cordova.dialogs'))
-               //.pipe(plugin('org.apache.cordova.camera'))
-               .pipe( android() )
-               .pipe( gulp.dest( 'apk' ) );
+		return gulp.src( 'dist' )
+							 .pipe( cordovaCreate() )
+							 //.pipe(plugin('org.apache.cordova.dialogs'))
+							 //.pipe(plugin('org.apache.cordova.camera'))
+							 .pipe( android() )
+							 .pipe( gulp.dest( 'apk' ) );
 } );
 
 gulp.task( 'build-android-release', () => {
-    return gulp.src( 'dist' )
-               .pipe( cordovaCreate() )
-               //.pipe(plugin('org.apache.cordova.dialogs'))
-               //.pipe(plugin('org.apache.cordova.camera'))
-               .pipe( android( {
-                   release: true,
-                   storeFile: '../../espm.keystore',
-                   keyAlias: 'espm'
-               } ) )
-               .pipe( gulp.dest( 'apk' ) );
+		return gulp.src( 'dist' )
+							 .pipe( cordovaCreate() )
+							 //.pipe(plugin('org.apache.cordova.dialogs'))
+							 //.pipe(plugin('org.apache.cordova.camera'))
+							 .pipe( android( {
+									 release: true,
+									 storeFile: '../../espm.keystore',
+									 keyAlias: 'espm'
+							 } ) )
+							 .pipe( gulp.dest( 'apk' ) );
 } );
 
 gulp.task( 'bundle', ( done ) => {
-    const bundler = new Bundler( {
-        baseUrl: 'www',
-        dest: 'www/bundles',
-        cssOptimize: true,
-        systemJsConfig: 'config/system.config.js'
-    } );
+		const bundler = new Bundler( {
+				baseUrl: 'www',
+				source: '',
+				dest: 'www/bundles',
+				cssOptimize: true,
+				systemJsConfig: 'www/system.config.js'
+		} );
 
-    bundler
-        .bundle( {
-            components: [
-                'app',
-                'home',
-                'news/highlights',
-                'shared',
-                'shared/authentication',
-                'shared/dialog',
-                'shared/toast',
-                'shared/loader',
-                'shared/menu',
-                'shared/routes'
-            ],
-            packages: [
-                'ionic', // carrega angular e ui-router junto
-                'angular-i18n/pt-br',   // on pt-br you can use your locale
-                'angular-material',
-                'ionic-native-transitions',
-                'ngstorage',
-                'angular-ui-router',
-                'ui-router-extras',
-                'oclazyload',
-                'moment',
-                'moment/locale/pt-br.js',
-                'font-awesome',
-                'css',
-                'json',
-                'text'
-            ]
-        }, 'main' )
-        .then( () => bundler.bundleRemainingComponents() )
-        .then( () => bundler.bundleRemainingPackages() )
-        .then( () => bundler.saveConfig() )
-        .then( () => done() )
-        .catch( ( err ) => done( err ) );
+		bundler
+				.bundle( {
+						components: [
+								'app',
+								'home',
+								'news/highlights',
+								'shared',
+								'shared/authentication',
+								'shared/dialog',
+								'shared/toast',
+								'shared/loader',
+								'shared/menu',
+								'shared/routes'
+						],
+						packages: [
+								'ionic', // carrega angular e ui-router junto
+								'angular-i18n/pt-br',   // on pt-br you can use your locale
+								'angular-material',
+								'ionic-native-transitions',
+								'ngstorage',
+								'angular-ui-router',
+								'ui-router-extras',
+								'oclazyload',
+								'moment',
+								'moment/locale/pt-br.js',
+								'font-awesome',
+								'css',
+								'json',
+								'text'
+						]
+				}, 'main' )
+				.then( () => bundler.bundleRemainingComponents() )
+				.then( () => bundler.bundleRemainingPackages() )
+				.then( () => bundler.saveConfig() )
+				.then( () => done() )
+				.catch( ( err ) => done( err ) );
 } );

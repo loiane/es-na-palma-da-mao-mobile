@@ -174,6 +174,7 @@
       "ngstorage": "npm:ngstorage@^0.3.10",
       "oclazyload": "github:ocombe/oclazyload@^1.0.9",
       "oidc-token-manager": "github:IdentityModel/oidc-token-manager@^1.2.0",
+      "plugin-babel": "npm:systemjs-plugin-babel@^0.0.12",
       "robotoDraft": "github:raibutera/robotodraft@^1.1.0",
       "text": "github:systemjs/plugin-text@^0.0.7",
       "toastr": "github:CodeSeven/toastr@^2.1.2",
@@ -185,7 +186,9 @@
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
+      "core-js": "npm:core-js@^1.1.4",
+      "plugin-babel-runtime": "npm:babel-runtime@^5.8.24",
+      "ts-runtime": "npm:babel-runtime@^5.8.24"
     }
   },
   "dependencies": {
