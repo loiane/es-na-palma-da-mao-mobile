@@ -1,1 +1,32 @@
+#state-driver-license-status {
+    background-color: rgb(250,250,250);
+}
 
+#state-driver-license-status .card-driver-license {
+    background-color: #4CAF50;
+}
+
+#state-driver-license-status .license-expired{
+    background-color: #E57373;
+}
+
+#state-driver-license-status .license-expiring{
+    background-color: #FFEB3B;
+}
+
+#state-driver-license-status .license-blocked{
+    background-color: #F44336;
+}
+
+#state-driver-license-status .card-driver-license i {
+    font-size: 3em;
+}
+
+#state-driver-license-status .card-driver-license md-card-title-text,
+#state-driver-license-status .card-driver-license md-card-content {
+    text-align: center;
+}
+
+#state-driver-license-status .avatar-points {
+    padding: 10px;
+}

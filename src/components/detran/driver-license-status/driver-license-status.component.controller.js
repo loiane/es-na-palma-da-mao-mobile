@@ -22,40 +22,62 @@ class SepConsultaController {
      *
      */
     activate() {
-        this.licenseData = undefined;
+        this.driverData = undefined;
         this.tickets = [];
+
+        this.getDriverData();
+        this.getTickets();
     }
 
     get hasData() {
-        return angular.isDefined( this.licenseData ) && this.licenseData !== '';
+        return angular.isDefined( this.driverData ) && this.driverData !== '';
     }
 
     get licenseBlocked() {
-        return this.licenseData && this.licenseData.status == 1;
+        return this.driverData && this.driverData.status == 1;
     }
 
     get licenseExpired() {
-        return this.licenseData && moment( this.licenseData.expirationDate ).isBefore( moment() );
+        return this.driverData && moment( this.driverData.expirationDate ).add( 1, 'months' ).isBefore( moment() );
+    }
+
+    get licenseRenew() {
+        return this.driverData
+            && moment( this.driverData.expirationDate ).add( 1, 'months' ).isAfter( moment() )
+            && moment().isAfter( moment( this.driverData.expirationDate ) );
+    }
+
+    get expirationDate() {
+        if ( this.driverData ) {
+            return moment( this.driverData.expirationDate );
+        }
+    }
+
+    get hasTickets() {
+        return this.tickets.length > 0;
     }
 
     /**
      * @param {Number} number: Process number
      * @return {undefined}
      */
-    getLicenseData( id ) {
-        this.detranApiService.getDriverLicenseData( id )
-            .then( licenseData => {
-                this.licenseData = licenseData;
+    getDriverData() {
+        this.detranApiService.getDriverData()
+            .then( driverData => {
+                this.driverData = driverData;
                 return;
             } )
             .catch( () => {
-                this.licenseData = undefined;
+                this.driverData = undefined;
                 return;
             } );
     }
 
-    getTickets( id ) {
-        this.detranApiService.getTickets( id )
+    /**
+     * @param {any} id
+     */
+    getTickets() {
+        this.detranApiService.getTickets()
             .then( tickets => {
                 this.tickets = tickets;
                 return;

@@ -26,10 +26,15 @@ class DetranApiService {
      *  ExisteProcessoAdministrativoAberto {bool}: Existe processo administrativo aberto
      * }
      */
-    getDriverLicenseData( id ) {
+    getDriverData() {
         return this.$http
-            .get( `${this.settings.api.detran}/driverLicenseData/${id}` )
-            .then( response => response.data );
+            .get( `${this.settings.api.detran}/driverData` )
+            .then( response => {
+                return response.data;
+            } )
+            .catch( ( error ) => {
+                console.log( error );
+            } );
     }
 
     /**
@@ -38,33 +43,19 @@ class DetranApiService {
      *
      * Promisse return:
      * [ {
-     *   long codinfracao;
-     *   string autoinfracao;
-     *   string codorgaoautuador;
-     *   string descorgaoautuador;
-     *   string codinfracaoctb;
-     *   string desctipoinfracao;
-     *   string descclassificacaoinfracao;
-     *   byte pontuacao;
-     *   string localinfracao;
-     *   string municipioinfracao;
-     *   DateTime data;
-     *   string hora;
-     *   string placa;
-     *   string descorigem;
-     *   string descregraprocessamento;
-     *   int numprotocolo;
-     *   byte codsituacaoinfracao;
-     *   string descsituacaoinfracao;
-     *   byte suspensaodireta;
-     *   DateTime datahora;
-     *   string artigo;
-     *   bool Advertencia;
+     *      classification: "MÉDIA"
+     *      date: "2013-09-06T20:12:00-03:00"
+     *      description: "ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR)."
+     *      district: "VITORIA"
+     *      place: "R. DR. MOACYR GONCALVES                           "
+     *      plate: "MQH9400"
+     *      points: "4"
+     *      warning: "false"
      * } ]
      */
-    getTickets( id ) {
+    getTickets() {
         return this.$http
-            .get( `${this.settings.api.detran}/tickets/${id}` )
+            .get( `${this.settings.api.detran}/tickets ` )
             .then( response => response.data );
     }
 
@@ -86,9 +77,9 @@ class DetranApiService {
      *   byte codsituacaoprocessoadm
      * } ]
      */
-    getAdministrativeCharges( id ) {
+    getAdministrativeCharges() {
         return this.$http
-            .get( `${this.settings.api.detran}/administrativeCharges/${id}` )
+            .get( `${this.settings.api.detran}/administrativeCharges ` )
             .then( response => response.data );
     }
 
@@ -131,9 +122,9 @@ class DetranApiService {
      *   DateTime dataValidadeProcesso
      * } ]
      */
-    getDriverLicenseProcess( id ) {
+    getDriverLicenseProcess() {
         return this.$http
-            .get( `${this.settings.api.detran}/driverLicenseProcess/${id}` )
+            .get( `${this.settings.api.detran}/driverLicenseProcess ` )
             .then( response => response.data );
     }
 }
