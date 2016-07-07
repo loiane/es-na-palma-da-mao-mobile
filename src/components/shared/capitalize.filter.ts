@@ -16,7 +16,7 @@ const capitalizeFilter = () => {
                 return output.split( separator ).join( ' ' );
             }
         } else {
-            return input.split( separator ).map( function ( word ) {
+            return input.split( separator ).map( function ( word:string ) {
                 if ( word.length === 2 && format === 'team' ) {
                     // Uppercase team abbreviations like FC, CD, SD
                     return word.toUpperCase();

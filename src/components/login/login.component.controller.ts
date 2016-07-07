@@ -1,5 +1,6 @@
 import ToastService from '../shared/toast/toast.service';
 import OAuth2 from '../shared/authentication/oAuth2Factory.service';
+import OAuthDigits from '../shared/authentication/oAuthDigits.service';
 import OAuthFacebook from '../shared/authentication/oAuthFacebook.service';
 import OAuthGoogle from '../shared/authentication/oAuthGoogle.service';
 

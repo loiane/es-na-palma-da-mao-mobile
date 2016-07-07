@@ -1,38 +1,40 @@
+import ToastService from '../shared/toast/toast.service';
+
 class DashBoardController {
 
-  /**
-   * @constructor
-   *
-   * @param {Object} toast - toast service
-   *
-   */
-  constructor( toast, $state ) {
-    this.toast = toast;
-    this.$state = $state;
-    this.activate();
-  }
+    /**
+     * @constructor
+     *
+     * @param toast
+     * @param $state
+     */
+    constructor( private toast:ToastService, private $state ) {
+        this.activate();
+    }
 
-  /**
-   * Navega para o state especificado
-   *
-   * @param {string} stateName - o nome do state destino
-   *
-   * @returns {void}
-   */
-  navigateTo( stateName ) {
-    this.$state.go( stateName );
-  }
+    /**
+     * Navega para o state especificado
+     *
+     * @param {string} stateName - o nome do state destino
+     *
+     * @returns {void}
+     */
+    navigateTo( stateName:string ) {
+        this.$state.go( stateName );
+    }
 
-  /**
-   * Ativa o component
-   *
-   * @returns {void}
-   */
-  activate() {
-  }
+    /**
+     * Ativa o component
+     *
+     * @returns {void}
+     */
+    activate() {
+    }
 }
 
-export default ['toast', '$state', DashBoardController];
+DashBoardController.$inject = ['toast', '$state'];
+
+export default  DashBoardController;
 
 
 

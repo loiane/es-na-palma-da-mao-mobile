@@ -4,10 +4,7 @@ class HomeController {
     /**
      * @constructor
      */
-    constructor( $state, $window, settings ) {
-        this.settings = settings;
-        this.$state = $state;
-        this.$window = $window;
+    constructor( private $state, private $window, private settings ) {
 
     }
 
@@ -24,6 +21,6 @@ class HomeController {
 
 }
 
-export default [
-    '$state', '$window', 'settings', HomeController
-];
+HomeController.$inject = ['$state', '$window', 'settings'];
+
+export default HomeController;

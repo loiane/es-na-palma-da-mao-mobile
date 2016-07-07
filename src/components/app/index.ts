@@ -1,3 +1,5 @@
+/// <reference path="../../../typings/index.d.ts" />
+
 // 3th party
 //import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto

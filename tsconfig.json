@@ -24,8 +24,7 @@
     "platforms",
     "resources",
     "plugins",
-    "node_modules",
-    "typings"
+    "node_modules"
   ],
   "compileOnSave": true,
   "buildOnSave": true
