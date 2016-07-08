@@ -11,9 +11,9 @@ import 'angular-ui-router';
 import 'ui-router-extras';
 import 'oclazyload';
 
-import 'angular-material/angular-material.min.css';
+import 'angular-material/angular-material.min.css!';
 import 'font-awesome';
-import 'robotoDraft/robotodraft.css';
+import 'robotoDraft/robotodraft.css!';
 
 // shared
 import shared from '../shared/index';

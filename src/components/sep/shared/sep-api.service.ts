@@ -17,7 +17,7 @@ class SepApiService {
      */
     getProcessByNumber( number:string ):IPromise<any[]> {
         return this.$http
-                   .get( `${this.settings.api.sep}${number}` )
+                   .get( `${this.settings.api.sep}/${number}` )
                    .then( response => response.data );
     }
 }
