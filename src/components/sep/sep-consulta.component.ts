@@ -1,4 +1,4 @@
-import './sep-consulta.component.css!';
+import './sep-consulta.component.css';
 import template from './sep-consulta.component.html';
 import SepConsultaController from './sep-consulta.component.controller';
 

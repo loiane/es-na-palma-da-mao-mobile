@@ -1,7 +1,7 @@
 import angular from 'angular';
 import 'angular-ui-router';
 import rcalendar from 'calendar';
-import 'calendar/css/calendar.css!';
+import 'calendar/css/calendar.css';
 
 import calendarComponent from './calendar.component';
 import calendarShared from './shared/index';

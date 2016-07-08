@@ -1,4 +1,4 @@
-import './news-highlights.component.css!';
+import './news-highlights.component.css';
 import template from './news-highlights.component.html';
 import NewsHighlightsController from './news-highlights.component.controller';
 

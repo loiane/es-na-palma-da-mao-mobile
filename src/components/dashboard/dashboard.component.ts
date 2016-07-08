@@ -1,4 +1,4 @@
-import './dashboard.component.css!';
+import './dashboard.component.css';
 import template from './dashboard.component.html';
 import DashboardController from './dashboard.component.controller';
 

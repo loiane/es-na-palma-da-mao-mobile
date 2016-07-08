@@ -1,5 +1,5 @@
 import template from './app.component.html';
-import './app.component.css!';
+import './app.component.css';
 
 let appComponent = () => {
     return {
