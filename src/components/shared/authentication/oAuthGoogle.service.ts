@@ -57,6 +57,6 @@ class OAuthGoogle {
     }
 }
 
-OAuthGoogle.$inject = ['$window', '$localStorage'];
+OAuthGoogle.$inject = [ '$window', '$localStorage' ];
 
 export default OAuthGoogle;

@@ -73,7 +73,7 @@ System.config( {
 				"ionic-native-transitions": "npm:ionic-native-transitions@1.0.0-rc9",
 				"json": "github:systemjs/plugin-json@0.1.2",
 				"mobile-detect": "npm:mobile-detect@1.3.2",
-				"moment": "npm:moment@2.13.0",
+				"moment": "npm:moment@2.14.1",
 				"ngstorage": "npm:ngstorage@0.3.10",
 				"oclazyload": "github:ocombe/oclazyload@1.0.9",
 				"oidc-token-manager": "github:IdentityModel/oidc-token-manager@1.2.0",

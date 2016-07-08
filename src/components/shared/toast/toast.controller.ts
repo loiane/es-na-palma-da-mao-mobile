@@ -25,6 +25,6 @@ class ToastController {
     }
 }
 
-ToastController.$inject = ['displayOption'];
+ToastController.$inject = [ 'displayOption' ];
 
 export default ToastController;

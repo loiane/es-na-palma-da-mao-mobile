@@ -11,9 +11,9 @@ class OAuthDigits {
 
     buildDigitsObject( data ) {
         let obj = {};
-        data['X-Verify-Credentials-Authorization'].split( ',' ).forEach( ( item ) => {
+        data[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach( ( item ) => {
             let aux = item.split( '=' );
-            obj[aux[0]] = aux[1].substring( 1, aux[1].length - 1 );
+            obj[ aux[ 0 ] ] = aux[ 1 ].substring( 1, aux[ 1 ].length - 1 );
         } );
         return obj;
     }
@@ -62,6 +62,6 @@ class OAuthDigits {
     }
 }
 
-OAuthDigits.$inject = ['$window', '$localStorage'];
+OAuthDigits.$inject = [ '$window', '$localStorage' ];
 
 export default OAuthDigits;

@@ -29,6 +29,6 @@ function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
     } );
 }
 
-ionicConfig.$inject = ['$ionicConfigProvider', '$ionicNativeTransitionsProvider'];
+ionicConfig.$inject = [ '$ionicConfigProvider', '$ionicNativeTransitionsProvider' ];
 
 export default  ionicConfig;

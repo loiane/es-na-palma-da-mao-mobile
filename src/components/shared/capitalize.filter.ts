@@ -1,4 +1,4 @@
-const defaultLower = ['de', 'do', 'da', 'em', 'a', 'e', 'o'];
+const defaultLower = [ 'de', 'do', 'da', 'em', 'a', 'e', 'o' ];
 
 const capitalizeFilter = () => {
     return ( input, format, separator ) => {

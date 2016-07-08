@@ -36,6 +36,6 @@ class ComponentLoaderService {
 
 }
 
-ComponentLoaderService.$inject = ['$q', '$ocLazyLoad', 'system'];
+ComponentLoaderService.$inject = [ '$q', '$ocLazyLoad', 'system' ];
 
 export default ComponentLoaderService;

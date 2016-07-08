@@ -1,14 +1,16 @@
 import ToastService from '../shared/toast/toast.service';
+import {IStateService} from 'angular-ui-router';
 
 class DashBoardController {
 
     /**
      * @constructor
      *
-     * @param toast
-     * @param $state
+     * @param {ToastService} toast
+     * @param {IStateService} $state
      */
-    constructor( private toast:ToastService, private $state ) {
+    constructor( private toast:ToastService,
+                 private $state:IStateService ) {
         this.activate();
     }
 
@@ -19,7 +21,7 @@ class DashBoardController {
      *
      * @returns {void}
      */
-    navigateTo( stateName:string ) {
+    navigateTo( stateName:string ):void {
         this.$state.go( stateName );
     }
 
@@ -28,13 +30,13 @@ class DashBoardController {
      *
      * @returns {void}
      */
-    activate() {
+    activate():void {
     }
 }
 
-DashBoardController.$inject = ['toast', '$state'];
+DashBoardController.$inject = [ 'toast', '$state' ];
 
-export default  DashBoardController;
+export default DashBoardController;
 
 
 

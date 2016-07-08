@@ -1,3 +1,7 @@
+import {IScope} from 'angular';
+import {loading} from 'ionic';
+import {IStateService} from 'angular-ui-router';
+
 import NewsApiService from '../shared/news-api.service';
 
 class NewsHighlightsController {
@@ -7,15 +11,15 @@ class NewsHighlightsController {
     /**
      * @constructor
      *
-     * @param $scope
-     * @param newsApiService
-     * @param $ionicLoading
-     * @param $state
+     * @param {IScope} $scope
+     * @param {NewsApiService} newsApiService
+     * @param {IonicLoadingService} $ionicLoading
+     * @param {IStateService} $state
      */
-    constructor( private $scope,
+    constructor( private $scope:IScope,
                  private newsApiService:NewsApiService,
-                 private $ionicLoading,
-                 private $state ) {
+                 private $ionicLoading:loading.IonicLoadingService,
+                 private $state:IStateService ) {
 
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -25,7 +29,7 @@ class NewsHighlightsController {
      *
      * @returns {void}
      */
-    activate() {
+    activate():void {
         this.getHighlightNews();
     }
 
@@ -61,7 +65,7 @@ class NewsHighlightsController {
      *
      * @param id
      */
-    goToNews( id ) {
+    goToNews( id ):void {
         this.$state.go( 'app.news/:id', {id: id} );
     }
 }

@@ -32,4 +32,4 @@ function ScrollWach() {
     };
 }
 
-export default [ScrollWach];
+export default [ ScrollWach ];

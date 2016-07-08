@@ -1,18 +1,28 @@
-import sourcesDialogTemplate from './sources-dialog/sources-dialog.tpl.html';
+import {IScope} from 'angular';
+import {loading, scroll} from 'ionic';
+import {IStateService} from 'angular-ui-router';
+
+import sourcesDialogTemplate from './sources-dialog/sources-dialog.html';
+import datesDialogTemplate from './dates-dialog/dates-dialog.html';
 import SourcesDialogController from './sources-dialog/sources-dialog.controller';
-import datesDialogTemplate from './dates-dialog/dates-dialog.tpl.html';
 import DatesDialogController from './dates-dialog/dates-dialog.controller';
 import NewsApiService from '../shared/news-api.service';
 
-class NewsListController {
+interface NewsFilter {
+    origins?:string[],
+    dateMin?:Date,
+    dateMax?:Date,
+    pageNumber?:number
+}
 
+class NewsListController {
     private availableOrigins = [];
     private news = [];
     private activated:boolean = false;
     private populated = false;
     private hasMoreNews = true;
     private currentPage = 0;
-    private filter = {
+    private filter:NewsFilter = {
         origins: [],
         dateMin: undefined,
         dateMax: undefined,
@@ -29,13 +39,12 @@ class NewsListController {
      * @param newsApiService
      * @param $ionicScrollDelegate
      */
-    constructor( private $scope,
-                 private $state,
-                 private $mdDialog,
-                 private $ionicLoading,
+    constructor( private $scope:IScope,
+                 private $state:IStateService,
+                 private $mdDialog:angular.material.IDialogService,
+                 private $ionicLoading:loading.IonicLoadingService,
                  private newsApiService:NewsApiService,
-                 private $ionicScrollDelegate ) {
-
+                 private $ionicScrollDelegate:scroll.IonicScrollDelegate ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
         this.resetPagination();
     }
@@ -67,9 +76,9 @@ class NewsListController {
     /**
      *
      */
-    getNews( options ) {
+    getNews( options:NewsFilter = {} ) {
 
-        angular.extend( this.filter, options || {} ); // atualiza o filtro
+        angular.extend( this.filter, options ); // atualiza o filtro
 
         if ( this.filter.pageNumber ) {
             this.currentPage = this.filter.pageNumber;
@@ -149,18 +158,18 @@ class NewsListController {
      *
      * @param id
      */
-    goToNews( id ) {
-        this.$state.go( 'app.news/:id', {id: id} );
+    goToNews( id:string ) {
+        this.$state.go( 'app.news/:id', { id: id } );
     }
 }
 
-export default
-[
+NewsListController.$inject = [
     '$scope',
     '$state',
     '$mdDialog',
     '$ionicLoading',
     'newsApiService',
-    '$ionicScrollDelegate',
-    NewsListController
+    '$ionicScrollDelegate'
 ];
+
+export default NewsListController;

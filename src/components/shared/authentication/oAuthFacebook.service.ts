@@ -60,6 +60,6 @@ class OAuthFacebook {
     }
 }
 
-OAuthFacebook.$inject = ['$window', '$localStorage'];
+OAuthFacebook.$inject = [ '$window', '$localStorage' ];
 
 export default OAuthFacebook;

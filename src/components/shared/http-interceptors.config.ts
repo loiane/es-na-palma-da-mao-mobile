@@ -36,4 +36,4 @@ let httpInterceptorsConfig = $httpProvider => {
                  ] );
 };
 
-export default ['$httpProvider', 'settings', httpInterceptorsConfig];
+export default [ '$httpProvider', 'settings', httpInterceptorsConfig ];

@@ -1,12 +1,32 @@
+import {IStateService} from 'angular-ui-router';
+import {IWindowService} from 'angular';
+import {loading, navigation} from 'ionic';
+
+import DialogService from '../shared/dialog/dialog.service';
 import ToastService from '../shared/toast/toast.service';
 import OAuth2 from '../shared/authentication/oAuth2Factory.service';
 import OAuthDigits from '../shared/authentication/oAuthDigits.service';
 import OAuthFacebook from '../shared/authentication/oAuthFacebook.service';
 import OAuthGoogle from '../shared/authentication/oAuthGoogle.service';
 
+interface AcessoCidadaoIdentity {
+    username?:string;
+    password?:string;
+}
+
+interface SocialNetworkIdentity {
+    accesstoken?:string;
+    provider?:string;
+}
+
+interface PhoneIdentity extends SocialNetworkIdentity {
+    apiUrl?:string;
+    authHeader?:string;
+}
+
 class LoginController {
 
-    private user = {};
+    private user:AcessoCidadaoIdentity = {};
     private tokenClaims;
     private errorMsgs = {
         accountNotLinked: 'Usuário não encontrado.'
@@ -15,29 +35,29 @@ class LoginController {
     /**
      * @constructor
      *
-     * @param $state
-     * @param OAuth2
-     * @param OAuthDigits
-     * @param OAuthFacebook
-     * @param OAuthGoogle
-     * @param dialog
-     * @param toast
-     * @param settings
-     * @param $window
-     * @param $ionicHistory
-     * @param $ionicLoading
+     * @param {IStateService} $state
+     * @param {OAuth2} OAuth2
+     * @param {OAuth2} OAuthDigits
+     * @param {OAuthFacebook} OAuthFacebook
+     * @param {OAuthGoogle} OAuthGoogle
+     * @param {DialogService} dialog
+     * @param {ToastService} toast
+     * @param {} settings
+     * @param {IWindowService} $window
+     * @param {IonicHistoryService} $ionicHistory
+     * @param {IonicLoadingService} $ionicLoading
      */
-    constructor( private $state,
+    constructor( private $state:IStateService,
                  private OAuth2:OAuth2,
                  private OAuthDigits:OAuthDigits,
                  private OAuthFacebook:OAuthFacebook,
                  private OAuthGoogle:OAuthGoogle,
-                 private dialog,
+                 private dialog:DialogService,
                  private toast:ToastService,
                  private settings,
-                 private $window,
-                 private $ionicHistory,
-                 private $ionicLoading ) {
+                 private $window:IWindowService,
+                 private $ionicHistory:navigation.IonicHistoryService,
+                 private $ionicLoading:loading.IonicLoadingService ) {
 
         this.OAuth2.initialize( settings.identityServer.url );
 
@@ -112,8 +132,8 @@ class LoginController {
         return data;
     }
 
-    getDataIdentityServerAcessoCidadao( options, username, password ) {
-        let data = {};
+    getDataIdentityServerAcessoCidadao( options, username:string, password:string ) {
+        let data:AcessoCidadaoIdentity = {};
 
         if ( username ) {
             data.username = username;
@@ -125,8 +145,8 @@ class LoginController {
         return angular.extend( {}, options, data );
     }
 
-    getDataIdentityServerSocialNetwork( options, provider, accesstoken ) {
-        let data = {};
+    getDataIdentityServerSocialNetwork( options, provider:string, accesstoken:string ) {
+        let data:SocialNetworkIdentity = {};
 
         if ( provider ) {
             data.provider = provider;
@@ -139,8 +159,8 @@ class LoginController {
         return angular.extend( {}, options, data );
     }
 
-    getDataIdentityServerPhone( options, provider, apiUrl, authHeader ) {
-        let data = {};
+    getDataIdentityServerPhone( options, provider:string, apiUrl:string, authHeader:string ) {
+        let data:PhoneIdentity = {};
 
         data.accesstoken = 'token';
 
@@ -164,7 +184,7 @@ class LoginController {
      */
     signIn() {
         let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espm.id, this.settings.identityServer.clients.espm.secret, 'password', 'openid' );
-        isData = this.getDataIdentityServerAcessoCidadao( isData, this.user.name, this.user.password );
+        isData = this.getDataIdentityServerAcessoCidadao( isData, this.user.username, this.user.password );
 
         this.$ionicLoading.show();
         this.OAuth2.signIn( isData ).then( () => {
@@ -179,7 +199,7 @@ class LoginController {
                 this.$ionicLoading.hide();
             } );
     }
-
+    
     /**
      * https://github.com/jeduan/cordova-plugin-facebook4
      */

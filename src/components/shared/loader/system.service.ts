@@ -19,6 +19,6 @@ class SystemService {
     }
 }
 
-SystemService.$inject = ['$log'];
+SystemService.$inject = [ '$log' ];
 
 export default SystemService;

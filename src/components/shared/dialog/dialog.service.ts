@@ -95,10 +95,10 @@ class DialogService {
      * @private
      */
     _buildOptionsTo( dialogTypeName, contextualOptions ) {
-        return angular.merge( {}, this.defaultOptions[dialogTypeName], contextualOptions );
+        return angular.merge( {}, this.defaultOptions[ dialogTypeName ], contextualOptions );
     }
 
 }
-DialogService.$inject = ['$mdDialog'];
+DialogService.$inject = [ '$mdDialog' ];
 
 export default DialogService;

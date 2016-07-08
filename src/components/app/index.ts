@@ -9,7 +9,7 @@ import 'ionic-native-transitions';
 import 'ngstorage';
 import 'angular-ui-router';
 import 'ui-router-extras';
-import ocLazyLoad from 'oclazyload';
+import 'oclazyload';
 
 import 'angular-material/angular-material.min.css!';
 import 'font-awesome';
@@ -21,7 +21,7 @@ import shared from '../shared/index';
 // Features
 import appComponent from './app.component';
 
-let dependencies = [
+let dependencies = [ 
     'ionic',
     'ngMaterial',
     'ngStorage',
@@ -30,7 +30,7 @@ let dependencies = [
     'ui.router',
     'ct.ui.router.extras',
     'ct.ui.router.extras.future',
-    ocLazyLoad,
+    'oc.lazyLoad',
     shared.name
 ];
 

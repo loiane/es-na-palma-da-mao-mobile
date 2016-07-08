@@ -4,15 +4,19 @@
     "angular-material": "registry:dt/angular-material#1.0.0-rc5.0+20160627174759",
     "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
     "cordova": "registry:dt/cordova#0.0.0+20160607055823",
+    "cordova-ionic": "registry:dt/cordova-ionic#0.0.0+20160316155526",
+    "cordova-ionic/plugins/keyboard": "registry:dt/cordova-ionic/plugins/keyboard#0.0.0+20160317120654",
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
     "ionic": "registry:dt/ionic#0.0.0+20160501155303",
+    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
     "mocha": "registry:dt/mocha#2.2.5+20160619032855",
-    "moment": "registry:dt/moment#2.8.0+20160316155526",
     "oclazyload": "registry:dt/oclazyload#0.0.0+20160317120654",
     "systemjs": "registry:dt/systemjs#0.19.29+20160702105636",
     "ui-router-extras": "registry:dt/ui-router-extras#0.0.14+20160628180949"
   },
   "dependencies": {
     "chai": "registry:npm/chai#3.5.0+20160415060238",
+    "moment": "github:moment/moment/moment.d.ts#2.14.1",
     "sinon": "registry:npm/sinon#1.16.0+20160427193336"
   }
 }

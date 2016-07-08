@@ -1,3 +1,7 @@
+import {IScope} from 'angular';
+import {loading} from 'ionic';
+import {IStateService} from 'angular-ui-router';
+
 import NewsApiService from '../shared/news-api.service';
 
 class NewsDetailController {
@@ -12,10 +16,10 @@ class NewsDetailController {
      * @param $ionicLoading
      * @param $stateParams
      */
-    constructor( private $scope,
+    constructor( private $scope:IScope,
                  private newsApiService:NewsApiService,
-                 private $ionicLoading,
-                 private $stateParams ) {
+                 private $ionicLoading:loading.IonicLoadingService,
+                 private $stateParams:IStateService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -32,7 +36,7 @@ class NewsDetailController {
      *
      * @param id
      */
-    getNewsById( id ) {
+    getNewsById( id:string ) {
         this.$ionicLoading.show( 200 );
         this.newsApiService.getNewsById( id )
             .then( news => this.news = news )
@@ -42,6 +46,6 @@ class NewsDetailController {
     }
 }
 
-NewsDetailController.$inject = ['$scope', 'newsApiService', '$ionicLoading', '$stateParams'];
+NewsDetailController.$inject = [ '$scope', 'newsApiService', '$ionicLoading', '$stateParams' ];
 
 export default NewsDetailController;

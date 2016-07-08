@@ -3,7 +3,7 @@ const settings = {
     api: {
         espm: 'http://localhost:6660',
         news: 'https://api.es.gov.br/news',
-        sep: 'https://api.es.gov.br/sep/',
+        sep: 'https://api.es.gov.br/sep',
         calendars: 'https://api.es.gov.br/calendars'
     },
 

@@ -8,6 +8,8 @@
 import 'angular';
 import CalendarApiService from './calendar-api.service';
 import settings from '../../shared/settings';
+//import chai from 'chai';
+//import sinon from 'sinon';
 
 let expect = chai.expect;
 
@@ -48,7 +50,7 @@ describe( 'CalendarApiService', () => {
         it( 'should normalize response to response.data property', () => {
             let response = {
                 data: [
-                    {name: 'SEGER'}, {name: 'SEJUS'}, {name: 'PRODEST'}
+                    { name: 'SEGER' }, { name: 'SEJUS' }, { name: 'PRODEST' }
                 ]
             };
             $http.get.resolves( response );
@@ -73,7 +75,7 @@ describe( 'CalendarApiService', () => {
             it( 'should normalize response to response.data property', () => {
                 let response = {
                     data: [
-                        {name: 'SEGER'}, {name: 'SEJUS'}, {name: 'PRODEST'}
+                        { name: 'SEGER' }, { name: 'SEJUS' }, { name: 'PRODEST' }
                     ]
                 };
                 $http.get.resolves( response );
@@ -91,8 +93,8 @@ describe( 'CalendarApiService', () => {
                 calendarApiService.getFullCalendars();
                 calendarApiService.getFullCalendars( undefined );
 
-                expect( $http.get.getCall( 0 ).args[1].params.calendars ).to.deep.equal( [] );
-                expect( $http.get.getCall( 1 ).args[1].params.calendars ).to.deep.equal( [] );
+                expect( $http.get.getCall( 0 ).args[ 1 ].params.calendars ).to.deep.equal( [] );
+                expect( $http.get.getCall( 1 ).args[ 1 ].params.calendars ).to.deep.equal( [] );
             } );
         } );
 
@@ -101,7 +103,7 @@ describe( 'CalendarApiService', () => {
             it( 'should use all provided options', () => {
 
                 let date = new Date( 2022, 10, 10 );
-                let selectedCalendars = ['SEJUS', 'SEGER'];
+                let selectedCalendars = [ 'SEJUS', 'SEGER' ];
                 let options = {
                     singleEvents: false,
                     orderBy: 'endTime',
@@ -114,12 +116,12 @@ describe( 'CalendarApiService', () => {
 
                 let spyCall = $http.get.getCall( 0 );
 
-                expect( spyCall.args[1].params.selectedCalendars ).to.equal( options.calendars );
-                expect( spyCall.args[1].params.singleEvents ).to.equal( options.singleEvents );
-                expect( spyCall.args[1].params.orderBy ).to.equal( options.orderBy );
-                expect( spyCall.args[1].params.timeMin.getTime() ).to.equal( options.timeMin.getTime() );
-                expect( spyCall.args[1].params.timeMax.getTime() ).to.equal( options.timeMax.getTime() );
-                expect( spyCall.args[1].params.timeZone ).to.equal( options.timeZone );
+                expect( spyCall.args[ 1 ].params.selectedCalendars ).to.equal( options.calendars );
+                expect( spyCall.args[ 1 ].params.singleEvents ).to.equal( options.singleEvents );
+                expect( spyCall.args[ 1 ].params.orderBy ).to.equal( options.orderBy );
+                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( options.timeMin.getTime() );
+                expect( spyCall.args[ 1 ].params.timeMax.getTime() ).to.equal( options.timeMax.getTime() );
+                expect( spyCall.args[ 1 ].params.timeZone ).to.equal( options.timeZone );
             } );
         } );
 
@@ -140,11 +142,11 @@ describe( 'CalendarApiService', () => {
 
                 let spyCall = $http.get.getCall( 0 );
 
-                expect( spyCall.args[1].params.singleEvents ).to.equal( defaults.singleEvents );
-                expect( spyCall.args[1].params.orderBy ).to.equal( defaults.orderBy );
-                expect( spyCall.args[1].params.timeMin.getTime() ).to.equal( defaults.timeMin.getTime() );
-                expect( spyCall.args[1].params.timeMax.getTime() ).to.equal( defaults.timeMax.getTime() );
-                expect( spyCall.args[1].params.timeZone ).to.equal( defaults.timeZone );
+                expect( spyCall.args[ 1 ].params.singleEvents ).to.equal( defaults.singleEvents );
+                expect( spyCall.args[ 1 ].params.orderBy ).to.equal( defaults.orderBy );
+                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( defaults.timeMin.getTime() );
+                expect( spyCall.args[ 1 ].params.timeMax.getTime() ).to.equal( defaults.timeMax.getTime() );
+                expect( spyCall.args[ 1 ].params.timeZone ).to.equal( defaults.timeZone );
             } );
         } );
     } );

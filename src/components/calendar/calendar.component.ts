@@ -1,4 +1,4 @@
-import './calendar.component.css!';
+import './calendar.component.css';
 import template from './calendar.component.html';
 import CalendarController from './calendar.component.controller';
 

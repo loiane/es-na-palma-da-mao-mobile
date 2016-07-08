@@ -64,7 +64,7 @@ class CPFService {
         //   0 + 18 + 40 + 28 + 36 + 10 + 32 + 24 + 8 = 196
         for ( let i = 0; i < digitos.length; i++ ) {
             // Preenche a soma com o dígito vezes a posição
-            somaDigitos = somaDigitos + ( digitos[i] * posicoes );
+            somaDigitos = somaDigitos + ( digitos[ i ] * posicoes );
 
             // Subtrai 1 da posição
             posicoes--;

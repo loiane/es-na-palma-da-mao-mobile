@@ -17,7 +17,7 @@ export default angular.module( 'calendar.component', dependencies )
                               $stateProvider
                                   .state( 'app.calendar', {
                                       url: 'agenda',
-                                      data: {title: 'Agenda ES'},
+                                      data: { title: 'Agenda ES' },
                                       nativeTransitions: {
                                           'type': 'fade'
                                       },
@@ -29,7 +29,7 @@ export default angular.module( 'calendar.component', dependencies )
                                   } )
                                   .state( 'app.dashboard.calendar', {
                                       url: 'agenda',
-                                      data: {title: 'AGENDA ES'},
+                                      data: { title: 'AGENDA ES' },
                                       nativeTransitions: null,
                                       views: {
                                           'tab-calendar': {

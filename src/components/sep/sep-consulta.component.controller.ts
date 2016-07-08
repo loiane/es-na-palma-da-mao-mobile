@@ -1,27 +1,35 @@
+import {IScope, IWindowService} from 'angular';
+import {IStateService} from 'angular-ui-router';
+import {scroll} from 'ionic';
+
 import SepApiService from './shared/sep-api.service';
+
+interface Process {
+    updates?:any[]
+}
 
 class SepConsultaController {
 
     private seeMoreUpdates:string = 'VER MAIS';
     private processNumber:string = '';
-    private process = undefined;
+    private process:Process = undefined;
     private populated:boolean = false;
     private showAllUpdates:boolean = false;
 
     /**
      * @constructor
      *
-     * @param {Object} $scope: $scope
-     * @param {Object} $state: $state
-     * @param {Object} $mdDialog: $mdDialog
+     * @param {IWindowService} $scope: $scope
+     * @param {IScope} $state: $state
+     * @param {IStateService} $mdDialog: $mdDialog
      * @param {SepApiService} sepApiService: Api do SEP
      * @return {undefined}
      */
-    constructor( private $window,
-                 private $scope,
-                 private $state,
-                 private $mdDialog,
-                 private $ionicScrollDelegate,
+    constructor( private $window:IWindowService,
+                 private $scope:IScope,
+                 private $state:IStateService,
+                 private $mdDialog:angular.material.IDialogService,
+                 private $ionicScrollDelegate:scroll.IonicScrollDelegate,
                  private sepApiService:SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -29,7 +37,7 @@ class SepConsultaController {
     /**
      *
      */
-    activate() {
+    activate():void {
     }
 
     /**
@@ -38,13 +46,13 @@ class SepConsultaController {
      */
     get firstUpdate() {
         if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates[this.process.updates.length - 1];
+            return this.process.updates[ this.process.updates.length - 1 ];
         }
     }
 
     get lastUpdate() {
         if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates[0];
+            return this.process.updates[ 0 ];
         }
     }
 
@@ -54,7 +62,7 @@ class SepConsultaController {
         }
     }
 
-    get hasProcess() {
+    get hasProcess():boolean {
         return angular.isDefined( this.process ) && this.process !== '';
     }
 
@@ -73,16 +81,16 @@ class SepConsultaController {
      * @param {Number} number: Process number
      * @return {undefined}
      */
-    getProcess( number ) {
+    getProcess( number:string ) {
         this.sepApiService.getProcessByNumber( number )
             .then( process => {
                 this.process = process;
-                return;
-            }, () => {
-                this.process = undefined;
-                return;
+                return process;
             } )
-            .finally( () => {
+            .catch( ()=> {
+                this.process = undefined;
+            } )
+            .finally( ()=> {
                 this.populated = true;
             } );
     }

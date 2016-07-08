@@ -14,7 +14,7 @@ export default angular.module( 'dashboard.component', dependencies )
                               $stateProvider
                                   .state( 'app.dashboard', {
                                       url: 'dashboard/',
-                                      data: {title: 'Dashboard'},
+                                      data: { title: 'Dashboard' },
                                       abstract: true,
                                       nativeTransitions: {
                                           'type': 'fade'

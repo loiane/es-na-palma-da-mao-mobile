@@ -6,14 +6,17 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noEmitHelpers": false,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "noResolve": false
+    "noResolve": false,
+    "outDir": "www/components"
   },
   "filesGlob": [
     ".src/components/**/*.ts"
   ],
   "files": [
-    "typings/index.d.ts"
+    "typings/index.d.ts",
+    "src/components/app/index.ts"
   ],
   "exclude": [
     "www",

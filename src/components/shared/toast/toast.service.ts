@@ -73,7 +73,7 @@ class ToastService {
      * @returns {Promise} - retorna uma promise
      */
     success( displayOption ) {
-        return this.show( angular.merge( displayOption, {type: 'success'} ) );
+        return this.show( angular.merge( displayOption, { type: 'success' } ) );
     }
 
     /**
@@ -84,7 +84,7 @@ class ToastService {
      * @returns {Promise} - retorna uma promise
      */
     error( displayOption ) {
-        return this.show( angular.merge( displayOption, {type: 'error'} ) );
+        return this.show( angular.merge( displayOption, { type: 'error' } ) );
     }
 
     /**
@@ -94,7 +94,7 @@ class ToastService {
      * @returns {Promise} - retorna uma promise
      */
     info( displayOption ) {
-        return this.show( angular.merge( displayOption, {type: 'info'} ) );
+        return this.show( angular.merge( displayOption, { type: 'info' } ) );
     }
 
     /**
@@ -104,7 +104,7 @@ class ToastService {
      * @returns {Promise} - retorna uma promise
      */
     warn( displayOption ) {
-        return this.show( angular.merge( displayOption, {type: 'info'} ) );
+        return this.show( angular.merge( displayOption, { type: 'info' } ) );
     }
 }
 

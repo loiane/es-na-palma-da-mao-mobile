@@ -4,7 +4,9 @@ class OAuth2 {
     private identityServerUrl:string;
 
     /** @constructor */
-    constructor( private $window, private $http, private $localStorage ) {
+    constructor( private $window,
+                 private $http,
+                 private $localStorage ) {
         this.$localStorage.tokenClaims = this.user;
     }
 
@@ -45,7 +47,7 @@ class OAuth2 {
 
         let user = {};
         if ( angular.isDefined( token ) ) {
-            let encoded = token.access_token.split( '.' )[1];
+            let encoded = token.access_token.split( '.' )[ 1 ];
             user = angular.fromJson( this.urlBase64Decode( encoded ) );
         }
         return user;
@@ -79,11 +81,11 @@ class OAuth2 {
         let options = {
             method: 'POST',
             url: getTokenUrl,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             transformRequest: function ( obj ) {
                 let str = [];
                 for ( let p in obj ) {
-                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[p] ) );
+                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
                 }
                 return str.join( '&' );
             },
@@ -146,6 +148,6 @@ class OAuth2 {
     }
 }
 
-OAuth2.$inject = ['$window', '$http', '$localStorage'];
+OAuth2.$inject = [ '$window', '$http', '$localStorage' ];
 
 export default OAuth2;

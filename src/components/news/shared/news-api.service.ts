@@ -1,3 +1,5 @@
+import {IHttpService, IPromise} from 'angular';
+
 class NewsApiService {
 
     private defaultPage = 0;
@@ -7,16 +9,14 @@ class NewsApiService {
      *
      * @param {Object} $http - angular $http service
      */
-    constructor( private $http, private settings ) {
-        this.$http = $http;
-        this.settings = settings;
+    constructor( private $http:IHttpService, private settings ) {
     }
 
     /**
      *
      * @returns {*}
      */
-    getNewsById( id ) {
+    getNewsById( id:string ):IPromise<any> {
         return this.$http
                    .get( `${this.settings.api.news}/${id}` )
                    .then( response => response.data );
@@ -26,7 +26,7 @@ class NewsApiService {
      *
      * @returns {*}
      */
-    getHighlightNews() {
+    getHighlightNews():IPromise<any[]> {
         return this.$http
                    .get( `${this.settings.api.news}/highlights` )
                    .then( response => response.data );
@@ -38,7 +38,7 @@ class NewsApiService {
      * @param options
      * @returns {Array}
      */
-    getNews( options = {} ) {
+    getNews( options = {} ):IPromise<any[]> {
         let today = new Date();
         let defaults = {
             origins: [],
@@ -50,7 +50,7 @@ class NewsApiService {
 
         let params = angular.extend( {}, defaults, options );
 
-        return this.$http.get( this.settings.api.news, {params: params} )
+        return this.$http.get( this.settings.api.news, { params: params } )
                    .then( response => {
                        return response.data;
                    } );
@@ -60,13 +60,13 @@ class NewsApiService {
      *
      * @returns {*}
      */
-    getAvailableOrigins() {
+    getAvailableOrigins():IPromise<any[]> {
         return this.$http
                    .get( `${this.settings.api.news}/origins` )
                    .then( response => response.data );
     }
 }
 
-NewsApiService.$inject = ['$http', 'settings'];
+NewsApiService.$inject = [ '$http', 'settings' ];
 
 export default NewsApiService;

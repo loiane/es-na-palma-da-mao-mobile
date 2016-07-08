@@ -9,6 +9,8 @@
 import CalendarController from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
 import CalendarTemplate from './calendar.component.html';
+//import chai from 'chai';
+//import sinon from 'sinon';
 
 let expect = chai.expect;
 
@@ -66,7 +68,7 @@ describe( 'Calendar', () => {
             controller = new CalendarController( $scope, calendarApiService, $ionicLoading );
         } );
 
-        describe( 'on instanciation', () => {
+        describe( 'on instantiation', () => {
 
             it( 'should have a empty calendar', () => {
                 expect( controller.calendar ).to.be.empty;
@@ -99,7 +101,7 @@ describe( 'Calendar', () => {
             } );
 
             it( 'should show loading spinner immediately', () => {
-                expect( controller.$ionicLoading.show.called ).to.be.true;
+                expect( $ionicLoading.show.called ).to.be.true;
             } );
 
             it( 'should call getAvailableCalendars()', () => {
@@ -111,14 +113,14 @@ describe( 'Calendar', () => {
             } );
 
             it( 'should hide loading spinner on complete', () => {
-                expect( controller.$ionicLoading.hide.called ).to.be.true;
+                expect( $ionicLoading.hide.called ).to.be.true;
             } );
 
         } );
 
         describe( 'getAvailableCalendars()', () => {
 
-            let availableCalendars = [{name: 'SEFAZ'}, {name: 'SEGER'}, {name: 'SEJUS'}];
+            let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' } ];
 
             beforeEach( () => {
                 calendarApiService.getAvailableCalendars.resolves( availableCalendars );
@@ -142,9 +144,9 @@ describe( 'Calendar', () => {
 
         describe( 'loadEvents( selectedCalendars )', () => {
 
-            let selectedCalendars = ['SEFAZ', 'SEGER'];
-            let availableCalendars = [{name: 'SEFAZ'}, {name: 'SEGER 2'}, {name: 'SEJUS'}];
-            let fullCalendars = [{name: 'SEFAZ'}, {name: 'SEGER'}, {name: 'SEJUS'}];
+            let selectedCalendars = [ 'SEFAZ', 'SEGER' ];
+            let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER 2' }, { name: 'SEJUS' } ];
+            let fullCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' } ];
 
             beforeEach( () => {
                 calendarApiService.getAvailableCalendars.resolves( availableCalendars );
@@ -153,7 +155,7 @@ describe( 'Calendar', () => {
             } );
 
             it( 'should show loading spinner after 200ms', () => {
-                expect( controller.$ionicLoading.show.calledWith( {delay: 200} ) ).to.be.true;
+                expect( $ionicLoading.show.calledWith( { delay: 200 } ) ).to.be.true;
             } );
 
             it( 'should retrieve selected calendars events', () => {
@@ -166,7 +168,7 @@ describe( 'Calendar', () => {
             } );
 
             it( 'should hide loading spinner on complete', () => {
-                expect( controller.$ionicLoading.hide.calledOnce ).to.be.true;
+                expect( $ionicLoading.hide.calledOnce ).to.be.true;
             } );
         } );
 
