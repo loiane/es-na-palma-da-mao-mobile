@@ -28,8 +28,6 @@ class SepConsultaController {
      *
      */
     activate() {
-        this.reset();
-
         this.getDriverData().finally( () => {
             this.driverDataPopulated = true;
         } );
@@ -83,7 +81,7 @@ class SepConsultaController {
             let points = 0;
             this.tickets.forEach( ( ticket ) => {
                 if ( moment( ticket.date ).isAfter( moment().subtract( 1, 'year' ) ) ) {
-                    points += ticket.points;
+                    points += +ticket.points;
                 }
             } );
             return points;
@@ -98,13 +96,15 @@ class SepConsultaController {
         }
     }
 
+    /**
+     * @param {any} $index
+     */
     showDetails( $index ) {
         if ( this.selectedIndex !== $index ) {
             this.selectedIndex = $index;
         } else {
             this.selectedIndex = -1;
         }
-        //let target = $event.currentTarget;
     }
 
     /**
@@ -115,10 +115,6 @@ class SepConsultaController {
         return this.detranApiService.getDriverData()
             .then( driverData => {
                 this.driverData = driverData;
-                return;
-            } )
-            .catch( () => {
-                this.driverData = undefined;
                 return;
             } );
     }
@@ -153,10 +149,6 @@ class SepConsultaController {
                     warning: 'false'
                 };
                 this.tickets.push( ticket2 );
-                return;
-            } )
-            .catch( () => {
-                this.tickets = [];
                 return;
             } );
     }
