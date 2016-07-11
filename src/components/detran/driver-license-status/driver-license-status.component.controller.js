@@ -39,6 +39,7 @@ class SepConsultaController {
     }
 
     reset() {
+        this.selectedIndex = -1;
         this.driverData = undefined;
         this.tickets = [];
         this.driverDataPopulated = false;
@@ -97,8 +98,13 @@ class SepConsultaController {
         }
     }
 
-    showDetails( $event ) {
-        let target = $event.currentTarget;
+    showDetails( $index ) {
+        if ( this.selectedIndex !== $index ) {
+            this.selectedIndex = $index;
+        } else {
+            this.selectedIndex = -1;
+        }
+        //let target = $event.currentTarget;
     }
 
     /**
@@ -125,7 +131,7 @@ class SepConsultaController {
         return this.detranApiService.getTickets()
             .then( tickets => {
                 this.tickets = tickets;
-                /*let ticket = {
+                let ticket = {
                     classification: 'GRAVE',
                     date: '2013-09-06T20:12:00-03:00',
                     description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
@@ -146,7 +152,7 @@ class SepConsultaController {
                     points: '2',
                     warning: 'false'
                 };
-                this.tickets.push( ticket2 );*/
+                this.tickets.push( ticket2 );
                 return;
             } )
             .catch( () => {

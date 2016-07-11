@@ -66,12 +66,12 @@
     padding-top: 0;
 }
 
-#state-driver-license-status md-list md-list-item {
+#state-driver-license-status md-list md-list-ticket {
     transition: all 1s;
     flex-direction: column;
 }
 
-#state-driver-license-status md-list md-list-item .list-item-summary {
+#state-driver-license-status md-list md-list-ticket .list-ticket-summary {
     display: flex;
     flex: 1 1 auto;
 }
@@ -82,5 +82,98 @@
 
 #state-driver-license-status .tickets-history {
     margin-top: 10px;
-    margin-bottom: 0;
 }
+
+/* Teste =======================================================================*/
+.ticket .user .md-tile-left {
+    min-width: 56px;
+    margin-right: -16px;
+}
+
+.ticket .user .md-tile-content {
+    text-overflow: ellipsis;
+    flex: 1 1 0%;
+    padding-left: 15px;
+}
+
+.ticket .selected-ticket:first-child .user {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.ticket .selected-ticket:first-child .user.selected {
+    margin-top: 0;
+}
+
+.ticket .selected-ticket:last-child .user {
+    border-bottom-left-radius: 2px;
+          border-bottom-right-radius: 2px;
+}
+
+.ticket .user {
+    background-color: white;
+    transition: all 500ms;
+}
+
+.ticket .user h3, .ticket .user p {
+    transition: all 500ms;
+}
+
+.ticket .user p {
+opacity: 1;
+      height: inherit;
+}
+
+.ticket .user p.ng-hide{
+opacity: 0;
+        height: 0;
+}
+
+.ticket .user.selected {
+     margin: 20px 5px;
+      border-radius: 2px;
+}
+
+.ticket .user.selected .expanded {
+    visibility: visible;
+    max-height: 700px;
+    opacity: 1;
+    padding: 6px;
+}
+
+.ticket .user.selected .expanded > * {
+    max-height: 700px;
+    opacity: 1;
+}
+
+.ticket .user.selected .expanded .md-label {
+     border: hidden;
+}
+
+.ticket .user .expanded {
+    visibility: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 500ms;
+}
+
+.ticket .user .expanded > * {
+    max-height: 0;
+    opacity: 0;
+    transition: all 500ms;
+}
+
+.ticket .user .expanded .split {
+    padding: 10px;
+}
+
+.ticket .user .face {
+    border-radius: 30px;
+    width: 48px;
+    height: 48px;
+    margin: 11px;
+    font-size: 3em;
+    padding: 11px 12px;
+    color: #fff;    
+}
+  
