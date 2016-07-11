@@ -1,4 +1,5 @@
-/// <reference path="../../../typings/index.d.ts" />
+// tslint:disable-next-line
+/// <reference path="../../../typings/index.d.ts" /> 
 
 // 3th party
 // import 'jquery';

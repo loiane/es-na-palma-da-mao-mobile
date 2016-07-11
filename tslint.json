@@ -10,6 +10,8 @@
             true,
             "spaces"
         ],
+        //"no-inferrable-types": [true, "ignore-params"],
+        "no-reference": true,
         "no-duplicate-variable": true,
         "no-eval": true,
         "no-internal-module": true,
