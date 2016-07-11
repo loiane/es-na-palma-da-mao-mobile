@@ -10,7 +10,6 @@
             true,
             "spaces"
         ],
-        //"no-inferrable-types": [true, "ignore-params"],
         "no-reference": true,
         "no-duplicate-variable": true,
         "no-eval": true,
@@ -49,7 +48,6 @@
             "check-type"
         ],
 
-        // style
         "new-parens": true,
         "one-variable-per-declaration": [
             true, 

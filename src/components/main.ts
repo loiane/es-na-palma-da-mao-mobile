@@ -6,7 +6,7 @@ import app from './app/index';
  * Instead, we need to bootstrap the application manually
  */
 angular.element( document ).ready( function () {
-    angular.bootstrap( document, [app.name], {
+    angular.bootstrap( document, [ app.name ], {
         strictDi: true
     } );
 } );

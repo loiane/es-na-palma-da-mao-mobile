@@ -1,6 +1,6 @@
 class SourceController {
 
-    public static $inject: string[] = ['$mdDialog'];
+    public static $inject: string[] = [ '$mdDialog' ];
 
     private selectedOrigins: any[];
     private availableOrigins: any[];

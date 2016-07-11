@@ -5,7 +5,7 @@ function ScrollWach() {
     return {
         restrict: 'A',
         link: function linkFn( $scope, $elem, $attrs ) {
-            let offset = $attrs.offset ? parseInt( $attrs.offset.replace( /px;?/, '' ) ) : 0;
+            let offset = $attrs.offset ? parseInt( $attrs.offset.replace( /px;?/, '' ), 10 ) : 0;
             let scrollClass = $attrs.scrollClass || '';
             let classTarget = $attrs.classTarget || '';
 

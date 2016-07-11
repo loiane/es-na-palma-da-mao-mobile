@@ -266,7 +266,7 @@ class LoginController {
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
      public facebookLogin() {
-        this.oAuthFacebook.login( ['email', 'public_profile'], ( responseFacebook ) => {
+        this.oAuthFacebook.login( [ 'email', 'public_profile' ], ( responseFacebook ) => {
             // Com o token do facebook, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this.getDataIdentityServerSocialNetwork( isData, 'Facebook', responseFacebook.authResponse.accessToken );
@@ -335,7 +335,7 @@ class LoginController {
       */
      public digitsLogin() {
 
-        this.OAuthDigits.login( {}, ( responseDigits ) => {
+        this.oAuthDigits.login( {}, ( responseDigits ) => {
             // Com o token do digits, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this.getDataIdentityServerPhone( isData, 'Celular', responseDigits['X-Auth-Service-Provider'], responseDigits['X-Verify-Credentials-Authorization'] );
