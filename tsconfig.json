@@ -15,7 +15,7 @@
     ".src/components/**/*.ts"
   ],
   "files": [
-    "typings/index.d.ts",
+    "typings/index.d.ts", 
     "src/components/app/index.ts"
   ],
   "exclude": [
@@ -27,7 +27,8 @@
     "platforms",
     "resources",
     "plugins",
-    "node_modules"
+    "node_modules",
+    ".vscode"
   ],
   "compileOnSave": true,
   "buildOnSave": true

@@ -56,6 +56,9 @@ dist/
 # webstorm temps
 .idea/
 
+#vscode
+.vscode/
+
 #pasta antiga de gulp tasks
 gulp-tasks/
 

@@ -25,6 +25,7 @@ class NewsDetailController {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
+    
     /**
      * Ativa o controller
      *

@@ -9,6 +9,7 @@ import OAuthDigits from '../shared/authentication/oAuthDigits.service';
 import OAuthFacebook from '../shared/authentication/oAuthFacebook.service';
 import OAuthGoogle from '../shared/authentication/oAuthGoogle.service';
 
+
 interface AcessoCidadaoIdentity {
     username?:string;
     password?:string;
@@ -26,8 +27,18 @@ interface PhoneIdentity {
     authHeader?:string;
 }
 
+/**
+ * 
+ * 
+ * @class LoginController
+ */
 class LoginController {
-
+    /**
+     * 
+     * 
+     * @static
+     * @type {string[]}
+     */
     static $inject:string[] = [
         '$state',
         'OAuth2',
@@ -80,16 +91,18 @@ class LoginController {
         this.activate();
     }
 
+
     /**
-     *
+     * 
      */
     public activate() {
         this.tokenClaims = this.OAuth2.tokenClaims;
     }
 
-    /**
-     *
-     */
+
+     /**
+      * 
+      */
      public goToDashboard() {
         this.$ionicHistory.nextViewOptions( {
             disableAnimate: true,
@@ -99,19 +112,21 @@ class LoginController {
         this.$state.go( 'app.dashboard.newsHighlights' );
     }
 
+     
     /**
-     *
-     * @param data
+     * 
+     * 
+     * @param {any} data
      * @returns {boolean}
      */
-     public isAccountNotLinked( data ) {
+    public isAccountNotLinked( data ):boolean {
         return data.error == this.errorMsgs.accountNotLinked;
     }
 
     /**
      *
      */
-     public showDialogAccountNotLinked() {
+     public showDialogAccountNotLinked():void {
         this.dialog.confirm( {
             title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
@@ -124,19 +139,22 @@ class LoginController {
     /**
      *
      */
-     public signInSuccess() {
+     public signInSuccess():void {
         this.user = {};
         this.goToDashboard();
     }
 
-    /**
-     *
-     * @param clientId
-     * @param clientSecret
-     * @param grantType
-     * @param scope
-     * @returns {{client_id: any, client_secret: any, grant_type: any, scope: any}}
-     */
+    
+     /**
+      * 
+      * 
+      * @protected
+      * @param {any} clientId
+      * @param {any} clientSecret
+      * @param {any} grantType
+      * @param {any} scope
+      * @returns {{client_id: any, client_secret: any, grant_type: any, scope: any}}
+      */
      protected getDataIdentityServer( clientId, clientSecret, grantType, scope ) {
         let data = {
             client_id: clientId,
@@ -148,6 +166,15 @@ class LoginController {
         return data;
     }
 
+    /**
+     * 
+     * 
+     * @protected
+     * @param {any} options
+     * @param {string} username
+     * @param {string} password
+     * @returns
+     */
     protected getDataIdentityServerAcessoCidadao( options, username:string, password:string ) {
         let data:AcessoCidadaoIdentity = {};
 
@@ -161,6 +188,15 @@ class LoginController {
         return angular.extend( {}, options, data );
     }
 
+     /**
+      * 
+      * 
+      * @protected
+      * @param {any} options
+      * @param {string} provider
+      * @param {string} accesstoken
+      * @returns
+      */
      protected getDataIdentityServerSocialNetwork( options, provider:string, accesstoken:string ) {
         let data:SocialNetworkIdentity = {};
 
@@ -175,6 +211,16 @@ class LoginController {
         return angular.extend( {}, options, data );
     }
 
+     /**
+      * 
+      * 
+      * @protected
+      * @param {any} options
+      * @param {string} provider
+      * @param {string} apiUrl
+      * @param {string} authHeader
+      * @returns
+      */
      protected getDataIdentityServerPhone( options, provider:string, apiUrl:string, authHeader:string ) {
         let data:PhoneIdentity = {};
 
@@ -247,6 +293,9 @@ class LoginController {
         } );
     }
 
+     /**
+      * 
+      */
      public googleLogin() {
         let options = {
             'scopes': 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
@@ -281,6 +330,9 @@ class LoginController {
         } );
     }
 
+     /**
+      * 
+      */
      public digitsLogin() {
 
         this.OAuthDigits.login( {}, ( responseDigits ) => {
@@ -310,6 +362,9 @@ class LoginController {
         } );
     }
 
+     /**
+      * 
+      */
      public openUrlForgotPassword() {
         this.$window.open( 'https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha', '_system' );
     }
