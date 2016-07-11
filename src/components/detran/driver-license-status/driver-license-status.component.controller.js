@@ -57,13 +57,13 @@ class SepConsultaController {
     }
 
     get licenseExpired() {
-        return this.driverData && moment( this.driverData.expirationDate ).add( 1, 'months' ).isBefore( moment() );
+        return this.driverData && moment( this.driverData.expirationDate ).add( 1, 'months' ).isBefore( moment().startOf( 'day' ) );
     }
 
     get licenseRenew() {
         return this.driverData
-            && moment( this.driverData.expirationDate ).add( 1, 'months' ).isAfter( moment() )
-            && moment().isAfter( moment( this.driverData.expirationDate ) );
+            && moment( this.driverData.expirationDate ).add( 1, 'months' ).isAfter( moment().startOf( 'day' ) )
+            && moment().startOf( 'day' ).isAfter( moment( this.driverData.expirationDate ) );
     }
 
     get expirationDate() {
@@ -80,7 +80,7 @@ class SepConsultaController {
         if ( this.tickets ) {
             let points = 0;
             this.tickets.forEach( ( ticket ) => {
-                if ( moment( ticket.date ).isAfter( moment().subtract( 1, 'year' ) ) ) {
+                if ( moment( ticket.date ).isAfter( moment().startOf( 'day' ).subtract( 1, 'year' ) ) ) {
                     points += +ticket.points;
                 }
             } );
