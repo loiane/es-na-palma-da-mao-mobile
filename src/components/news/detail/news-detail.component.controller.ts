@@ -6,6 +6,8 @@ import NewsApiService from '../shared/news-api.service';
 
 class NewsDetailController {
 
+    static $inject:string[] = [ '$scope', 'newsApiService', '$ionicLoading', '$stateParams' ];
+
     private news = [];
 
     /**
@@ -28,7 +30,7 @@ class NewsDetailController {
      *
      * @returns {void}
      */
-    activate() {
+    public activate():void {
         this.getNewsById( this.$stateParams.id );
     }
 
@@ -36,7 +38,7 @@ class NewsDetailController {
      *
      * @param id
      */
-    getNewsById( id:string ) {
+    public getNewsById( id:string ):void {
         this.$ionicLoading.show( 200 );
         this.newsApiService.getNewsById( id )
             .then( news => this.news = news )
@@ -45,7 +47,5 @@ class NewsDetailController {
             } );
     }
 }
-
-NewsDetailController.$inject = [ '$scope', 'newsApiService', '$ionicLoading', '$stateParams' ];
 
 export default NewsDetailController;

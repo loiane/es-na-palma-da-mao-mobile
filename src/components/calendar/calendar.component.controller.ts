@@ -9,6 +9,8 @@ interface Calendar {
 
 class CalendarController {
 
+    static $inject:string[] = [ '$scope', 'calendarApiService', '$ionicLoading' ];
+
     private calendar:Calendar = {};
     private selectedCalendars = [];
     private availableCalendars = [];
@@ -32,7 +34,7 @@ class CalendarController {
      *
      * @returns {void}
      */
-    activate():void {
+    public activate():void {
         this.showLoading()
             .then( () => this.getAvailableCalendars() )
             .then( availableCalendars => this.loadEvents( availableCalendars ) )
@@ -44,7 +46,7 @@ class CalendarController {
      * @param delay
      * @returns {any}
      */
-    showLoading( delay = 0 ) {
+    public showLoading( delay = 0 ) {
         return this.$ionicLoading.show( { delay: delay } );
     }
 
@@ -52,7 +54,7 @@ class CalendarController {
      *
      * @returns {any}
      */
-    hideLoading() {
+    public hideLoading() {
         return this.$ionicLoading.hide();
     }
 
@@ -61,7 +63,7 @@ class CalendarController {
      *
      * @returns {*}
      */
-    getAvailableCalendars() {
+    public getAvailableCalendars() {
         return this.calendarApiService.getAvailableCalendars()
                    .then( calendars => {
                        this.selectedCalendars = this.availableCalendars = calendars.map( calendar => calendar.name );
@@ -72,7 +74,7 @@ class CalendarController {
     /**
      * Carrega os eventos no calendário
      */
-    loadEvents( selectedCalendars:string[] ) {
+    public loadEvents( selectedCalendars:string[] ) {
         return this.showLoading( 200 )
                    .then( () => this.calendarApiService.getFullCalendars( selectedCalendars ) )
                    .then( calendars => {
@@ -89,7 +91,7 @@ class CalendarController {
      *
      * @returns {void}
      */
-    onViewTitleChanged( title ):void {
+    public onViewTitleChanged( title ):void {
         this.viewTitle = title;
     }
 
@@ -98,7 +100,7 @@ class CalendarController {
      *
      * @returns {void}
      */
-    today():void {
+    public today():void {
         this.calendar.currentDate = new Date();
     }
 
@@ -109,7 +111,7 @@ class CalendarController {
      *
      * @returns {boolean} - true ou false dependendo se a data selecionada no calendário é a data corrente
      */
-    isToday():boolean {
+    public isToday():boolean {
         let today = new Date();
         let currentCalendarDate = new Date( this.calendar.currentDate );
 
@@ -119,7 +121,5 @@ class CalendarController {
         return today.getTime() === currentCalendarDate.getTime();
     }
 }
-
-CalendarController.$inject = [ '$scope', 'calendarApiService', '$ionicLoading' ];
 
 export default CalendarController;

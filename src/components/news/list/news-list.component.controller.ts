@@ -16,6 +16,16 @@ interface NewsFilter {
 }
 
 class NewsListController {
+
+    static $inject:string[] = [
+        '$scope',
+        '$state',
+        '$mdDialog',
+        '$ionicLoading',
+        'newsApiService',
+        '$ionicScrollDelegate'
+    ];
+
     private availableOrigins = [];
     private news = [];
     private activated:boolean = false;
@@ -52,7 +62,7 @@ class NewsListController {
     /**
      *
      */
-    activate() {
+    public activate():void {
         this.getAvailableOrigins()
             .finally( () => {
                 this.activated = true;
@@ -64,7 +74,7 @@ class NewsListController {
      *
      * @returns {*}
      */
-    getAvailableOrigins() {
+    public getAvailableOrigins() {
         return this.newsApiService.getAvailableOrigins()
                    .then( origins => {
                        this.availableOrigins = origins;
@@ -76,7 +86,7 @@ class NewsListController {
     /**
      *
      */
-    getNews( options:NewsFilter = {} ) {
+    public getNews( options:NewsFilter = {} ):void {
 
         angular.extend( this.filter, options ); // atualiza o filtro
 
@@ -102,7 +112,7 @@ class NewsListController {
     /**
      *
      */
-    openOriginsFilter() {
+    public openOriginsFilter():void {
         this.$mdDialog.show( {
             controller: SourcesDialogController,
             template: sourcesDialogTemplate,
@@ -119,7 +129,7 @@ class NewsListController {
     /**
      *
      */
-    openDateFilter() {
+    public openDateFilter():void {
         this.$mdDialog.show( {
             controller: DatesDialogController,
             template: datesDialogTemplate,
@@ -138,7 +148,7 @@ class NewsListController {
     /**
      *
      */
-    reload( filter ) {
+    public reload( filter ):void {
         this.resetPagination();
         filter.pageNumber = 1;
         this.getNews( filter );
@@ -147,7 +157,7 @@ class NewsListController {
     /**
      *
      */
-    resetPagination() {
+    public resetPagination():void {
         this.news = [];
         this.populated = false;
         this.hasMoreNews = true;
@@ -158,18 +168,9 @@ class NewsListController {
      *
      * @param id
      */
-    goToNews( id:string ) {
+    public goToNews( id:string ):void {
         this.$state.go( 'app.news/:id', { id: id } );
     }
 }
-
-NewsListController.$inject = [
-    '$scope',
-    '$state',
-    '$mdDialog',
-    '$ionicLoading',
-    'newsApiService',
-    '$ionicScrollDelegate'
-];
 
 export default NewsListController;

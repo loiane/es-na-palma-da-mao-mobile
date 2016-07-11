@@ -3,6 +3,8 @@ import {IStateService} from 'angular-ui-router';
 
 class DashBoardController {
 
+    static $inject:string[] = [ 'toast', '$state' ];
+    
     /**
      * @constructor
      *
@@ -21,7 +23,7 @@ class DashBoardController {
      *
      * @returns {void}
      */
-    navigateTo( stateName:string ):void {
+    public navigateTo( stateName:string ):void {
         this.$state.go( stateName );
     }
 
@@ -30,11 +32,9 @@ class DashBoardController {
      *
      * @returns {void}
      */
-    activate():void {
+    public activate():void {
     }
 }
-
-DashBoardController.$inject = [ 'toast', '$state' ];
 
 export default DashBoardController;
 

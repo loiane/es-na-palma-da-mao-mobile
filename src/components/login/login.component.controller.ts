@@ -19,12 +19,28 @@ interface SocialNetworkIdentity {
     provider?:string;
 }
 
-interface PhoneIdentity extends SocialNetworkIdentity {
+interface PhoneIdentity {
+    accesstoken?:string;
+    provider?:string;
     apiUrl?:string;
     authHeader?:string;
 }
 
 class LoginController {
+
+    static $inject:string[] = [
+        '$state',
+        'OAuth2',
+        'OAuthDigits',
+        'OAuthFacebook',
+        'OAuthGoogle',
+        'dialog',
+        'toast',
+        'settings',
+        '$window',
+        '$ionicHistory',
+        '$ionicLoading'
+    ];
 
     private user:AcessoCidadaoIdentity = {};
     private tokenClaims;
@@ -67,14 +83,14 @@ class LoginController {
     /**
      *
      */
-    activate() {
+    public activate() {
         this.tokenClaims = this.OAuth2.tokenClaims;
     }
 
     /**
      *
      */
-    goToDashboard() {
+     public goToDashboard() {
         this.$ionicHistory.nextViewOptions( {
             disableAnimate: true,
             historyRoot: true
@@ -88,14 +104,14 @@ class LoginController {
      * @param data
      * @returns {boolean}
      */
-    isAccountNotLinked( data ) {
+     public isAccountNotLinked( data ) {
         return data.error == this.errorMsgs.accountNotLinked;
     }
 
     /**
      *
      */
-    showDialogAccountNotLinked() {
+     public showDialogAccountNotLinked() {
         this.dialog.confirm( {
             title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
@@ -108,7 +124,7 @@ class LoginController {
     /**
      *
      */
-    signInSuccess() {
+     public signInSuccess() {
         this.user = {};
         this.goToDashboard();
     }
@@ -121,7 +137,7 @@ class LoginController {
      * @param scope
      * @returns {{client_id: any, client_secret: any, grant_type: any, scope: any}}
      */
-    getDataIdentityServer( clientId, clientSecret, grantType, scope ) {
+     protected getDataIdentityServer( clientId, clientSecret, grantType, scope ) {
         let data = {
             client_id: clientId,
             client_secret: clientSecret,
@@ -132,7 +148,7 @@ class LoginController {
         return data;
     }
 
-    getDataIdentityServerAcessoCidadao( options, username:string, password:string ) {
+    protected getDataIdentityServerAcessoCidadao( options, username:string, password:string ) {
         let data:AcessoCidadaoIdentity = {};
 
         if ( username ) {
@@ -145,7 +161,7 @@ class LoginController {
         return angular.extend( {}, options, data );
     }
 
-    getDataIdentityServerSocialNetwork( options, provider:string, accesstoken:string ) {
+     protected getDataIdentityServerSocialNetwork( options, provider:string, accesstoken:string ) {
         let data:SocialNetworkIdentity = {};
 
         if ( provider ) {
@@ -159,7 +175,7 @@ class LoginController {
         return angular.extend( {}, options, data );
     }
 
-    getDataIdentityServerPhone( options, provider:string, apiUrl:string, authHeader:string ) {
+     protected getDataIdentityServerPhone( options, provider:string, apiUrl:string, authHeader:string ) {
         let data:PhoneIdentity = {};
 
         data.accesstoken = 'token';
@@ -182,7 +198,7 @@ class LoginController {
     /**
      * Executa login na aplicação de acordo com as configurações do settings, usuário e senha.
      */
-    signIn() {
+     public signIn() {
         let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espm.id, this.settings.identityServer.clients.espm.secret, 'password', 'openid' );
         isData = this.getDataIdentityServerAcessoCidadao( isData, this.user.username, this.user.password );
 
@@ -203,7 +219,7 @@ class LoginController {
     /**
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
-    facebookLogin() {
+     public facebookLogin() {
         this.OAuthFacebook.login( ['email', 'public_profile'], ( responseFacebook ) => {
             //Com o token do facebook, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
@@ -231,7 +247,7 @@ class LoginController {
         } );
     }
 
-    googleLogin() {
+     public googleLogin() {
         let options = {
             'scopes': 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
             'webClientId': this.settings.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
@@ -265,7 +281,7 @@ class LoginController {
         } );
     }
 
-    digitsLogin() {
+     public digitsLogin() {
 
         this.OAuthDigits.login( {}, ( responseDigits ) => {
             //Com o token do digits, busca o token do acesso cidadão
@@ -294,23 +310,9 @@ class LoginController {
         } );
     }
 
-    openUrlForgotPassword() {
+     public openUrlForgotPassword() {
         this.$window.open( 'https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha', '_system' );
     }
 }
-
-LoginController.$inject = [
-    '$state',
-    'OAuth2',
-    'OAuthDigits',
-    'OAuthFacebook',
-    'OAuthGoogle',
-    'dialog',
-    'toast',
-    'settings',
-    '$window',
-    '$ionicHistory',
-    '$ionicLoading'
-];
 
 export default LoginController;

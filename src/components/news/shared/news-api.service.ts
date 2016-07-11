@@ -2,6 +2,8 @@ import {IHttpService, IPromise} from 'angular';
 
 class NewsApiService {
 
+    static $inject:string[] = [ '$http', 'settings' ];
+
     private defaultPage = 0;
     private defaultPageSize = 10;
 
@@ -66,7 +68,5 @@ class NewsApiService {
                    .then( response => response.data );
     }
 }
-
-NewsApiService.$inject = [ '$http', 'settings' ];
 
 export default NewsApiService;

@@ -10,6 +10,15 @@ interface Process {
 
 class SepConsultaController {
 
+    static $inject:string[] = [
+        '$window',
+        '$scope',
+        '$state',
+        '$mdDialog',
+        '$ionicScrollDelegate',
+        'sepApiService'
+    ];
+
     private seeMoreUpdates:string = 'VER MAIS';
     private processNumber:string = '';
     private process:Process = undefined;
@@ -37,36 +46,36 @@ class SepConsultaController {
     /**
      *
      */
-    activate():void {
+    public activate():void {
     }
 
     /**
      *
      * @returns {any}
      */
-    get firstUpdate() {
+    public get firstUpdate() {
         if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
             return this.process.updates[ this.process.updates.length - 1 ];
         }
     }
 
-    get lastUpdate() {
+    public get lastUpdate() {
         if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
             return this.process.updates[ 0 ];
         }
     }
 
-    get hiddenUpdates() {
+    public get hiddenUpdates() {
         if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
             return this.process.updates.slice( 1 );
         }
     }
 
-    get hasProcess():boolean {
+    public get hasProcess():boolean {
         return angular.isDefined( this.process ) && this.process !== '';
     }
 
-    toggleUpdates() {
+    public toggleUpdates():void {
         this.showAllUpdates = !this.showAllUpdates;
 
         if ( this.showAllUpdates ) {
@@ -81,7 +90,7 @@ class SepConsultaController {
      * @param {Number} number: Process number
      * @return {undefined}
      */
-    getProcess( number:string ) {
+    public getProcess( number:string ):void {
         this.sepApiService.getProcessByNumber( number )
             .then( process => {
                 this.process = process;
@@ -95,14 +104,5 @@ class SepConsultaController {
             } );
     }
 }
-
-SepConsultaController.$inject = [
-    '$window',
-    '$scope',
-    '$state',
-    '$mdDialog',
-    '$ionicScrollDelegate',
-    'sepApiService'
-];
 
 export default SepConsultaController;
