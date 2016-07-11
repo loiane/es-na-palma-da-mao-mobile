@@ -13,7 +13,7 @@ import 'moment/locale/pt-br';
  *
  * @returns {void}
  */
-function run( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDialog, $mdBottomSheet, OAuth2, settings ) {
+function run( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDialog, $mdBottomSheet, oAuth2, settings ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -45,8 +45,8 @@ function run( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDia
      * TODO:
      */
     function isAuthenticated() {
-        OAuth2.initialize( settings.identityServer.url );
-        return OAuth2.fetchUserInfo();
+        oAuth2.initialize( settings.identityServer.url );
+        return oAuth2.fetchUserInfo();
     }
 
     $ionicPlatform.ready( () => {
@@ -66,7 +66,7 @@ function run( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDia
         // Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
         isAuthenticated()
             .then( () => {
-                if ( angular.isDefined( OAuth2.userInfo ) ) {
+                if ( angular.isDefined( oAuth2.userInfo ) ) {
                     $state.go( 'app.dashboard.newsHighlights' );
                 } else {
                     $state.go( 'home' );

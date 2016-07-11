@@ -24,14 +24,7 @@
             "check-open-brace",
             "check-whitespace"
         ],
-        "quotemark": [
-            true,
-            "single"
-        ],
-        "semicolon": [
-            true,
-            "always"
-        ],
+        
         "triple-equals": [
             true,
             "allow-null-check"
@@ -46,10 +39,7 @@
                 "variable-declaration": "nospace"
             }
         ],
-        "variable-name": [
-            true,
-            "ban-keywords"
-        ],
+        
         "whitespace": [
             true,
             "check-branch",
@@ -57,6 +47,26 @@
             "check-operator",
             "check-separator",
             "check-type"
+        ],
+
+        // style
+        "new-parens": true,
+        "one-variable-per-declaration": [
+            true, 
+            "ignore-for-loop"
+        ],
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format"
         ]
     }
 }

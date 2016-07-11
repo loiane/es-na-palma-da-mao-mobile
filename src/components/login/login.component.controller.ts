@@ -63,10 +63,10 @@ class LoginController {
      * @constructor
      *
      * @param {IStateService} $state
-     * @param {OAuth2} OAuth2
-     * @param {OAuth2} OAuthDigits
-     * @param {OAuthFacebook} OAuthFacebook
-     * @param {OAuthGoogle} OAuthGoogle
+     * @param {oAuth2} OAuth2
+     * @param {oAuth2} OAuthDigits
+     * @param {oAuthFacebook} OAuthFacebook
+     * @param {oAuthGoogle} OAuthGoogle
      * @param {DialogService} dialog
      * @param {ToastService} toast
      * @param {} settings
@@ -75,10 +75,10 @@ class LoginController {
      * @param {IonicLoadingService} $ionicLoading
      */
     constructor( private $state: IStateService,
-                 private OAuth2: OAuth2,
-                 private OAuthDigits: OAuthDigits,
-                 private OAuthFacebook: OAuthFacebook,
-                 private OAuthGoogle: OAuthGoogle,
+                 private oAuth2: OAuth2,
+                 private oAuthDigits: OAuthDigits,
+                 private oAuthFacebook: OAuthFacebook,
+                 private oAuthGoogle: OAuthGoogle,
                  private dialog: DialogService,
                  private toast: ToastService,
                  private settings,
@@ -86,7 +86,7 @@ class LoginController {
                  private $ionicHistory: navigation.IonicHistoryService,
                  private $ionicLoading: loading.IonicLoadingService ) {
 
-        this.OAuth2.initialize( settings.identityServer.url );
+        this.oAuth2.initialize( settings.identityServer.url );
 
         this.activate();
     }
@@ -96,7 +96,7 @@ class LoginController {
      * 
      */
     public activate() {
-        this.tokenClaims = this.OAuth2.tokenClaims;
+        this.tokenClaims = this.oAuth2.tokenClaims;
     }
 
 
@@ -249,7 +249,7 @@ class LoginController {
         isData = this.getDataIdentityServerAcessoCidadao( isData, this.user.username, this.user.password );
 
         this.$ionicLoading.show();
-        this.OAuth2.signIn( isData ).then( () => {
+        this.oAuth2.signIn( isData ).then( () => {
             this.signInSuccess();
         }, () => {
             // TODO: Tratar error
@@ -266,13 +266,13 @@ class LoginController {
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
      public facebookLogin() {
-        this.OAuthFacebook.login( ['email', 'public_profile'], ( responseFacebook ) => {
+        this.oAuthFacebook.login( ['email', 'public_profile'], ( responseFacebook ) => {
             // Com o token do facebook, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this.getDataIdentityServerSocialNetwork( isData, 'Facebook', responseFacebook.authResponse.accessToken );
 
             this.$ionicLoading.show();
-            this.OAuth2.signIn( isData ).then( () => {
+            this.oAuth2.signIn( isData ).then( () => {
                 this.signInSuccess();
             }, ( error ) => {
                 if ( this.isAccountNotLinked( error.data ) ) {
@@ -303,13 +303,13 @@ class LoginController {
             'offline': true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
         };
 
-        this.OAuthGoogle.login( options, ( responseGoogle ) => {
+        this.oAuthGoogle.login( options, ( responseGoogle ) => {
             // Com o token do google, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this.getDataIdentityServerSocialNetwork( isData, 'Google', responseGoogle.oauthToken );
 
             this.$ionicLoading.show();
-            this.OAuth2.signIn( isData ).then( () => {
+            this.oAuth2.signIn( isData ).then( () => {
                 this.signInSuccess();
             }, ( error ) => {
                 if ( this.isAccountNotLinked( error.data ) ) {
@@ -341,7 +341,7 @@ class LoginController {
             isData = this.getDataIdentityServerPhone( isData, 'Celular', responseDigits['X-Auth-Service-Provider'], responseDigits['X-Verify-Credentials-Authorization'] );
 
             this.$ionicLoading.show();
-            this.OAuth2.signIn( isData ).then( () => {
+            this.oAuth2.signIn( isData ).then( () => {
                 this.signInSuccess();
             }, ( error ) => {
                 if ( this.isAccountNotLinked( error.data ) ) {

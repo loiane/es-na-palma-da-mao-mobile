@@ -44,10 +44,10 @@ class MenuController {
      * @param $mdBottomSheet
      * @param $mdMenu
      * @param $mdSelect
-     * @param OAuth2
-     * @param OAuthFacebook
-     * @param OAuthGoogle
-     * @param OAuthDigits
+     * @param oAuth2
+     * @param oAuthFacebook
+     * @param oAuthGoogle
+     * @param oAuthDigits
      */
     constructor( private $scope,
                  private $window,
@@ -62,10 +62,10 @@ class MenuController {
                  private $mdBottomSheet,
                  private $mdMenu,
                  private $mdSelect,
-                 private OAuth2,
-                 private OAuthFacebook,
-                 private OAuthGoogle,
-                 private OAuthDigits ) {
+                 private oAuth2,
+                 private oAuthFacebook,
+                 private oAuthGoogle,
+                 private oAuthDigits ) {
         this.avatarUrl = avatar.src;
 
         this.activate();
@@ -156,7 +156,7 @@ class MenuController {
 
         // Watch User Info - para futuras alterações
         this.$scope.$watch( () => {
-            return this.OAuth2.userInfo;
+            return this.oAuth2.userInfo;
         }, ( oldValue, newValue ) => {
             if ( newValue !== oldValue ) {
                 this.updateUser();
@@ -165,11 +165,11 @@ class MenuController {
     }
 
     public updateUser() {
-        this.user = this.OAuth2.userInfo;
+        this.user = this.oAuth2.userInfo;
         this.authenticated = this.user ? true : false;
 
-        if ( angular.isDefined( this.OAuthGoogle.avatarUrl ) ) {
-            this.avatarUrl = this.OAuthGoogle.avatarUrl;
+        if ( angular.isDefined( this.oAuthGoogle.avatarUrl ) ) {
+            this.avatarUrl = this.oAuthGoogle.avatarUrl;
         }
     }
 
@@ -221,11 +221,11 @@ class MenuController {
     }
 
     public signOut() {
-        this.OAuthFacebook.logout();
-        this.OAuthGoogle.logout();
+        this.oAuthFacebook.logout();
+        this.oAuthGoogle.logout();
         // this.OAuthDigits.logout(); //TODO: Verificar se precisa mesmo do logout do Digits
 
-        this.OAuth2.signOut( () => {
+        this.oAuth2.signOut( () => {
             this.navigateTo( 'home' );
         } );
     }
