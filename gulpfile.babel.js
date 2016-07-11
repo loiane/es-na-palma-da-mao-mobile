@@ -35,7 +35,6 @@ import semver from 'semver';
 import Bundler from 'angular-lazy-bundler';
 import typescript from 'gulp-typescript';
 import sourcemaps from 'gulp-sourcemaps';
-import tslint from 'gulp-tslint';
 
 //import 'gulp-cordova-build-android';
 
