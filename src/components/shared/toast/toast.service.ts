@@ -10,7 +10,7 @@ import template from './toast.html';
  */
 class ToastService {
 
-    static $inject: string[] = [
+    public static $inject: string[] = [
         '$mdToast'
     ];
 

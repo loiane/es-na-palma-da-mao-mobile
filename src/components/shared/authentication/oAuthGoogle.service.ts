@@ -3,7 +3,7 @@
  */
 class OAuthGoogle {
 
-    static $inject: string[] = [ '$window', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$localStorage' ];
 
     /**
      *
@@ -14,7 +14,7 @@ class OAuthGoogle {
     /**
      *
      */
-    login( options, success, error ) {
+    public login( options, success, error ) {
         /**
          * Exemplo de objeto retornado pelo google
          * {
@@ -38,23 +38,23 @@ class OAuthGoogle {
             }, error );
     }
 
-    get avatarUrl() {
+    public get avatarUrl() {
         if ( angular.isDefined( this.$localStorage.googleAccessToken ) ) {
             return this.$localStorage.googleAccessToken.imageUrl;
         }
     }
 
-    trySilentLogin( options, success, error ) {
+    public trySilentLogin( options, success, error ) {
         this.$window.plugins.googleplus.trySilentLogin( options, success, error );
     }
 
-    logout( cb ) {
+    public logout( cb ) {
         if ( this.$window.plugins && this.$window.plugins.googleplus ) {
             this.$window.plugins.googleplus.logout( cb );
         }
     }
 
-    disconnect( cb ) {
+    public disconnect( cb ) {
         this.$window.plugins.googleplus.disconnect( cb );
     }
 }

@@ -1,5 +1,6 @@
 {
     "rules": {
+        "member-access": [true, "check-accessor"],
         "class-name": true,
         "comment-format": [
             true,

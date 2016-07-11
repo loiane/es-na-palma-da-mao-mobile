@@ -9,7 +9,7 @@ interface Calendar {
 
 class CalendarController {
 
-    static $inject: string[] = [ '$scope', 'calendarApiService', '$ionicLoading' ];
+    public static $inject: string[] = [ '$scope', 'calendarApiService', '$ionicLoading' ];
 
     private calendar: Calendar = {};
     private selectedCalendars = [];

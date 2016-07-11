@@ -1,7 +1,7 @@
 /** Classe para acesso ao IdentityServer3 */
 class OAuth2 {
 
-    static $inject: string[] = [ '$window', '$http', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$http', '$localStorage' ];
 
     private identityServerUrl: string;
 
@@ -16,14 +16,14 @@ class OAuth2 {
      *
      * @param identityServerUrl
      */
-    initialize( identityServerUrl ) {
+    public initialize( identityServerUrl ) {
         this.identityServerUrl = identityServerUrl;
     }
 
     /**
      * Decodifica uma url Base64
      */
-    urlBase64Decode( str ) {
+    public urlBase64Decode( str ) {
         let output = str.replace( '-', '+' ).replace( '_', '/' );
         switch ( output.length % 4 ) {
             case 0:
@@ -44,7 +44,7 @@ class OAuth2 {
      * Busca o token salvo no localstorage e retorna os claims do usuário
      * @return {object} Claims do usuário
      */
-    get user() {
+    public get user() {
         let token = this.token;
 
         let user = {};
@@ -55,7 +55,7 @@ class OAuth2 {
         return user;
     }
 
-    get token() {
+    public get token() {
         if ( !this.$localStorage.token ) {
             return undefined;
         }
@@ -66,18 +66,18 @@ class OAuth2 {
     /**
      * @return {object} Claims do usuário
      */
-    get tokenClaims() {
+    public get tokenClaims() {
         return this.$localStorage.tokenClaims;
     }
 
-    get userInfo() {
+    public get userInfo() {
         return this.$localStorage.userInfo;
     }
 
     /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
-    getToken( data, success?, error? ) {
+    public getToken( data, success?, error? ) {
         let getTokenUrl = `${this.identityServerUrl}connect/token`;
 
         let options = {
@@ -104,7 +104,7 @@ class OAuth2 {
 
     }
 
-    fetchUserInfo() {
+    public fetchUserInfo() {
         let userInfoUrl = `${this.identityServerUrl}connect/userinfo`;
 
         /**
@@ -131,7 +131,7 @@ class OAuth2 {
         } );
     }
 
-    signIn( data ) {
+    public signIn( data ) {
         // Get Token
         return this.getToken( data, () => {
             // Fetch and save User Info
@@ -142,7 +142,7 @@ class OAuth2 {
     /**
      * Faz logout do usuário. Remove o token do localstore e os claims salvos.
      */
-    signOut( success ) {
+    public signOut( success ) {
         delete this.$localStorage.token;
         delete this.$localStorage.userInfo;
         delete this.$localStorage.tokenClaims;

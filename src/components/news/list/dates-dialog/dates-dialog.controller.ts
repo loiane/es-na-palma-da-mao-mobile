@@ -1,6 +1,6 @@
 class DatesDialogController {
 
-    static $inject: string[] = [ '$mdDialog' ];
+    public static $inject: string[] = [ '$mdDialog' ];
 
     /**
      * @constructor
@@ -14,14 +14,14 @@ class DatesDialogController {
     /**
      *
      */
-    cancel() {
+    public cancel() {
         this.$mdDialog.cancel();
     }
 
     /**
      *
      */
-    ok( dateMin, dateMax ) {
+    public ok( dateMin, dateMax ) {
         this.$mdDialog.hide( {
             dateMin,
             dateMax

@@ -13,7 +13,7 @@ class CPFService {
      @param  string cpf O CPF com ou sem pontos e traço
      @return bool True para CPF correto - False para CPF incorreto
      */
-    validar( valor ) {
+    public validar( valor ) {
 
         // Garante que o valor é uma string
         valor = valor.toString();
@@ -26,10 +26,10 @@ class CPFService {
         let digitos = valor.substr( 0, 9 );
 
         // Faz o cálculo dos 9 primeiros dígitos do CPF para obter o primeiro dígito
-        let novoCPF = this._calcularPosicoesDosDigitos( digitos );
+        let novoCPF = this.calcularPosicoesDosDigitos( digitos );
 
         // Faz o cálculo dos 10 dígitos do CPF para obter o último dígito
-        novoCPF = this._calcularPosicoesDosDigitos( novoCPF, 11 );
+        novoCPF = this.calcularPosicoesDosDigitos( novoCPF, 11 );
 
         // Verifica se o novo CPF gerado é idêntico ao CPF enviado
         if ( novoCPF === valor ) {
@@ -43,8 +43,6 @@ class CPFService {
     } // validar
 
     /*
-     _calcularPosicoesDosDigitos
-
      Multiplica dígitos vezes posições
 
      @param string digitos Os digitos desejados
@@ -52,7 +50,7 @@ class CPFService {
      @param string soma_digitos A soma das multiplicações entre posições e dígitos
      @return string Os dígitos enviados concatenados com o último dígito
      */
-    _calcularPosicoesDosDigitos( digitos, posicoes = 10, somaDigitos = 0 ) {
+    protected calcularPosicoesDosDigitos( digitos, posicoes = 10, somaDigitos = 0 ) {
 
         // Garante que o valor é uma string
         digitos = digitos.toString();

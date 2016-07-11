@@ -6,7 +6,7 @@ import NewsApiService from '../shared/news-api.service';
 
 class NewsDetailController {
 
-    static $inject: string[] = [ '$scope', 'newsApiService', '$ionicLoading', '$stateParams' ];
+    public static $inject: string[] = [ '$scope', 'newsApiService', '$ionicLoading', '$stateParams' ];
 
     private news = [];
 

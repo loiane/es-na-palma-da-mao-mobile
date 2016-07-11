@@ -3,7 +3,7 @@
  */
 class DialogController {
 
-    static $inject: string[] = [
+    public static $inject: string[] = [
         'displayOption', 'dialog'
     ];
 

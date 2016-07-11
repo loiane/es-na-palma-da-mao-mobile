@@ -3,7 +3,7 @@
  */
 class SystemService {
 
-    static $inject: string[] = [ '$log' ];
+    public static $inject: string[] = [ '$log' ];
 
     constructor( private $log ) {
     }

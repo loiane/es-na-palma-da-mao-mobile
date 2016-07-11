@@ -3,7 +3,7 @@
  */
 class DialogService {
 
-    static $inject: string[] = [ '$mdDialog' ];
+    public static $inject: string[] = [ '$mdDialog' ];
 
     private defaultOptions;
 

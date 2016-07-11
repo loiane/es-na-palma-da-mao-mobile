@@ -3,7 +3,7 @@
  */
 class OAuthFacebook {
 
-    static $inject: string[] = [ '$window', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$localStorage' ];
 
     /**
      *
@@ -14,7 +14,7 @@ class OAuthFacebook {
     /**
      *
      */
-    login( scopes, success, error ) {
+    public login( scopes, success, error ) {
         /** Exemplo do objeto retornado pelo plugin de login nativo do facebook
          * {
                 status: "connected",
@@ -43,21 +43,21 @@ class OAuthFacebook {
         } );
     }
 
-    logout( success, error ) {
+    public logout( success, error ) {
         if ( this.$window.facebookConnectPlugin ) {
             this.$window.facebookConnectPlugin.logout( success, error );
         }
     }
 
-    getLoginStatus( success, error ) {
+    public getLoginStatus( success, error ) {
         this.$window.facebookConnectPlugin.getLoginStatus( success, error );
     }
 
-    showDialog( options, success, error ) {
+    public showDialog( options, success, error ) {
         this.$window.facebookConnectPlugin.showDialog( options, success, error );
     }
 
-    graphApi( requestPath, permissions, success, error ) {
+    public graphApi( requestPath, permissions, success, error ) {
         this.$window.facebookConnectPlugin.api( requestPath, permissions, success, error );
     }
 }

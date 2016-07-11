@@ -3,7 +3,7 @@ import {IWindowService} from 'angular';
 
 class HomeController {
 
-    static $inject: string[] = [ '$state', '$window', 'settings' ];
+    public static $inject: string[] = [ '$state', '$window', 'settings' ];
 
     /**
      * @constructor

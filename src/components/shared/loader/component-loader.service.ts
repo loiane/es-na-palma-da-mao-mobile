@@ -3,7 +3,7 @@
  */
 class ComponentLoaderService {
 
-    static $inject: string[] = [ '$q', '$ocLazyLoad', 'system' ];
+    public static $inject: string[] = [ '$q', '$ocLazyLoad', 'system' ];
 
     /**
      * @constructor

@@ -5,7 +5,7 @@ import avatar from './img/user.png!image';
  */
 class MenuController {
 
-    static $inject: string[] = [
+    public static $inject: string[] = [
         '$scope',
         '$window',
         '$timeout',
@@ -76,7 +76,7 @@ class MenuController {
      *
      * @returns {void}
      */
-    activate() {
+    public activate() {
         //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
         //
         //  Register a hardware back button action. Only one action will execute
@@ -164,7 +164,7 @@ class MenuController {
         } );
     }
 
-    updateUser() {
+    public updateUser() {
         this.user = this.OAuth2.userInfo;
         this.authenticated = this.user ? true : false;
 
@@ -180,7 +180,7 @@ class MenuController {
      *
      *  @returns {void}
      */
-    closeSideNav() {
+    public closeSideNav() {
         this.$mdSidenav( 'left' ).close();
     }
 
@@ -189,7 +189,7 @@ class MenuController {
      *
      * @returns {void}
      */
-    toggleLeft() {
+    public toggleLeft() {
         this.$mdSidenav( 'left' ).toggle();
     }
 
@@ -200,7 +200,7 @@ class MenuController {
      *
      * @returns {void}
      */
-    navigateTo( stateName ) {
+    public navigateTo( stateName ) {
         this.$timeout( () => {
             this.closeSideNav();
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
@@ -220,7 +220,7 @@ class MenuController {
         }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }
 
-    signOut() {
+    public signOut() {
         this.OAuthFacebook.logout();
         this.OAuthGoogle.logout();
         // this.OAuthDigits.logout(); //TODO: Verificar se precisa mesmo do logout do Digits

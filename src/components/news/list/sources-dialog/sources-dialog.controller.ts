@@ -1,6 +1,6 @@
 class SourceController {
 
-    static $inject: string[] = ['$mdDialog'];
+    public static $inject: string[] = ['$mdDialog'];
 
     private selectedOrigins: any[];
     private availableOrigins: any[];
@@ -17,14 +17,14 @@ class SourceController {
     /**
      *
      */
-    cancel() {
+    public cancel() {
         this.$mdDialog.cancel();
     }
 
     /**
      *
      */
-    ok( selectedOrigins ) {
+    public ok( selectedOrigins ) {
         this.$mdDialog.hide( {origins: selectedOrigins} );
     }
 
@@ -32,7 +32,7 @@ class SourceController {
      *
      * @returns {boolean}
      */
-    isIndeterminate() {
+    public isIndeterminate() {
         return ( this.selectedOrigins.length !== 0 && this.selectedOrigins.length !== this.availableOrigins.length );
     }
 
@@ -40,14 +40,14 @@ class SourceController {
      *
      * @returns {boolean}
      */
-    isChecked() {
+    public isChecked() {
         return this.selectedOrigins.length === this.availableOrigins.length;
     }
 
     /**
      *
      */
-    toggleAll() {
+    public toggleAll() {
         if ( this.isChecked() ) {
             this.selectedOrigins = [];
         } else if ( this.selectedOrigins.length === 0 || this.selectedOrigins.length > 0 ) {
@@ -59,7 +59,7 @@ class SourceController {
      *
      * @param origin
      */
-    toggle( origin, selectedOrigins ) {
+    public toggle( origin, selectedOrigins ) {
         let idx = selectedOrigins.indexOf( origin );
         if ( idx > -1 ) {
             selectedOrigins.splice( idx, 1 );
@@ -73,7 +73,7 @@ class SourceController {
      * @param origin
      * @returns {boolean}
      */
-    exists( origin, selectedOrigins ) {
+    public exists( origin, selectedOrigins ) {
         return selectedOrigins.indexOf( origin ) > -1;
     }
 }

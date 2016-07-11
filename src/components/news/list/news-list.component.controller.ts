@@ -17,7 +17,7 @@ interface NewsFilter {
 
 class NewsListController {
 
-    static $inject: string[] = [
+    public static $inject: string[] = [
         '$scope',
         '$state',
         '$mdDialog',

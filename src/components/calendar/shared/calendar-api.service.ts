@@ -2,7 +2,7 @@ import {IHttpService, IPromise} from 'angular';
 
 class CalendarApiService {
 
-    static $inject: string[] = [ '$http', 'settings' ];
+    public static $inject: string[] = [ '$http', 'settings' ];
 
     private calendarsEndPoint: string;
     private eventsEndPoint: string;

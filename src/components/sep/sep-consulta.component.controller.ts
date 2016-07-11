@@ -10,7 +10,7 @@ interface Process {
 
 class SepConsultaController {
 
-    static $inject: string[] = [
+    public static $inject: string[] = [
         '$window',
         '$scope',
         '$state',

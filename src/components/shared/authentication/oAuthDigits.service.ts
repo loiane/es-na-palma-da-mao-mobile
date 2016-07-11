@@ -3,7 +3,7 @@
  */
 class OAuthDigits {
 
-    static $inject: string[] = [ '$window', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$localStorage' ];
 
     /**
      * @constructor
@@ -11,7 +11,7 @@ class OAuthDigits {
     constructor( private $window, private $localStorage ) {
     }
 
-    buildDigitsObject( data ) {
+    public buildDigitsObject( data ) {
         let obj = {};
         data[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach( ( item ) => {
             let aux = item.split( '=' );
@@ -20,7 +20,7 @@ class OAuthDigits {
         return obj;
     }
 
-    login( options, success, error ) {
+    public login( options, success, error ) {
         let defaultOptions = {
             accentColor: '#ff0000',
             backgroundColor: '#ffffff'
@@ -57,7 +57,7 @@ class OAuthDigits {
         } );
     }
 
-    logout() {
+    public logout() {
         if ( this.$window.plugins && this.$window.plugins.digits ) {
             this.$window.plugins.digits.logout();
         }

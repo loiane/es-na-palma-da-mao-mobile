@@ -3,7 +3,7 @@ import {IStateService} from 'angular-ui-router';
 
 class DashBoardController {
 
-    static $inject: string[] = [ 'toast', '$state' ];
+    public static $inject: string[] = [ 'toast', '$state' ];
 
     /**
      * @constructor

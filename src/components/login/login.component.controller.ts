@@ -39,7 +39,7 @@ class LoginController {
      * @static
      * @type {string[]}
      */
-    static $inject: string[] = [
+    public static $inject: string[] = [
         '$state',
         'OAuth2',
         'OAuthDigits',

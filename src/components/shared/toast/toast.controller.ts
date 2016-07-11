@@ -3,7 +3,7 @@
  */
 class ToastController {
 
-    static $inject: string[] = [ 'displayOption' ];
+    public static $inject: string[] = [ 'displayOption' ];
     /**
      * Toast Message controller
      *

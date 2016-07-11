@@ -2,7 +2,7 @@ import {IHttpService, IPromise} from 'angular';
 
 class SepApiService {
 
-    static $inject: string[] = [ '$http', 'settings' ];
+    public static $inject: string[] = [ '$http', 'settings' ];
 
     /**
      * @param {Object} $http - angular $http service
@@ -17,7 +17,7 @@ class SepApiService {
      * @param {string} procNumber - process number
      * @returns {IPromise<Array>}
      */
-    getProcessByNumber( procNumber: string ): IPromise<any[]> {
+    public getProcessByNumber( procNumber: string ): IPromise<any[]> {
         return this.$http
                    .get( `${this.settings.api.sep}/${procNumber}` )
                    .then( response => response.data );
