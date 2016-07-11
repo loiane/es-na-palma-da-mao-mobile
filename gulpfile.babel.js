@@ -708,6 +708,11 @@ gulp.task( 'run', 'Executa a aplicação', ( cb ) => {
 
 gulp.task( 'default', 'Executa task \'run\'', [ 'run' ] );
 
+gulp.task( 'analyze', 'Analiza o código', ( cb ) => {
+	runSequence( 'eslint-src', 'tslint-src', 'transpile-app-ts', cb );
+} );
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Android Specific tasks
 gulp.task( 'build-android', () => {
