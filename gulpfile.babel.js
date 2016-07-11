@@ -35,6 +35,7 @@ import semver from 'semver';
 import Bundler from 'angular-lazy-bundler';
 import typescript from 'gulp-typescript';
 import sourcemaps from 'gulp-sourcemaps';
+import tslint from 'gulp-tslint';
 
 //import 'gulp-cordova-build-android';
 
@@ -371,6 +372,13 @@ taskMaker.defineTask( 'minify', {
 		debug: config.debugOptions
 } );
 
+
+taskMaker.defineTask( 'tslint', {
+		taskName: 'tslint-src',
+		src: config.paths.ts.src,
+		debug: config.debugOptions
+} );
+
 taskMaker.defineTask( 'eslint', {
 		taskName: 'eslint-src',
 		src: config.paths.js.src,
@@ -644,6 +652,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
 		// tasks que transformam/copiam arquivos para a pasta de distribuição
 		let compileTasks = [
 				'eslint-src',
+				'tslint-src',
 				'css',
 				'json',
 				'assets',
@@ -723,6 +732,7 @@ gulp.task( 'build-android-release', () => {
 							 } ) )
 							 .pipe( gulp.dest( 'apk' ) );
 } );
+
 
 gulp.task( 'bundle', ( done ) => {
 		const bundler = new Bundler( {

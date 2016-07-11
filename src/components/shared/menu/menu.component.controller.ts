@@ -5,9 +5,29 @@ import avatar from './img/user.png!image';
  */
 class MenuController {
 
-    private avatarUrl:string;
+    static $inject: string[] = [
+        '$scope',
+        '$window',
+        '$timeout',
+        '$mdSidenav',
+        '$log',
+        '$ionicHistory',
+        '$state',
+        '$ionicNativeTransitions',
+        '$ionicPlatform',
+        '$mdDialog',
+        '$mdBottomSheet',
+        '$mdMenu',
+        '$mdSelect',
+        'OAuth2',
+        'OAuthFacebook',
+        'OAuthGoogle',
+        'OAuthDigits'
+    ];
+
+    private avatarUrl: string;
     private user;
-    private authenticated:boolean;
+    private authenticated: boolean;
 
     /**
      *
@@ -103,7 +123,7 @@ class MenuController {
                 this.$mdSelect.hide();
             } else if ( previousStateIsEmpty && !dialogIsOpen ) {
 
-                //todo: refatorar $mdDialog para usar o service $dialog
+                // todo: refatorar $mdDialog para usar o service $dialog
                 // se não há nenhum dos "componentes" acima abertos e não existe state anterior,
                 // então exibe uma janela de diálogo pedindo a confirmação para fechar a app.
                 this.$mdDialog.show( {
@@ -119,7 +139,7 @@ class MenuController {
                         }
                     }
                 } ).then( () => {
-                    //Se o usuário confirma a janela de diálogo, então fecha a app.
+                    // Se o usuário confirma a janela de diálogo, então fecha a app.
                     ionic.Platform.exitApp();
                 }, () => {
                     // Se o usuário clica no botão cancelar
@@ -131,10 +151,10 @@ class MenuController {
 
         }, 100 );
 
-        //Executa a primeira vez
+        // Executa a primeira vez
         this.updateUser();
 
-        //Watch User Info - para futuras alterações
+        // Watch User Info - para futuras alterações
         this.$scope.$watch( () => {
             return this.OAuth2.userInfo;
         }, ( oldValue, newValue ) => {
@@ -203,33 +223,13 @@ class MenuController {
     signOut() {
         this.OAuthFacebook.logout();
         this.OAuthGoogle.logout();
-        //this.OAuthDigits.logout(); //TODO: Verificar se precisa mesmo do logout do Digits
+        // this.OAuthDigits.logout(); //TODO: Verificar se precisa mesmo do logout do Digits
 
         this.OAuth2.signOut( () => {
             this.navigateTo( 'home' );
         } );
     }
 }
-
-MenuController.$inject = [
-    '$scope',
-    '$window',
-    '$timeout',
-    '$mdSidenav',
-    '$log',
-    '$ionicHistory',
-    '$state',
-    '$ionicNativeTransitions',
-    '$ionicPlatform',
-    '$mdDialog',
-    '$mdBottomSheet',
-    '$mdMenu',
-    '$mdSelect',
-    'OAuth2',
-    'OAuthFacebook',
-    'OAuthGoogle',
-    'OAuthDigits'
-];
 
 export default MenuController;
 

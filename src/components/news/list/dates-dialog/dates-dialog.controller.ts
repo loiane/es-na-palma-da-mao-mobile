@@ -1,5 +1,7 @@
 class DatesDialogController {
 
+    static $inject: string[] = [ '$mdDialog' ];
+
     /**
      * @constructor
      *
@@ -26,8 +28,6 @@ class DatesDialogController {
         } );
     }
 }
-
-DatesDialogController.$inject = ['$mdDialog'];
 
 export default DatesDialogController;
 

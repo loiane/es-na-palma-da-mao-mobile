@@ -10,6 +10,10 @@ import template from './toast.html';
  */
 class ToastService {
 
+    static $inject: string[] = [
+        '$mdToast'
+    ];
+
     /**
      * Toast service: exibe notificações no estilo toasts
      *
@@ -29,7 +33,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    show( displayOption ) {
+    public show( displayOption ) {
         return this.$mdToast.show( {
             controller: 'toastController',
             controllerAs: 'vm',
@@ -42,7 +46,13 @@ class ToastService {
         } );
     }
 
-    showActionToast( displayOption ) {
+    /**
+     * 
+     * 
+     * @param {any} displayOption
+     * @returns
+     */
+    public showActionToast( displayOption ) {
         if ( !displayOption ) {
             return;
         }
@@ -61,7 +71,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    hide() {
+    public hide() {
         return this.$mdToast.hide();
     }
 
@@ -72,7 +82,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    success( displayOption ) {
+    public success( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'success' } ) );
     }
 
@@ -83,7 +93,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    error( displayOption ) {
+    public error( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'error' } ) );
     }
 
@@ -93,7 +103,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    info( displayOption ) {
+    public info( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'info' } ) );
     }
 
@@ -103,13 +113,9 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    warn( displayOption ) {
+    public warn( displayOption ) {
         return this.show( angular.merge( displayOption, { type: 'info' } ) );
     }
 }
-
-ToastService.$inject = [
-    '$mdToast'
-];
 
 export default ToastService;

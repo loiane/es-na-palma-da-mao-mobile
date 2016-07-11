@@ -3,6 +3,8 @@
  */
 class DialogService {
 
+    static $inject: string[] = [ '$mdDialog' ];
+
     private defaultOptions;
 
     /**
@@ -32,10 +34,10 @@ class DialogService {
      *
      * @returns {Promise} - uma promise
      */
-    alert( contextualOptions ) {
-        let opts = this._buildOptionsTo( 'alert', contextualOptions );
+    public alert( contextualOptions ) {
+        let opts = this.buildOptionsTo( 'alert', contextualOptions );
 
-        var alert = this.$mdDialog.alert()
+        let alert = this.$mdDialog.alert()
                         .clickOutsideToClose( opts.clickOutsideToClose )
                         .title( opts.title )
                         .textContent( opts.content )
@@ -52,8 +54,8 @@ class DialogService {
      *
      * @returns {Promise} - uma promise
      */
-    confirm( contextualOptions ) {
-        let opts = this._buildOptionsTo( 'confirm', contextualOptions );
+    public confirm( contextualOptions ) {
+        let opts = this.buildOptionsTo( 'confirm', contextualOptions );
 
         let confirm = this.$mdDialog.confirm()
                           .title( opts.title )
@@ -70,7 +72,7 @@ class DialogService {
      *
      * @returns {void}
      */
-    cancel() {
+    public cancel() {
         this.$mdDialog.cancel();
     }
 
@@ -79,7 +81,7 @@ class DialogService {
      *
      * @returns {void}
      */
-    ok() {
+    public ok() {
         this.$mdDialog.hide();
     }
 
@@ -94,11 +96,10 @@ class DialogService {
      *
      * @private
      */
-    _buildOptionsTo( dialogTypeName, contextualOptions ) {
+    private buildOptionsTo( dialogTypeName, contextualOptions ) {
         return angular.merge( {}, this.defaultOptions[ dialogTypeName ], contextualOptions );
     }
 
 }
-DialogService.$inject = [ '$mdDialog' ];
 
 export default DialogService;

@@ -2,25 +2,26 @@ import {IHttpService, IPromise} from 'angular';
 
 class SepApiService {
 
+    static $inject: string[] = [ '$http', 'settings' ];
+
     /**
      * @param {Object} $http - angular $http service
      * @param {Object} settings - application settings
      * @constructor
      */
-    constructor( private $http:IHttpService, private settings ) {
+    constructor( private $http: IHttpService, private settings ) {
     }
 
     /**
      *
-     * @param {string} number - process number
+     * @param {string} procNumber - process number
      * @returns {IPromise<Array>}
      */
-    getProcessByNumber( number:string ):IPromise<any[]> {
+    getProcessByNumber( procNumber: string ): IPromise<any[]> {
         return this.$http
-                   .get( `${this.settings.api.sep}/${number}` )
+                   .get( `${this.settings.api.sep}/${procNumber}` )
                    .then( response => response.data );
     }
 }
-SepApiService.$inject = [ '$http', 'settings' ];
 
 export default SepApiService;

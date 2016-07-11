@@ -2,7 +2,7 @@ import {IHttpService, IPromise} from 'angular';
 
 class NewsApiService {
 
-    static $inject:string[] = [ '$http', 'settings' ];
+    static $inject: string[] = [ '$http', 'settings' ];
 
     private defaultPage = 0;
     private defaultPageSize = 10;
@@ -11,14 +11,14 @@ class NewsApiService {
      *
      * @param {Object} $http - angular $http service
      */
-    constructor( private $http:IHttpService, private settings ) {
+    constructor( private $http: IHttpService, private settings ) {
     }
 
     /**
      *
      * @returns {*}
      */
-    getNewsById( id:string ):IPromise<any> {
+    getNewsById( id: string ): IPromise<any> {
         return this.$http
                    .get( `${this.settings.api.news}/${id}` )
                    .then( response => response.data );
@@ -28,7 +28,7 @@ class NewsApiService {
      *
      * @returns {*}
      */
-    getHighlightNews():IPromise<any[]> {
+    getHighlightNews(): IPromise<any[]> {
         return this.$http
                    .get( `${this.settings.api.news}/highlights` )
                    .then( response => response.data );
@@ -40,7 +40,7 @@ class NewsApiService {
      * @param options
      * @returns {Array}
      */
-    getNews( options = {} ):IPromise<any[]> {
+    getNews( options = {} ): IPromise<any[]> {
         let today = new Date();
         let defaults = {
             origins: [],
@@ -62,7 +62,7 @@ class NewsApiService {
      *
      * @returns {*}
      */
-    getAvailableOrigins():IPromise<any[]> {
+    getAvailableOrigins(): IPromise<any[]> {
         return this.$http
                    .get( `${this.settings.api.news}/origins` )
                    .then( response => response.data );

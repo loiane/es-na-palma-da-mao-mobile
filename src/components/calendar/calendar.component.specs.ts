@@ -9,8 +9,8 @@
 import CalendarController from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
 import CalendarTemplate from './calendar.component.html';
-//import chai from 'chai';
-//import sinon from 'sinon';
+// import chai from 'chai';
+// import sinon from 'sinon';
 
 let expect = chai.expect;
 
@@ -83,7 +83,7 @@ describe( 'Calendar', () => {
             } );
 
             it( 'should activate on $ionicView.beforeEnter event', () => {
-                sandbox.stub( controller, 'activate' );// replace original activate
+                sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
                 onIonicBeforeEnterEvent();

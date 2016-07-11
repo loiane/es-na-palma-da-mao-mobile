@@ -17,7 +17,7 @@ let httpInterceptorsConfig = $httpProvider => {
                 } else if ( config.url.indexOf( settings.identityServer.url ) >= 0 ) {
 
                     let hasUrl = settings.identityServer.AuthenticatedUrls.filter( item => {
-                        return config.url == settings.identityServer.url + item;
+                        return config.url === settings.identityServer.url + item;
                     } );
 
                     if ( hasUrl.length > 0 ) {

@@ -8,8 +8,8 @@
 import 'angular';
 import CalendarApiService from './calendar-api.service';
 import settings from '../../shared/settings';
-//import chai from 'chai';
-//import sinon from 'sinon';
+// import chai from 'chai';
+// import sinon from 'sinon';
 
 let expect = chai.expect;
 

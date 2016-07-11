@@ -2,10 +2,10 @@ import {IHttpService, IPromise} from 'angular';
 
 class CalendarApiService {
 
-    static $inject:string[] = [ '$http', 'settings' ];
+    static $inject: string[] = [ '$http', 'settings' ];
 
-    private calendarsEndPoint:string;
-    private eventsEndPoint:string;
+    private calendarsEndPoint: string;
+    private eventsEndPoint: string;
 
     /**
      * @constructor
@@ -13,7 +13,7 @@ class CalendarApiService {
      * @param {IHttpService} $http - angular $http service
      * @param settings
      */
-    constructor( private $http:IHttpService,
+    constructor( private $http: IHttpService,
                  private settings ) {
         this.calendarsEndPoint = settings.api.calendars;
         this.eventsEndPoint = `${settings.api.calendars}/events`;
@@ -23,7 +23,7 @@ class CalendarApiService {
      *
      * @returns {*}
      */
-    public getAvailableCalendars():IPromise<any> {
+    public getAvailableCalendars(): IPromise<any> {
         return this.$http
                    .get( this.calendarsEndPoint )
                    .then( response => response.data );
@@ -35,7 +35,7 @@ class CalendarApiService {
      * @param filter
      * @returns {Array}
      */
-    public getFullCalendars( calendars:string[] = [], filter = {} ):IPromise<any> {
+    public getFullCalendars( calendars: string[] = [], filter = {} ): IPromise<any> {
         let today = new Date();
         let defaults = {
             singleEvents: true,

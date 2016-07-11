@@ -9,15 +9,15 @@ import DatesDialogController from './dates-dialog/dates-dialog.controller';
 import NewsApiService from '../shared/news-api.service';
 
 interface NewsFilter {
-    origins?:string[],
-    dateMin?:Date,
-    dateMax?:Date,
-    pageNumber?:number
+    origins?: string[];
+    dateMin?: Date;
+    dateMax?: Date;
+    pageNumber?: number;
 }
 
 class NewsListController {
 
-    static $inject:string[] = [
+    static $inject: string[] = [
         '$scope',
         '$state',
         '$mdDialog',
@@ -28,11 +28,11 @@ class NewsListController {
 
     private availableOrigins = [];
     private news = [];
-    private activated:boolean = false;
+    private activated: boolean = false;
     private populated = false;
     private hasMoreNews = true;
     private currentPage = 0;
-    private filter:NewsFilter = {
+    private filter: NewsFilter = {
         origins: [],
         dateMin: undefined,
         dateMax: undefined,
@@ -49,12 +49,12 @@ class NewsListController {
      * @param newsApiService
      * @param $ionicScrollDelegate
      */
-    constructor( private $scope:IScope,
-                 private $state:IStateService,
-                 private $mdDialog:angular.material.IDialogService,
-                 private $ionicLoading:loading.IonicLoadingService,
-                 private newsApiService:NewsApiService,
-                 private $ionicScrollDelegate:scroll.IonicScrollDelegate ) {
+    constructor( private $scope: IScope,
+                 private $state: IStateService,
+                 private $mdDialog: angular.material.IDialogService,
+                 private $ionicLoading: loading.IonicLoadingService,
+                 private newsApiService: NewsApiService,
+                 private $ionicScrollDelegate: scroll.IonicScrollDelegate ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
         this.resetPagination();
     }
@@ -62,7 +62,7 @@ class NewsListController {
     /**
      *
      */
-    public activate():void {
+    public activate(): void {
         this.getAvailableOrigins()
             .finally( () => {
                 this.activated = true;
@@ -86,7 +86,7 @@ class NewsListController {
     /**
      *
      */
-    public getNews( options:NewsFilter = {} ):void {
+    public getNews( options: NewsFilter = {} ): void {
 
         angular.extend( this.filter, options ); // atualiza o filtro
 
@@ -112,7 +112,7 @@ class NewsListController {
     /**
      *
      */
-    public openOriginsFilter():void {
+    public openOriginsFilter(): void {
         this.$mdDialog.show( {
             controller: SourcesDialogController,
             template: sourcesDialogTemplate,
@@ -129,7 +129,7 @@ class NewsListController {
     /**
      *
      */
-    public openDateFilter():void {
+    public openDateFilter(): void {
         this.$mdDialog.show( {
             controller: DatesDialogController,
             template: datesDialogTemplate,
@@ -148,7 +148,7 @@ class NewsListController {
     /**
      *
      */
-    public reload( filter ):void {
+    public reload( filter ): void {
         this.resetPagination();
         filter.pageNumber = 1;
         this.getNews( filter );
@@ -157,7 +157,7 @@ class NewsListController {
     /**
      *
      */
-    public resetPagination():void {
+    public resetPagination(): void {
         this.news = [];
         this.populated = false;
         this.hasMoreNews = true;
@@ -168,7 +168,7 @@ class NewsListController {
      *
      * @param id
      */
-    public goToNews( id:string ):void {
+    public goToNews( id: string ): void {
         this.$state.go( 'app.news/:id', { id: id } );
     }
 }

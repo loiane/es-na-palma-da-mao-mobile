@@ -1,7 +1,7 @@
 /// <reference path="../../../typings/index.d.ts" />
 
 // 3th party
-//import 'jquery';
+// import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto
 import 'angular-i18n/pt-br';   // on pt-br you can use your locale
 import 'angular-material';
@@ -21,7 +21,7 @@ import shared from '../shared/index';
 // Features
 import appComponent from './app.component';
 
-let dependencies = [ 
+let dependencies = [
     'ionic',
     'ngMaterial',
     'ngStorage',

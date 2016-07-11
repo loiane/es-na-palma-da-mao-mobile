@@ -2,6 +2,9 @@
  * Provêm funcionalidade para carregar componentes em runtime
  */
 class ComponentLoaderService {
+
+    static $inject: string[] = [ '$q', '$ocLazyLoad', 'system' ];
+
     /**
      * @constructor
      *
@@ -23,7 +26,7 @@ class ComponentLoaderService {
      *
      * @returns {Promise} - uma promise
      */
-    loadComponent( componentName ) {
+    public loadComponent( componentName: string ) {
         if ( !this.$ocLazyLoad.isLoaded( componentName ) ) {
             return this.system.import( `app/${componentName}/index` ).then( loadedComponent => {
                 const name = loadedComponent.name || loadedComponent.default.name || loadedComponent;
@@ -33,9 +36,6 @@ class ComponentLoaderService {
 
         return this.$q.when( componentName );
     }
-
 }
-
-ComponentLoaderService.$inject = [ '$q', '$ocLazyLoad', 'system' ];
 
 export default ComponentLoaderService;

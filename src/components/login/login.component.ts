@@ -7,7 +7,7 @@ const directive = () => {
         template: template,
         controller: LoginController,
         restrict: 'E',
-        controllerAs: 'vm', //scope: {},
+        controllerAs: 'vm', // scope: {},
         replace: true,
         bindToController: true
     };

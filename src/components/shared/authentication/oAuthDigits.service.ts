@@ -3,6 +3,8 @@
  */
 class OAuthDigits {
 
+    static $inject: string[] = [ '$window', '$localStorage' ];
+
     /**
      * @constructor
      */
@@ -43,9 +45,9 @@ class OAuthDigits {
 
 
         this.$window.plugins.digits.authenticate( options, ( responseDigits ) => {
-            var objOAuth = this.buildDigitsObject( responseDigits );
+            let objOAuth = this.buildDigitsObject( responseDigits );
 
-            //Salva token
+            // Salva token
             this.$localStorage.digitsRawAccessToken = responseDigits;
             this.$localStorage.digitsAccessToken = objOAuth;
 
@@ -61,7 +63,5 @@ class OAuthDigits {
         }
     }
 }
-
-OAuthDigits.$inject = [ '$window', '$localStorage' ];
 
 export default OAuthDigits;

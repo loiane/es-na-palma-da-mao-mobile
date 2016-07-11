@@ -63,7 +63,7 @@ function run( $rootScope, $window, $state, $ionicPlatform, $ionicHistory, $mdDia
             hideActionControl();
         } );
 
-        //Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
+        // Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
         isAuthenticated()
             .then( () => {
                 if ( angular.isDefined( OAuth2.userInfo ) ) {

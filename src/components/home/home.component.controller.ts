@@ -3,7 +3,7 @@ import {IWindowService} from 'angular';
 
 class HomeController {
 
-    static $inject:string[] = [ '$state', '$window', 'settings' ];
+    static $inject: string[] = [ '$state', '$window', 'settings' ];
 
     /**
      * @constructor
@@ -11,22 +11,22 @@ class HomeController {
      * @param {IWindowService} $window
      * @param {Object} settings
      */
-    constructor( private $state:IStateService,
-                 private $window:IWindowService,
+    constructor( private $state: IStateService,
+                 private $window: IWindowService,
                  private settings ) {
     }
 
     /**
      *
      */
-    public login():void {
+    public login(): void {
         this.$state.go( 'login' );
     }
 
     /**
      * Redireciona para 1ª tela do processo de criação de conta
      */
-    public createAccount():void {
+    public createAccount(): void {
         this.$window.open( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' );
     }
 

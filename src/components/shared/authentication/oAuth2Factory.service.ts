@@ -1,7 +1,9 @@
 /** Classe para acesso ao IdentityServer3 */
 class OAuth2 {
 
-    private identityServerUrl:string;
+    static $inject: string[] = [ '$window', '$http', '$localStorage' ];
+
+    private identityServerUrl: string;
 
     /** @constructor */
     constructor( private $window,
@@ -22,7 +24,7 @@ class OAuth2 {
      * Decodifica uma url Base64
      */
     urlBase64Decode( str ) {
-        var output = str.replace( '-', '+' ).replace( '_', '/' );
+        let output = str.replace( '-', '+' ).replace( '_', '/' );
         switch ( output.length % 4 ) {
             case 0:
                 break;
@@ -122,7 +124,7 @@ class OAuth2 {
          */
 
         return this.$http.get( userInfoUrl ).then( ( response ) => {
-            //Check if the object is correct (This request can return the Acesso Cidadão login page)
+            // Check if the object is correct (This request can return the Acesso Cidadão login page)
             if ( angular.isDefined( response.data.sid ) ) {
                 this.$localStorage.userInfo = response.data;
             }
@@ -130,9 +132,9 @@ class OAuth2 {
     }
 
     signIn( data ) {
-        //Get Token
+        // Get Token
         return this.getToken( data, () => {
-            //Fetch and save User Info
+            // Fetch and save User Info
             this.fetchUserInfo();
         } );
     }
@@ -147,7 +149,5 @@ class OAuth2 {
         success();
     }
 }
-
-OAuth2.$inject = [ '$window', '$http', '$localStorage' ];
 
 export default OAuth2;

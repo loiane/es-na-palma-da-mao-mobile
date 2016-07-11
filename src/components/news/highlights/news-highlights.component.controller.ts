@@ -6,7 +6,7 @@ import NewsApiService from '../shared/news-api.service';
 
 class NewsHighlightsController {
 
-    static $inject:string[] = ['$scope', 'newsApiService', '$ionicLoading', '$state'];
+    static $inject: string[] = ['$scope', 'newsApiService', '$ionicLoading', '$state'];
 
     private highlights = [];
 
@@ -18,10 +18,10 @@ class NewsHighlightsController {
      * @param {IonicLoadingService} $ionicLoading
      * @param {IStateService} $state
      */
-    constructor( private $scope:IScope,
-                 private newsApiService:NewsApiService,
-                 private $ionicLoading:loading.IonicLoadingService,
-                 private $state:IStateService ) {
+    constructor( private $scope: IScope,
+                 private newsApiService: NewsApiService,
+                 private $ionicLoading: loading.IonicLoadingService,
+                 private $state: IStateService ) {
 
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -31,7 +31,7 @@ class NewsHighlightsController {
      *
      * @returns {void}
      */
-    public activate():void {
+    public activate(): void {
         this.getHighlightNews();
     }
 
@@ -67,7 +67,7 @@ class NewsHighlightsController {
      *
      * @param id
      */
-    public goToNews( id ):void {
+    public goToNews( id ): void {
         this.$state.go( 'app.news/:id', {id: id} );
     }
 }

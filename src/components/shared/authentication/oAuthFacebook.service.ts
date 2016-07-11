@@ -3,6 +3,8 @@
  */
 class OAuthFacebook {
 
+    static $inject: string[] = [ '$window', '$localStorage' ];
+
     /**
      *
      */
@@ -32,7 +34,7 @@ class OAuthFacebook {
          */
 
         this.$window.facebookConnectPlugin.login( scopes, ( responseFacebook ) => {
-            //Salva o token do facebook
+            // Salva o token do facebook
             this.$localStorage.facebookAccessToken = responseFacebook.authResponse;
 
             success( responseFacebook );
@@ -59,7 +61,5 @@ class OAuthFacebook {
         this.$window.facebookConnectPlugin.api( requestPath, permissions, success, error );
     }
 }
-
-OAuthFacebook.$inject = [ '$window', '$localStorage' ];
 
 export default OAuthFacebook;

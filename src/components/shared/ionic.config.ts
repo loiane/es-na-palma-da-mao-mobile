@@ -11,7 +11,7 @@ function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
     $ionicConfigProvider.spinner.icon( 'android' );
     $ionicConfigProvider.views.swipeBackEnabled( false );
 
-    //console.log( 'disable ionic transitions' );
+    // console.log( 'disable ionic transitions' );
     $ionicConfigProvider.views.transition( 'none' );
 
     $ionicConfigProvider.scrolling.jsScrolling( false );

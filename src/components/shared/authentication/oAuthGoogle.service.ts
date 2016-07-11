@@ -3,6 +3,8 @@
  */
 class OAuthGoogle {
 
+    static $inject: string[] = [ '$window', '$localStorage' ];
+
     /**
      *
      */
@@ -29,7 +31,7 @@ class OAuthGoogle {
          */
         this.$window.plugins.googleplus.login( options,
             ( responseGoogle ) => {
-                //Salva o token do Google
+                // Salva o token do Google
                 this.$localStorage.googleAccessToken = responseGoogle;
 
                 success( responseGoogle );
@@ -56,7 +58,5 @@ class OAuthGoogle {
         this.$window.plugins.googleplus.disconnect( cb );
     }
 }
-
-OAuthGoogle.$inject = [ '$window', '$localStorage' ];
 
 export default OAuthGoogle;

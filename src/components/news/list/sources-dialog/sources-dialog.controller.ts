@@ -1,7 +1,9 @@
 class SourceController {
 
-    private selectedOrigins:any[];
-    private availableOrigins:any[];
+    static $inject: string[] = ['$mdDialog'];
+
+    private selectedOrigins: any[];
+    private availableOrigins: any[];
 
     /**
      * @constructor
@@ -75,8 +77,6 @@ class SourceController {
         return selectedOrigins.indexOf( origin ) > -1;
     }
 }
-
-SourceController.$inject = ['$mdDialog'];
 
 export default SourceController;
 

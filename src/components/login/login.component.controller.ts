@@ -11,20 +11,20 @@ import OAuthGoogle from '../shared/authentication/oAuthGoogle.service';
 
 
 interface AcessoCidadaoIdentity {
-    username?:string;
-    password?:string;
+    username?: string;
+    password?: string;
 }
 
 interface SocialNetworkIdentity {
-    accesstoken?:string;
-    provider?:string;
+    accesstoken?: string;
+    provider?: string;
 }
 
 interface PhoneIdentity {
-    accesstoken?:string;
-    provider?:string;
-    apiUrl?:string;
-    authHeader?:string;
+    accesstoken?: string;
+    provider?: string;
+    apiUrl?: string;
+    authHeader?: string;
 }
 
 /**
@@ -39,7 +39,7 @@ class LoginController {
      * @static
      * @type {string[]}
      */
-    static $inject:string[] = [
+    static $inject: string[] = [
         '$state',
         'OAuth2',
         'OAuthDigits',
@@ -53,7 +53,7 @@ class LoginController {
         '$ionicLoading'
     ];
 
-    private user:AcessoCidadaoIdentity = {};
+    private user: AcessoCidadaoIdentity = {};
     private tokenClaims;
     private errorMsgs = {
         accountNotLinked: 'Usuário não encontrado.'
@@ -74,17 +74,17 @@ class LoginController {
      * @param {IonicHistoryService} $ionicHistory
      * @param {IonicLoadingService} $ionicLoading
      */
-    constructor( private $state:IStateService,
-                 private OAuth2:OAuth2,
-                 private OAuthDigits:OAuthDigits,
-                 private OAuthFacebook:OAuthFacebook,
-                 private OAuthGoogle:OAuthGoogle,
-                 private dialog:DialogService,
-                 private toast:ToastService,
+    constructor( private $state: IStateService,
+                 private OAuth2: OAuth2,
+                 private OAuthDigits: OAuthDigits,
+                 private OAuthFacebook: OAuthFacebook,
+                 private OAuthGoogle: OAuthGoogle,
+                 private dialog: DialogService,
+                 private toast: ToastService,
                  private settings,
-                 private $window:IWindowService,
-                 private $ionicHistory:navigation.IonicHistoryService,
-                 private $ionicLoading:loading.IonicLoadingService ) {
+                 private $window: IWindowService,
+                 private $ionicHistory: navigation.IonicHistoryService,
+                 private $ionicLoading: loading.IonicLoadingService ) {
 
         this.OAuth2.initialize( settings.identityServer.url );
 
@@ -112,21 +112,21 @@ class LoginController {
         this.$state.go( 'app.dashboard.newsHighlights' );
     }
 
-     
+
     /**
      * 
      * 
      * @param {any} data
      * @returns {boolean}
      */
-    public isAccountNotLinked( data ):boolean {
-        return data.error == this.errorMsgs.accountNotLinked;
+    public isAccountNotLinked( data ): boolean {
+        return data.error === this.errorMsgs.accountNotLinked;
     }
 
     /**
      *
      */
-     public showDialogAccountNotLinked():void {
+     public showDialogAccountNotLinked(): void {
         this.dialog.confirm( {
             title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
@@ -139,12 +139,12 @@ class LoginController {
     /**
      *
      */
-     public signInSuccess():void {
+     public signInSuccess(): void {
         this.user = {};
         this.goToDashboard();
     }
 
-    
+
      /**
       * 
       * 
@@ -175,8 +175,8 @@ class LoginController {
      * @param {string} password
      * @returns
      */
-    protected getDataIdentityServerAcessoCidadao( options, username:string, password:string ) {
-        let data:AcessoCidadaoIdentity = {};
+    protected getDataIdentityServerAcessoCidadao( options, username: string, password: string ) {
+        let data: AcessoCidadaoIdentity = {};
 
         if ( username ) {
             data.username = username;
@@ -197,8 +197,8 @@ class LoginController {
       * @param {string} accesstoken
       * @returns
       */
-     protected getDataIdentityServerSocialNetwork( options, provider:string, accesstoken:string ) {
-        let data:SocialNetworkIdentity = {};
+     protected getDataIdentityServerSocialNetwork( options, provider: string, accesstoken: string ) {
+        let data: SocialNetworkIdentity = {};
 
         if ( provider ) {
             data.provider = provider;
@@ -221,8 +221,8 @@ class LoginController {
       * @param {string} authHeader
       * @returns
       */
-     protected getDataIdentityServerPhone( options, provider:string, apiUrl:string, authHeader:string ) {
-        let data:PhoneIdentity = {};
+     protected getDataIdentityServerPhone( options, provider: string, apiUrl: string, authHeader: string ) {
+        let data: PhoneIdentity = {};
 
         data.accesstoken = 'token';
 
@@ -252,7 +252,7 @@ class LoginController {
         this.OAuth2.signIn( isData ).then( () => {
             this.signInSuccess();
         }, () => {
-            //TODO: Tratar error
+            // TODO: Tratar error
             this.toast.error( {
                 title: 'Credenciais inválidas'
             } );
@@ -261,13 +261,13 @@ class LoginController {
                 this.$ionicLoading.hide();
             } );
     }
-    
+
     /**
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
      public facebookLogin() {
         this.OAuthFacebook.login( ['email', 'public_profile'], ( responseFacebook ) => {
-            //Com o token do facebook, busca o token do acesso cidadão
+            // Com o token do facebook, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this.getDataIdentityServerSocialNetwork( isData, 'Facebook', responseFacebook.authResponse.accessToken );
 
@@ -304,7 +304,7 @@ class LoginController {
         };
 
         this.OAuthGoogle.login( options, ( responseGoogle ) => {
-            //Com o token do google, busca o token do acesso cidadão
+            // Com o token do google, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this.getDataIdentityServerSocialNetwork( isData, 'Google', responseGoogle.oauthToken );
 
@@ -336,7 +336,7 @@ class LoginController {
      public digitsLogin() {
 
         this.OAuthDigits.login( {}, ( responseDigits ) => {
-            //Com o token do digits, busca o token do acesso cidadão
+            // Com o token do digits, busca o token do acesso cidadão
             let isData = this.getDataIdentityServer( this.settings.identityServer.clients.espmExternalLoginAndroid.id, this.settings.identityServer.clients.espmExternalLoginAndroid.secret, 'customloginexterno', 'openid' );
             isData = this.getDataIdentityServerPhone( isData, 'Celular', responseDigits['X-Auth-Service-Provider'], responseDigits['X-Verify-Credentials-Authorization'] );
 

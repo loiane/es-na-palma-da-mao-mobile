@@ -3,6 +3,8 @@
  */
 class SystemService {
 
+    static $inject: string[] = [ '$log' ];
+
     constructor( private $log ) {
     }
 
@@ -13,12 +15,10 @@ class SystemService {
      *
      * @returns {Promise}
      */
-    import( path ) {
+    public import( path ) {
         return System.import( path )
                      .catch( ( err ) => this.$log.error( err.stack ) );
     }
 }
-
-SystemService.$inject = [ '$log' ];
 
 export default SystemService;

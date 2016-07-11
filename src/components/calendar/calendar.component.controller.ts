@@ -3,18 +3,18 @@ import {IScope, IPromise} from 'angular';
 import CalendarApiService from './shared/calendar-api.service';
 
 interface Calendar {
-    currentDate?:Date;
-    eventSources?:any[];
+    currentDate?: Date;
+    eventSources?: any[];
 }
 
 class CalendarController {
 
-    static $inject:string[] = [ '$scope', 'calendarApiService', '$ionicLoading' ];
+    static $inject: string[] = [ '$scope', 'calendarApiService', '$ionicLoading' ];
 
-    private calendar:Calendar = {};
+    private calendar: Calendar = {};
     private selectedCalendars = [];
     private availableCalendars = [];
-    private viewTitle:string = '';
+    private viewTitle: string = '';
 
     /**
      * @constructor
@@ -23,9 +23,9 @@ class CalendarController {
      * @param {CalendarApiService} calendarApiService - calendarApiService service
      * @param {IonicLoadingService} $ionicLoading - ionic $ionicLoading service
      */
-    constructor( private $scope:IScope,
-                 private calendarApiService:CalendarApiService,
-                 private $ionicLoading:IonicLoadingService ) {
+    constructor( private $scope: IScope,
+                 private calendarApiService: CalendarApiService,
+                 private $ionicLoading: IonicLoadingService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -34,7 +34,7 @@ class CalendarController {
      *
      * @returns {void}
      */
-    public activate():void {
+    public activate(): void {
         this.showLoading()
             .then( () => this.getAvailableCalendars() )
             .then( availableCalendars => this.loadEvents( availableCalendars ) )
@@ -74,7 +74,7 @@ class CalendarController {
     /**
      * Carrega os eventos no calendário
      */
-    public loadEvents( selectedCalendars:string[] ) {
+    public loadEvents( selectedCalendars: string[] ) {
         return this.showLoading( 200 )
                    .then( () => this.calendarApiService.getFullCalendars( selectedCalendars ) )
                    .then( calendars => {
@@ -91,7 +91,7 @@ class CalendarController {
      *
      * @returns {void}
      */
-    public onViewTitleChanged( title ):void {
+    public onViewTitleChanged( title ): void {
         this.viewTitle = title;
     }
 
@@ -100,7 +100,7 @@ class CalendarController {
      *
      * @returns {void}
      */
-    public today():void {
+    public today(): void {
         this.calendar.currentDate = new Date();
     }
 
@@ -111,7 +111,7 @@ class CalendarController {
      *
      * @returns {boolean} - true ou false dependendo se a data selecionada no calendário é a data corrente
      */
-    public isToday():boolean {
+    public isToday(): boolean {
         let today = new Date();
         let currentCalendarDate = new Date( this.calendar.currentDate );
 

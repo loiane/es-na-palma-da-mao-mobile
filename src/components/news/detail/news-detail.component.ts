@@ -7,7 +7,7 @@ const directive = () => {
         template: template,
         controller: NewsDetailController,
         restrict: 'E',
-        controllerAs: 'vm', //scope: {},
+        controllerAs: 'vm', // scope: {},
         replace: true,
         bindToController: true
     };

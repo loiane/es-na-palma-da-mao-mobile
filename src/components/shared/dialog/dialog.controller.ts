@@ -3,6 +3,10 @@
  */
 class DialogController {
 
+    static $inject: string[] = [
+        'displayOption', 'dialog'
+    ];
+
     /**
      * Dialog controller
      *
@@ -22,7 +26,7 @@ class DialogController {
      *
      * @returns {void}
      */
-    activate() {
+    public activate() {
     }
 
     /**
@@ -30,7 +34,7 @@ class DialogController {
      *
      * @returns {void}
      */
-    cancel() {
+    public cancel() {
         this.dialog.cancel();
     }
 
@@ -39,14 +43,10 @@ class DialogController {
      *
      * @returns {void}
      */
-    ok() {
+    public ok() {
         this.dialog.ok();
     }
 
 }
-
-DialogController.$inject = [
-    'displayOption', 'dialog'
-];
 
 export default DialogController;

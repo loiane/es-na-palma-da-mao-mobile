@@ -3,6 +3,7 @@
  */
 class ToastController {
 
+    static $inject: string[] = [ 'displayOption' ];
     /**
      * Toast Message controller
      *
@@ -21,10 +22,8 @@ class ToastController {
      *
      * @returns {void}
      */
-    activate() {
+    public activate() {
     }
 }
-
-ToastController.$inject = [ 'displayOption' ];
 
 export default ToastController;
