@@ -2,42 +2,70 @@
 	<ion-content id="state-driver-license-status" class="md-espm-content">
 
 		<!-- Card with status -->
-		<md-card class="card-driver-license" ng-class="{ 'license-blocked': vm.licenseBlocked, 'license-expired': vm.licenseExpired, 'license-expiring': vm.licenseRenew }">
-			<md-card-title>
-				<md-card-title-text ng-hide="vm.licenseBlocked || vm.licenseRenew || vm.licenseExpired">
+		<md-card class="card-driver-license" ng-class="{ 'bg-green-70': vm.licenseOk, 'bg-red-70': vm.licenseBlocked, 'bg-pink-70': vm.licenseExpired, 'bg-yellow-70': vm.licenseRenew }">
+			<md-card-header ng-hide="!vm.driverDataPopulated || vm.licenseBlocked || vm.licenseRenew || vm.licenseExpired">
+				<md-card-avatar>
 					<i class="fa fa-car" aria-hidden="true"></i>
-					<p>Diriga com segurança</p>
-					<p for="">Valida até {{vm.expirationDate | calendar}}</p>
-				</md-card-title-text>
-				<md-card-title-text ng-show="vm.licenseRenew && !vm.licenseBlocked">
+				</md-card-avatar>
+				<md-card-header-text>
+					<span class="md-title">Diriga com segurança</span>
+					<span class="md-subhead">CNH valida até {{vm.expirationDate | calendar}}</span>
+				</md-card-header-text>
+			</md-card-header>
+			<md-card-header ng-show="vm.licenseRenew && !vm.licenseBlocked">
+				<md-card-avatar>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<p>Quase na hora de renovar</p>
-					<p>Expira {{vm.expirationDate | fromNow}}</p>
-				</md-card-title-text>
-				<md-card-title-text ng-show="vm.licenseExpired && !vm.licenseBlocked">
+				</md-card-avatar>
+				<md-card-header-text>
+					<span class="md-title">Quase na hora de renovar</span>
+					<span class="md-subhead">Expira {{vm.expirationDate | fromNow}}</span>
+				</md-card-header-text>
+			</md-card-header>
+			<md-card-header ng-show="vm.licenseExpired && !vm.licenseBlocked">
+				<md-card-avatar>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					<p>Renove sua CNH</p>
-					<p>Expirou a {{vm.expirationDate | fromNow}}</p>
-				</md-card-title-text>
-				<md-card-title-text ng-show="vm.licenseBlocked">
+				</md-card-avatar>
+				<md-card-header-text>
+					<span class="md-title">Renove sua CNH</span>
+					<span class="md-subhead">Expirou a {{vm.expirationDate | fromNow}}</span>
+				</md-card-header-text>
+			</md-card-header>
+			<md-card-header ng-show="vm.licenseBlocked">
+				<md-card-avatar>
 					<i class="fa fa-ban" aria-hidden="true"></i>
-					<p>CNH Bloqueada</p>
+				</md-card-avatar>
+				<md-card-header-text>
+					<span class="md-title">CNH Bloqueada</span>
 					<span class="md-subhead">{{vm.driverData.blockMotive}}</span>
-				</md-card-title-text>
-			</md-card-title>
+				</md-card-header-text>
+			</md-card-header>
+			<md-card-title-text ng-hide="vm.driverDataPopulated">
+				<ion-spinner icon="android"></ion-spinner>
+			</md-card-title-text>
 			<!--<md-card-content>
 
 			</md-card-content>-->
 		</md-card>
 		<md-content>
-			<h3 class="list-header">Multas</h3>
+			<h4 class="list-header tickets-history">Histórico de Multas <span ng-if="vm.last12MonthsPoints > 0">- {{vm.last12MonthsPoints}}</span></h4>
+			<div class="center">
+				<ion-spinner ng-hide="vm.ticketsPopulated" icon="android"></ion-spinner>
+			</div>
 			<!--List with tickets-->
 			<md-list class="fade-in" ng-show="vm.hasTickets">
 				<md-list-item class="md-2-line" ng-repeat="ticket in vm.tickets">
-					<div class="md-avatar avatar-points"><div>{{ticket.points}}</div></div>
-					<div class="md-list-item-text">
-						<h3>{{ticket.classification | capitalize}} - {{ticket.date | calendar}}</h3>
-						<p>{{ticket.place | capitalize}}, {{ticket.district | capitalize}}</p>
+					<div class="list-item-summary">
+						<div class="md-avatar" ng-class="[ vm.classificationClass( ticket.classification ) ]">
+							<div class="avatar-points">{{ticket.points}}</div>
+						</div>
+						<div class="md-list-item-text">
+							<h3>{{ticket.classification | capitalize}} - {{ticket.date | calendar}}</h3>
+							<p>{{ticket.place | capitalize}}, {{ticket.district | capitalize}}</p>
+						</div>
+					</div>
+					<div>
+						<p>Placa: {{ticket.plate}}</p>
+						<p>{{ticket.description}}</p>
 					</div>
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>

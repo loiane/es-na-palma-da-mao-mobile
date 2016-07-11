@@ -1,5 +1,10 @@
 import moment from 'moment';
 
+const classifications = [ { name: 'leve', backGroundClass: 'bg-green' },
+    { name: 'média', backGroundClass: 'bg-yellow' },
+    { name: 'grave', backGroundClass: 'bg-red' },
+    { name: 'gravíssima', backGroundClass: 'bg-black' } ];
+
 /** @class */
 class SepConsultaController {
 
@@ -15,6 +20,7 @@ class SepConsultaController {
         this.$scope = $scope;
         this.detranApiService = detranApiService;
 
+        this.reset();
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -22,15 +28,29 @@ class SepConsultaController {
      *
      */
     activate() {
+        this.reset();
+
+        this.getDriverData().finally( () => {
+            this.driverDataPopulated = true;
+        } );
+        this.getTickets().finally( () => {
+            this.ticketsPopulated = true;
+        } );
+    }
+
+    reset() {
         this.driverData = undefined;
         this.tickets = [];
-
-        this.getDriverData();
-        this.getTickets();
+        this.driverDataPopulated = false;
+        this.ticketsPopulated = false;
     }
 
     get hasData() {
         return angular.isDefined( this.driverData ) && this.driverData !== '';
+    }
+
+    get licenseOk() {
+        return this.driverData && this.driverData.status == 0;
     }
 
     get licenseBlocked() {
@@ -57,12 +77,36 @@ class SepConsultaController {
         return this.tickets.length > 0;
     }
 
+    get last12MonthsPoints() {
+        if ( this.tickets ) {
+            let points = 0;
+            this.tickets.forEach( ( ticket ) => {
+                if ( moment( ticket.date ).isAfter( moment().subtract( 1, 'year' ) ) ) {
+                    points += ticket.points;
+                }
+            } );
+            return points;
+        }
+        return 0;
+    }
+
+    classificationClass( value ) {
+        let classification = classifications.filter( ( i ) => i.name == value.toLowerCase() );
+        if ( classification && classification.length == 1 ) {
+            return classification[ 0 ].backGroundClass;
+        }
+    }
+
+    showDetails( $event ) {
+        let target = $event.currentTarget;
+    }
+
     /**
      * @param {Number} number: Process number
-     * @return {undefined}
+     * @return {Promisse}
      */
     getDriverData() {
-        this.detranApiService.getDriverData()
+        return this.detranApiService.getDriverData()
             .then( driverData => {
                 this.driverData = driverData;
                 return;
@@ -75,11 +119,34 @@ class SepConsultaController {
 
     /**
      * @param {any} id
+     * @return {Promisse}
      */
     getTickets() {
-        this.detranApiService.getTickets()
+        return this.detranApiService.getTickets()
             .then( tickets => {
                 this.tickets = tickets;
+                /*let ticket = {
+                    classification: 'GRAVE',
+                    date: '2013-09-06T20:12:00-03:00',
+                    description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
+                    district: 'VITORIA',
+                    place: 'R. DR. MOACYR GONCALVES',
+                    plate: 'MQH9400',
+                    points: '7',
+                    warning: 'false'
+                };
+                this.tickets.push( ticket );
+                let ticket2 = {
+                    classification: 'LEVE',
+                    date: '2013-09-06T20:12:00-03:00',
+                    description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
+                    district: 'VITORIA',
+                    place: 'R. DR. MOACYR GONCALVES',
+                    plate: 'MQH9400',
+                    points: '2',
+                    warning: 'false'
+                };
+                this.tickets.push( ticket2 );*/
                 return;
             } )
             .catch( () => {
