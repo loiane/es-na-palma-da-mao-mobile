@@ -127,28 +127,6 @@ class SepConsultaController {
         return this.detranApiService.getTickets()
             .then( tickets => {
                 this.tickets = tickets;
-                let ticket = {
-                    classification: 'GRAVE',
-                    date: '2013-09-06T20:12:00-03:00',
-                    description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
-                    district: 'VITORIA',
-                    place: 'R. DR. MOACYR GONCALVES',
-                    plate: 'MQH9400',
-                    points: '7',
-                    warning: 'false'
-                };
-                this.tickets.push( ticket );
-                let ticket2 = {
-                    classification: 'LEVE',
-                    date: '2013-09-06T20:12:00-03:00',
-                    description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
-                    district: 'VITORIA',
-                    place: 'R. DR. MOACYR GONCALVES',
-                    plate: 'MQH9400',
-                    points: '2',
-                    warning: 'false'
-                };
-                this.tickets.push( ticket2 );
                 return;
             } );
     }
