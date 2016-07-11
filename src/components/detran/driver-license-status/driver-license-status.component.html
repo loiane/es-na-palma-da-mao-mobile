@@ -1,0 +1,109 @@
+<ion-view title="Situação CNH">
+	<ion-content id="state-driver-license-status" class="md-espm-content">
+		<md-content layout="column" flex layout-align="center" layout-fill>
+			<!-- Card with status -->
+			<md-card class="card-driver-license" ng-class="{ 'bg-green-70': vm.licenseOk, 'bg-red-70': vm.licenseBlocked, 'bg-pink-70': vm.licenseExpired, 'bg-yellow-70': vm.licenseRenew }">
+				<md-card-header ng-hide="!vm.driverDataPopulated || vm.licenseBlocked || vm.licenseRenew || vm.licenseExpired">
+					<md-card-avatar>
+						<i class="fa fa-car" aria-hidden="true"></i>
+					</md-card-avatar>
+					<md-card-header-text>
+						<span class="md-title">Diriga com segurança</span>
+						<span class="md-subhead">CNH válida até {{vm.expirationDate | calendar}}</span>
+					</md-card-header-text>
+				</md-card-header>
+				<md-card-header ng-show="vm.licenseRenew && !vm.licenseBlocked">
+					<md-card-avatar>
+						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+					</md-card-avatar>
+					<md-card-header-text>
+						<span class="md-title">Quase na hora de renovar</span>
+						<span class="md-subhead">Expira {{vm.expirationDate | fromNow}}</span>
+					</md-card-header-text>
+				</md-card-header>
+				<md-card-header ng-show="vm.licenseExpired && !vm.licenseBlocked">
+					<md-card-avatar>
+						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+					</md-card-avatar>
+					<md-card-header-text>
+						<span class="md-title">Renove sua CNH</span>
+						<span class="md-subhead">Expirou a {{vm.expirationDate | fromNow}}</span>
+					</md-card-header-text>
+				</md-card-header>
+				<md-card-header ng-show="vm.licenseBlocked">
+					<md-card-avatar>
+						<i class="fa fa-ban" aria-hidden="true"></i>
+					</md-card-avatar>
+					<md-card-header-text>
+						<span class="md-title">CNH Bloqueada</span>
+						<span class="md-subhead">{{vm.driverData.blockMotive}}</span>
+					</md-card-header-text>
+				</md-card-header>
+				<md-card-title-text ng-hide="vm.driverDataPopulated">
+					<br />
+					<ion-spinner icon="android"></ion-spinner>
+				</md-card-title-text>
+				<md-card-content>
+
+				</md-card-content>
+			</md-card>
+
+			<h4 class="list-header tickets-history">Histórico de Multas <span ng-if="vm.last12MonthsPoints > 0">- {{vm.last12MonthsPoints}} Pontos</span></h4>
+			<div class="center">
+				<ion-spinner ng-hide="vm.ticketsPopulated" icon="android"></ion-spinner>
+			</div>
+
+			<div ng-hide="!vm.populated || vm.hasTickets" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+				<div class="md-padding" style="padding: 20px;">
+					<div class="md-subhead">Nenhuma Multa</div>
+				</div>
+			</div>
+
+			<div flex="100" class="content" ui-view ng-show="vm.hasTickets">
+				<md-item ng-repeat="ticket in vm.tickets" class="ticket" ng-class="{ 'selected-ticket': $index == vm.selectedIndex}">
+					<md-item-content ng-class="{ 'selected md-whiteframe-10dp': $index == vm.selectedIndex}" layout="column">
+						<div layout="row" ng-click="vm.showDetails($index)" class="folded">
+							<div class="md-tile-left">
+								<div class="avatar-points" ng-class="[ vm.classificationClass( ticket.classification ) ]">{{ticket.points}}</div>
+							</div>
+							<div class="md-tile-content" layout="column" layout-align="center start">
+								<h4>{{ticket.classification | capitalize}} - {{ticket.date | calendar}}</h4>
+								<p>
+									{{ticket.place | capitalize}}, {{ticket.district | capitalize}}
+								</p>
+							</div>
+						</div>
+						<md-divider ng-show="$index == vm.selectedIndex"></md-divider>
+						<div layout="column" class="expanded">
+							<p><strong>Placa:</strong> {{ticket.plate}}</p>
+							<p>{{ticket.description}}</p>
+						</div>
+					</md-item-content>
+					<md-divider class="divider-inset"></md-divider>
+				</md-item>
+			</div>
+		</md-content>
+		<!--<md-content>
+			<md-list class="fade-in" ng-show="vm.hasTickets">
+				<md-list-item class="md-2-line" ng-repeat="ticket in vm.tickets">
+					<div class="list-item-summary">
+						<div class="md-avatar" ng-class="[ vm.classificationClass( ticket.classification ) ]">
+							<div class="avatar-points">{{ticket.points}}</div>
+						</div>
+						<div class="md-list-item-text">
+							<h3>{{ticket.classification | capitalize}} - {{ticket.date | calendar}}</h3>
+							<p>{{ticket.place | capitalize}}, {{ticket.district | capitalize}}</p>
+						</div>
+					</div>
+					<<div>
+						<p>Placa: {{ticket.plate}}</p>
+						<p>{{ticket.description}}</p>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+			
+		</md-content>-->
+	</ion-content>
+	<!--Dashboard section-->
+</ion-view>

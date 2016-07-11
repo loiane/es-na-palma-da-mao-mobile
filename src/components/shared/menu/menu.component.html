@@ -74,6 +74,16 @@
 						</div>
 					</div>
 
+					<md-subheader class="md-accent">Detran</md-subheader>
+					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicenseStatus')">
+						<div class="col-25">
+							<i class="fa fa-car"></i>
+						</div>
+						<div class="col-75">
+							<span>Situação CNH</span>
+						</div>
+					</div>
+					<md-divider></md-divider>
 					<div class="row menu-item" ng-click="vm.signOut()">
 						<div class="col-25">
 							<i class="ion-android-exit"></i>
@@ -110,6 +120,12 @@
 						<i class="fa fa-search"></i>
 						<span>Consulta SEP</span>
 					</md-list-item>
+					<md-subheader class="md-accent">Detran</md-subheader>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.driverLicenseStatus')">
+						<i class="fa fa-car"></i>
+						<span>Situação CNH</span>
+					</md-list-item>
+					<md-divider></md-divider>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
 						<i class="ion-ios-undo"></i>
 						<span>Sair</span>

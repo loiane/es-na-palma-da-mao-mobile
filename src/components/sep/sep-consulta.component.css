@@ -19,7 +19,7 @@
 }
 
 .state-sep-subheader {
-    transition: all 1s;
+    transition: all 0.5s;
     background: none;
     background-color: rgb(250,250,250);
 }

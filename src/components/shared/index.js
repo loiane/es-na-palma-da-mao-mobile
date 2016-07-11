@@ -2,6 +2,7 @@ import toast from './toast/index.js';
 import dialog from './dialog/index.js';
 import cpfService from './cpf.service.js';
 import fromNowFilter from './from-now.filter.js';
+import toNowFilter from './to-now.filter.js';
 import calendarFilter from './date-calendar.filter.js';
 import capitalizeFilter from './capitalize.filter.js';
 import menu from './menu/index.js';
@@ -27,6 +28,7 @@ export default angular.module( 'shared', dependencies )
                       .constant( 'settings', settings )
                       .service( 'cpfService', cpfService )
                       .filter( 'fromNow', fromNowFilter )
+                      .filter( 'toNow', toNowFilter )
                       .filter( 'calendar', calendarFilter )
                       .filter( 'capitalize', capitalizeFilter )
                       .run( appRun );
