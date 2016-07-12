@@ -38,7 +38,7 @@ describe( 'SepApiService', () => {
         it( 'should call getProcessByNumber', () => {
             sepApiService.getProcessByNumber( processNumber );
 
-            expect( $http.get.calledWith( settings.api.sep + processNumber ) ).to.be.true;
+            expect( $http.get.calledWith( settings.api.sep + '/' + processNumber ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {
