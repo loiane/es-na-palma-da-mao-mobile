@@ -13,7 +13,7 @@
     "prod:watch": "npm run prod -- -w",
     "android": "npm run compile && ionic run android",
     "ionic": "ionic",
-    "test": "karma start karma.conf.js",
+    "test": "karma start ./config/karma.conf.js",
     "test:dev": "npm run test -- --no-single-run",
     "test:web": "npm run test -- --browsers Chrome",
     "test:dev:web": "npm run test:web -- --no-single-run",
