@@ -9,8 +9,6 @@
 import CalendarController from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
 import CalendarTemplate from './calendar.component.html';
-// import chai from 'chai';
-// import sinon from 'sinon';
 
 let expect = chai.expect;
 

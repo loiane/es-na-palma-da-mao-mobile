@@ -42,8 +42,9 @@ class CalendarController {
     }
 
     /**
-     *
-     * @param delay
+     * 
+     * 
+     * @param {number} [delay=0]
      * @returns {any}
      */
     public showLoading( delay = 0 ) {
@@ -91,7 +92,7 @@ class CalendarController {
      *
      * @returns {void}
      */
-    public onViewTitleChanged( title ): void {
+    public onViewTitleChanged( title: string ): void {
         this.viewTitle = title;
     }
 
