@@ -49,25 +49,25 @@ class SepConsultaController {
     }
 
     get licenseOk() {
-        return this.driverData && this.driverData.status == 0;
+        return angular.isDefined( this.driverData ) && this.driverData.status == 0;
     }
 
     get licenseBlocked() {
-        return this.driverData && this.driverData.status == 1;
+        return angular.isDefined( this.driverData ) && this.driverData.status == 1;
     }
 
     get licenseExpired() {
-        return this.driverData && moment( this.driverData.expirationDate ).add( 1, 'months' ).isBefore( moment().startOf( 'day' ) );
+        return angular.isDefined( this.driverData ) && moment( this.driverData.expirationDate ).add( 1, 'months' ).isBefore( moment().startOf( 'day' ) );
     }
 
     get licenseRenew() {
-        return this.driverData
+        return angular.isDefined( this.driverData )
             && moment( this.driverData.expirationDate ).add( 1, 'months' ).isAfter( moment().startOf( 'day' ) )
             && moment().startOf( 'day' ).isAfter( moment( this.driverData.expirationDate ) );
     }
 
     get expirationDate() {
-        if ( this.driverData ) {
+        if ( angular.isDefined( this.driverData ) ) {
             return moment( this.driverData.expirationDate );
         }
     }

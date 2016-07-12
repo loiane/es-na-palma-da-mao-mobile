@@ -29,12 +29,7 @@ class DetranApiService {
     getDriverData() {
         return this.$http
             .get( `${this.settings.api.detran}/driverData` )
-            .then( response => {
-                return response.data;
-            } )
-            .catch( ( error ) => {
-                console.log( error );
-            } );
+            .then( response => response.data );
     }
 
     /**
@@ -55,7 +50,7 @@ class DetranApiService {
      */
     getTickets() {
         return this.$http
-            .get( `${this.settings.api.detran}/tickets ` )
+            .get( `${this.settings.api.detran}/tickets` )
             .then( response => response.data );
     }
 
