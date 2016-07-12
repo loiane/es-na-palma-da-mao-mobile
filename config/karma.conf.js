@@ -3,7 +3,7 @@
 
 var browsers = [ 'PhantomJS' ]; // para builds locais
 var coverage_reporters = [ { type: 'text' } ];
-var reporters = [ 'mocha', 'coverage' ];
+var reporters = [ 'mocha'/*, 'coverage'*/ ];
 
 if ( process.env.TRAVIS ) {
 
