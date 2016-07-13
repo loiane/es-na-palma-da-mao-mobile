@@ -18,7 +18,7 @@
 					</md-card-avatar>
 					<md-card-header-text>
 						<span class="md-title">Quase na hora de renovar</span>
-						<span class="md-subhead">Expira {{vm.expirationDate | fromNow: true}}</span>
+						<span class="md-subhead">Expira {{::vm.expirationDate | fromNow: true}}</span>
 					</md-card-header-text>
 				</md-card-header>
 				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseRenew && !vm.licenseBlocked">
@@ -27,7 +27,7 @@
 					</md-card-avatar>
 					<md-card-header-text>
 						<span class="md-title">Renove sua CNH</span>
-						<span class="md-subhead">Expirou à {{vm.expirationDate | fromNow: true}}</span>
+						<span class="md-subhead">Expirou à {{::vm.expirationDate | fromNow: true}}</span>
 					</md-card-header-text>
 				</md-card-header>
 				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseBlocked">
@@ -36,7 +36,7 @@
 					</md-card-avatar>
 					<md-card-header-text>
 						<span class="md-title">CNH Bloqueada</span>
-						<span class="md-subhead">{{vm.driverData.blockMotive}}</span>
+						<span class="md-subhead">{{::vm.driverData.blockMotive}}</span>
 					</md-card-header-text>
 				</md-card-header>
 				<md-card-title-text ng-hide="vm.driverDataPopulated">
@@ -45,7 +45,7 @@
 				</md-card-title-text>
 			</md-card>
 
-			<h4 class="list-header tickets-history">Histórico de Multas <span ng-if="vm.last12MonthsPoints > 0">- {{vm.last12MonthsPoints}} Pontos</span></h4>
+			<h4 class="list-header tickets-history">Histórico de Multas <span ng-if="vm.last12MonthsPoints > 0">- {{::vm.last12MonthsPoints}} Pontos</span></h4>
 			<div class="center">
 				<ion-spinner ng-hide="vm.ticketsPopulated" icon="android"></ion-spinner>
 			</div>
@@ -57,23 +57,25 @@
 				<md-divider></md-divider>
 			</div>
 
-			<md-item ng-repeat="ticket in vm.tickets" class="ticket" ng-class="{ 'selected-ticket': $index == vm.selectedIndex}">
+			<md-item ng-repeat="ticket in vm.tickets track by $index" 
+					 class="ticket"
+					 ng-class="{ 'selected-ticket': $index == vm.selectedIndex}">
 				<md-item-content ng-class="{ 'selected md-whiteframe-10dp': $index == vm.selectedIndex}" layout="column">
 					<div layout="row" ng-click="vm.showDetails($index)" class="folded">
 						<div class="md-tile-left">
-							<div class="avatar-points" ng-class="[ vm.classificationClass( ticket.classification ) ]">{{ticket.points}}</div>
+							<div class="avatar-points bg-{{::vm.getClassificationColor( ticket.classification ) }}">{{::ticket.points}}</div>
 						</div>
 						<div class="md-tile-content" layout="column" layout-align="center start">
-							<h4>{{ticket.classification | capitalize}} - {{ticket.date | calendar}}</h4>
+							<h4>{{::ticket.classification | capitalize}} - {{::ticket.date | calendar}}</h4>
 							<p>
-								{{ticket.place | capitalize}}, {{ticket.district | capitalize}}
+								{{::ticket.place | capitalize}}, {{::ticket.district | capitalize}}
 							</p>
 						</div>
 					</div>
 					<md-divider ng-show="$index == vm.selectedIndex"></md-divider>
 					<div layout="column" class="expanded">
-						<p><strong>Placa:</strong> {{ticket.plate}}</p>
-						<p>{{ticket.description}}</p>
+						<p><strong>Placa:</strong> {{::ticket.plate}}</p>
+						<p>{{::ticket.description}}</p>
 					</div>
 				</md-item-content>
 				<md-divider class="divider-inset" ng-hide="$index == vm.selectedIndex && $last"></md-divider>

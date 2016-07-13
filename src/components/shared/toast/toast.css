@@ -2,6 +2,7 @@
 	text-align: center;
 	height: 66px;
 	max-height: none;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
 
 .toast .md-toast-content {
@@ -19,8 +20,10 @@
 
 .toast.info .md-toast-content {
 	background-color: #7fc5d1;
+	color: #333;
 }
 
 .toast.warn .md-toast-content {
-	background-color: #ffec6c;
+	background-color: #faebcc;
+	color: #333;
 }

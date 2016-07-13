@@ -1,16 +1,56 @@
 System.config({
   baseURL: "./",
   defaultJSExtensions: true,
-  transpiler: "babel",
-  babelOptions: {
-    "optional": [
-      "runtime",
-      "optimisation.modules.system"
-    ]
+  transpiler: "plugin-babel",
+  typescriptOptions: {
+    "target": "es6",
+    "module": "es6",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmitHelpers": false,
+    "sourceMap": true,
+    "noResolve": false
   },
   paths: {
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
+  },
+
+  packages: {
+    "src/components": {
+      "defaultExtension": "ts",
+      "meta": {
+        "*.ts": {
+          "loader": "ts"
+        },
+        "*.html": {
+          "loader": "text"
+        },
+        "*.json": {
+          "loader": "json"
+        },
+        "*.css": {
+          "loader": "css"
+        }
+      }
+    },
+    "components": {
+      "meta": {
+        "*.ts": {
+          "loader": "ts"
+        },
+        "*.html": {
+          "loader": "text"
+        },
+        "*.json": {
+          "loader": "json"
+        },
+        "*.css": {
+          "loader": "css"
+        }
+      }
+    }
   },
   buildCSS: true,
 
@@ -33,13 +73,19 @@ System.config({
     "ionic-native-transitions": "npm:ionic-native-transitions@1.0.0-rc9",
     "json": "github:systemjs/plugin-json@0.1.2",
     "mobile-detect": "npm:mobile-detect@1.3.2",
-    "moment": "npm:moment@2.13.0",
+    "moment": "npm:moment@2.14.1",
     "ngstorage": "npm:ngstorage@0.3.10",
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
     "oidc-token-manager": "github:IdentityModel/oidc-token-manager@1.2.0",
+    "plugin-babel": "npm:systemjs-plugin-babel@0.0.12",
+    "plugin-babel-runtime": "npm:babel-runtime@5.8.38",
     "robotoDraft": "github:raibutera/robotodraft@1.1.0",
+    "systemjs-babel-build": "npm:systemjs-plugin-babel@0.0.12/systemjs-babel-browser.js",
     "text": "github:systemjs/plugin-text@0.0.7",
     "toastr": "github:CodeSeven/toastr@2.1.2",
+    "ts": "github:frankwallis/plugin-typescript@4.0.16",
+    "ts-runtime": "npm:babel-runtime@5.8.38",
+    "typescript": "npm:typescript@1.8.10",
     "ui-router-extras": "github:christopherthielen/ui-router-extras@0.0.14",
     "underscore": "github:jashkenas/underscore@1.8.3",
     "github:CodeSeven/toastr@2.1.2": {
@@ -81,11 +127,17 @@ System.config({
       "angular-ui-router": "github:angular-ui/angular-ui-router-bower@0.2.13",
       "css": "github:systemjs/plugin-css@0.1.23"
     },
+    "github:frankwallis/plugin-typescript@4.0.16": {
+      "typescript": "npm:typescript@1.8.10"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.6.0"
+    },
+    "github:jspm/nodelibs-os@0.1.0": {
+      "os-browserify": "npm:os-browserify@0.1.2"
     },
     "github:jspm/nodelibs-path@0.1.0": {
       "path-browserify": "npm:path-browserify@0.0.0"
@@ -141,6 +193,9 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0"
     },
+    "npm:os-browserify@0.1.2": {
+      "os": "github:jspm/nodelibs-os@0.1.0"
+    },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -148,6 +203,9 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
+    },
+    "npm:typescript@1.8.10": {
+      "os": "github:jspm/nodelibs-os@0.1.0"
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",

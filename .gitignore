@@ -17,6 +17,7 @@ config.xml
 
 # Arquivo de configuração do portal com informações sensiveis
 src/components/shared/settings.js
+src/components/shared/settings.ts
 
 # Runtime data
 pids
@@ -56,6 +57,9 @@ dist/
 # webstorm temps
 .idea/
 
+#vscode
+.vscode/
+
 #pasta antiga de gulp tasks
 gulp-tasks/
 
@@ -70,3 +74,7 @@ platforms/
 plugins/
 www/
 hooks/
+
+
+#typings
+typings/

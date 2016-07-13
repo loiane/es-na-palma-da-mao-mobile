@@ -16,7 +16,7 @@
 			<md-input-container>
 				<md-select ng-model="vm.selectedCalendars"
 						   multiple
-						   md-on-close="vm.loadEvents( vm.selectedCalendars )"
+						   md-on-close="vm.loadCalendars( vm.selectedCalendars )"
 						   aria-label="Selecionar Órgão">
 					<md-optgroup label="Órgãos">
 						<md-option ng-value="calendar" ng-repeat="calendar in vm.availableCalendars track by $index">{{::calendar}}</md-option>
@@ -31,7 +31,7 @@
 				 class="main-content">
 		<calendar ng-model="vm.calendar.currentDate"
 				  event-sources="vm.calendar.eventSources"
-				  range-changed="vm.loadEvents( vm.selectedCalendars )"
+				  range-changed="vm.loadCalendars( vm.selectedCalendars )"
 				  event-selected="vm.onEventSelected(event)"
 				  title-changed="vm.onViewTitleChanged(title)"
 				  time-selected="vm.onTimeSelected(selectedTime)"></calendar>
