@@ -58,7 +58,7 @@ export class FacebookService {
      * @param {any} onSuccess
      * @param {any} onError
      */
-    public logout( onSuccess, onError ) {
+    public logout( onSuccess?, onError? ) {
         if ( this.$window.facebookConnectPlugin ) {
             this.$window.facebookConnectPlugin.logout( onSuccess, onError );
         }

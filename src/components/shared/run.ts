@@ -44,6 +44,13 @@ function run( $rootScope: any,
     }
 
     /**
+     * 
+     */
+    function initAuthentication() {
+         acessoCidadaoService.initialize( settings.identityServer.url );
+    }
+
+    /**
      * Para android: esconde controles Action e Dialog se o usuário clica no botão voltar do
      * dispositivo.
      *
@@ -54,13 +61,13 @@ function run( $rootScope: any,
         $mdDialog.cancel();
     }
 
-    /**
-     * TODO:
-     */
-    function isAuthenticated() {
-        acessoCidadaoService.initialize( settings.identityServer.url );
-        return acessoCidadaoService.getAcessoCidadaoUserClaims();
-    }
+    // /**
+    //  * TODO:
+    //  */
+    // function isAuthenticated() {
+    //     acessoCidadaoService.initialize( settings.identityServer.url );
+    //     return acessoCidadaoService.getAcessoCidadaoUserClaims();
+    // }
 
     $ionicPlatform.ready( () => {
         ionic.Platform.isFullScreen = true;
@@ -71,27 +78,38 @@ function run( $rootScope: any,
         }
 
         initialRootScope();
+        initAuthentication();
 
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();
         } );
 
+        if ( acessoCidadaoService.authenticated ) {
+            $state.go( 'app.dashboard.newsHighlights' );
+        } else {
+            $state.go( 'home' );
+        }
+
+        if ( $window.navigator.splashscreen ) {
+            $window.navigator.splashscreen.hide();
+        }
+
         // Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
-        isAuthenticated()
-            .then( userClaims => {
-                if ( angular.isDefined( userClaims) ) {
-                    $state.go( 'app.dashboard.newsHighlights' );
-                } else {
-                    $state.go( 'home' );
-                }
-            }, () => {
-                $state.go( 'home' );
-            } )
-            .finally( () => {
-                if ( $window.navigator.splashscreen ) {
-                    $window.navigator.splashscreen.hide();
-                }
-            } );
+        // isAuthenticated()
+        //     .then( () => {
+        //         if ( acessoCidadaoService.authenticated ) {
+        //             $state.go( 'app.dashboard.newsHighlights' );
+        //         } else {
+        //             $state.go( 'home' );
+        //         }
+        //     }, () => {
+        //         $state.go( 'home' );
+        //     } )
+        //     .finally( () => {
+        //         if ( $window.navigator.splashscreen ) {
+        //             $window.navigator.splashscreen.hide();
+        //         }
+        //     } );
 
     } );
 }

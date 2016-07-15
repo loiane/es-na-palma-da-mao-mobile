@@ -1,9 +1,13 @@
-import avatar from './img/user.png!image';
+import {IScope, IWindowService, ITimeoutService, ILogService} from 'angular';
+import {IStateService} from 'angular-ui-router';
+
+import {AcessoCidadaoService, GoogleService, FacebookService, DigitsService, AcessoCidadaoClaims} from '../authentication/index';
+import defaultAvatar from './img/user.png!image';
 
 /**
  * Controller raiz da aplicação
  */
-class MenuController {
+export default class MenuController {
 
     public static $inject: string[] = [
         '$scope',
@@ -25,49 +29,44 @@ class MenuController {
         'digitsService'
     ];
 
-    private avatarUrl: string;
-    private user;
-    private authenticated: boolean;
-
     /**
-     *
-     * @param $scope
-     * @param $window
-     * @param $timeout
-     * @param $mdSidenav
-     * @param $log
-     * @param $ionicHistory
-     * @param $state
-     * @param $ionicNativeTransitions
-     * @param $ionicPlatform
-     * @param $mdDialog
-     * @param $mdBottomSheet
-     * @param $mdMenu
-     * @param $mdSelect
-     * @param acessoCidadaoService
-     * @param facebookService
-     * @param googleService
-     * @param digitsService
+     * Cria uma instância de MenuController.
+     * 
+     * @param {IScope} $scope
+     * @param {IWindowService} $window
+     * @param {ITimeoutService} $timeout
+     * @param {angular.material.ISidenavService} $mdSidenav
+     * @param {ILogService} $log
+     * @param {ionic.navigation.IonicHistoryService} $ionicHistory
+     * @param {IStateService} $state
+     * @param {any} $ionicNativeTransitions
+     * @param {ionic.platform.IonicPlatformService} $ionicPlatform
+     * @param {angular.material.IDialogService} $mdDialog
+     * @param {angular.material.IBottomSheetService} $mdBottomSheet
+     * @param {angular.material.IMenuService} $mdMenu
+     * @param {*} $mdSelect
+     * @param {AcessoCidadaoService} acessoCidadaoService
+     * @param {FacebookService} facebookService
+     * @param {GoogleService} googleService
+     * @param {DigitsService} digitsService
      */
-    constructor( private $scope,
-                 private $window,
-                 private $timeout,
-                 private $mdSidenav,
-                 private $log,
-                 private $ionicHistory,
-                 private $state,
+    constructor( private $scope: IScope,
+                 private $window: IWindowService,
+                 private $timeout: ITimeoutService,
+                 private $mdSidenav: angular.material.ISidenavService,
+                 private $log: ILogService,
+                 private $ionicHistory: ionic.navigation.IonicHistoryService,
+                 private $state: IStateService,
                  private $ionicNativeTransitions,
-                 private $ionicPlatform,
-                 private $mdDialog,
-                 private $mdBottomSheet,
-                 private $mdMenu,
-                 private $mdSelect,
-                 private acessoCidadaoService,
-                 private facebookService,
-                 private googleService,
-                 private digitsService ) {
-        this.avatarUrl = avatar.src;
-
+                 private $ionicPlatform: ionic.platform.IonicPlatformService,
+                 private $mdDialog: angular.material.IDialogService,
+                 private $mdBottomSheet: angular.material.IBottomSheetService,
+                 private $mdMenu: angular.material.IMenuService,
+                 private $mdSelect: any,
+                 private acessoCidadaoService: AcessoCidadaoService,
+                 private facebookService: FacebookService,
+                 private googleService: GoogleService,
+                 private digitsService: DigitsService ) {
         this.activate();
     }
 
@@ -76,7 +75,7 @@ class MenuController {
      *
      * @returns {void}
      */
-    public activate() {
+    public activate(): void {
         //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
         //
         //  Register a hardware back button action. Only one action will execute
@@ -150,27 +149,40 @@ class MenuController {
             }
 
         }, 100 );
-
-        // Executa a primeira vez
-        this.updateUser();
-
-        // Watch User Info - para futuras alterações
-        this.$scope.$watch( () => {
-            return this.acessoCidadaoService.userClaims;
-        }, ( oldValue, newValue ) => {
-            if ( newValue !== oldValue ) {
-                this.updateUser();
-            }
-        } );
     }
 
-    public updateUser() {
-        this.user = this.acessoCidadaoService.userClaims;
-        this.authenticated = this.user ? true : false;
-
-        if ( angular.isDefined( this.googleService.avatarUrl ) ) {
-            this.avatarUrl = this.googleService.avatarUrl;
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {string}
+     */
+    public get avatarUrl(): string {
+        if ( this.authenticated ) {
+            return this.googleService.avatarUrl;
+        } else {
+            return defaultAvatar.src;
         }
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {AcessoCidadaoClaims}
+     */
+    public get user(): AcessoCidadaoClaims {
+        return this.acessoCidadaoService.userClaims;
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     */
+    public get authenticated(): boolean {
+        return this.acessoCidadaoService.authenticated;
     }
 
     /**
@@ -180,7 +192,7 @@ class MenuController {
      *
      *  @returns {void}
      */
-    public closeSideNav() {
+    public closeSideNav(): void {
         this.$mdSidenav( 'left' ).close();
     }
 
@@ -189,7 +201,7 @@ class MenuController {
      *
      * @returns {void}
      */
-    public toggleLeft() {
+    public toggleLeft(): void {
         this.$mdSidenav( 'left' ).toggle();
     }
 
@@ -200,7 +212,7 @@ class MenuController {
      *
      * @returns {void}
      */
-    public navigateTo( stateName ) {
+    public navigateTo( stateName: string ): void {
         this.$timeout( () => {
             this.closeSideNav();
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
@@ -220,10 +232,13 @@ class MenuController {
         }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }
 
-    public signOut() {
+    /**
+     * Desloga usuário do sistema
+     */
+    public signOut(): void {
         this.facebookService.logout();
         this.googleService.logout();
-        // this.DigitsService.logout(); //TODO: Verificar se precisa mesmo do logout do Digits
+        this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
 
         this.acessoCidadaoService.signOut( () => {
             this.navigateTo( 'home' );
@@ -231,5 +246,4 @@ class MenuController {
     }
 }
 
-export default MenuController;
 

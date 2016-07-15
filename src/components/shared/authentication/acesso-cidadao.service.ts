@@ -56,6 +56,16 @@ export class AcessoCidadaoService {
     }
 
     /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     */
+    public get authenticated(): boolean {
+        return angular.isDefined( this.userClaims ) && !angular.equals( {}, this.userClaims );
+    }
+
+    /**
      * Autentica o usuário no acesso cidadão
      * 
      * @param {Identity} data

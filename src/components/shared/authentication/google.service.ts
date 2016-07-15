@@ -59,7 +59,7 @@ export class GoogleService {
      * 
      * @param {any} onSuccess
      */
-    public logout( onSuccess ) {
+    public logout( onSuccess? ) {
         if ( this.$window.plugins && this.$window.plugins.googleplus ) {
             this.$window.plugins.googleplus.logout( onSuccess );
         }
