@@ -630,12 +630,12 @@ gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authentic
 } ) );
 } );
 
-gulp.task( 'transpile-app-ts', function() {
+gulp.task( 'transpile-app-ts', () => {
     return gulp.src( config.paths.ts.app )
-.pipe( sourcemaps.init() )
-.pipe( typescript( tsProject ) )
-.pipe( sourcemaps.write() )
-.pipe( gulp.dest( config.paths.output.app ) );
+        .pipe( sourcemaps.init() )
+        .pipe( typescript( tsProject ) )
+        .pipe( sourcemaps.write() )
+        .pipe( gulp.dest( config.paths.output.app ) );
 } );
 
 gulp.task( 'delay', false, ( cb ) => {

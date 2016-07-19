@@ -10,11 +10,6 @@
     "systemjs": "registry:dt/systemjs#0.19.29+20160702105636"
   },
   "dependencies": {
-    "@angular/common": "file:www/jspm_packages/npm/@angular/common@2.0.0-rc.4/index.d.ts",
-    "@angular/core": "file:www/jspm_packages/npm/@angular/core@2.0.0-rc.4/index.d.ts",
-    "ionic-angular": "file:www/jspm_packages/npm/ionic-angular@2.0.0-beta.10/index.d.ts",
-    "ionic-native": "file:www/jspm_packages/npm/ionic-native@1.3.7/dist/index.d.ts",
-    "moment": "github:moment/moment/moment.d.ts#2.14.1",
-    "rxjs": "file:www/jspm_packages/npm/rxjs@5.0.0-beta.10/Rx.d.ts"
+    "moment": "github:moment/moment/moment.d.ts#2.14.1"
   }
 }

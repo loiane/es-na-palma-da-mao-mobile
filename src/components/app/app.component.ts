@@ -14,7 +14,8 @@ export class AppComponent {
 
     constructor( private platform: Platform ) {
         this.rootPage = TabsComponent;
-
+        let a: number = 'casa'; 
+        a = 233;
         platform.ready().then( () => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.

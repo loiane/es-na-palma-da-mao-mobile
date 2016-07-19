@@ -12,27 +12,31 @@
     "noResolve": false,
     "outDir": "www/components"
   },
-  "filesGlob": [
-    ".src/components/**/*.ts",
-     "!node_modules/**/*"
+  "include": [
+    "src/components/**/*.ts",//,
+    "www/jspm_packages/**/*.d.ts"
+    //"www/**/*.ts"
+    //"!node_modules/**/*"
   ],
-  "files": [
-    "src/components/app.d.ts"
-  ],
-  "exclude": [
-    "config",
-    "coverage",
-    "gulp",
-    "hooks",
-    "platforms",
-    "resources",
-    "plugins",
+  "exclude":[
     "node_modules",
-    ".vscode",
-    "typings/global",
-    "typings/global.d.ts"
+    "src/components/**/*.specs.ts"
   ],
-  "compileOnSave": false,
+  // "exclude": [
+  //   "config",
+  //   "coverage",
+  //   "gulp",
+  //   "hooks",
+  //   "platforms",
+  //   "resources",
+  //   "plugins",
+  //   "bower_components",
+  //   "node_modules",
+  //   ".vscode",
+  //   "typings/global",
+  //   "typings/global.d.ts"
+  // ],
+  "compileOnSave": true,
   "buildOnSave": false
 }
 
