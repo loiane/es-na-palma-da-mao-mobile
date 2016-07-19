@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "system",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noEmitHelpers": false,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "noResolve": false,
+    "outDir": "www/components"
+  },
+  "filesGlob": [
+    ".src/components/**/*.ts",
+     "!node_modules/**/*"
+  ],
+  "files": [
+    "src/components/app.d.ts"
+  ],
+  "exclude": [
+    "config",
+    "coverage",
+    "gulp",
+    "hooks",
+    "platforms",
+    "resources",
+    "plugins",
+    "node_modules",
+    ".vscode",
+    "typings/global",
+    "typings/global.d.ts"
+  ],
+  "compileOnSave": false,
+  "buildOnSave": false
+}
+
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "module": "commonjs",
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true
+//   },
+//   "filesGlob": [
+//     "**/*.ts",
+//     "!node_modules/**/*"
+//   ],
+//   "exclude": [
+//     "node_modules",
+//     "typings/global",
+//     "typings/global.d.ts"
+//   ],
+//   "compileOnSave": false,
+//   "atom": {
+//     "rewriteTsconfig": false
+//   }
+// }

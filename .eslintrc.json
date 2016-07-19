@@ -1,0 +1,32 @@
+// legenda eslint:
+// 0 - off
+// 1 - warn
+// 2 - error
+{
+  "extends": [
+    "prodest",
+    "prodest-angular"
+  ],
+  "env": {
+    "jasmine": true,
+    "es6": true,
+    "commonjs": true
+  },
+  "rules": {
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    "angular/controller-name": [
+      0
+    ]
+  },
+  "globals": {
+    "_": true,
+    "moment": true,
+    "bard": true,
+    "ionic": true,
+    "cordova": true,
+    "sinon": true
+  }
+}

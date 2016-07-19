@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<!-- Meta section -->
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+		<meta name="format-detection" content="telephone=no"> <!-- To disable phone number typing.-->
+  		<meta name="msapplication-tap-highlight" content="no">
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
+		<!-- end Meta section -->
+
+		<title>ES na palma da mão</title>
+
+		<!-- Cordova script (this will be a 404 during development) -->
+		<!-- <script src="lib/ngCordova/dist/ng-cordova.js"></script>-->
+		<script src="cordova.js"></script>
+		<!-- end Cordova script -->
+
+		<!-- 1. Load libraries -->
+		<!-- Polyfill(s) for older browsers -->
+		<script src="shim.min.js"></script>
+		<script src="Reflect.js"></script>
+		<script src="zone.js"></script>
+
+		<script src="jspm_packages/system.js"></script>
+		<script src="system.config.js"></script>
+		<script src="system.yuml.js"></script>
+	</head>
+
+	<body class="hide-native-scroll-y">
+		<ion-app></ion-app>
+		<script>
+			System[ 'import' ]( 'components/main' );
+		</script>
+	</body>
+</html>

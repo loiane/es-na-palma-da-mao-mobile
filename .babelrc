@@ -1,0 +1,17 @@
+{
+  "presets": [
+    "es2015"
+  ],
+  "env": {
+    "desenvolvimento": {
+      "plugins": [
+        [
+          "__coverage__",
+          {
+            "ignore": "src/**/*.specs.js"
+          }
+        ]
+      ]
+    }
+  }
+}

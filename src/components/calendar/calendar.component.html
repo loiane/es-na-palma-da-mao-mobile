@@ -1,0 +1,39 @@
+<ion-view>
+	<ion-nav-title>
+		{{vm.viewTitle}}
+	</ion-nav-title>
+	<ion-nav-buttons side="right">
+		<div id="states-calendar-component-nav-buttons">
+			<md-button class="md-icon-button"
+					   ng-disabled="vm.isToday()"
+					   ng-click="vm.today()"
+					   aria-label="Hoje">
+				<md-icon ng-if="isAndroid" md-font-icon="ion-android-calendar">
+				</md-icon>
+				<md-icon ng-if="isIOS" md-font-icon="ion-ios-calendar-outline">
+				</md-icon>
+			</md-button>
+			<md-input-container>
+				<md-select ng-model="vm.selectedCalendars"
+						   multiple
+						   md-on-close="vm.loadCalendars( vm.selectedCalendars )"
+						   aria-label="Selecionar Órgão">
+					<md-optgroup label="Órgãos">
+						<md-option ng-value="calendar" ng-repeat="calendar in vm.availableCalendars track by $index">{{::calendar}}</md-option>
+					</md-optgroup>
+				</md-select>
+			</md-input-container>
+		</div>
+	</ion-nav-buttons>
+
+	<ion-content id="states-calendar-component"
+				 scroll="true"
+				 class="main-content">
+		<calendar ng-model="vm.calendar.currentDate"
+				  event-sources="vm.calendar.eventSources"
+				  range-changed="vm.loadCalendars( vm.selectedCalendars )"
+				  event-selected="vm.onEventSelected(event)"
+				  title-changed="vm.onViewTitleChanged(title)"
+				  time-selected="vm.onTimeSelected(selectedTime)"></calendar>
+	</ion-content>
+</ion-view>

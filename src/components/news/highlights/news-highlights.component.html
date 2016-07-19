@@ -1,0 +1,40 @@
+<ion-view title="ES na Palma da Mão">
+	<ion-content id="news-highlights-component">
+
+		<!-- Primeira Notícia -->
+		<md-card ng-if="!!vm.firstNews">
+			<img ng-src="{{vm.firstNews.imageHighlight}}" class="md-card-image" alt="">
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{vm.firstNews.title}}</span>
+				</md-card-title-text>
+			</md-card-title>
+			<md-card-content>
+				<p ng-bind-html="vm.firstNews.summary"></p>
+				<span class="outras-noticias-info-origem">{{vm.firstNews.origin}} | {{ vm.firstNews.date | fromNow }}</span>
+
+			</md-card-content>
+			<md-card-actions layout="row" layout-align="start left">
+				<md-button ng-click="vm.goToNews(vm.firstNews.id)" class="md-accent">LEIA MAIS</md-button>
+			</md-card-actions>
+		</md-card>
+
+		<!-- Outras notícias -->
+		<md-card ng-repeat="news in vm.otherNews">
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-title outras-noticias">{{news.title}}</span>
+					<span class="outras-noticias-info-origem">{{news.origin}} | {{ news.date | fromNow }}</span>
+				</md-card-title-text>
+				<md-card-title-media>
+					<div class="md-media-md card-media">
+						<img alt="" ng-src="{{news.image}}"/>
+					</div>
+				</md-card-title-media>
+			</md-card-title>
+			<md-card-actions layout="row" layout-align="start left">
+				<md-button ng-click="vm.goToNews(news.id)" class="md-accent">LEIA MAIS</md-button>
+			</md-card-actions>
+		</md-card>
+	</ion-content><!--Dashboard section-->
+</ion-view>

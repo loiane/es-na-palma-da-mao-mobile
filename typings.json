@@ -1,0 +1,20 @@
+{
+  "globalDependencies": {
+    "chai": "registry:dt/chai#3.4.0+20160601211834",
+    "cordova": "registry:dt/cordova#0.0.0+20160607055823",
+    "cordova-ionic": "registry:dt/cordova-ionic#0.0.0+20160316155526",
+    "cordova-ionic/plugins/keyboard": "registry:dt/cordova-ionic/plugins/keyboard#0.0.0+20160317120654",
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
+    "mocha": "registry:dt/mocha#2.2.5+20160619032855",
+    "sinon": "registry:dt/sinon#1.16.0+20160517064723",
+    "systemjs": "registry:dt/systemjs#0.19.29+20160702105636"
+  },
+  "dependencies": {
+    "@angular/common": "file:www/jspm_packages/npm/@angular/common@2.0.0-rc.4/index.d.ts",
+    "@angular/core": "file:www/jspm_packages/npm/@angular/core@2.0.0-rc.4/index.d.ts",
+    "ionic-angular": "file:www/jspm_packages/npm/ionic-angular@2.0.0-beta.10/index.d.ts",
+    "ionic-native": "file:www/jspm_packages/npm/ionic-native@1.3.7/dist/index.d.ts",
+    "moment": "github:moment/moment/moment.d.ts#2.14.1",
+    "rxjs": "file:www/jspm_packages/npm/rxjs@5.0.0-beta.10/Rx.d.ts"
+  }
+}
