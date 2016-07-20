@@ -353,6 +353,14 @@ taskMaker.defineTask( 'copy', {
     debug: config.debugOptions
 } );
 
+
+taskMaker.defineTask( 'copy', {
+    taskName: 'ion-fonts',
+    src: [ 'www/jspm_packages/npm/ionic-angular@2.0.0-beta.10/fonts/**/*.+(ttf|woff|woff2)' ],
+    dest: config.paths.output.ionfonts,
+    debug: config.debugOptions
+} );
+
 taskMaker.defineTask( 'copy', {
     taskName: 'assets',
     src: config.paths.assets,
@@ -683,6 +691,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'sass',
         'json',
         'assets',
+        'ion-fonts',
         'system.yuml',
         'systemConfig',
         'index.html',

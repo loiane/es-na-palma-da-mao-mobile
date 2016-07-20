@@ -58,6 +58,7 @@ let paths = {
 		root: 'www',
 		jspm_packages: 'www/jspm_packages',
 		app: 'www/components',
+		ionfonts: 'www/components/fonts',
 		html: [ 'www/components/**/*.html', 'www/*.html' ],
 		temp: [ 'www/components', 'www/bundles', 'www/*.*', 'coverage' ]
 	},

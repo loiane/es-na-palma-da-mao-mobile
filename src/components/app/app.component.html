@@ -1,0 +1,49 @@
+<ion-menu [content]="content">
+    <ion-item id="menu-header">
+        <ion-avatar item-left>
+            <img src="components/app/img/user.png">
+        </ion-avatar>
+        <h2>Daniel Hoisel</h2>
+        <h5>Analista desenvolvedor</h5>
+    </ion-item>
+    <ion-content>
+        <ion-list no-border>
+            <ion-list-header>
+                Principal
+            </ion-list-header>
+            <ion-item (click)="goTo(dashboardComponent)">
+                <ion-icon name='apps' item-left></ion-icon>
+                Dashboard
+            </ion-item>
+            <ion-item (click)="goTo(tabsComponent)">
+                <ion-icon name='calendar' item-left></ion-icon>
+                Agenda ES
+            </ion-item>
+            <ion-item (click)="goTo(mainPage)">
+                <ion-icon name='paper' item-left></ion-icon>
+                Notícias
+            </ion-item>
+            <ion-item (click)="goTo(mainPage)">
+                <ion-icon name='search' item-left></ion-icon>
+                Consulta SEP
+            </ion-item>
+        </ion-list>
+
+        <ion-list no-border>
+            <ion-list-header>
+                Detran
+            </ion-list-header>
+            <ion-item (click)="goTo(mainPage)">
+                <ion-icon name='car' item-left></ion-icon>
+                Situação CNH
+            </ion-item>
+            <ion-item (click)="goTo(mainPage)">
+                <ion-icon name='log-out' item-left></ion-icon>
+                Sair
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+
+<ion-nav id="nav" [root]="rootPage" #content></ion-nav>

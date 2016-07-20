@@ -1,16 +1,28 @@
-import './dashboard.component.css';
-import template from './dashboard.component.html';
-import DashboardController from './dashboard.component.controller';
+import { Component, OnInit } from '@angular/core';
+import { TabsComponent } from '../tabs/tabs';
 
-const directive = () => {
-    return {
-        template: template,
-        controller: DashboardController,
-        restrict: 'E',
-        controllerAs: 'vm', // scope: {},
-        replace: true,
-        bindToController: true
-    };
-};
+@Component( {
+    moduleId: __moduleName,
+    templateUrl: './dashboard.component.html',
+    styleUrls: [ './dashboard.component.css' ]
+})
+export class DashBoardComponent implements OnInit {
+    
+    public tabHighlights = TabsComponent;
+    public tabCalendar = TabsComponent;
 
-export default directive;
+    /**
+     * Creates an instance of DashBoardComponent.
+     * 
+     */
+    constructor() { }
+
+    /**
+     * Inicializa o component
+     * 
+     * @returns {*}
+     */
+    ngOnInit(): any {
+
+    }
+}

@@ -1,4 +1,20 @@
-<ion-view title="Dashboard">
+<ion-header>
+  <ion-navbar primary>
+    <button menuToggle>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>
+      ES na Palma da Mão
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-tabs>
+      <ion-tab [root]="tabHighlights" tabTitle="DESTAQUES"></ion-tab>
+      <ion-tab [root]="tabCalendar" tabTitle="AGENDA ES"></ion-tab>
+</ion-tabs>
+
+<!--<ion-view title="Dashboard">
 	<ion-content id="dashboard-component" class="espm-has-tabs-top">
 		<ion-tabs class="tabs-text-top espm-tabs-color-active-material">
 			<ion-tab title="DESTAQUES"
@@ -14,4 +30,4 @@
 			</ion-tab>
 		</ion-tabs>
 	</ion-content>
-</ion-view>
+</ion-view>-->
