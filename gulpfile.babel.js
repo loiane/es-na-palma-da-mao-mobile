@@ -139,14 +139,14 @@ const getUsernameAsync = ( email ) => {
         };
 
         github.client()
-.get( '/search/users', query, ( err, res, body ) => {
-    if ( err ) {
-        reject( gutil.colors.red( `Error: ${err}` ) );
-    } else {
-        const user = body.items[ 0 ];
-        resolve( user ? user.login : null );
-    }
-} );
+            .get( '/search/users', query, ( err, res, body ) => {
+                if ( err ) {
+                    reject( gutil.colors.red( `Error: ${err}` ) );
+                } else {
+                    const user = body.items[ 0 ];
+                    resolve( user ? user.login : null );
+                }
+            } );
     } );
 };
 
@@ -269,7 +269,17 @@ taskMaker.defineTask( 'css', {
     taskName: 'css',
     src: config.paths.css,
     dest: config.paths.output.app,
-    debug: config.debugOptions
+    debug: config.debugOptions,
+    autoprefixer: config.autoPrefixerConfig
+} );
+
+taskMaker.defineTask( 'sass', {
+    taskName: 'sass',
+    src: config.paths.scss,
+    dest: config.paths.output.app,
+    debug: config.debugOptions,
+    sass: config.sassConfig,
+    autoprefixer: config.autoPrefixerConfig
 } );
 
 taskMaker.defineTask( 'clean', {
@@ -670,6 +680,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'eslint-src',
         'tslint-src',
         'css',
+        'sass',
         'json',
         'assets',
         'system.yuml',
