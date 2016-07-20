@@ -68,7 +68,8 @@ let argv = yargs.alias( 't', 'transpile' )
 .default( 'serve', false )
 .default( 'transpile', false ).argv;
 
-let tsProject = typescript.createProject( 'tsconfig.json' );
+// usa o projeto typescript juntamente com a versão do typescript versão instalada no package.json como devDependency
+let tsProject = typescript.createProject( 'tsconfig.json', { typescript: require( 'typescript' ) } );
 
 ////////////////////////////////////////// HELPERS /////////////////////////////////////////////////
 

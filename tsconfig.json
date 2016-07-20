@@ -1,3 +1,5 @@
+
+
 {
   "compilerOptions": {
     "target": "ES5",
@@ -10,54 +12,55 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "noResolve": false,
-    "outDir": "www/components"
+    "outDir": "./www/components",
+
+    /* Module resolutions com jspm:
+       https://github.com/Microsoft/TypeScript/issues/5039
+       https://github.com/jspm/jspm-cli/issues/1476
+
+       As configurações a seguir ( typescript >= 2.0.0 ) configuram o compilador tsc usado pelo editor de modo que o mesmo
+       consiga "resolver" modules typescript a partir da pasta jspm_packages. Caso um módulo não seja encontrado usando as 
+       configurações a seguir, o processo de resolução de módulos "fallback" para o mecanismo especificado na propriedade "moduleResolution".
+
+       Para debugar as resoluções de módulos realizadas pelo compilador tsc, usando as configurações desse arquivo, execute (a partir do diretório desse arquivo):
+
+       tsc --traceResolution
+    */
+    "baseUrl": "./www/jspm_packages",
+    "paths": {
+        "@angular/*": [
+          "npm/@angular/*@2.0.0-rc.4"
+        ],
+        "ionic-angular": [
+          "npm/ionic-angular@2.0.0-beta.10"
+        ],
+       "ionic-native": [
+          "npm/ionic-native@1.3.7/dist"
+        ],
+        "rxjs/*": [
+          "npm/rxjs@5.0.0-beta.10/*"
+        ]
+    }
   },
   "include": [
-    "src/components/**/*.ts",//,
-    "www/jspm_packages/**/*.d.ts"
-    //"www/**/*.ts"
-    //"!node_modules/**/*"
+    "src/components/**/*.ts"
   ],
   "exclude":[
     "node_modules",
-    "src/components/**/*.specs.ts"
+    "wwww",
+    "bower_components",
+    "src/components/**/*.specs.ts",
+    "config",
+    "coverage",
+    "gulp",
+    "hooks",
+    "platforms",
+    "resources",
+    "plugins",
+    ".vscode",
+    "typings/global",
+    "typings/global.d.ts"
   ],
-  // "exclude": [
-  //   "config",
-  //   "coverage",
-  //   "gulp",
-  //   "hooks",
-  //   "platforms",
-  //   "resources",
-  //   "plugins",
-  //   "bower_components",
-  //   "node_modules",
-  //   ".vscode",
-  //   "typings/global",
-  //   "typings/global.d.ts"
-  // ],
   "compileOnSave": true,
   "buildOnSave": false
 }
-
-// {
-//   "compilerOptions": {
-//     "target": "es5",
-//     "module": "commonjs",
-//     "emitDecoratorMetadata": true,
-//     "experimentalDecorators": true
-//   },
-//   "filesGlob": [
-//     "**/*.ts",
-//     "!node_modules/**/*"
-//   ],
-//   "exclude": [
-//     "node_modules",
-//     "typings/global",
-//     "typings/global.d.ts"
-//   ],
-//   "compileOnSave": false,
-//   "atom": {
-//     "rewriteTsconfig": false
-//   }
-// }
