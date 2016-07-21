@@ -3,6 +3,7 @@ import { MenuController, Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { DashBoardComponent } from '../dashboard/dashboard.component';
 import { TabsComponent } from '../tabs/tabs';
+import { SepConsulta } from '../sep/sep-consulta.component';
 
 
 @Component( {
@@ -34,6 +35,12 @@ export class AppComponent implements OnInit {
      */
     private dashboardComponent = DashBoardComponent;
 
+    /**
+     * 
+     * 
+     * @private
+     */
+    private sepComponent = SepConsulta;
     
     /**
      * Creates an instance of AppComponent.
