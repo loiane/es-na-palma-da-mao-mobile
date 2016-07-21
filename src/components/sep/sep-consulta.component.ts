@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Content } from 'ionic-angular';
 import { SepApiService } from './shared/sep-api.service';
 import { Process, ProcessUpdate } from './shared/models/index';
+import { CapitalizePipe } from '../shared/capitalize.pipe';
 
-@Component( {
+@Component({
     moduleId: __moduleName,
     templateUrl: './sep-consulta.component.html',
-    providers: [ SepApiService ]
+    styleUrls: ['./sep-consulta.component.css'],
+    providers: [SepApiService],
+    pipes: [ CapitalizePipe ]
 })
 export class SepConsulta implements OnInit {
+    @ViewChild(Content) content: Content;
 
     private seeMoreUpdates: string;
     private processNumber: string;
@@ -16,13 +20,12 @@ export class SepConsulta implements OnInit {
     private populated: boolean;
     private showAllUpdates: boolean;
 
-
     /**
      * Creates an instance of SepConsultaController.
      * 
      * @param {SepApiService} sepApiService
      */
-    constructor( private sepApiService: SepApiService, private content: Content ) {
+    constructor(private sepApiService: SepApiService) {
 
     }
 
@@ -39,6 +42,14 @@ export class SepConsulta implements OnInit {
         this.showAllUpdates = false;
     }
 
+    private setMoreUpdatesLabel(): void {
+        if (this.showAllUpdates) {
+            this.seeMoreUpdates = 'OCULTAR';
+        } else {
+            this.seeMoreUpdates = 'VER MAIS';
+        }
+    }
+
     /**
      * Obtém a primeira atualização do processo
      * 
@@ -46,8 +57,8 @@ export class SepConsulta implements OnInit {
      * @type {ProcessUpdate}
      */
     public get firstUpdate(): ProcessUpdate {
-        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates[ this.process.updates.length - 1 ];
+        if (this.process && this.process.updates && this.process.updates.length > 0) {
+            return this.process.updates[this.process.updates.length - 1];
         }
     }
 
@@ -58,11 +69,10 @@ export class SepConsulta implements OnInit {
      * @type {ProcessUpdate}
      */
     public get lastUpdate(): ProcessUpdate {
-        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates[ 0 ];
+        if (this.process && this.process.updates && this.process.updates.length > 0) {
+            return this.process.updates[0];
         }
     }
-
 
     /**
      * Indica se existe algum processo carregado
@@ -79,39 +89,40 @@ export class SepConsulta implements OnInit {
      */
     public toggleUpdates(): void {
         this.showAllUpdates = !this.showAllUpdates;
+        this.setMoreUpdatesLabel();
 
-        if ( this.showAllUpdates ) {
-            this.seeMoreUpdates = 'OCULTAR';
-            this.content.scrollTo( 0, 300, 300 ); // TODO: try to search the element to scroll: anchorScroll
-        } else {
-            this.seeMoreUpdates = 'VER MAIS';
+        if (this.showAllUpdates) {
+            this.content.scrollTo(0, 500, 300); // TODO: try to search the element to scroll: anchorScroll
         }
     }
 
-     /**
-     * Obtém as atualizações que ficarão inicialmente escondidas na tela.
-     * 
-     * @readonly
-     * @type {ProcessUpdate[]}
-     */
+    /**
+    * Obtém as atualizações que ficarão inicialmente escondidas na tela.
+    * 
+    * @readonly
+    * @type {ProcessUpdate[]}
+    */
     public get hiddenUpdates(): ProcessUpdate[] {
-        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates.slice( 1 );
+        if (this.process && this.process.updates && this.process.updates.length > 0) {
+            return this.process.updates.slice(1);
         }
     }
 
     /**
      * Obtém um processo eletrônico pelo número do processo.
-     * @param {Number} number: Process number
+     * @param {*} event: 
      * @return {undefined}
      */
-    public getProcess( procNumber: string ): void {
-         this.sepApiService.getProcessByNumber( procNumber )
-                        .map( process => {
-                            this.process = process;
-                            return process;
-                        } )
-                        .catch( () => this.process = undefined )
-                        .finally( () => this.populated = true );
+    public getProcess(event: any): void {
+        return this.sepApiService.getProcessByNumber(event.target.value)
+            .finally(() => {
+                this.populated = true;
+                this.showAllUpdates = false;
+                this.setMoreUpdatesLabel();
+            })
+            .subscribe(
+            process => this.process = process,
+            error => this.process = undefined
+            );
     }
 }

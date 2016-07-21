@@ -1,4 +1,4 @@
-import {ProcessUpdate} from './processUpdate';
+import { ProcessUpdate } from './processUpdate';
 
 export interface Process {
     number: string;

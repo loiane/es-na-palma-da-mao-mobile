@@ -79,7 +79,7 @@ System.config({
     "plugin-babel": "npm:systemjs-plugin-babel@0.0.12",
     "plugin-babel-runtime": "npm:babel-runtime@5.8.38",
     "robotoDraft": "github:raibutera/robotodraft@1.1.0",
-    "rxjs": "npm:rxjs@5.0.0-beta.10",
+    "rxjs": "npm:rxjs@5.0.0-beta.6",
     "systemjs-babel-build": "npm:systemjs-plugin-babel@0.0.12/systemjs-babel-browser.js",
     "text": "github:systemjs/plugin-text@0.0.7",
     "ts": "github:frankwallis/plugin-typescript@5.0.8",
@@ -494,11 +494,6 @@ System.config({
     },
     "npm:rx-lite@3.1.2": {
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:rxjs@5.0.0-beta.10": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "symbol-observable": "npm:symbol-observable@1.0.1"
     },
     "npm:rxjs@5.0.0-beta.6": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",

@@ -15,13 +15,12 @@ export class SepApiService {
     constructor(private http: Http, private settings: Settings) {
     }
 
-
     private handleError( error: any, disappointed: any): Observable<any> {
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error( errMsg); // log to console instead
 
-        return Observable.throw( errMsg);
+        return Observable.throw( errMsg );
     }
 
     /**

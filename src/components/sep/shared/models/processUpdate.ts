@@ -1,5 +1,5 @@
 export interface ProcessUpdate {
-    date: string;
+    date: Date;
     agency: string;
     area: string;
     status: string;

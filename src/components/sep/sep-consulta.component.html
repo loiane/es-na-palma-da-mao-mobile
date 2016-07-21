@@ -1,15 +1,25 @@
-<ion-toolbar primary>
-  <ion-searchbar (input)="getItems($event)"></ion-searchbar>
-</ion-toolbar>
+<ion-header>
+	<ion-navbar primary>
+		<button menuToggle>
+			<ion-icon name='menu'></ion-icon>
+		</button>
+		<ion-title>
+			Consulta SEP
+		</ion-title>
+	</ion-navbar>
+	<ion-toolbar primary>
+		<ion-searchbar (search)="getProcess($event)"></ion-searchbar>
+	</ion-toolbar>
+</ion-header>
 
-<ion-content id="state-sep-consulta">
-	<ion-list [hidden]="hasProcess">
+<ion-content id="component-sep-consulta">
+	<ion-list *ngIf="hasProcess">
 		<ion-item>
 			<div class="col-50 title">
-				<strong>Autuado em</strong>
+				<strong>Número</strong>
 			</div>
 			<div class="col-50">
-				{{vm.firstUpdate.date}}
+				{{process.number}}
 			</div>
 		</ion-item>
 
@@ -18,25 +28,25 @@
 				<strong>Autuado em</strong>
 			</div>
 			<div class="col-50">
-				{{vm.firstUpdate.date}}
+				{{firstUpdate.date | date:"dd/MM/yyyy"}}
 			</div>
 		</ion-item>
-		
+
 		<ion-item>
 			<div class="col-50 title">
 				<strong>Assunto</strong>
 			</div>
 			<div class="col-50">
-				{{vm.process.subject}}
+				{{process.subject | capitalize}}
 			</div>
 		</ion-item>
-		
+
 		<ion-item>
 			<div class="col-50 title">
 				<strong>Partes</strong>
 			</div>
 			<div class="col-50">
-				<span ng-repeat="part in vm.process.parts">{{part}} </span>
+				<p *ngFor="#part of process.parts">{{part | capitalize}} </p>
 			</div>
 		</ion-item>
 
@@ -45,55 +55,51 @@
 				<strong>Município</strong>
 			</div>
 			<div class="col">
-				{{vm.process.district}}
+				{{process.district | capitalize}}
 			</div>
 		</ion-item>
-		
+
 		<ion-item>
 			<div class="col-50 title">
 				<strong>Informações diversas</strong>
 			</div>
 			<div class="col">
-				{{vm.process.extra}}
+				{{process.extra | capitalize:false }}
 			</div>
 		</ion-item>
-		
+
 		<ion-item>
 			<div class="item-text-padding">
 				<strong>Resumo</strong>
-				<p>{{vm.process.summary}}</p>
+				<p>{{process.summary | capitalize:false}}</p>
 			</div>
 		</ion-item>
-		
+
 		<ion-item>
 			<div class="col-50 title">
 				<strong>Situação</strong>
 			</div>
 			<div class="col">
-				{{vm.process.status}}
+				{{process.status | capitalize}}
 			</div>
 		</ion-item>
-		
+
 		<ion-item id="last-update">
-			<div class="item-text-padding">
+			<div class="espm-list-item-group">
 				<strong>Última Atualização</strong>
-				<p>{{vm.lastUpdate.date}}</p>
-				<md-button class="md-secondary more-updates md-accent" ng-click="vm.toggleUpdates()">{{vm.seeMoreUpdates}}</md-button>
+				<p>{{lastUpdate.date | date:"dd/MM/yyyy HH:mm"}}</p>
+				<p>{{lastUpdate.area | capitalize}}</p>
+				<p>{{lastUpdate.agency | capitalize}}</p>
 			</div>
-		</ion-item>
-		<ion-item>
-			<div>
-				<p>{{vm.lastUpdate.area}}</p>
-				<p>{{vm.lastUpdate.agency}}</p>
-			</div>
+			<button clear accent class="more-updates" (click)="toggleUpdates()">{{seeMoreUpdates}}</button>
 		</ion-item>
 		<div class="espm-item-transition" *ngIf="showAllUpdates">
 			<ion-item *ngFor="#update of hiddenUpdates">
 				<div class="other-updates">
-					<strong>{{update.date}}</strong>
-					<p md-colors="::{color: 'accent'}">{{update.status}}</p>
-					<p>{{update.area}}</p>
-					<p>{{update.agency}}</p>
+					<strong>{{update.date | date:"dd/MM/yyyy HH:mm"}}</strong>
+					<p md-colors="::{color: 'accent'}">{{update.status | capitalize}}</p>
+					<p>{{update.area | capitalize}}</p>
+					<p>{{update.agency | capitalize}}</p>
 				</div>
 			</ion-item>
 		</div>
@@ -101,9 +107,10 @@
 
 	<!-- In case no process is found -->
 	<div *ngIf="populated && !hasProcess">
-		<div md-padding>
-			<div class="md-subhead">Nenhum processo encontrado</div>
-			<div>Verifique o número informado</div>
+		<div padding>
+			<h4 text-center>Nenhum processo encontrado</h4>
+			<h6 text-center class="msg-subtitle">Verifique o número informado</h6>
+			<hr />
 		</div>
 	</div>
 </ion-content>
