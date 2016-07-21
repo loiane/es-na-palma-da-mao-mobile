@@ -8,18 +8,18 @@
 		</ion-title>
 	</ion-navbar>
 	<ion-toolbar primary>
-		<ion-searchbar (search)="getProcess($event)"></ion-searchbar>
+		<ion-searchbar (search)="getProcess( search.value )" #search placeholder="Nº do Processo"></ion-searchbar>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content id="component-sep-consulta">
+<ion-content id="search-process-component">
 	<ion-list *ngIf="hasProcess">
 		<ion-item>
 			<div class="col-50 title">
 				<strong>Número</strong>
 			</div>
 			<div class="col-50">
-				 <ion-badge item-right>{{process.number}}</ion-badge>
+				{{process.number}}
 			</div>
 		</ion-item>
 
@@ -46,7 +46,7 @@
 				<strong>Partes</strong>
 			</div>
 			<div class="col-50">
-				<p *ngFor="let part of process.parts">{{part | capitalize}} </p>
+				<p *ngFor="#part of process.parts">{{part | capitalize}} </p>
 			</div>
 		</ion-item>
 
@@ -94,7 +94,7 @@
 			<button clear accent class="more-updates" (click)="toggleUpdates()">{{seeMoreUpdates}}</button>
 		</ion-item>
 		<div class="espm-item-transition" *ngIf="showAllUpdates">
-			<ion-item *ngFor="let update of hiddenUpdates">
+			<ion-item *ngFor="#update of hiddenUpdates">
 				<div class="other-updates">
 					<strong>{{update.date | date:"dd/MM/yyyy HH:mm"}}</strong>
 					<p md-colors="::{color: 'accent'}">{{update.status | capitalize}}</p>
@@ -108,7 +108,7 @@
 	<!-- In case no process is found -->
 	<div *ngIf="populated && !hasProcess">
 		<div padding>
-			<h4 text-center>Nenhum processo encontrado</h4>
+			<h5 text-center>Nenhum processo encontrado</h5>
 			<h6 text-center class="msg-subtitle">Verifique o número informado</h6>
 			<hr />
 		</div>

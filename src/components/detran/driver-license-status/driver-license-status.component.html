@@ -1,86 +1,93 @@
-<ion-view title="Situação CNH">
-	<ion-content id="state-driver-license-status" class="md-espm-content">
-		<md-content>
-			<!-- Card with status -->
-			<md-card class="card-driver-license" ng-class="{ 'bg-green-70': vm.licenseOk, 'bg-red-70': vm.licenseBlocked, 'bg-pink-70': vm.licenseExpired, 'bg-yellow-70': vm.licenseRenew }">
-				<md-card-header ng-hide="!vm.driverDataPopulated || vm.licenseBlocked || vm.licenseRenew || vm.licenseExpired">
-					<md-card-avatar>
-						<i class="fa fa-car" aria-hidden="true"></i>
-					</md-card-avatar>
-					<md-card-header-text>
-						<span class="md-title">Diriga com segurança</span>
-						<span class="md-subhead">CNH válida até {{vm.expirationDate | calendar}}</span>
-					</md-card-header-text>
-				</md-card-header>
-				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseExpired && !vm.licenseBlocked">
-					<md-card-avatar>
-						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					</md-card-avatar>
-					<md-card-header-text>
-						<span class="md-title">Quase na hora de renovar</span>
-						<span class="md-subhead">Expira {{::vm.expirationDate | fromNow: true}}</span>
-					</md-card-header-text>
-				</md-card-header>
-				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseRenew && !vm.licenseBlocked">
-					<md-card-avatar>
-						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					</md-card-avatar>
-					<md-card-header-text>
-						<span class="md-title">Renove sua CNH</span>
-						<span class="md-subhead">Expirou à {{::vm.expirationDate | fromNow: true}}</span>
-					</md-card-header-text>
-				</md-card-header>
-				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseBlocked">
-					<md-card-avatar>
-						<i class="fa fa-ban" aria-hidden="true"></i>
-					</md-card-avatar>
-					<md-card-header-text>
-						<span class="md-title">CNH Bloqueada</span>
-						<span class="md-subhead">{{::vm.driverData.blockMotive}}</span>
-					</md-card-header-text>
-				</md-card-header>
-				<md-card-title-text ng-hide="vm.driverDataPopulated">
-					<br />
-					<ion-spinner icon="android"></ion-spinner>
-				</md-card-title-text>
-			</md-card>
+<ion-header>
+	<ion-navbar primary>
+		<button menuToggle>
+			<ion-icon name='menu'></ion-icon>
+		</button>
+		<ion-title>
+			Situação CNH
+		</ion-title>
+	</ion-navbar>
+</ion-header>
 
-			<h4 class="list-header tickets-history">Histórico de Multas <span ng-if="vm.last12MonthsPoints > 0">- {{::vm.last12MonthsPoints}} Pontos</span></h4>
-			<div class="center">
-				<ion-spinner ng-hide="vm.ticketsPopulated" icon="android"></ion-spinner>
-			</div>
+<ion-content id="driver-license-status-component">
 
-			<div ng-show="vm.ticketsPopulated && !vm.hasTickets" class="center">
-				<div class="md-padding">
-					<div class="md-subhead">Nenhuma Multa</div>
+	<!-- license status -->
+	<!-- Card with status -->
+	<ion-card class="card-driver-license" ngClass="{ 'bg-green-70': licenseOk, 'bg-red-70': licenseBlocked, 'bg-pink-70': licenseExpired, 'bg-yellow-70': licenseRenew }">
+		<ion-card-header *ngIf="driverDataPopulated && !licenseBlocked && !licenseRenew && !licenseExpired">
+			<ion-card-avatar>
+				<i class="fa fa-car" aria-hidden="true"></i>
+			</ion-card-avatar>
+			<ion-card-header-text>
+				<span class="md-title">Diriga com segurança</span>
+				<span class="md-subhead">CNH válida até {{expirationDate | date:'dd/MM/yyyy'}}</span>
+			</ion-card-header-text>
+		</ion-card-header>
+		<ion-card-header *ngIf="driverDataPopulated && licenseExpired && !licenseBlocked">
+			<ion-card-avatar>
+				<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+			</ion-card-avatar>
+			<ion-card-header-text>
+				<span class="md-title">Quase na hora de renovar</span>
+				<span class="md-subhead">Expira {{expirationDate | fromNow:true}}</span>
+			</ion-card-header-text>
+		</ion-card-header>
+		<ion-card-header *ngIf="driverDataPopulated && licenseRenew && !licenseBlocked">
+			<ion-card-avatar>
+				<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+			</ion-card-avatar>
+			<ion-card-header-text>
+				<span class="md-title">Renove sua CNH</span>
+				<span class="md-subhead">Expirou à {{expirationDate | fromNow:true}}</span>
+			</ion-card-header-text>
+		</ion-card-header>
+		<ion-card-header *ngIf="driverDataPopulated && licenseBlocked">
+			<ion-card-avatar>
+				<i class="fa fa-ban" aria-hidden="true"></i>
+			</ion-card-avatar>
+			<ion-card-header-text>
+				<span class="md-title">CNH Bloqueada</span>
+				<span class="md-subhead">{{driverData.blockMotive}}</span>
+			</ion-card-header-text>
+		</ion-card-header>
+		<ion-card-title-text *ngIf="!driverDataPopulated">
+			<br />
+			<ion-spinner></ion-spinner>
+		</ion-card-title-text>
+	</ion-card>
+
+	<!-- ticket list header -->
+	<h4 class="list-header tickets-history">Histórico de Multas <span *ngIf="last12MonthsPoints > 0">- {{last12MonthsPoints}} Pontos</span></h4>
+	<div class="center">
+		<ion-spinner *ngIf="!ticketsPopulated"></ion-spinner>
+	</div>
+
+	<div *ngIf="ticketsPopulated && !hasTickets" class="text-center">
+		<div class="md-padding">
+			<div class="md-subhead">Nenhuma Multa</div>
+		</div>
+		<md-divider></md-divider>
+	</div>
+
+	<!-- ticket list -->
+	<ion-list *ngIf="hasTickets">
+		<ion-item *ngFor="let ticket of tickets | async; let i = index" class="ticket" ngClass="{ 'selected-ticket': i == selectedIndex }">
+			<ion-avatar item-left>
+				<div class="md-tile-left">
+					<div class="avatar-points bg-{{getClassificationColor( ticket.classification ) }}">{{ticket.points}}</div>
 				</div>
-				<md-divider></md-divider>
+			</ion-avatar>
+			<h4>{{ticket.classification | capitalize}} - {{ticket.date | date:'dd/MM/yyyy'}}</h4>
+			<p>{{ticket.place | capitalize}}, {{ticket.district | capitalize}}</p>
+			<div ng-class="{ 'selected md-whiteframe-10dp': i == selectedIndex}" layout="column">
+				<ion-item-divider light *ngIf="i == selectedIndex"></ion-item-divider>
+				<div layout="column" class="expanded">
+					<p><strong>Placa:</strong> {{ticket.plate}}</p>
+					<p>{{ticket.description}}</p>
+				</div>
 			</div>
+			<ion-item-divider light *ngIf="i != selectedIndex || !last" class="divider-inset"></ion-item-divider>
+		</ion-item>
+	</ion-list>
 
-			<md-item ng-repeat="ticket in vm.tickets track by $index" 
-					 class="ticket"
-					 ng-class="{ 'selected-ticket': $index == vm.selectedIndex}">
-				<md-item-content ng-class="{ 'selected md-whiteframe-10dp': $index == vm.selectedIndex}" layout="column">
-					<div layout="row" ng-click="vm.showDetails($index)" class="folded">
-						<div class="md-tile-left">
-							<div class="avatar-points bg-{{::vm.getClassificationColor( ticket.classification ) }}">{{::ticket.points}}</div>
-						</div>
-						<div class="md-tile-content" layout="column" layout-align="center start">
-							<h4>{{::ticket.classification | capitalize}} - {{::ticket.date | calendar}}</h4>
-							<p>
-								{{::ticket.place | capitalize}}, {{::ticket.district | capitalize}}
-							</p>
-						</div>
-					</div>
-					<md-divider ng-show="$index == vm.selectedIndex"></md-divider>
-					<div layout="column" class="expanded">
-						<p><strong>Placa:</strong> {{::ticket.plate}}</p>
-						<p>{{::ticket.description}}</p>
-					</div>
-				</md-item-content>
-				<md-divider class="divider-inset" ng-hide="$index == vm.selectedIndex && $last"></md-divider>
-			</md-item>
-		</md-content>
-	</ion-content>
-	<!--Dashboard section-->
-</ion-view>
+</ion-content>
