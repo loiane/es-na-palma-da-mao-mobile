@@ -1,8 +1,6 @@
-
 import { AppSettings } from './appSettings';
 
 export class Settings implements AppSettings {
-
    public readonly api = {
        news: 'https://api.es.gov.br/news',
        calendars: 'https://api.es.gov.br/calendars',

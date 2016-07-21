@@ -19,7 +19,7 @@
 				<strong>Número</strong>
 			</div>
 			<div class="col-50">
-				{{process.number}}
+				 <ion-badge item-right>{{process.number}}</ion-badge>
 			</div>
 		</ion-item>
 
@@ -46,7 +46,7 @@
 				<strong>Partes</strong>
 			</div>
 			<div class="col-50">
-				<p *ngFor="#part of process.parts">{{part | capitalize}} </p>
+				<p *ngFor="let part of process.parts">{{part | capitalize}} </p>
 			</div>
 		</ion-item>
 
@@ -94,7 +94,7 @@
 			<button clear accent class="more-updates" (click)="toggleUpdates()">{{seeMoreUpdates}}</button>
 		</ion-item>
 		<div class="espm-item-transition" *ngIf="showAllUpdates">
-			<ion-item *ngFor="#update of hiddenUpdates">
+			<ion-item *ngFor="let update of hiddenUpdates">
 				<div class="other-updates">
 					<strong>{{update.date | date:"dd/MM/yyyy HH:mm"}}</strong>
 					<p md-colors="::{color: 'accent'}">{{update.status | capitalize}}</p>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TabsComponent } from '../tabs/tabs';
+import { NewsHighlightsComponent } from '../news/highlights/index';
 
 @Component( {
     moduleId: __moduleName,
@@ -8,8 +8,8 @@ import { TabsComponent } from '../tabs/tabs';
 })
 export class DashBoardComponent implements OnInit {
     
-    public tabHighlights = TabsComponent;
-    public tabCalendar = TabsComponent;
+    public tabHighlights = NewsHighlightsComponent;
+    public tabCalendar = NewsHighlightsComponent;
 
     /**
      * Creates an instance of DashBoardComponent.
@@ -22,7 +22,7 @@ export class DashBoardComponent implements OnInit {
      * 
      * @returns {*}
      */
-    ngOnInit(): any {
+    public ngOnInit(): any {
 
     }
 }

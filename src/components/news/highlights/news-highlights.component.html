@@ -1,40 +1,32 @@
-<ion-view title="ES na Palma da Mão">
-	<ion-content id="news-highlights-component">
-
-		<!-- Primeira Notícia -->
-		<md-card ng-if="!!vm.firstNews">
-			<img ng-src="{{vm.firstNews.imageHighlight}}" class="md-card-image" alt="">
-			<md-card-title>
-				<md-card-title-text>
-					<span class="md-headline">{{vm.firstNews.title}}</span>
-				</md-card-title-text>
-			</md-card-title>
-			<md-card-content>
-				<p ng-bind-html="vm.firstNews.summary"></p>
-				<span class="outras-noticias-info-origem">{{vm.firstNews.origin}} | {{ vm.firstNews.date | fromNow }}</span>
-
-			</md-card-content>
-			<md-card-actions layout="row" layout-align="start left">
-				<md-button ng-click="vm.goToNews(vm.firstNews.id)" class="md-accent">LEIA MAIS</md-button>
-			</md-card-actions>
-		</md-card>
-
-		<!-- Outras notícias -->
-		<md-card ng-repeat="news in vm.otherNews">
-			<md-card-title>
-				<md-card-title-text>
-					<span class="md-title outras-noticias">{{news.title}}</span>
-					<span class="outras-noticias-info-origem">{{news.origin}} | {{ news.date | fromNow }}</span>
-				</md-card-title-text>
-				<md-card-title-media>
-					<div class="md-media-md card-media">
-						<img alt="" ng-src="{{news.image}}"/>
-					</div>
-				</md-card-title-media>
-			</md-card-title>
-			<md-card-actions layout="row" layout-align="start left">
-				<md-button ng-click="vm.goToNews(news.id)" class="md-accent">LEIA MAIS</md-button>
-			</md-card-actions>
-		</md-card>
-	</ion-content><!--Dashboard section-->
-</ion-view>
+<ion-header>
+  <ion-navbar primary>
+    <button menuToggle>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>
+      Destaques
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content id="news-highlights" no-padding>
+  <ion-card *ngFor="let news of highlights">
+    <img [src]="news.imageHighlight"/>
+    <ion-card-content>
+      <ion-card-title>
+       {{news.title}}
+      </ion-card-title>
+       <p [innerHTML]="news.summary"></p>
+       <ion-row no-padding="">
+            <ion-col width-50>
+               <span detail accent>{{news.origin}}</span>  <span detail>| {{ news.date | date:'dd/MM/yyyy' }}</span>
+            </ion-col>
+            <ion-col width-50 text-right>
+              <button accent clear small (click)="goToNews(news.id, news.origin)">
+                  <ion-icon name="book"></ion-icon>
+                    Leia mais
+                  </button>
+            </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

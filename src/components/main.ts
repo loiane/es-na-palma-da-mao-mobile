@@ -11,6 +11,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/elementAt';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
@@ -21,8 +22,9 @@ import { AppComponent } from './app/app.component';
 import { Settings } from './shared/index';
 
 let settingsProvider = {
-   provide: Settings,
-   useFactory: () => Settings.getInstance()
+    provide: Settings,
+    useFactory: () => Settings.getInstance()
 };
 
 ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, settingsProvider ] );
+

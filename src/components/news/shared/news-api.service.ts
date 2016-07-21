@@ -1,47 +1,82 @@
-import {IHttpService, IPromise} from 'angular';
-import {News, NewsDetail} from '../shared/models/index';
+import { Injectable } from '@angular/core';
+import { Http, Response, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { News, NewsDetail } from '../shared/models/index';
+import { Settings } from '../../shared/index';
 
-class NewsApiService {
+@Injectable()
+export class NewsApiService {
 
-    public static $inject: string[] = [ '$http', 'settings' ];
-
-    private defaultPage = 0;
-    private defaultPageSize = 10;
+    private defaultPage: number = 0;
+    private defaultPageSize: number = 10;
 
     /**
-     *
-     * @param {Object} $http - angular $http service
+     * Creates an instance of NewsApiService.
+     * 
+     * @param {Http} http
+     * @param {AppSettings} settings
      */
-    constructor( private $http: IHttpService, private settings ) {
+    constructor( private http: Http, private settings: Settings ) {}
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {Response} res
+     * @returns
+     */
+    private extractData( res: Response ): any {
+        let body = res.json();
+        return body.data || {};
     }
 
     /**
-     *
-     * @returns {*}
+     * 
+     * 
+     * @private
+     * @param {*} error
      */
-    public getNewsById( id: string ): IPromise<NewsDetail> {
-        return this.$http
+    private handleError( error: any ) {
+        let errMsg = ( error.message ) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error( errMsg ); // log to console instead
+        return Observable.throw( errMsg );
+    }
+
+    /**
+     * 
+     * 
+     * @param {string} id
+     * @returns {Observable<NewsDetail>}
+     */
+    public getNewsById( id: string ): Observable<NewsDetail> {
+        return this.http
                    .get( `${this.settings.api.news}/${id}` )
-                   .then( ( response: { data: NewsDetail } ) => response.data );
+                   .map( res => <NewsDetail>res.json() )
+                   .catch( this.handleError );
     }
 
+
     /**
-     *
-     * @returns {*}
+     * 
+     * 
+     * @returns {Observable<News[]>}
      */
-    public getHighlightNews(): IPromise<News[]> {
-        return this.$http
+    public getHighlightNews(): Observable<News[]> {
+        return this.http
                    .get( `${this.settings.api.news}/highlights` )
-                   .then( ( response: { data: News[] } ) => response.data );
+                   .map( res => <News[]>res.json() )
+                   .catch( this.handleError );
     }
 
+
     /**
-     *
-     * @param calendars
-     * @param options
-     * @returns {Array}
+     * 
+     * 
+     * @param {any} [options={}]
+     * @returns {Observable<News[]>}
      */
-    public getNews( options = {} ): IPromise<News[]> {
+    public getNews( options = {}): Observable<News[]> {
         let today = new Date();
         let defaults = {
             origins: [],
@@ -51,23 +86,30 @@ class NewsApiService {
             pageSize: this.defaultPageSize
         };
 
-        let params = angular.extend( {}, defaults, options );
+        // let params = new URLSearchParams();
+        // params.set('origins', term); // the user's search value
+        // params.set('dateMin', 'opensearch');
+        // params.set('format', 'json');
+        // params.set('callback', 'JSONP_CALLBACK');
 
-        return this.$http.get( this.settings.api.news, { params: params } )
-                   .then(  ( response: { data: News[] } ) => {
-                       return response.data;
-                   } );
+        let params: URLSearchParams = Object.assign( new URLSearchParams(), defaults, options );
+
+        return this.http
+                   .get( this.settings.api.news, { search: params } )
+                   .map( res => <News[]>res.json() )
+                   .catch( this.handleError );
     }
+
 
     /**
-     *
-     * @returns {*}
+     * 
+     * 
+     * @returns {Observable<string[]>}
      */
-    public getAvailableOrigins(): IPromise<string[]> {
-        return this.$http
+    public getAvailableOrigins(): Observable<string[]> {
+        return this.http
                    .get( `${this.settings.api.news}/origins` )
-                   .then(  ( response: { data: string[] } ) => response.data );
+                   .map( res => <string[]>res.json() )
+                   .catch( this.handleError );
     }
 }
-
-export default NewsApiService;

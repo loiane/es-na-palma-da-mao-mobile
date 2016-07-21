@@ -1,9 +1,3 @@
-import detail from './detail/index';
-import highlights from './highlights/index';
-import list from './list/index';
-
-let dependencies = [
-    detail.name, highlights.name, list.name
-];
-
-export default angular.module( 'news', dependencies );
+export * from './highlights/index';
+export * from './detail/index';
+export * from './shared/index';

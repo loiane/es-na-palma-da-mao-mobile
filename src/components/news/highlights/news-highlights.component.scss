@@ -1,0 +1,19 @@
+@import "../../app/app.variables";
+
+ion-content{
+   background-color: #f4f4f4; 
+
+   ion-card{
+        [detail]{
+            font-size: 1.3rem;
+            margin-top: 9px;
+            color: #9c9c9c;
+            display: inline-block;
+
+             &[accent]{
+                color: color( $colors, accent, base );
+             }
+        }
+   }
+}
+

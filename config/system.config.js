@@ -67,7 +67,6 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.23",
     "es6-shim": "github:es-shims/es6-shim@0.35.1",
     "font-awesome": "npm:font-awesome@4.6.3",
-    "http": "npm:@angular/http@2.0.0-rc.4",
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic-angular": "npm:ionic-angular@2.0.0-beta.10",
     "ionic-native": "npm:ionic-native@1.3.7",
@@ -540,3 +539,4 @@ System.config({
     }
   }
 });
+

@@ -1,4 +1,4 @@
-import newsApiService from './news-api.service';
+export * from './news-api.service';
+export * from './models/index';
 
-export default angular.module( 'news.shared', [] )
-  .service( 'newsApiService', newsApiService );
+

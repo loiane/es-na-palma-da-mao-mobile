@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { DashBoardComponent } from '../dashboard/dashboard.component';
-import { TabsComponent } from '../tabs/tabs';
 import { SepConsulta } from '../sep/sep-consulta.component';
-
 
 @Component( {
     moduleId: __moduleName,
@@ -20,13 +18,6 @@ export class AppComponent implements OnInit {
      * @type {*}
      */
     private rootPage: any = DashBoardComponent;
-
-    /**
-     * 
-     * 
-     * @private
-     */
-    private tabsComponent = TabsComponent;
 
     /**
      * 
