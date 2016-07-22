@@ -61,6 +61,7 @@ System.config({
     "@angular/http": "npm:@angular/http@2.0.0-rc.4",
     "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.4",
     "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.4",
+    "angular2-localstorage": "github:marcj/angular2-localstorage@0.4.0",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
@@ -539,4 +540,3 @@ System.config({
     }
   }
 });
-

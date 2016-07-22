@@ -17,6 +17,9 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 
 import { HTTP_PROVIDERS } from '@angular/http';
+
+import { LocalStorageService } from 'angular2-localstorage/LocalStorageEmitter';
+
 import { ionicBootstrap } from 'ionic-angular';
 import { AppComponent } from './app/app.component';
 import { Settings } from './shared/index';
@@ -26,5 +29,4 @@ let settingsProvider = {
     useFactory: () => Settings.getInstance()
 };
 
-ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, settingsProvider ] );
-
+ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, settingsProvider, LocalStorageService ] );

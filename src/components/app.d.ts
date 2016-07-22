@@ -20,3 +20,9 @@ declare module 'chai' {
 declare var __moduleName: string;
 
 
+declare interface Window {
+    plugins: any;
+    facebookConnectPlugin: any;
+}
+
+

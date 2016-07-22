@@ -1,11 +1,19 @@
-import {DigitsAccessToken, DigitsAuthResponse} from './models/index';
+import { Injectable } from '@angular/core';
+import { LocalStorage } from 'angular2-localstorage/WebStorage';
+import { DigitsAccessToken, DigitsAuthResponse } from './models/index';
 
 /**
  * https://github.com/JimmyMakesThings/cordova-plugin-digits
  */
 export class DigitsService {
-
-    public static $inject: string[] = [ '$window', '$localStorage' ];
+    
+    @LocalStorage() private storageDigitsAuthResponse: Object = {};
+    private get digitsAuthResponse(): DigitsAccessToken {
+        return <DigitsAccessToken>this.storageDigitsAuthResponse;
+    }
+    private set digitsAuthResponse( value: DigitsAccessToken ) {
+        this.storageDigitsAuthResponse = value;
+    }
 
     /**
      * Cria uma instância de DigitsService.
@@ -13,8 +21,7 @@ export class DigitsService {
      * @param {*} $window
      * @param {*} $localStorage
      */
-    constructor( private $window: any,
-                 private $localStorage: any) {
+    constructor() {
     }
 
     /**
@@ -33,7 +40,7 @@ export class DigitsService {
             backgroundColor: '#ffffff'
         };
 
-        options = angular.extend( options, defaultOptions );
+        options = Object.assign( options, defaultOptions );
 
         /**
          * Exemplo de objeto retornado pelo digits
@@ -49,9 +56,9 @@ export class DigitsService {
                                                      oauth_version="1.0""
             }
          */
-        this.$window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
+        window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
 
-            this.$localStorage.digitsAuthResponse = this.buildAccessToken( authResponse );
+            this.digitsAuthResponse = this.buildAccessToken( authResponse );
 
             onSuccess( authResponse );
         }, errorDigits => {
@@ -64,8 +71,8 @@ export class DigitsService {
      * 
      */
     public logout(): void {
-        if ( this.$window.plugins && this.$window.plugins.digits ) {
-            this.$window.plugins.digits.logout();
+        if ( window.plugins && window.plugins.digits ) {
+            window.plugins.digits.logout();
         }
     }
 
