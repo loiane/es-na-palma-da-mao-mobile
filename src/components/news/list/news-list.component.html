@@ -1,51 +1,37 @@
-<ion-view title="Notícias">
-	<ion-content id="state-news-list">
-		<md-toolbar class="md-hue-1 md-whiteframe-1dp">
-			<div class="md-toolbar-tools">
-				<md-button class="md-accent md-raised" ng-click="vm.openOriginsFilter($event)">
-					Fontes
-				</md-button>
-				<md-button class="md-accent md-raised" ng-click="vm.openDateFilter($event)">
-					Data
-				</md-button>
-			</div>
-		</md-toolbar>
-		<md-content>
-			<md-list>
-				<div ng-repeat="news in vm.news">
-					<md-list-item class="md-3-line" ng-click="vm.goToNews(news.id)">
-						<md-card-title-text class="md-padding">
-							<span class="md-title lista-noticias">{{news.title}}</span>
-							<div>
-								<span md-colors="::{color: 'accent'}">
-									{{::news.origin}}
-								</span>
-								<span class="noticia-info-origem">
-									 {{::news.date | fromNow }}
-								</span>
-							</div>
-						</md-card-title-text>
-						<md-card-title-media>
-							<div class="md-media-md card-media">
-								<img alt="" ng-src="{{news.image}}"/>
-							</div>
-						</md-card-title-media>
-					</md-list-item>
-					<md-divider></md-divider>
-				</div>
-				<div ng-if="vm.populated && !vm.news.length" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
-					<div class="md-padding" style="padding: 20px;">
-						<div class="md-subhead">Nenhuma notícia encontrada</div>
-						<div style="color: #999;">Tente mudar o filtro da consulta</div>
-					</div>
-				</div>
-			</md-list>
-			<ion-infinite-scroll
-				ng-if="vm.activated && vm.hasMoreNews"
-				on-infinite="vm.getNews({ pageNumber: vm.currentPage + 1  })"
-				distance="30%">
-			</ion-infinite-scroll>
-		</md-content>
-	</ion-content>
-	<!--Dashboard section-->
-</ion-view>
+<ion-header>
+	<ion-navbar primary>
+		<button menuToggle>
+		<ion-icon name='menu'></ion-icon>
+		</button>
+		<ion-title>
+			Notícias
+		</ion-title>
+		<ion-buttons end>
+			<button (click)="showFilterModal()">
+				<ion-icon name="search"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-item *ngFor="let news of loadedNews" (click)="goToNews( news.id, news.origin )">
+			<ion-thumbnail item-right *ngIf="news.image">
+				<img [src]="news.image"/>
+			</ion-thumbnail>
+			<h2>{{news.title}}</h2>
+			<span detail accent>{{news.origin}}</span> <span detail>| {{ news.date | fromNow }}</span>
+		</ion-item>
+	</ion-list>
+	<div *ngIf="loaded && !loadedNews.length">
+		<div padding>
+			<h4 text-center>Nenhuma notícia encontrada</h4>
+			<h6 text-center class="msg-subtitle">Tente outro <button id="btn-filtro" small accent (click)="showFilterModal()">filtro</button></h6>
+			<hr />
+		</div>
+	</div>
+	<ion-infinite-scroll *ngIf="hasMorePages" (ionInfinite)="doInfinity($event)">
+		<ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+</ion-content>

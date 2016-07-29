@@ -25,11 +25,9 @@
 // Both iOS and MD colors can be further customized if colors
 // are different per mode.
 
-
-
 $colors: (
   primary:(base:#208baa, contrast:#ffffff),
-  accent:(base:#c86673, contrast:#333),
+  accent:(base:#c86673, contrast:#ffffff),
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -42,3 +40,21 @@ $colors: (
 $toolbar-background: #208baa;
 $toolbar-inactive-color: #fff;
 $toolbar-active-color: #c86673;
+
+$alert-md-checkbox-width: 20px;
+$alert-ios-checkbox-width: 20px;
+$alert-wp-checkbox-width: 20px;
+
+$alert-md-checkbox-height: 20px;
+$alert-ios-checkbox-height: 20px;
+$alert-wp-checkbox-height: 20px;
+
+$alert-md-checkbox-icon-width: 10px;
+$alert-ios-checkbox-icon-width: 10px;
+$alert-wp-checkbox-icon-width: 10px;
+
+
+// muda cor dos checkboxes nas janelas modais e alerts
+$alert-ios-checkbox-background-color-on: color($colors, accent);
+$alert-md-checkbox-border-color-on: color($colors, accent);
+$alert-wp-checkbox-background-on: color($colors, accent);

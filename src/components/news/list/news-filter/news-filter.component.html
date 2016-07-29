@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Filtrar Notícias
+    </ion-title>
+    <ion-buttons start>
+      <button (click)="close()">
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>Fontes</ion-list-header>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label>Órgãos</ion-label>
+        <ion-select [(ngModel)]="filter.origins" multiple="true" cancelText="Cancelar" okText="Selecionar">
+          <ion-option *ngFor="let origin of availableOrigins">{{origin}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item-options>
+        <button accent (click)="filter.origins = []">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-list-header>Período</ion-list-header>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label>De</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" cancelText="Cancelar" doneText="Selecionar" [(ngModel)]="filter.dateMin"></ion-datetime>
+      </ion-item>
+      <ion-item-options>
+        <button accent (click)="filter.dateMin = undefined">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label>Até</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" cancelText="Cancelar" doneText="Selecionar" [(ngModel)]="filter.dateMax"></ion-datetime>
+      </ion-item>
+      <ion-item-options>
+        <button accent (click)="filter.dateMax = undefined">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

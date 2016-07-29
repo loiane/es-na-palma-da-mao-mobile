@@ -47,7 +47,7 @@
   ],
   "exclude":[
     "node_modules",
-    "wwww",
+    "www",
     "bower_components",
     "src/components/**/*.specs.ts",
     "config",

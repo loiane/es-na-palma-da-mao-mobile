@@ -6,7 +6,7 @@ export class ToNowPipe implements PipeTransform {
     transform( inputDate ): string {
         let date = moment( inputDate );
         if ( date == null || !date.isValid() ) {
-            return input;
+            return inputDate;
         }
 
         return date.toNow();

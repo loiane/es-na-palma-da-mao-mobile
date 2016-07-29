@@ -66,7 +66,6 @@ System.config({
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
     "css": "github:systemjs/plugin-css@0.1.23",
     "es6-shim": "github:es-shims/es6-shim@0.35.1",
-    "font-awesome": "npm:font-awesome@4.6.3",
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic-angular": "npm:ionic-angular@2.0.0-beta.10",
     "ionic-native": "npm:ionic-native@1.3.7",
@@ -77,7 +76,6 @@ System.config({
     "oidc-token-manager": "github:IdentityModel/oidc-token-manager@1.2.0",
     "plugin-babel": "npm:systemjs-plugin-babel@0.0.12",
     "plugin-babel-runtime": "npm:babel-runtime@5.8.38",
-    "robotoDraft": "github:raibutera/robotodraft@1.1.0",
     "rxjs": "npm:rxjs@5.0.0-beta.6",
     "systemjs-babel-build": "npm:systemjs-plugin-babel@0.0.12/systemjs-babel-browser.js",
     "text": "github:systemjs/plugin-text@0.0.7",
@@ -337,9 +335,6 @@ System.config({
       "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:font-awesome@4.6.3": {
-      "css": "github:systemjs/plugin-css@0.1.23"
-    },
     "npm:has-ansi@2.0.0": {
       "ansi-regex": "npm:ansi-regex@2.0.0"
     },
@@ -539,4 +534,3 @@ System.config({
     }
   }
 });
-

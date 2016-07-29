@@ -1,6 +1,5 @@
 // tslint:disable-next-line
-import 'font-awesome';
-import 'robotoDraft/robotodraft.css!';
+import 'moment/locale/pt-br';
 
 // Statics
 import 'rxjs/add/observable/throw';
@@ -10,6 +9,12 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/scan';
+import 'rxjs/add/operator/mergeMap'; // flatMap
+import 'rxjs/add/operator/share';
+// import 'rxjs/add/operator/startWith';
+// import 'rxjs/add/operator/count';
+// import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/elementAt';
 import 'rxjs/add/operator/do';

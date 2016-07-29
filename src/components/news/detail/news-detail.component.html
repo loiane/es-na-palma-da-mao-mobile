@@ -4,32 +4,25 @@
       <ion-icon name='menu'></ion-icon>
     </button>
     <ion-title>
-       {{origin}}
+      {{origin}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content id="news-highlights" no-padding>
   <ion-card *ngIf="!!news">
-    <img [src]="news.image"/>
+    <img [src]="news.image" *ngIf="news.image" />
     <ion-card-content>
-		<p>
-			<span detail accent>{{news.origin}}</span>  <span detail>| {{ news.date | date:'dd/MM/yyyy' }}</span>
-		</p>
-		<p detail>
-			Atualizada em: {{ news.lastModified | date: 'dd/MM/yyyy' }}
-		</p>
+      <p>
+        <span detail accent>{{news.origin}}</span> <span detail>| {{ news.date | date:'dd/MM/yyyy' }}</span>
+      </p>
+      <p detail>
+        Atualizada em: {{ news.lastModified | date: 'dd/MM/yyyy' }}
+      </p>
       <ion-card-title>
-       {{news.title}}
+        {{news.title}}
       </ion-card-title>
-			<p [innerHTML]="news.body"></p>
-	  <!--<ion-row>
-		  <ion-col>
-			  <small ng-if="!moment(vm.news.date).isSame(vm.news.lastModified, 'day')"
-					   class="last-updated">Atualizada em: {{ vm.news.lastModified | date: 'dd/MM/yyyy' }}
-				</small>
-		  </ion-col>
-	  </ion-row>-->
+      <p [innerHTML]="news.body"></p>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController, Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
-import { DashBoardComponent } from '../dashboard/dashboard.component';
+import { DashBoardComponent } from '../dashboard/index';
 import { SepConsulta } from '../sep/sep-consulta.component';
+import { NewsListComponent } from '../news/index';
 
 @Component( {
     moduleId: __moduleName,
@@ -19,19 +20,9 @@ export class AppComponent implements OnInit {
      */
     private rootPage: any = DashBoardComponent;
 
-    /**
-     * 
-     * 
-     * @private
-     */
-    private dashboardComponent = DashBoardComponent;
-
-    /**
-     * 
-     * 
-     * @private
-     */
-    private sepComponent = SepConsulta;
+    private readonly dashboardComponent = DashBoardComponent;
+    private readonly newsListComponent = NewsListComponent;
+    private readonly sepComponent = SepConsulta;
     
     /**
      * Creates an instance of AppComponent.

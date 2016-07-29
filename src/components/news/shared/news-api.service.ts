@@ -53,7 +53,8 @@ export class NewsApiService {
         return this.http
                    .get( `${this.settings.api.news}/${id}` )
                    .map( res => <NewsDetail>res.json() )
-                   .catch( this.handleError );
+                   .catch( this.handleError )
+                   .share();
     }
 
 
@@ -66,7 +67,8 @@ export class NewsApiService {
         return this.http
                    .get( `${this.settings.api.news}/highlights` )
                    .map( res => <News[]>res.json() )
-                   .catch( this.handleError );
+                   .catch( this.handleError )
+                   .share();
     }
 
 
@@ -86,18 +88,20 @@ export class NewsApiService {
             pageSize: this.defaultPageSize
         };
 
-        // let params = new URLSearchParams();
-        // params.set('origins', term); // the user's search value
-        // params.set('dateMin', 'opensearch');
-        // params.set('format', 'json');
-        // params.set('callback', 'JSONP_CALLBACK');
+        let params = Object.assign( {}, defaults, options );
 
-        let params: URLSearchParams = Object.assign( new URLSearchParams(), defaults, options );
+        let searchParams = new URLSearchParams();
+        searchParams.set( 'origins', params.origins );
+        searchParams.set( 'dateMin', params.dateMin );
+        searchParams.set( 'dateMax', params.dateMax );
+        searchParams.set( 'pageNumber', params.pageNumber );
+        searchParams.set( 'pageSize', params.pageSize );
 
         return this.http
-                   .get( this.settings.api.news, { search: params } )
-                   .map( res => <News[]>res.json() )
-                   .catch( this.handleError );
+            .get( this.settings.api.news, { search: searchParams } )
+            .map( res => <News[]>res.json() )
+            .catch( this.handleError )
+            .share();
     }
 
 
@@ -110,6 +114,7 @@ export class NewsApiService {
         return this.http
                    .get( `${this.settings.api.news}/origins` )
                    .map( res => <string[]>res.json() )
-                   .catch( this.handleError );
+                   .catch( this.handleError )
+                   .share();
     }
 }

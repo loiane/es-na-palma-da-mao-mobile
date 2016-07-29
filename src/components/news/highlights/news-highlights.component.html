@@ -10,22 +10,22 @@
 </ion-header>
 <ion-content id="news-highlights" no-padding>
   <ion-card *ngFor="let news of highlights">
-    <img [src]="news.imageHighlight"/>
+    <img [src]="news.imageHighlight"  *ngIf="news.imageHighlight" />
     <ion-card-content>
       <ion-card-title>
-       {{news.title}}
+        {{news.title}}
       </ion-card-title>
-       <p [innerHTML]="news.summary"></p>
-       <ion-row no-padding="">
-            <ion-col width-50>
-               <span detail accent>{{news.origin}}</span>  <span detail>| {{ news.date | date:'dd/MM/yyyy' }}</span>
-            </ion-col>
-            <ion-col width-50 text-right>
-              <button accent clear small (click)="goToNews(news.id, news.origin)">
+      <p [innerHTML]="news.summary"></p>
+      <ion-row no-padding="">
+        <ion-col width-50>
+          <span detail accent>{{news.origin}}</span> <span detail>| {{ news.date | fromNow }}</span>
+        </ion-col>
+        <ion-col width-50 text-right>
+          <button accent clear small (click)="goToNews(news.id, news.origin)">
                   <ion-icon name="book"></ion-icon>
                     Leia mais
                   </button>
-            </ion-col>
+        </ion-col>
       </ion-row>
     </ion-card-content>
   </ion-card>
