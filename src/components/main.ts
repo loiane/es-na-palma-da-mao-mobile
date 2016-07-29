@@ -14,7 +14,11 @@ import 'rxjs/add/operator/mergeMap'; // flatMap
 import 'rxjs/add/operator/share';
 // import 'rxjs/add/operator/startWith';
 // import 'rxjs/add/operator/count';
-// import 'rxjs/add/operator/timeout';
+import 'rxjs/add/operator/timeout';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/observable/range';
+import 'rxjs/add/operator/zip';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/elementAt';
 import 'rxjs/add/operator/do';

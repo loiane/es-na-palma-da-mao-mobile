@@ -37,9 +37,8 @@ export class NewsApiService {
      * @param {*} error
      */
     private handleError( error: any ) {
-        let errMsg = ( error.message ) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        console.error( errMsg ); // log to console instead
+        let errMsg = ( error.message ) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error( `handleError: ${errMsg}` );
         return Observable.throw( errMsg );
     }
 
@@ -53,6 +52,8 @@ export class NewsApiService {
         return this.http
                    .get( `${this.settings.api.news}/${id}` )
                    .map( res => <NewsDetail>res.json() )
+                   .timeout( 5000, new Error( 'timeout' ) )
+                   .retryWhen( error => error.delay( 200 ) )
                    .catch( this.handleError )
                    .share();
     }
@@ -65,10 +66,12 @@ export class NewsApiService {
      */
     public getHighlightNews(): Observable<News[]> {
         return this.http
-                   .get( `${this.settings.api.news}/highlights` )
-                   .map( res => <News[]>res.json() )
-                   .catch( this.handleError )
-                   .share();
+            .get( `${this.settings.api.news}/highlights` )
+            .map( res => <News[]>res.json() )
+            .timeout( 5000, new Error( 'timeout' ) )
+            .catch( this.handleError )
+            .retryWhen( attempts => this.retryWhen( attempts ) )
+            .share();
     }
 
 
@@ -100,7 +103,9 @@ export class NewsApiService {
         return this.http
             .get( this.settings.api.news, { search: searchParams } )
             .map( res => <News[]>res.json() )
+            .timeout( 5000, new Error( 'timeout' ) )
             .catch( this.handleError )
+            .retryWhen( attempts => this.retryWhen( attempts ) )
             .share();
     }
 
@@ -114,7 +119,27 @@ export class NewsApiService {
         return this.http
                    .get( `${this.settings.api.news}/origins` )
                    .map( res => <string[]>res.json() )
+                   .timeout( 5000, new Error( 'timeout' ) )
                    .catch( this.handleError )
+                   .retryWhen( attempts => this.retryWhen( attempts ) )
                    .share();
+    }
+
+
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {any} error
+     * @returns {*}
+     */
+    private retryWhen( attempts: Observable<News[]> ): any {
+        return Observable.range( 1, 3 )
+                         .zip( attempts, i => i )
+                         .flatMap( i => {
+                             console.log( `retry by ${i} second(s)` );
+                             return Observable.timer( i * 1000 );
+                         } );
     }
 }

@@ -82,10 +82,7 @@ export class NewsHighlightsComponent implements OnInit {
     public getHighlightNews(): void {
         this.showLoading();
         this.newsApiService.getHighlightNews()
-                            // .retryWhen( error => error.delay( 2 ) )
-                            // .timeout( 2000, new Error( 'delay exceeded' ) )
-                            // .finally( () => this.hideLoading() )
-                            .subscribe( highlights => this.highlights = highlights,
+            .subscribe( highlights => this.highlights = highlights,
             null,
             () => this.hideLoading() );
 
