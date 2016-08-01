@@ -16,7 +16,12 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 
-import { HTTP_PROVIDERS } from '@angular/http';
+import { Provider } from '@angular/core';
+import { HTTP_PROVIDERS, RequestOptions, XHRBackend } from '@angular/http';
+import { AuthorizedHttp } from './shared/authorized-http.component';
+
+import { COOL_STORAGE_PROVIDERS, CoolLocalStorage } from 'angular2-cool-storage';
+
 import { ionicBootstrap } from 'ionic-angular';
 import { AppComponent } from './app/app.component';
 import { Settings } from './shared/index';
@@ -26,5 +31,11 @@ let settingsProvider = {
     useFactory: () => Settings.getInstance()
 };
 
-ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, settingsProvider ] );
+// Provider for authorized requests
+let authHttpProvider = {
+    provide: AuthorizedHttp,
+    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, localStorage: CoolLocalStorage ) => new AuthorizedHttp( backend, defaultOptions, localStorage ),
+    deps: [ XHRBackend, RequestOptions, CoolLocalStorage ]
+};
 
+ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, settingsProvider, authHttpProvider, COOL_STORAGE_PROVIDERS ] );

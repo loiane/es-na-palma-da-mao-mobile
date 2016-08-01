@@ -1,11 +1,20 @@
-import {FacebookResponse, FacebookAuthResponse} from './models/index';
+import { Injectable } from '@angular/core';
+import { CoolLocalStorage } from 'angular2-cool-storage';
+import { FacebookResponse, FacebookAuthResponse } from './models/index';
 
 /**
  * https://github.com/jeduan/cordova-plugin-facebook4
  */
+@Injectable()
 export class FacebookService {
 
-    public static $inject: string[] = [ '$window', '$localStorage' ];
+    // @LocalStorage() private storageFacebookAuthResponse: Object = {};
+    private get facebookAuthResponse(): FacebookAuthResponse {
+        return <FacebookAuthResponse>this.localStorage.getObject('storageFacebookAuthResponse');
+    }
+    private set facebookAuthResponse( value: FacebookAuthResponse ) {
+        this.localStorage.setObject( 'storageFacebookAuthResponse', value );
+    }
 
     /**
      * Cria uma instância de FacebookService.
@@ -13,7 +22,7 @@ export class FacebookService {
      * @param {any} $window
      * @param {any} $localStorage
      */
-    constructor( private $window, private $localStorage ) {
+    constructor( private localStorage: CoolLocalStorage ) {
     }
 
     /**
@@ -44,8 +53,8 @@ export class FacebookService {
          this.$window.facebookConnectPlugin.getAccessToken( function( token ) { } );
          } );
          */
-        this.$window.facebookConnectPlugin.login( scopes, ( response: FacebookResponse ) => {
-            this.$localStorage.facebookAuthResponse = response.authResponse;
+        window.facebookConnectPlugin.login( scopes, ( response: FacebookResponse ) => {
+            this.facebookAuthResponse = response.authResponse;
             onSuccess( response.authResponse );
         }, error => {
             onError( error );
@@ -59,8 +68,8 @@ export class FacebookService {
      * @param {any} onError
      */
     public logout( onSuccess?, onError? ) {
-        if ( this.$window.facebookConnectPlugin ) {
-            this.$window.facebookConnectPlugin.logout( onSuccess, onError );
+        if ( window.facebookConnectPlugin ) {
+            window.facebookConnectPlugin.logout( onSuccess, onError );
         }
     }
 
@@ -71,7 +80,7 @@ export class FacebookService {
      * @param {any} onError
      */
     public getLoginStatus( onSuccess, onError ) {
-        this.$window.facebookConnectPlugin.getLoginStatus( onSuccess, onError );
+        window.facebookConnectPlugin.getLoginStatus( onSuccess, onError );
     }
 
     /**
@@ -82,7 +91,7 @@ export class FacebookService {
      * @param {any} onError
      */
     public showDialog( options, onSuccess, onError ) {
-        this.$window.facebookConnectPlugin.showDialog( options, onSuccess, onError );
+        window.facebookConnectPlugin.showDialog( options, onSuccess, onError );
     }
 
     /**
@@ -94,7 +103,7 @@ export class FacebookService {
      * @param {any} onError
      */
     public api( requestPath, permissions, onSuccess, onError ) {
-        this.$window.facebookConnectPlugin.api( requestPath, permissions, onSuccess, onError );
+        window.facebookConnectPlugin.api( requestPath, permissions, onSuccess, onError );
     }
 }
 

@@ -1,74 +1,75 @@
-<ion-view title="Acesse sua conta">
-	<!--left button on navigation bar-->
-	<ion-nav-bar class="md-primary-color-bg">
-		<ion-nav-buttons side="left">
-			<a ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item nav-back-btn">
-				<i class="ion-android-arrow-back"></i>
-			</a>
-		</ion-nav-buttons>
-		<!--end left button on navigation bar-->
-	</ion-nav-bar>
+<ion-header>
+	<ion-navbar primary>
+		<ion-title>
+			Acesse sua conta
+		</ion-title>
+	</ion-navbar>
+</ion-header>
 
-	<!--login content section-->
-	<ion-content id="login-component" md-colors="::{backgroundColor: 'primary'}">
+<!-- TODO -->
+<style>
+	#login-component form ion-list > .item&:last-child .item-inner {
+		border-bottom: 1px solid #dedede;
+	}
 
-		<!--login form section-->
-		<form class="login-form">
+	#login-component .item-input.ng-valid.input-has-value::after {
+		border-bottom-color: #dedede;
+	}
+</style>
 
-			<md-input-container md-no-float class="md-block">
-				<label>CPF ou E-mail</label>
-				<input ng-model="vm.user.username">
-			</md-input-container>
+<!--login content section-->
+<ion-content id="login-component" primary>
 
-			<md-input-container md-no-float class="md-block">
-				<label>Senha</label>
-				<input type="password" ng-model="vm.user.password">
-			</md-input-container>
-			<!--</div>-->
+	<!--login form section-->
+	<form class="login-form">
 
-			<a href="" ng-click="vm.openUrlForgotPassword()" class="espm-forgot-password">Esqueceu a Senha?</a>
+		<ion-list>
 
-			<md-button class="espm-login-button md-raised"
-					   md-colors="::{color: 'primary'}"
-					   md-no-ink="isAndroid"
-					   ng-click="vm.login()">ENTRAR
-			</md-button>
-		</form>
-		<!--login form section-->
+			<ion-item>
+				<ion-label floating>CPF ou E-mail</ion-label>
+				<ion-input type="text" [(ngModel)]="user.username"></ion-input>
+			</ion-item>
 
-		<div class="row other-login-options">
-			<div class="col">
-				<div class="hr"></div>
-			</div>
-			<div class="col espm-label-line">
-				<span>Ou entre usando</span>
-			</div>
-			<div class="col">
-				<div class="hr"></div>
-			</div>
+			<ion-item>
+				<ion-label floating>Senha</ion-label>
+				<ion-input type="password" value="" [(ngModel)]="user.password"></ion-input>
+			</ion-item>
+
+		</ion-list>
+		<!--</div>-->
+
+		<a href="" (click)="openUrlForgotPassword()" class="espm-forgot-password">Esqueceu a Senha?</a>
+
+		<button class="espm-login-button" (click)="login()" primary>ENTRAR</button>
+	</form>
+	<!--login form section-->
+
+	<div class="other-login-options">
+		<div class="hr-wrapper">
+			<div class="hr"></div>
 		</div>
-
-		<div class="espm-social-button-wrapper">
-			<md-button class="espm-social-button md-whiteframe-1dp"
-					   md-no-ink="isAndroid"
-					   md-colors="::{backgroundColor: 'primary-300'}"
-					   ng-click="vm.googleLogin()">
-				<i class="icon ion-social-google"></i>Google
-			</md-button>
-			<md-button class="espm-social-button md-whiteframe-1dp"
-					   md-no-ink="isAndroid"
-					   md-colors="::{backgroundColor: 'primary-300'}"
-					   ng-click="vm.facebookLogin()">
-				<i class="icon ion-social-facebook"></i>Facebook
-			</md-button>
-			<md-button class="espm-social-button md-whiteframe-1dp"
-					   md-no-ink="isAndroid"
-					   md-colors="::{backgroundColor: 'primary-300'}"
-					   ng-click="vm.digitsLogin()">
-				<i class="icon ion-iphone"></i>SMS
-			</md-button>
+		<div class="col espm-label-line">
+			<span>Ou entre usando</span>
 		</div>
+		<div class="hr-wrapper">
+			<div class="hr"></div>
+		</div>
+	</div>
 
-	</ion-content>
-	<!--end login content section-->
-</ion-view>
+	<div class="espm-social-button-wrapper">
+		<button class="espm-social-button" (click)="facebookLogin()">
+			<ion-icon name="logo-facebook"></ion-icon>
+			Facebook
+		</button>
+		<button class="espm-social-button" (click)="googleLogin()">
+			<ion-icon name="logo-googleplus"></ion-icon>
+			Google
+		</button>
+		<button class="espm-social-button" (click)="digitsLogin()">
+			<ion-icon name="phone-portrait"></ion-icon>
+			SMS
+		</button>
+	</div>
+
+</ion-content>
+<!--end login content section-->

@@ -1,18 +1,31 @@
-import {GoogleAuthResponse} from './models/index';
+import { Injectable } from '@angular/core';
+import { CoolLocalStorage } from 'angular2-cool-storage';
+import { GoogleAuthResponse } from './models/index';
+
 /**
  * https://github.com/EddyVerbruggen/cordova-plugin-googleplus
  */
+@Injectable()
 export class GoogleService {
 
-    public static $inject: string[] = [ '$window', '$localStorage' ];
+    /**
+     * LocalStorage variable 
+     * @private
+     * @type {Object}
+     */
+    // @LocalStorage() private storageGoogleAuthResponse: Object = {};
+    private get googleAuthResponse(): GoogleAuthResponse {
+        return <GoogleAuthResponse>this.localStorage.getObject('storageGoogleAuthResponse');
+    }
+    private set googleAuthResponse( value: GoogleAuthResponse ) {
+        this.localStorage.setObject( 'storageGoogleAuthResponse', value );
+    }
 
     /**
-     * Cria uma instância de GoogleService.
+     * Creates an instance of GoogleService.
      * 
-     * @param {*} $window
-     * @param {*} $localStorage
      */
-    constructor( private $window: any, private $localStorage: any ) {
+    constructor( private localStorage: CoolLocalStorage ) {
     }
 
     /**
@@ -23,13 +36,13 @@ export class GoogleService {
      * @param {( error: any ) => void} onError
      */
     public login( options,
-                  onSuccess: ( authResponse: GoogleAuthResponse ) => void,
-                  onError: ( error: any ) => void ): void {
+        onSuccess: ( authResponse: GoogleAuthResponse ) => void,
+        onError: ( error: any ) => void ): void {
 
-        this.$window.plugins.googleplus.login( options, ( authResponse: GoogleAuthResponse ) => {
-                this.$localStorage.googleAuthResponse = authResponse;
-                onSuccess( authResponse );
-            }, onError );
+        window.plugins.googleplus.login( options, ( authResponse: GoogleAuthResponse ) => {
+            this.googleAuthResponse = authResponse;
+            onSuccess( authResponse );
+        }, onError );
     }
 
     /**
@@ -38,8 +51,8 @@ export class GoogleService {
      * @readonly
      */
     public get avatarUrl() {
-        if ( angular.isDefined( this.$localStorage.googleAuthResponse ) ) {
-            return this.$localStorage.googleAuthResponse.imageUrl;
+        if ( !!this.googleAuthResponse ) {
+            return (this.googleAuthResponse).imageUrl;
         }
     }
 
@@ -51,7 +64,7 @@ export class GoogleService {
      * @param {any} onError
      */
     public trySilentLogin( options, onSuccess, onError ) {
-        this.$window.plugins.googleplus.trySilentLogin( options, onSuccess, onError );
+        window.plugins.googleplus.trySilentLogin( options, onSuccess, onError );
     }
 
     /**
@@ -59,9 +72,9 @@ export class GoogleService {
      * 
      * @param {any} onSuccess
      */
-    public logout( onSuccess? ) {
-        if ( this.$window.plugins && this.$window.plugins.googleplus ) {
-            this.$window.plugins.googleplus.logout( onSuccess );
+    public logout( onSuccess?) {
+        if ( window.plugins && window.plugins.googleplus ) {
+            window.plugins.googleplus.logout( onSuccess );
         }
     }
 
@@ -71,6 +84,6 @@ export class GoogleService {
      * @param {any} onSuccess
      */
     public disconnect( onSuccess ) {
-        this.$window.plugins.googleplus.disconnect( onSuccess );
+        window.plugins.googleplus.disconnect( onSuccess );
     }
 }
