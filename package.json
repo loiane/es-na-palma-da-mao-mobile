@@ -166,7 +166,7 @@
       "@angular/http": "npm:@angular/http@^2.0.0-rc.4",
       "@angular/platform-browser": "npm:@angular/platform-browser@^2.0.0-rc.4",
       "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@^2.0.0-rc.4",
-      "angular2-localstorage": "github:marcj/angular2-localstorage@^0.4.0",
+      "angular2-cool-storage": "npm:angular2-cool-storage@^1.0.1",
       "calendar": "github:hoisel/ionic-calendar@^1.0.0-pre",
       "css": "github:systemjs/plugin-css@^0.1.20",
       "es6-shim": "github:es-shims/es6-shim@^0.35.1",
@@ -227,7 +227,8 @@
       "id": "cordova-plugin-facebook4"
     },
     "cordova-plugin-facebook4@~1.7.1",
-    "cordova-plugin-digits"
+    "cordova-plugin-digits",
+    "cordova-plugin-x-toast"
   ],
   "cordovaPlatforms": [
     "android"

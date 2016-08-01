@@ -1,0 +1,116 @@
+@import "../app/app.variables";
+
+#login-component {
+	background: url("components/login/img/background.png") 0 -44px;
+	background-size: 100vw 100vh;
+	background-color: color($colors, primary, base);
+	background-position-y: initial;
+
+	form {
+		padding: 0 20px;
+
+		md-input-container label {
+			color: #fff;
+		}
+
+		.item-input.input-has-focus::after{
+			border-bottom-color: #fff;
+		}
+
+		ion-list {
+
+			ion-item {
+				background-color: transparent;
+
+				ion-input{
+					color: #fff;
+				}
+			}
+
+			ion-label {
+				color: #fff;
+			}
+
+			> .item {
+				&:first-child {
+					border-top: none;
+				}
+				&:last-child {
+					border-bottom: none;
+
+					.item-inner {
+						border-bottom: 1px solid #dedede;
+					}
+				}
+			}
+		}
+	}
+
+	button {
+		height: 3.2em;
+		font-size: 1.1em;
+		font-weight: 500;
+	}
+
+	.espm-login-button {
+		background-color: #fff;
+		width: 100%;
+		margin: 6px 0;
+		color: color($colors, primary, base);
+	}
+
+	a.espm-forgot-password {
+		color: white;
+		float: right;
+		font-size: 19px;
+		margin-bottom: 40px;
+		text-decoration: none;
+	}
+
+	.hr {
+		height: 10px;
+		border-bottom: 1px solid rgba(255, 255, 255, .25);
+	}
+
+	.other-login-options {
+		display: flex;
+		padding: 20px;
+
+		.hr-wrapper{
+			width: 100%;
+		}
+
+		.espm-label-line {
+			flex: 1.7;
+			text-align: center;
+			padding: 0 20px;
+		}
+
+		span {
+			font-size: 17px;
+			color: #fff;
+			white-space: nowrap;
+		}
+	}
+
+	.espm-social-button-wrapper {
+		padding: 0 20px;
+		width: 100%;
+	}
+
+	.espm-social-button {
+		text-transform: none;
+		width: 100%;
+
+		ion-icon {
+			margin-right: 5px;
+			font-size: 1em;
+
+			&:before {
+				font-size: 3em;
+				vertical-align: middle;
+			}
+		}
+	}
+}
+

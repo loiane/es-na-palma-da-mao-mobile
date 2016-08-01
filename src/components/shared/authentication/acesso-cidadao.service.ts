@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptionsArgs } from '@angular/http';
-import { LocalStorage } from 'angular2-localstorage/WebStorage';
+import { Http, Headers, Request, RequestOptionsArgs, ConnectionBackend, RequestOptions, Response } from '@angular/http';
+import { CoolLocalStorage } from 'angular2-cool-storage';
 import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './models/index';
+import { Observable } from 'rxjs/Observable';
+import { AuthorizedHttp } from '../authorized-http.component';
 
 /**
  * Classe para autenticação usando IdentityServer3
@@ -12,52 +14,31 @@ import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './
 @Injectable()
 export class AcessoCidadaoService {
 
-
-    /**
-     * Token 
-     * @private
-     * @type {Object}
-     */
-    @LocalStorage() private storageToken: Object = {};
     public get token(): Token {
-        return <Token>this.storageToken;
+        return <Token>this.localStorage.getObject('storageToken');
     }
     public set token( value: Token ) {
-        this.storageToken = value;
+        this.localStorage.setObject( 'storageToken', value );
     }
 
-
-    /**
-     * TokenClaims
-     * @private
-     * @type {Object}
-     */
-    @LocalStorage() private storageTokenClaims: Object = {};
     public get tokenClaims(): LowLevelProtocolClaims {
-        return <LowLevelProtocolClaims>this.storageToken;
+        return <LowLevelProtocolClaims>this.localStorage.getObject('storageTokenClaims');
     }
     public set tokenClaims( value: LowLevelProtocolClaims ) {
-        this.storageToken = value;
+        this.localStorage.setObject( 'storageTokenClaims', value );
     }
 
-
-    /**
-     * Claims do usuário no acesso cidadão
-     * @private
-     * @type {Object}
-     */
-    @LocalStorage() private storageUserClaims: Object = {};
     public get userClaims(): AcessoCidadaoClaims {
-        return <AcessoCidadaoClaims>this.storageToken;
+        return <AcessoCidadaoClaims>this.localStorage.getObject('storageUserClaims');
     }
     public set userClaims( value: AcessoCidadaoClaims ) {
-        this.storageToken = value;
+        this.localStorage.setObject( 'storageUserClaims', value );
     }
 
     private identityServerUrl: string;
 
     /** @constructor */
-    constructor( private http: Http ) {
+    constructor( private http: Http, private authHttp: AuthorizedHttp, private localStorage: CoolLocalStorage ) {
     }
 
     /**
@@ -93,26 +74,34 @@ export class AcessoCidadaoService {
     }
 
 
+    private handleError( error: any, disappointed: any ): Observable<any> {
+        let errMsg = ( error.message ) ? error.message :
+            error.status ? error.status + '-' + error.statusText : 'Server error';
+        console.error( errMsg ); // log to console instead
+
+        return Observable.throw( errMsg );
+    }
+
+    private getBody( obj ) {
+        let str = [];
+        for ( let p in obj ) {
+            str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
+        }
+        return str.join( '&' );
+    };
+
     /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
     protected getToken( data: Identity ): Promise<Token> {
-        let getTokenUrl = `${this.identityServerUrl}/connect/token`;
+        let tokenUrl = this.identityServerUrl + '/connect/token';
 
         let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        headers.append( 'Content-Type', 'application/x-www-form-urlencoded' );
 
-       /* let options: RequestOptionsArgs = {
-            /*transformRequest: function ( obj ) {
-                let str = [];
-                for ( let p in obj ) {
-                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
-                }
-                return str.join( '&' );
-            },
-        };*/
-        return this.http.post( getTokenUrl, data, { headers: headers } )
-            .map( response => <Token>response.json().data )
+        return this.http.post( tokenUrl, this.getBody( data ), { headers: headers })
+            .map( response => <Token>response.json() )
+            .catch( this.handleError )
             .toPromise();
     }
 
@@ -123,21 +112,21 @@ export class AcessoCidadaoService {
      * @returns
      */
     public getAcessoCidadaoUserClaims(): Promise<AcessoCidadaoClaims> {
-        let userClaimsUrl = `${this.identityServerUrl}/connect/userinfo`;
+        let userClaimsUrl = this.identityServerUrl + '/connect/userinfo';
 
-        return this.http.get( userClaimsUrl )
+        return this.authHttp.get( userClaimsUrl )
             .map( response => {
                 // Check if the object is correct (This request can return the Acesso Cidadão login page)
-                let claims = <AcessoCidadaoClaims>response.json().data;
+                let claims = <AcessoCidadaoClaims>response.json();
                 if ( !!claims.sid ) {
                     this.userClaims = claims;
                 }
 
                 return claims;
             })
+            .catch( this.handleError )
             .toPromise();
     }
-
 
     /**
      * Persiste informações do token no local storage.

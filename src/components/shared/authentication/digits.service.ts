@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { LocalStorage } from 'angular2-localstorage/WebStorage';
+import { CoolLocalStorage } from 'angular2-cool-storage';
 import { DigitsAccessToken, DigitsAuthResponse } from './models/index';
 
 /**
  * https://github.com/JimmyMakesThings/cordova-plugin-digits
  */
+@Injectable()
 export class DigitsService {
     
-    @LocalStorage() private storageDigitsAuthResponse: Object = {};
     private get digitsAuthResponse(): DigitsAccessToken {
-        return <DigitsAccessToken>this.storageDigitsAuthResponse;
+        return <DigitsAccessToken>this.localStorage.getObject('storageDigitsAuthResponse');
     }
     private set digitsAuthResponse( value: DigitsAccessToken ) {
-        this.storageDigitsAuthResponse = value;
+        this.localStorage.setObject( 'storageDigitsAuthResponse', value );
     }
 
     /**
@@ -21,7 +21,7 @@ export class DigitsService {
      * @param {*} $window
      * @param {*} $localStorage
      */
-    constructor() {
+    constructor( private localStorage: CoolLocalStorage ) {
     }
 
     /**

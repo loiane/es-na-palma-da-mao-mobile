@@ -61,7 +61,7 @@ System.config({
     "@angular/http": "npm:@angular/http@2.0.0-rc.4",
     "@angular/platform-browser": "npm:@angular/platform-browser@2.0.0-rc.4",
     "@angular/platform-browser-dynamic": "npm:@angular/platform-browser-dynamic@2.0.0-rc.4",
-    "angular2-localstorage": "github:marcj/angular2-localstorage@0.4.0",
+    "angular2-cool-storage": "npm:angular2-cool-storage@1.0.1",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
@@ -109,7 +109,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.5"
+      "process": "npm:process@0.11.6"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -156,6 +156,9 @@ System.config({
       "@angular/compiler": "npm:@angular/compiler@2.0.0-rc.4",
       "@angular/core": "npm:@angular/core@2.0.0-rc.4",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:angular2-cool-storage@1.0.1": {
+      "@angular/core": "npm:@angular/core@2.0.0-rc.4"
     },
     "npm:ansi-escapes@1.4.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -440,7 +443,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:process@0.11.5": {
+    "npm:process@0.11.6": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"

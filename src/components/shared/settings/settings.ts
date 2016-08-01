@@ -13,7 +13,7 @@ export class Settings implements AppSettings {
    };
 
    public readonly identityServer = {
-       url: 'https://acessocidadao.es.gov.br/is/',
+       url: 'https://acessocidadao.es.gov.br/is',
        // url: 'https://sistemas.dchm.es.gov.br/prodest/acessocidadao/is/',
        AuthenticatedUrls: [
            'https://acessocidadao.es.gov.br/is/connect/userinfo',

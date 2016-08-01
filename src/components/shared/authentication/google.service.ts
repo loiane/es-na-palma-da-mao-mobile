@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalStorage } from 'angular2-localstorage/WebStorage';
+import { CoolLocalStorage } from 'angular2-cool-storage';
 import { GoogleAuthResponse } from './models/index';
 
 /**
@@ -13,19 +13,19 @@ export class GoogleService {
      * @private
      * @type {Object}
      */
-    @LocalStorage() private storageGoogleAuthResponse: Object = {};
+    // @LocalStorage() private storageGoogleAuthResponse: Object = {};
     private get googleAuthResponse(): GoogleAuthResponse {
-        return <GoogleAuthResponse>this.storageGoogleAuthResponse;
+        return <GoogleAuthResponse>this.localStorage.getObject('storageGoogleAuthResponse');
     }
     private set googleAuthResponse( value: GoogleAuthResponse ) {
-        this.storageGoogleAuthResponse = value;
+        this.localStorage.setObject( 'storageGoogleAuthResponse', value );
     }
 
     /**
      * Creates an instance of GoogleService.
      * 
      */
-    constructor() {
+    constructor( private localStorage: CoolLocalStorage ) {
     }
 
     /**

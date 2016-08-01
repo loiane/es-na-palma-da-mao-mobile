@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuController, Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { DashBoardComponent } from '../dashboard/dashboard.component';
-import { SepConsulta } from '../sep/sep-consulta.component';
+import { SepSearchComponent } from '../sep/sep-consulta.component';
+import { LoginComponent } from '../login/login.component';
+import { HomeComponent } from '../home/home.component';
 
 @Component( {
     moduleId: __moduleName,
@@ -10,7 +12,8 @@ import { SepConsulta } from '../sep/sep-consulta.component';
 })
 export class AppComponent implements OnInit {
 
-    
+    @ViewChild('content') nav;
+
     /**
      * A página sendo exibida
      * 
@@ -31,8 +34,22 @@ export class AppComponent implements OnInit {
      * 
      * @private
      */
-    private sepComponent = SepConsulta;
-    
+    private sepComponent = SepSearchComponent;
+
+    /**
+     * 
+     * 
+     * @private
+     */
+    private loginComponent = LoginComponent;
+
+    /**
+     * 
+     * 
+     * @private
+     */
+    private homeComponent = HomeComponent;
+
     /**
      * Creates an instance of AppComponent.
      * 
@@ -67,6 +84,14 @@ export class AppComponent implements OnInit {
         // Reset the nav controller to have just this page
         // we wouldn't want the back button to show in this scenario
         this.rootPage = page;
+
+        // close the menu when clicking a link from the menu
+        this.menu.close();
+    }
+
+    public logOut() {
+        // Reset the nav controller and set the HomeComponent as current page
+        this.nav.setRoot( HomeComponent );
 
         // close the menu when clicking a link from the menu
         this.menu.close();

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalStorage } from 'angular2-localstorage/WebStorage';
+import { CoolLocalStorage } from 'angular2-cool-storage';
 import { FacebookResponse, FacebookAuthResponse } from './models/index';
 
 /**
@@ -8,12 +8,12 @@ import { FacebookResponse, FacebookAuthResponse } from './models/index';
 @Injectable()
 export class FacebookService {
 
-    @LocalStorage() private storageFacebookAuthResponse: Object = {};
+    // @LocalStorage() private storageFacebookAuthResponse: Object = {};
     private get facebookAuthResponse(): FacebookAuthResponse {
-        return <FacebookAuthResponse>this.storageFacebookAuthResponse;
+        return <FacebookAuthResponse>this.localStorage.getObject('storageFacebookAuthResponse');
     }
     private set facebookAuthResponse( value: FacebookAuthResponse ) {
-        this.storageFacebookAuthResponse = value;
+        this.localStorage.setObject( 'storageFacebookAuthResponse', value );
     }
 
     /**
@@ -22,7 +22,7 @@ export class FacebookService {
      * @param {any} $window
      * @param {any} $localStorage
      */
-    constructor( ) {
+    constructor( private localStorage: CoolLocalStorage ) {
     }
 
     /**

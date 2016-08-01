@@ -1,0 +1,41 @@
+@import "../app/app.variables";
+
+#home-component {
+	background-image: url("components/shared/img/background.png");
+	background-size: 100% 100%;
+	background-color: color($colors, primary, base);
+
+	.espm-home-logo {
+		text-align: center;
+		margin-bottom: 35px;
+	}
+
+	div.home-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	img {
+		width: 200px;
+		height: 167px;
+		justify-content: center;
+	}
+
+	h2 {
+		color: #fff;
+		margin-top: 7px;
+	}
+
+	button {
+		display: block;
+		width: 75%;
+		padding: 25px 0px;
+		font-size: 1.1em;
+		font-weight: 500;
+		color: #fff;
+		margin-bottom: 20px;
+	}
+}
