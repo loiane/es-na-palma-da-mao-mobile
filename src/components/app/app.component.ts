@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { DashBoardComponent } from '../dashboard/dashboard.component';
-import { SepConsulta } from '../sep/sep-consulta.component';
+import { SearchProcessComponent } from '../sep/search-process.component';
+import { DriverLicenseStatusComponent } from '../detran/driver-license-status/driver-license-status.component';
 
 @Component( {
     moduleId: __moduleName,
@@ -31,8 +32,15 @@ export class AppComponent implements OnInit {
      * 
      * @private
      */
-    private sepComponent = SepConsulta;
+    private searchProcessComponent = SearchProcessComponent;
     
+    /**
+     * 
+     * 
+     * @private
+     */
+    private driverLicenseStatusComponent = DriverLicenseStatusComponent;
+
     /**
      * Creates an instance of AppComponent.
      * 

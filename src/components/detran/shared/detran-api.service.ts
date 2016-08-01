@@ -1,11 +1,17 @@
-import {IHttpService, IPromise} from 'angular';
-import {DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus} from './models/index';
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { DriverData, Charge, DriverLicenseProcess, Ticket } from './models/index';
+import { Settings } from '../../shared/index';
 
-
-/** @class */
-class DetranApiService {
-
-    public static $inject: string[] = [ '$http', 'settings' ];
+/**
+ * 
+ * 
+ * @export
+ * @class DetranApiService
+ */
+@Injectable()
+export class DetranApiService {
 
     /**
      * @constructor
@@ -13,55 +19,71 @@ class DetranApiService {
      * @param {IHttpService} $http - angular $http service
      * @param {any} settings - application settings
      */
-    constructor( private $http: IHttpService,
-                 private settings: any ) {
+    constructor(private http: Http, private settings: Settings) {
     }
 
 
     /**
      * 
      * 
-     * @returns {IPromise<DriverData>}
+     * @private
+     * @param {*} error
+     * @param {*} disappointed
+     * @returns {Observable<any>}
      */
-    public getDriverData(): IPromise<DriverData> {
-        return this.$http
+    private handleError( error: any, disappointed: any): Observable<any> {
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error( errMsg); // log to console instead
+
+        return Observable.throw( errMsg );
+    }
+
+    /**
+     * 
+     * 
+     * @returns {Observable<DriverData>}
+     */
+    public getDriverData(): Observable<DriverData> {
+        return this.http
                 .get( `${this.settings.api.detran}/driverData` )
-                .then( ( response: { data: DriverData } ) => response.data );
+                .map( response => <DriverData>response.json() )
+                .catch(this.handleError);
     }
 
     /**
      * 
      * 
-     * @returns {IPromise<Ticket[]>}
+     * @returns {Observable<Ticket[]>}
      */
-    public getTickets(): IPromise<Ticket[]> {
-        return this.$http
+    public getTickets(): Observable<Ticket[]> {
+        return this.http
             .get( `${this.settings.api.detran}/tickets` )
-            .then( ( response: { data: Ticket[] } ) => response.data );
+            .map( response => <Ticket[]>response.json() )
+            .catch(this.handleError);
     }
-
 
     /**
      * 
      * 
-     * @returns {IPromise<Charge[]>}
+     * @returns {Observable<Charge[]>}
      */
-    public getAdministrativeCharges(): IPromise<Charge[]> {
-        return this.$http
+    public getAdministrativeCharges(): Observable<Charge[]> {
+        return this.http
             .get( `${this.settings.api.detran}/administrativeCharges ` )
-            .then( ( response: { data: Charge[] } )  => response.data );
+            .map( response => <Charge[]>response.json() )
+            .catch(this.handleError);
     }
 
     /**
      * 
      * 
-     * @returns {IPromise<DriverLicenseProcess[]>}
+     * @returns {Observable<DriverLicenseProcess[]>}
      */
-    public getDriverLicenseProcess(): IPromise<DriverLicenseProcess[]> {
-        return this.$http
+    public getDriverLicenseProcess(): Observable<DriverLicenseProcess[]> {
+        return this.http
             .get( `${this.settings.api.detran}/driverLicenseProcess ` )
-            .then( ( response: { data: DriverLicenseProcess[] } ) => response.data );
+            .map( response => <DriverLicenseProcess[]>response.json() )
+            .catch(this.handleError);
     }
 }
-
-export default DetranApiService;

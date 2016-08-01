@@ -4,15 +4,15 @@ import { SepApiService } from './shared/sep-api.service';
 import { Process, ProcessUpdate } from './shared/models/index';
 import { CapitalizePipe } from '../shared/capitalize.pipe';
 
-@Component({
+@Component( {
     moduleId: __moduleName,
-    templateUrl: './sep-consulta.component.html',
-    styleUrls: ['./sep-consulta.component.css'],
-    providers: [SepApiService],
+    templateUrl: './search-process.component.html',
+    styleUrls: [ './search-process.component.css' ],
+    providers: [ SepApiService ],
     pipes: [ CapitalizePipe ]
 })
-export class SepConsulta implements OnInit {
-    @ViewChild(Content) content: Content;
+export class SearchProcessComponent implements OnInit {
+    @ViewChild( Content ) content: Content;
 
     private seeMoreUpdates: string;
     private processNumber: string;
@@ -25,7 +25,7 @@ export class SepConsulta implements OnInit {
      * 
      * @param {SepApiService} sepApiService
      */
-    constructor(private sepApiService: SepApiService) {
+    constructor( private sepApiService: SepApiService ) {
 
     }
 
@@ -43,7 +43,7 @@ export class SepConsulta implements OnInit {
     }
 
     private setMoreUpdatesLabel(): void {
-        if (this.showAllUpdates) {
+        if ( this.showAllUpdates ) {
             this.seeMoreUpdates = 'OCULTAR';
         } else {
             this.seeMoreUpdates = 'VER MAIS';
@@ -57,8 +57,8 @@ export class SepConsulta implements OnInit {
      * @type {ProcessUpdate}
      */
     public get firstUpdate(): ProcessUpdate {
-        if (this.process && this.process.updates && this.process.updates.length > 0) {
-            return this.process.updates[this.process.updates.length - 1];
+        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
+            return this.process.updates[ this.process.updates.length - 1 ];
         }
     }
 
@@ -69,8 +69,8 @@ export class SepConsulta implements OnInit {
      * @type {ProcessUpdate}
      */
     public get lastUpdate(): ProcessUpdate {
-        if (this.process && this.process.updates && this.process.updates.length > 0) {
-            return this.process.updates[0];
+        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
+            return this.process.updates[ 0 ];
         }
     }
 
@@ -91,8 +91,8 @@ export class SepConsulta implements OnInit {
         this.showAllUpdates = !this.showAllUpdates;
         this.setMoreUpdatesLabel();
 
-        if (this.showAllUpdates) {
-            this.content.scrollTo(0, 500, 300); // TODO: try to search the element to scroll: anchorScroll
+        if ( this.showAllUpdates ) {
+            this.content.scrollTo( 0, 500, 300 ); // TODO: try to search the element to scroll: anchorScroll
         }
     }
 
@@ -103,8 +103,8 @@ export class SepConsulta implements OnInit {
     * @type {ProcessUpdate[]}
     */
     public get hiddenUpdates(): ProcessUpdate[] {
-        if (this.process && this.process.updates && this.process.updates.length > 0) {
-            return this.process.updates.slice(1);
+        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
+            return this.process.updates.slice( 1 );
         }
     }
 
@@ -113,9 +113,9 @@ export class SepConsulta implements OnInit {
      * @param {*} event: 
      * @return {undefined}
      */
-    public getProcess(event: any): void {
-        return this.sepApiService.getProcessByNumber(event.target.value)
-            .finally(() => {
+    public getProcess( procNumber: string ): void {
+        this.sepApiService.getProcessByNumber( procNumber )
+            .finally( ( ) => {
                 this.populated = true;
                 this.showAllUpdates = false;
                 this.setMoreUpdatesLabel();
