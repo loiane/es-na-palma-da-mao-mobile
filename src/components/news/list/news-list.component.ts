@@ -81,10 +81,12 @@ export class NewsListComponent implements OnInit {
      * 
      */
     public showFilterModal() {
-        let modal = Modal.create( NewsFilter, { availableOrigins: this.availableOrigins, filter: this.filter } );
+        let modal = Modal.create( NewsFilter, { availableOrigins: this.availableOrigins, filter: Object.assign( {}, this.filter )  } );
 
-        modal.onDismiss(( filter: Filter ) => {
-            this.reload( filter );
+        modal.onDismiss( ( filter: Filter ) => {
+            if ( filter ) {
+                this.reload( filter );
+            }
         });
 
         this.nav.present( modal );
