@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Loading, NavController, NavParams } from 'ionic-angular';
+import { NavParams } from 'ionic-angular';
 
 import { News, NewsDetail } from '../shared/models/index';
 import { NewsApiService } from '../shared/news-api.service';
@@ -13,17 +13,14 @@ import { NewsApiService } from '../shared/news-api.service';
 export class NewsDetailComponent implements OnInit {
 
     private news: NewsDetail;
-    private loading: Loading;
     
     /**
      * Creates an instance of NewsDetailComponent.
      * 
-     * @param {NavController} nav
      * @param {NavParams} params
      * @param {NewsApiService} newsApiService
      */
-    constructor( public nav: NavController, 
-                 public params: NavParams,
+    constructor( public params: NavParams,
                  private newsApiService: NewsApiService ) {
     }
 
@@ -34,7 +31,6 @@ export class NewsDetailComponent implements OnInit {
      * @returns {*}
      */
     public ngOnInit(): any {
-        this.loading = Loading.create();
         this.getNewsById( this.params.data.newsId );
     }
 
@@ -45,30 +41,8 @@ export class NewsDetailComponent implements OnInit {
      * @param {string} id
      */
     public getNewsById( id: string ): void {
-        this.showLoading();
         this.newsApiService.getNewsById( id )
-                         .subscribe( news => this.news = news, 
-                                     null, 
-                                     () => this.hideLoading() );
-    }
-
-    /**
-     * 
-     * 
-     * @returns {Promise<any>}
-     */
-    public showLoading(): Promise<any> {
-        return this.nav.present( this.loading );
-    }
-
-
-    /**
-     * 
-     * 
-     * @returns {Promise<any>}
-     */
-    public hideLoading(): Promise<any> {
-        return this.loading.dismiss();
+                           .subscribe( news => this.news = news );
     }
 
     

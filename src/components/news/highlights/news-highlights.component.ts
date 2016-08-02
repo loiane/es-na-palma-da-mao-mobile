@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Loading, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { NewsApiService } from '../shared/news-api.service';
 import { News, NewsDetail, NewsDetailComponent } from '../index';
 import { FromNowPipe } from '../../shared/pipes/index';
@@ -14,7 +14,6 @@ import { FromNowPipe } from '../../shared/pipes/index';
 export class NewsHighlightsComponent implements OnInit {
 
     private highlights: News[] = [];
-    private loading: Loading;
 
     /**
      * Creates an instance of NewsHighlightsComponent.
@@ -23,7 +22,7 @@ export class NewsHighlightsComponent implements OnInit {
      * @param {NewsApiService} newsApiService
      */
     constructor( public nav: NavController,
-        private newsApiService: NewsApiService ) { }
+                 private newsApiService: NewsApiService ) { }
 
     /**
     * Inicializa o component
@@ -31,27 +30,7 @@ export class NewsHighlightsComponent implements OnInit {
     * @returns {*}
     */
     public ngOnInit(): any {
-        this.loading = Loading.create();
         this.getHighlightNews();
-    }
-
-    /**
-     * 
-     * 
-     * @returns {Promise<any>}
-     */
-    public showLoading(): Promise<any> {
-        return this.nav.present( this.loading );
-    }
-
-
-    /**
-     * 
-     * 
-     * @returns {Promise<any>}
-     */
-    public hideLoading(): Promise<any> {
-        return this.loading.dismiss();
     }
 
 
@@ -80,11 +59,8 @@ export class NewsHighlightsComponent implements OnInit {
      * Obtém a lista de notícias em destaque
      */
     public getHighlightNews(): void {
-        this.showLoading();
         this.newsApiService.getHighlightNews()
-            .subscribe( highlights => this.highlights = highlights,
-            null,
-            () => this.hideLoading() );
+            .subscribe( highlights => this.highlights = highlights );
 
     }
 
@@ -94,6 +70,6 @@ export class NewsHighlightsComponent implements OnInit {
      * @param {any} id
      */
     public goToNews( newsId: string, origin: string ): void {
-        this.nav.push( NewsDetailComponent, { newsId: newsId, origin: origin });
+        this.nav.push( NewsDetailComponent, { newsId: newsId, origin: origin } );
     }
 }

@@ -18,14 +18,14 @@ import { FromNowPipe } from '../../shared/pipes/index';
 })
 export class NewsListComponent implements OnInit {
 
-    private hasMorePages: boolean = true;    
+    private hasMorePages: boolean = true;
     private loaded: boolean = false;
     private availableOrigins: string[];
     private loadedNews: News[] = [];
-    private filter: Filter = { 
-        origins: [], 
-        pageNumber: 1, 
-        dateMin: this.sixMonthsAgo, 
+    private filter: Filter = {
+        origins: [],
+        pageNumber: 1,
+        dateMin: this.sixMonthsAgo,
         dateMax: this.today
     };
 
@@ -52,7 +52,7 @@ export class NewsListComponent implements OnInit {
             .subscribe();
     }
 
-    
+
     /**
      * 
      * 
@@ -63,8 +63,8 @@ export class NewsListComponent implements OnInit {
     private get sixMonthsAgo(): string {
         return moment().subtract( 6, 'months' ).format( 'YYYY-MM-DD' );
     }
-    
-    
+
+
     /**
      * 
      * 
@@ -75,15 +75,15 @@ export class NewsListComponent implements OnInit {
     private get today(): string {
         return moment().format( 'YYYY-MM-DD' );
     }
-    
-    
+
+
     /**
      * 
      */
     public showFilterModal() {
         let modal = Modal.create( NewsFilter, { availableOrigins: this.availableOrigins, filter: this.filter } );
-        
-        modal.onDismiss( ( filter: Filter ) => {
+
+        modal.onDismiss(( filter: Filter ) => {
             this.reload( filter );
         });
 
@@ -97,8 +97,8 @@ export class NewsListComponent implements OnInit {
      * @param {*} infiniteScroll
      */
     public doInfinity( infiniteScroll: any ) {
-        this.getNews( { pageNumber: this.filter.pageNumber + 1 })
-            .subscribe( () => {
+        this.getNews( { pageNumber: this.filter.pageNumber + 1 } )
+            .subscribe(() => {
                 infiniteScroll.complete();
             });
     }
@@ -107,14 +107,14 @@ export class NewsListComponent implements OnInit {
     /**
    * Obtém uma lista de notícias
    */
-    public getNews( options: Filter = { pageNumber: 1 } ): Observable<News[]> {
+    public getNews( options: Filter = { pageNumber: 1 }): Observable<News[]> {
         let obs = this.newsApiService.getNews( Object.assign( this.filter, options ) );
         
         obs.subscribe( news => {
             this.loaded = true;
             this.hasMorePages = !!news.length;
             this.loadedNews = this.loadedNews.concat( news );
-        } );
+        });
 
         return obs;
     }
