@@ -28,6 +28,14 @@ export class NewsFilter {
      * 
      */
     public close(): void {
+        this.viewCtrl.dismiss();
+    }
+
+    
+    /**
+     * 
+     */
+    public doFilter(): void {
         this.viewCtrl.dismiss( this.filter );
     }
 
