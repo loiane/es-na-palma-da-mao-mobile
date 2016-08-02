@@ -10,7 +10,7 @@ let paths = {
 	changelog: './CHANGELOG.md',
 	ts: {
 		src: './src/**/*.ts',
-		app: 'src/components/**/*.ts'
+		app: './src/components/**/*.ts'
 	},
 	js: {
 		all: [
@@ -23,7 +23,7 @@ let paths = {
 			'!system.yuml.js'
 		],
 		src: './src/**/*.js',
-		app: 'src/components/**/*.js',
+		app: './src/components/**/*.js',
 		output: 'www/components/**/*.js'
 	},
 	html: [

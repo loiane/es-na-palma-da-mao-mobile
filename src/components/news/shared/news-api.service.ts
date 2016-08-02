@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { News, NewsDetail } from '../shared/models/index';
 import { Settings } from '../../shared/index';
+import { News, NewsDetail } from '../shared/models/index';
 
 @Injectable()
 export class NewsApiService {
@@ -30,18 +30,7 @@ export class NewsApiService {
         return body.data || {};
     }
 
-    /**
-     * 
-     * 
-     * @private
-     * @param {*} error
-     */
-    private handleError( error: any ) {
-        let errMsg = ( error.message ) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        console.error( errMsg ); // log to console instead
-        return Observable.throw( errMsg );
-    }
+ 
 
     /**
      * 
@@ -53,7 +42,7 @@ export class NewsApiService {
         return this.http
                    .get( `${this.settings.api.news}/${id}` )
                    .map( res => <NewsDetail>res.json() )
-                   .catch( this.handleError );
+                   .share();
     }
 
 
@@ -64,9 +53,9 @@ export class NewsApiService {
      */
     public getHighlightNews(): Observable<News[]> {
         return this.http
-                   .get( `${this.settings.api.news}/highlights` )
-                   .map( res => <News[]>res.json() )
-                   .catch( this.handleError );
+            .get( `${this.settings.api.news}/highlights` )
+            .map( res => <News[]>res.json() )
+            .share();
     }
 
 
@@ -86,18 +75,19 @@ export class NewsApiService {
             pageSize: this.defaultPageSize
         };
 
-        // let params = new URLSearchParams();
-        // params.set('origins', term); // the user's search value
-        // params.set('dateMin', 'opensearch');
-        // params.set('format', 'json');
-        // params.set('callback', 'JSONP_CALLBACK');
+        let params = Object.assign( {}, defaults, options );
 
-        let params: URLSearchParams = Object.assign( new URLSearchParams(), defaults, options );
+        let searchParams = new URLSearchParams();
+        searchParams.set( 'origins', params.origins );
+        searchParams.set( 'dateMin', params.dateMin );
+        searchParams.set( 'dateMax', params.dateMax );
+        searchParams.set( 'pageNumber', params.pageNumber );
+        searchParams.set( 'pageSize', params.pageSize );
 
         return this.http
-                   .get( this.settings.api.news, { search: params } )
+                   .get( this.settings.api.news, { search: searchParams } )
                    .map( res => <News[]>res.json() )
-                   .catch( this.handleError );
+                   .share();
     }
 
 
@@ -110,6 +100,6 @@ export class NewsApiService {
         return this.http
                    .get( `${this.settings.api.news}/origins` )
                    .map( res => <string[]>res.json() )
-                   .catch( this.handleError );
+                   .share();
     }
 }

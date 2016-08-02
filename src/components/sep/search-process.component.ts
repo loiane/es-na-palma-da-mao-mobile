@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Content } from 'ionic-angular';
 import { SepApiService } from './shared/sep-api.service';
 import { Process, ProcessUpdate } from './shared/models/index';
-import { CapitalizePipe } from '../shared/capitalize.pipe';
+import { CapitalizePipe } from '../shared/pipes/index';
 
 @Component( {
     moduleId: __moduleName,

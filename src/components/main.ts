@@ -1,30 +1,25 @@
 // tslint:disable-next-line
-import 'font-awesome';
-import 'robotoDraft/robotodraft.css!';
+import 'moment/locale/pt-br';
 
 // Statics
 import 'rxjs/add/observable/throw';
 
 // Operators
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/operator/mergeMap'; // flatMap
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/timeout';
+import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/elementAt';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toPromise';
 
-import { Provider } from '@angular/core';
-import { HTTP_PROVIDERS, RequestOptions, XHRBackend } from '@angular/http';
-import { AuthorizedHttp } from './shared/authorized-http.component';
-
+import { HTTP_PROVIDERS, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { COOL_STORAGE_PROVIDERS, CoolLocalStorage } from 'angular2-cool-storage';
-
 import { ionicBootstrap } from 'ionic-angular';
 import { AppComponent } from './app/app.component';
-import { Settings } from './shared/index';
+import { Settings, BaseHttp, AuthorizedHttp, UIStateService } from './shared/index';
 
 let settingsProvider = {
     provide: Settings,
@@ -34,8 +29,19 @@ let settingsProvider = {
 // Provider for authorized requests
 let authHttpProvider = {
     provide: AuthorizedHttp,
-    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, localStorage: CoolLocalStorage ) => new AuthorizedHttp( backend, defaultOptions, localStorage ),
-    deps: [ XHRBackend, RequestOptions, CoolLocalStorage ]
+    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, uiStateService: UIStateService, localStorage: CoolLocalStorage ) => {
+        return new AuthorizedHttp( backend, defaultOptions, uiStateService, localStorage );
+    },
+    deps: [ XHRBackend, RequestOptions, UIStateService, CoolLocalStorage  ]
 };
 
-ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, settingsProvider, authHttpProvider, COOL_STORAGE_PROVIDERS ] );
+let httpProvider = {
+    provide: Http,
+    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, uiStateService: UIStateService ) => {
+        return new BaseHttp( backend, defaultOptions, uiStateService );
+    },
+    deps: [ XHRBackend, RequestOptions, UIStateService ]
+};
+
+ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, UIStateService, httpProvider, settingsProvider, authHttpProvider, COOL_STORAGE_PROVIDERS ] );
+

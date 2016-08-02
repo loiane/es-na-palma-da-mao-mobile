@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Request, RequestOptionsArgs, ConnectionBackend, RequestOptions, Response } from '@angular/http';
 import { CoolLocalStorage } from 'angular2-cool-storage';
+
 import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './models/index';
-import { Observable } from 'rxjs/Observable';
-import { AuthorizedHttp } from '../authorized-http.component';
+import { AuthorizedHttp } from '../../shared/index';
 
 /**
  * Classe para autenticação usando IdentityServer3
@@ -14,30 +14,76 @@ import { AuthorizedHttp } from '../authorized-http.component';
 @Injectable()
 export class AcessoCidadaoService {
 
+    
+    /**
+     * 
+     * 
+     * @type {Token}
+     */
     public get token(): Token {
         return <Token>this.localStorage.getObject('storageToken');
     }
+
+    /**
+     * 
+     */
     public set token( value: Token ) {
         this.localStorage.setObject( 'storageToken', value );
     }
 
+    /**
+     * 
+     * 
+     * @type {LowLevelProtocolClaims}
+     */
     public get tokenClaims(): LowLevelProtocolClaims {
         return <LowLevelProtocolClaims>this.localStorage.getObject('storageTokenClaims');
     }
+
+    
+    /**
+     * 
+     */
     public set tokenClaims( value: LowLevelProtocolClaims ) {
         this.localStorage.setObject( 'storageTokenClaims', value );
     }
 
+    
+    /**
+     * 
+     * 
+     * @type {AcessoCidadaoClaims}
+     */
     public get userClaims(): AcessoCidadaoClaims {
         return <AcessoCidadaoClaims>this.localStorage.getObject('storageUserClaims');
     }
+
+    
+    /**
+     * 
+     */
     public set userClaims( value: AcessoCidadaoClaims ) {
         this.localStorage.setObject( 'storageUserClaims', value );
     }
 
+    
+    /**
+     * 
+     * 
+     * @private
+     * @type {string}
+     */
     private identityServerUrl: string;
 
-    /** @constructor */
+
+    
+    /**
+     * Creates an instance of AcessoCidadaoService.
+     * 
+     * @param {Http} http
+     * @param {AuthorizedHttp} authHttp
+     * @param {CoolLocalStorage} localStorage
+     */
     constructor( private http: Http, private authHttp: AuthorizedHttp, private localStorage: CoolLocalStorage ) {
     }
 
@@ -73,15 +119,14 @@ export class AcessoCidadaoService {
             });
     }
 
-
-    private handleError( error: any, disappointed: any ): Observable<any> {
-        let errMsg = ( error.message ) ? error.message :
-            error.status ? error.status + '-' + error.statusText : 'Server error';
-        console.error( errMsg ); // log to console instead
-
-        return Observable.throw( errMsg );
-    }
-
+    
+    /**
+     * 
+     * 
+     * @private
+     * @param {any} obj
+     * @returns
+     */
     private getBody( obj ) {
         let str = [];
         for ( let p in obj ) {
@@ -100,9 +145,8 @@ export class AcessoCidadaoService {
         headers.append( 'Content-Type', 'application/x-www-form-urlencoded' );
 
         return this.http.post( tokenUrl, this.getBody( data ), { headers: headers })
-            .map( response => <Token>response.json() )
-            .catch( this.handleError )
-            .toPromise();
+                        .map( response => <Token>response.json() )
+                        .toPromise();
     }
 
 
@@ -115,17 +159,16 @@ export class AcessoCidadaoService {
         let userClaimsUrl = this.identityServerUrl + '/connect/userinfo';
 
         return this.authHttp.get( userClaimsUrl )
-            .map( response => {
-                // Check if the object is correct (This request can return the Acesso Cidadão login page)
-                let claims = <AcessoCidadaoClaims>response.json();
-                if ( !!claims.sid ) {
-                    this.userClaims = claims;
-                }
+                    .map( response => {
+                        // Check if the object is correct (This request can return the Acesso Cidadão login page)
+                        let claims = <AcessoCidadaoClaims>response.json();
+                        if ( !!claims.sid ) {
+                            this.userClaims = claims;
+                        }
 
-                return claims;
-            })
-            .catch( this.handleError )
-            .toPromise();
+                        return claims;
+                    })
+                    .toPromise();
     }
 
     /**

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+
 import { DriverData, Charge, DriverLicenseProcess, Ticket } from './models/index';
-import { Settings } from '../../shared/index';
+import { Settings, AuthorizedHttp } from '../../shared/index';
 
 /**
  * 
@@ -14,30 +14,14 @@ import { Settings } from '../../shared/index';
 export class DetranApiService {
 
     /**
-     * @constructor
+     * Creates an instance of DetranApiService.
      * 
-     * @param {IHttpService} $http - angular $http service
-     * @param {any} settings - application settings
+     * @param {AuthorizedHttp} http
+     * @param {Settings} settings
      */
-    constructor(private http: Http, private settings: Settings) {
+    constructor( private http: AuthorizedHttp, private settings: Settings ) {
     }
 
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {*} error
-     * @param {*} disappointed
-     * @returns {Observable<any>}
-     */
-    private handleError( error: any, disappointed: any): Observable<any> {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        console.error( errMsg); // log to console instead
-
-        return Observable.throw( errMsg );
-    }
 
     /**
      * 
@@ -46,9 +30,9 @@ export class DetranApiService {
      */
     public getDriverData(): Observable<DriverData> {
         return this.http
-                .get( `${this.settings.api.detran}/driverData` )
-                .map( response => <DriverData>response.json() )
-                .catch(this.handleError);
+            .get( `${this.settings.api.detran}/driverData` )
+            .map( response => <DriverData>response.json() )
+            .share();
     }
 
     /**
@@ -60,7 +44,7 @@ export class DetranApiService {
         return this.http
             .get( `${this.settings.api.detran}/tickets` )
             .map( response => <Ticket[]>response.json() )
-            .catch(this.handleError);
+            .share();
     }
 
     /**
@@ -72,7 +56,7 @@ export class DetranApiService {
         return this.http
             .get( `${this.settings.api.detran}/administrativeCharges ` )
             .map( response => <Charge[]>response.json() )
-            .catch(this.handleError);
+            .share();
     }
 
     /**
@@ -84,6 +68,6 @@ export class DetranApiService {
         return this.http
             .get( `${this.settings.api.detran}/driverLicenseProcess ` )
             .map( response => <DriverLicenseProcess[]>response.json() )
-            .catch(this.handleError);
+            .share();
     }
 }
