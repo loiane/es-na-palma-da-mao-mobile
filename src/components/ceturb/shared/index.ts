@@ -1,0 +1,4 @@
+import ceturbApiService from './ceturb-api.service';
+
+export default angular.module( 'ceturb.shared', [] )
+                      .service( 'ceturbApiService', ceturbApiService );
