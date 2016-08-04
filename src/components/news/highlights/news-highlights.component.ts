@@ -35,27 +35,6 @@ export class NewsHighlightsComponent implements OnInit {
 
 
     /**
-     * Obtém a 1° notícia de destaque
-     * 
-     * @readonly
-     * @type {News}
-     */
-    public get firstNews(): News {
-        return this.highlights[ 0 ];
-    }
-
-
-    /**
-     * Obtém todas as notícias em destaque menos a 1°.
-     * 
-     * @readonly
-     * @type {News[]}
-     */
-    public get otherNews(): News[] {
-        return this.highlights.length > 0 ? this.highlights.slice( 1 ) : [];
-    }
-
-    /**
      * Obtém a lista de notícias em destaque
      */
     public getHighlightNews(): void {
