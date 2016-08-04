@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, ConnectionBackend, RequestOptions, Request, Response, Headers } from '@angular/http';
+import { 
+    Http, 
+    RequestOptionsArgs, 
+    ConnectionBackend, 
+    RequestOptions, 
+    Request, 
+    Response, 
+    Headers 
+} from '@angular/http';
 import { CoolLocalStorage } from 'angular2-cool-storage';
 import { Observable } from 'rxjs/Observable';
-
-import { Token, BaseHttp, UIStateService } from '../index';
+import { Token, BaseHttp, UIStateStore } from '../index';
 
 
 @Injectable()
@@ -28,9 +35,9 @@ export class AuthorizedHttp extends BaseHttp {
      */
     constructor( backend: ConnectionBackend, 
                  defaultOptions: RequestOptions, 
-                 uiStateService: UIStateService, 
+                 uiStateStore: UIStateStore, 
                  protected localStorage: CoolLocalStorage ) {
-        super( backend, defaultOptions, uiStateService );
+        super( backend, defaultOptions, uiStateStore );
     }
     
     /**

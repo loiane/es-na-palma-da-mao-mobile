@@ -6,7 +6,7 @@ import { DashBoardComponent } from '../dashboard/index';
 import { SearchProcessComponent } from '../sep/search-process.component';
 import { DriverLicenseStatusComponent } from '../detran/driver-license-status/driver-license-status.component';
 import { NewsListComponent } from '../news/index';
-import { UIStateService, UIState } from '../shared/index';
+import { UIStateStore, UIState } from '../shared/index';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component( {
@@ -59,8 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param {MenuController} menu
      */
     constructor( private menu: MenuController,
-        private uiStateService: UIStateService,
-        private platform: Platform ) {
+                 private uiStateStore: UIStateStore,
+                 private platform: Platform ) {
 
         platform.ready().then( () => {
             // Okay, so the platform is ready and our plugins are available.
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): any {
         this.menu.enable( true );
-        this.uiStateChanged = this.uiStateService
+        this.uiStateChanged = this.uiStateStore
             .state
             .subscribe( ( state: UIState ) => {
                 

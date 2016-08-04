@@ -19,7 +19,7 @@ import { HTTP_PROVIDERS, Http, XHRBackend, RequestOptions } from '@angular/http'
 import { COOL_STORAGE_PROVIDERS, CoolLocalStorage } from 'angular2-cool-storage';
 import { ionicBootstrap } from 'ionic-angular';
 import { AppComponent } from './app/app.component';
-import { Settings, BaseHttp, AuthorizedHttp, UIStateService } from './shared/index';
+import { Settings, BaseHttp, AuthorizedHttp, UIStateStore } from './shared/index';
 
 let settingsProvider = {
     provide: Settings,
@@ -29,19 +29,19 @@ let settingsProvider = {
 // Provider for authorized requests
 let authHttpProvider = {
     provide: AuthorizedHttp,
-    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, uiStateService: UIStateService, localStorage: CoolLocalStorage ) => {
-        return new AuthorizedHttp( backend, defaultOptions, uiStateService, localStorage );
+    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, uiStateStore: UIStateStore, localStorage: CoolLocalStorage ) => {
+        return new AuthorizedHttp( backend, defaultOptions, uiStateStore, localStorage );
     },
-    deps: [ XHRBackend, RequestOptions, UIStateService, CoolLocalStorage  ]
+    deps: [ XHRBackend, RequestOptions, UIStateStore, CoolLocalStorage  ]
 };
 
 let httpProvider = {
     provide: Http,
-    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, uiStateService: UIStateService ) => {
-        return new BaseHttp( backend, defaultOptions, uiStateService );
+    useFactory: ( backend: XHRBackend, defaultOptions: RequestOptions, uiStateStore: UIStateStore ) => {
+        return new BaseHttp( backend, defaultOptions, uiStateStore );
     },
-    deps: [ XHRBackend, RequestOptions, UIStateService ]
+    deps: [ XHRBackend, RequestOptions, UIStateStore ]
 };
 
-ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, UIStateService, httpProvider, settingsProvider, authHttpProvider, COOL_STORAGE_PROVIDERS ] );
+ionicBootstrap( AppComponent, [ HTTP_PROVIDERS, UIStateStore, httpProvider, settingsProvider, authHttpProvider, COOL_STORAGE_PROVIDERS ] );
 
