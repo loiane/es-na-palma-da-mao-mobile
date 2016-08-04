@@ -3,4 +3,4 @@ export * from './settings/settings';
 export * from './authentication/index';
 export * from './pipes/index';
 export * from './http/index';
-export * from './loading/index';
+export * from './ui/index';

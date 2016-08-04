@@ -9,7 +9,7 @@ import {
 } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { UIStateService } from '../index';
+import { UIStateStore } from '../index';
 
 
 @Injectable()
@@ -23,7 +23,7 @@ export class BaseHttp extends Http {
      */
     constructor( backend: ConnectionBackend, 
                  defaultOptions: RequestOptions, 
-                 protected uiStateService: UIStateService ) {
+                 protected uiStateStore: UIStateStore ) {
         super( backend, defaultOptions );
     }
 
@@ -36,14 +36,14 @@ export class BaseHttp extends Http {
      */
     request( url: string | Request, options?: RequestOptionsArgs ): Observable<Response> {
         
-        this.uiStateService.startBackendAction();
+        this.uiStateStore.startBackendAction();
 
         return super.request( url, options )
                     .timeout( 5000, new Error( 'timeout' ) )
                     .retryWhen( attempts => this.retryWhen( attempts ) )
                     .catch( error => this.handleError( error ) )
                     .finally<Response>( () => {
-                        this.uiStateService.endBackendAction();
+                        this.uiStateStore.endBackendAction();
                     } );
     }
 
@@ -57,14 +57,14 @@ export class BaseHttp extends Http {
      */
     get( url: string, options?: RequestOptionsArgs ): Observable<Response> {
         
-        this.uiStateService.startBackendAction();
+        this.uiStateStore.startBackendAction();
 
         return super.get( url, options )
                     .timeout( 5000, new Error( 'timeout' ) )
                     .retryWhen( attempts => this.retryWhen( attempts ) )
                     .catch( error => this.handleError( error ) )
                     .finally<Response>( () => {
-                        this.uiStateService.endBackendAction();
+                        this.uiStateStore.endBackendAction();
                     } );
     }
 
@@ -80,13 +80,13 @@ export class BaseHttp extends Http {
      */
     post( url: string, body: any, options?: RequestOptionsArgs ): Observable<Response> {
 
-        this.uiStateService.startBackendAction();
+        this.uiStateStore.startBackendAction();
 
         return super.post( url, body, options )
                     .timeout( 15000, new Error( 'timeout' ) )
                     .catch( error => this.handleError( error ) )
                     .finally<Response>( () => {
-                        this.uiStateService.endBackendAction();
+                        this.uiStateStore.endBackendAction();
                     } );
     }
 
