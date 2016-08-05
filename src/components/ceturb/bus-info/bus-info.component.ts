@@ -1,4 +1,4 @@
-import './bus-lines.component.css';
+import './bus-info.component.css';
 import template from './bus-info.component.html';
 import { BusInfoController } from './bus-info.component.controller';
 

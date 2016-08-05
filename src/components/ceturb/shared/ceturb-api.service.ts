@@ -26,10 +26,10 @@ export class CeturbApiService {
      * @param {string} filter
      * @returns {IPromise<BusLine[]>}
      */
-    public getLines(filter: string): IPromise<BusLine[]> {
+    public getLines(): IPromise<BusLine[]> {
         return this.http
-            .get(`${this.settings.api.ceturb}/lines/${filter || ''}`)
-            .map(res => <BusLine[]>res.json());
+            .get(`${this.settings.api.ceturb}/lines/`)
+            .then( ( response: { data: BusLine[] } ) => response.data );
     }
 
     /**
@@ -41,7 +41,7 @@ export class CeturbApiService {
     public getSchecule(id: string): IPromise<BusSchedule> {
         return this.http
             .get(`${this.settings.api.ceturb}/schedule/${id || ''}`)
-            .map(res => <BusSchedule>res.json());
+            .then( ( response: { data: BusSchedule } ) => response.data );
     }
 
     /**
@@ -53,6 +53,6 @@ export class CeturbApiService {
     public getRoute(id: string): IPromise<BusRoute> {
         return this.http
             .get(`${this.settings.api.ceturb}/route/${id || ''}`)
-            .map(res => <BusRoute>res.json());
+            .then( ( response: { data: BusRoute } ) => response.data );
     }
 }

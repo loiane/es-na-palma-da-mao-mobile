@@ -76,5 +76,17 @@
     "url": "driverLicenseStatus",
     "type": "load",
     "src": "components/detran/driver-license-status/index"
+  },
+  {
+    "name": "app.busLines",
+    "url": "busLines",
+    "type": "load",
+    "src": "components/ceturb/bus-lines/index"
+  },
+  {
+    "name": "app.busInfo/:id",
+    "url": "busInfo/:id",
+    "type": "load",
+    "src": "components/ceturb/bus-info/index"
   }
 ]

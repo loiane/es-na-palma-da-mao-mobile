@@ -1,4 +1,5 @@
 import { IScope, IPromise } from 'angular';
+import {IStateService} from 'angular-ui-router';
 
 import { CeturbApiService } from '../shared/ceturb-api.service';
 import { BusLine, BusRoute, BusSchedule } from '../shared/models/index';
@@ -7,14 +8,13 @@ export class BusInfoController {
 
     public static $inject: string[] = [
         '$scope',
+        '$stateParams',
         'ceturbApiService'
     ];
 
     private id: string;
-    private route: BusRoute;
-    private schedule: BusSchedule;
-    private populated: boolean;
-
+    private route: BusRoute = undefined;
+    private schedule: BusSchedule = undefined;
 
     /**
      * Creates an instance of SepConsultaController.
@@ -23,6 +23,7 @@ export class BusInfoController {
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
+        private $stateParams: IStateService,
         private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -31,19 +32,20 @@ export class BusInfoController {
      *
      */
     public activate(): void {
-        this.route = undefined;
-        this.schedule = undefined;
-        this.populated = false;
+        this.getRoute( this.$stateParams.id );
+        this.getSchecule( this.$stateParams.id );
     }
 
 
     public getRoute( id: string ): void {
         this.ceturbApiService.getRoute( id )
-            .subscribe( routes => this.route = routes, error => this.route = undefined );
+            .then( routes => this.route = routes)
+            .catch( error => this.route = undefined );
     }
 
     public getSchecule( id: string ): void {
         this.ceturbApiService.getSchecule( id )
-            .subscribe( schedule => this.schedule = schedule, error => this.schedule = undefined );
+            .then( schedule => this.schedule = schedule)
+            .catch( error => this.schedule = undefined );
     }
 }
