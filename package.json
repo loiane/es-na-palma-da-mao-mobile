@@ -175,7 +175,7 @@
       "oclazyload": "github:ocombe/oclazyload@^1.0.9",
       "oidc-token-manager": "github:IdentityModel/oidc-token-manager@^1.2.0",
       "plugin-babel": "npm:systemjs-plugin-babel@^0.0.12",
-      "robotoDraft": "github:raibutera/robotodraft@^1.1.0",
+      "robotoDraft": "github:Raigasm/robotodraft@^1.1.0",
       "text": "github:systemjs/plugin-text@^0.0.7",
       "toastr": "github:CodeSeven/toastr@^2.1.2",
       "ts": "github:frankwallis/plugin-typescript@^4.0.16",

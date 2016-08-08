@@ -62,6 +62,10 @@ ion-nav-bar .ion-android-arrow-back {
 	font-size: 2em;
 }
 
+.espm-header-tabs {
+    box-shadow: none !important;
+}
+
 /*body {
   font-family: RobotoDraft, Roboto, Helvetica Neue, sans-serif; }
 

@@ -33,6 +33,7 @@ class DashBoardController {
      * @returns {void}
      */
     public activate(): void {
+        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).addClass( 'espm-header-tabs' );
     }
 }
 

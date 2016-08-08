@@ -1,0 +1,32 @@
+#state-ceturb-bus-lines {
+    background-color: rgb(250,250,250);
+}
+
+#state-ceturb-bus-lines md-list-item, md-list-item ._md-list-item-inner {
+    display: block;
+}
+
+.state-ceturb-subheader {
+    transition: padding 0.5s;
+    background: none;
+    background-color: rgb(250,250,250);
+}
+
+.state-ceturb-subheader.fix-top {
+    padding: 0;
+}
+
+.state-ceturb-subheader md-input-container {
+    width: 100%;
+}
+
+.state-ceturb-subheader md-input-container md-icon {
+    font-size: 1.8em;
+}
+
+.state-ceturb-subheader md-input-container.md-icon-right {
+    padding-left: 10px;
+    margin: 0px;
+    height: 44px;
+    background-color: white;
+}
