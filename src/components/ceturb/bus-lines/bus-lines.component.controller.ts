@@ -8,6 +8,7 @@ export class BusLinesController {
     public static $inject: string[] = [
         '$scope',
         '$state',
+        '$ionicLoading',
         'ceturbApiService'
     ];
 
@@ -15,6 +16,7 @@ export class BusLinesController {
     private filteredLines: BusLine[];
     private lines: BusLine[];
     private populated: boolean;
+    private lineCount: number;
 
     /**
      * Creates an instance of SepConsultaController.
@@ -24,6 +26,7 @@ export class BusLinesController {
      */
     constructor( private $scope: IScope,
         private $state: IState,
+        private $ionicLoading: ionic.loading.IonicLoadingService,
         private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -52,28 +55,31 @@ export class BusLinesController {
         return !!this.filteredLines.length;
     }
 
+    public get hasMoreLines(): boolean {
+        return true;
+    }
+
     /**
      * 
      */
     public getLines(): void {
+        this.$ionicLoading.show( 200 );
         this.ceturbApiService.getLines()
             .then( lines => {
-                this.lines = <BusLine[]>lines.map( x => {
-                    return {
-                        number: x.number,
-                        name: x.name.trim(),
-                        nameLower: x.name.toLowerCase()
-                    };
-                });
-                this.filteredLines = this.lines;
+                this.lines = this.filteredLines = <BusLine[]>lines;
                 this.populated = true;
                 return this.lines;
             })
             .catch(() => {
-                this.lines = [];
-            });
+                this.lines = this.filteredLines = [];
+            }).finally( () => {
+                this.$ionicLoading.hide();
+            } );
     }
 
+    public getCacheLines( lineCount ): void {
+        this.lines = this.filteredLines.slice( 0, lineCount );
+    }
 
     /**
      * Propriedade utilizada no debounce da função de filtro. Salva o setTime caso precise ser cancelado.
@@ -93,8 +99,8 @@ export class BusLinesController {
         }
 
         this.lastFilter = setTimeout( () => {
-            let lowerFilter = filter.toLowerCase();
-            this.filteredLines = this.lines.filter( x => ( x.nameLower.indexOf( lowerFilter ) >= 0 ) || ( x.number.indexOf( lowerFilter ) >= 0 ) );
+            let upperFilter = filter.toUpperCase();
+            this.filteredLines = this.lines.filter( x => ( x.name.indexOf( upperFilter ) >= 0 ) || ( x.number.indexOf( upperFilter ) >= 0 ) );
             this.lastFilter = undefined;
             this.$scope.$apply();
         }, 500 );

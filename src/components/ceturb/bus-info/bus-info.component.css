@@ -1,0 +1,61 @@
+#state-ceturb-bus-info .tabs-text-top > .tabs .tab-item {
+	font-size: 14px;
+	line-height: 49px;
+	font-weight: 500;
+	opacity: 1;
+	color: rgba(255, 255, 255, 0.7);
+	height: 49px;
+	max-width: none !important;
+}
+
+#state-ceturb-bus-info ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.tab-item-active,
+#state-ceturb-bus-info ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.active,
+#state-ceturb-bus-info ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.activated {
+	border-bottom-color: #c86673;
+	color: #fff;
+	font-weight: bold;
+}
+
+#state-ceturb-bus-info .tabs-top > .tabs,
+#state-ceturb-bus-info .tabs.tabs-top {
+	top: 43px;
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+	color: #fff;
+}
+
+ion-content#state-ceturb-bus-info.espm-has-tabs-top {
+	top: 0px;
+}
+
+ #state-ceturb-bus-info md-list-item.wrap-hours {
+	 flex-wrap: wrap;
+ }
+
+#state-ceturb-bus-info md-list {
+	padding: 1px 0;
+}
+
+ #state-ceturb-bus-info md-list-item, #state-ceturb-bus-info md-list-item ._md-list-item-inner {
+    min-height: 25px;
+}
+
+#state-ceturb-bus-info .list-note-subheader {
+	font-size: 0.8em;
+	opacity: 0.8;
+}
+
+#state-ceturb-bus-info md-list-item.wrap-hours ._md-no-style, #state-ceturb-bus-info md-list-item._md-no-proxy.wrap-hours {
+	padding: 5px 16px;
+}
+
+#state-ceturb-bus-info .line-notes {
+	font-size: 0.9em;
+}
+
+#state-ceturb-bus-info .line-notes-title{
+	color: #c86673;
+}
+
+#state-ceturb-bus-info .perdeu-busao {
+	color: #777;
+}
