@@ -74,6 +74,7 @@ class NewsListController {
      * @returns {*}
      */
     public getAvailableOrigins(): IPromise<string[]> {
+        this.$ionicLoading.show( 200 );
         return this.newsApiService.getAvailableOrigins()
                    .then( origins => {
                        this.availableOrigins = origins;
@@ -104,6 +105,7 @@ class NewsListController {
                 this.populated = true;
             } )
             .finally( () => {
+                this.$ionicLoading.hide();
                 this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
             } );
     }

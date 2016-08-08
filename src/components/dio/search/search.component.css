@@ -1,0 +1,84 @@
+#dio-search .ion-ios-download-outline:before {
+    font-size: 25px;
+    color: #c86673;
+}
+
+
+#dio-search md-content .md-button {
+    font-size: 12px;
+    padding: 0 3px;
+    line-height: 28px;
+    min-height: 24px;
+    min-width: 66px;
+}
+
+
+#dio-search md-list-item.md-2-line,
+#dio-search md-list-item.md-2-line >._md-no-style {
+    height: 50px;
+	min-height: 50px;
+}
+
+
+/*#dio-search .noticia-info-origem,
+#dio-search .noticia-info-origem {
+	opacity: 0.5;
+	padding-left: 5px;
+	border-left: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+#dio-search { background-color: #fff !important; }
+
+#dio-search ion-infinite-scroll { background-color: #fff; }
+
+#dio-search md-card-title-media .md-media-md img {
+	max-width: 112px;
+	max-height: 112px;
+	margin-top: 13px;
+}
+
+.cb-dialog-content {
+	min-width: 136px;
+	min-height: 48px;
+	max-height: 256px;
+	overflow-y: auto;
+}
+
+.cb-dialog-content-label {
+	display: block;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 16px;
+	font-weight: 500;
+	color: rgba(117, 117, 117, 0.87);
+}
+
+.cb-dialog-content-item.select-all {
+	padding-left: 16px;
+	color: rgba(117, 117, 117, 0.87);
+}
+
+.cb-dialog-content-item {
+	padding-left: 25px;
+}
+
+#dio-search .md-title.lista-noticias {
+	font-weight: 400;
+	font-size: 17px;
+	display: block;
+	line-height: 25px;
+}
+
+#dio-search .lista-noticias-info-origem {
+	margin-top: 10px;
+	opacity: 0.5;
+	font-size: 14px;
+	font-weight: 500;
+	font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+	line-height: 1.2;
+}
+
+#dio-search md-list-item,
+#dio-search md-list-item .md-list-item-inner {
+	align-items: flex-start;
+}*/

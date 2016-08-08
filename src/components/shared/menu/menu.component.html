@@ -83,6 +83,25 @@
 							<span>Situação CNH</span>
 						</div>
 					</div>
+
+					<md-subheader class="md-accent">DIO</md-subheader>
+					<div class="row menu-item" ng-click="vm.navigateTo('app.dioSearch')">
+						<div class="col-25">
+							<i class="fa fa-search"></i>
+						</div>
+						<div class="col-75">
+							<span>Consulta DIO</span>
+						</div>
+					</div>
+					<div class="row menu-item" ng-click="vm.navigateTo('app.dioLatest')">
+						<div class="col-25">
+							<i class="fa fa-car"></i>
+						</div>
+						<div class="col-75">
+							<span>Edições Recentes</span>
+						</div>
+					</div>
+
 					<md-divider></md-divider>
 					<div class="row menu-item" ng-click="vm.signOut()">
 						<div class="col-25">
@@ -124,6 +143,16 @@
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.driverLicenseStatus')">
 						<i class="fa fa-car"></i>
 						<span>Situação CNH</span>
+					</md-list-item>
+					<md-divider></md-divider>
+					<md-subheader class="md-accent">DIO</md-subheader>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dioSearch')">
+						<i class="fa fa-search"></i>
+						<span>Consulta DIO</span>
+					</md-list-item>
+						<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dioLatest')">
+						<i class="fa fa-newspaper-o"></i>
+						<span>Edições Recentes</span>
 					</md-list-item>
 					<md-divider></md-divider>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">

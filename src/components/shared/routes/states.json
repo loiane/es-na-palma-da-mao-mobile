@@ -76,5 +76,17 @@
     "url": "driverLicenseStatus",
     "type": "load",
     "src": "components/detran/driver-license-status/index"
+  },
+   {
+    "name": "app.dioSearch",
+    "url": "dio",
+    "type": "load",
+    "src": "components/dio/search/index"
+  },
+   {
+    "name": "app.dioLatest",
+    "url": "dio",
+    "type": "load",
+    "src": "components/dio/latest/index"
   }
 ]
