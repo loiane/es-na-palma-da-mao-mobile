@@ -12,8 +12,10 @@ export class BusLinesController {
         'ceturbApiService'
     ];
 
+    private defaultPageSize = 50;
     private filter: string;
     private filteredLines: BusLine[];
+    private cachedLines: BusLine[];
     private lines: BusLine[];
     private populated: boolean;
     private lineCount: number;
@@ -37,7 +39,7 @@ export class BusLinesController {
     public activate(): void {
         this.populated = false;
         this.filter = '';
-        this.lines = this.filteredLines = [];
+        this.lines = this.cachedLines = this.filteredLines = [];
         this.getLines();
     }
 
@@ -56,7 +58,7 @@ export class BusLinesController {
     }
 
     public get hasMoreLines(): boolean {
-        return true;
+        return this.lines.length < this.filteredLines.length;
     }
 
     /**
@@ -66,19 +68,21 @@ export class BusLinesController {
         this.$ionicLoading.show( 200 );
         this.ceturbApiService.getLines()
             .then( lines => {
-                this.lines = this.filteredLines = <BusLine[]>lines;
+                this.cachedLines = this.filteredLines = <BusLine[]>lines;
                 this.populated = true;
-                return this.lines;
+                return this.cachedLines;
             })
             .catch(() => {
-                this.lines = this.filteredLines = [];
+                this.cachedLines = this.filteredLines = [];
             }).finally( () => {
                 this.$ionicLoading.hide();
             } );
     }
 
-    public getCacheLines( lineCount ): void {
-        this.lines = this.filteredLines.slice( 0, lineCount );
+    public getFilteredLines( lineCount ): void {
+        let lengthLines = this.lines.length;
+        this.lines = this.lines.concat( this.filteredLines.slice( lengthLines, lengthLines + lineCount ) );
+        this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
     }
 
     /**
@@ -99,9 +103,11 @@ export class BusLinesController {
         }
 
         this.lastFilter = setTimeout( () => {
+            this.lines = [];
             let upperFilter = filter.toUpperCase();
-            this.filteredLines = this.lines.filter( x => ( x.name.indexOf( upperFilter ) >= 0 ) || ( x.number.indexOf( upperFilter ) >= 0 ) );
+            this.filteredLines = this.cachedLines.filter( x => ( x.name.indexOf( upperFilter ) >= 0 ) || ( x.number.indexOf( upperFilter ) >= 0 ) );
             this.lastFilter = undefined;
+            this.getFilteredLines( 50 );
             this.$scope.$apply();
         }, 500 );
     }
