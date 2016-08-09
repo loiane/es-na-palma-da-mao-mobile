@@ -1,7 +1,5 @@
 import { IScope, IPromise, IWindowService } from 'angular';
-
-import { DioApiService } from '../shared/dio-api.service';
-import { Edition } from '../shared/models/index';
+import { Edition, DioApiService } from '../shared//index';
 
 export class LatestController {
 

@@ -1,35 +1,59 @@
-<ion-view title="DIO">
+<ion-view>
+	<ion-nav-title>
+		Consulta DIO
+	</ion-nav-title>
+	<ion-nav-buttons side="right">
+		<div id="dio-search-buttons">
+			<md-button class="md-icon-button" ng-click="vm.openFilter()" aria-label="Filtrar">
+				<md-icon md-font-icon="ion-android-search">
+				</md-icon>
+			</md-button>
+		</div>
+	</ion-nav-buttons>
 	<ion-content id="dio-search">
-		<!--<md-toolbar class="md-hue-1 md-whiteframe-1dp">
-			<div class="md-toolbar-tools">
-				<md-button class="md-accent md-raised">
-					Pesquisar
-				</md-button>
-				<md-button class="md-accent md-raised" ng-click="vm.getLatestEditions()">
-					Edições Recentes
-				</md-button>
-			</div>
-		</md-toolbar>-->
 		<md-content>
 			<md-list>
-				<md-subheader class="md-no-sticky">Edições Recentes</md-subheader>
-				<md-list-item class="md-2-line" ng-repeat="edition in vm.latestEditions" ng-click="null">
-					<div class="md-padding" flex>
-						<div class="md-list-item-text" >
-							<h4><strong>{{ ::edition.date }}</strong> - Diário Oficial do ES</h4>
+				<md-subheader ng-if="!vm.pristine && vm.totalHits" class="md-no-sticky">{{ vm.totalHits }} resultados encontrados para <span class="accent">"{{vm.filter.query}}"</span></md-subheader>
+				<md-list-item class="md-2-line" ng-repeat="hit in vm.hits | orderBy:['-date','pageNumber']">
+					<div class="md-padding">
+						<div class="md-list-item-text">
+							<h4><strong>Edição de {{ ::hit.date }}</strong> - <small>Pág. {{::hit.pageNumber}}</small></h4>
+							<blockquote ng-repeat="highlight in hit.highlights">
+								...<span ng-bind-html="highlight"></span>...
+							</blockquote>
+							<md-button class="md-accent md-icon-button" ng-click="vm.open( hit.editionUrl )">
+								EDIÇÃO <i class="fa fa-download" aria-hidden="true"></i>
+							</md-button>
+							<md-button class="md-accent md-icon-button" ng-click="vm.open( hit.pageUrl )">
+								PÁGINA <i class="fa fa-download" aria-hidden="true"></i>
+							</md-button>
 						</div>
 					</div>
-					<md-button class="md-accent md-icon-button" ng-click="vm.openEdition( edition.url )">
-							BAIXAR <i class="fa fa-download" aria-hidden="true"></i>
-					</md-button>
 					<md-divider></md-divider>
 				</md-list-item>
+				<div ng-if="vm.pristine" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
+						<div class="md-subhead" flex>Consulta ao Diário Oficial do ES </div>
+						<div style="color: #999;" flex>
+							Para consultar, selecione um
+							<md-button class="md-accent md-raised" ng-click="vm.openFilter()">
+								FILTRO
+							</md-button>
+						</div>
+					</div>
+				</div>
+				<div ng-if="!vm.pristine && !vm.totalHits" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
+						<div class="md-subhead" flex>Nenhum resultado encontrado para </div>
+						<div class="accent" flex>"{{vm.filter.query}}"</div>
+						<div style="color: #999;" flex>Tente mudar o filtro da consulta</div>
+					</div>
+				</div>
 			</md-list>
-			<!--<ion-infinite-scroll
-				ng-if="vm.activated && vm.hasMoreNews"
-				on-infinite="vm.getNews({ pageNumber: vm.currentPage + 1  })"
-				distance="30%">
-			</ion-infinite-scroll>-->
+
+			<ion-infinite-scroll ng-if="!vm.pristine && vm.hasMoreHits" on-infinite="vm.search( { pageNumber: vm.filter.pageNumber + 1  })"
+				immediate-check="false" distance="20%">
+			</ion-infinite-scroll>
 		</md-content>
 	</ion-content>
 </ion-view>

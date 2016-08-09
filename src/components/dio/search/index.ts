@@ -14,7 +14,7 @@ export default angular.module( 'dio-search.component', dependencies )
         '$stateProvider', ( $stateProvider ) => {
             $stateProvider
                 .state( 'app.dioSearch', {
-                    url: 'dio',
+                    url: 'dio/search',
                     data: { title: 'DIO' },
                     views: {
                         content: {

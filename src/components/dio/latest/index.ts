@@ -14,7 +14,7 @@ export default angular.module( 'dio-latest.component', dependencies )
         '$stateProvider', ( $stateProvider ) => {
             $stateProvider
                 .state( 'app.dioLatest', {
-                    url: 'dio',
+                    url: 'dio/latest',
                     data: { title: 'DIO' },
                     views: {
                         content: {
