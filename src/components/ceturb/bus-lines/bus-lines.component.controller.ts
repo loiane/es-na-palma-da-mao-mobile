@@ -107,7 +107,7 @@ export class BusLinesController {
             let upperFilter = filter.toUpperCase();
             this.filteredLines = this.cachedLines.filter( x => ( x.name.indexOf( upperFilter ) >= 0 ) || ( x.number.indexOf( upperFilter ) >= 0 ) );
             this.lastFilter = undefined;
-            this.getFilteredLines( 50 );
+            this.getFilteredLines( this.defaultPageSize );
             this.$scope.$apply();
         }, 500 );
     }
