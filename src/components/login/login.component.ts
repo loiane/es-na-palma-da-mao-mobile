@@ -1,6 +1,6 @@
 import './login.component.css';
 import template from './login.component.html';
-import LoginController from './login.component.controller';
+import { LoginController } from './login.component.controller';
 
 const directive = () => {
     return {

@@ -1,10 +1,7 @@
-import {IScope, IPromise} from 'angular';
-import {scroll} from 'ionic';
+import { IScope, IPromise } from 'angular';
+import { SepApiService, Process, ProcessUpdate } from './shared/index';
 
-import SepApiService from './shared/sep-api.service';
-import {Process, ProcessUpdate} from './shared/models/index';
-
-class SepConsultaController {
+export class SepConsultaController {
 
     public static $inject: string[] = [
         '$scope',
@@ -23,11 +20,11 @@ class SepConsultaController {
      * Creates an instance of SepConsultaController.
      * @constructor
      * @param {IScope} $scope
-     * @param {scroll.IonicScrollDelegate} $ionicScrollDelegate
+     * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
-                 private $ionicScrollDelegate: scroll.IonicScrollDelegate,
+                 private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
                  private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -124,5 +121,3 @@ class SepConsultaController {
                         } );
     }
 }
-
-export default SepConsultaController;

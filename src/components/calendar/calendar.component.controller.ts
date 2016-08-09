@@ -1,12 +1,12 @@
-import {IScope, IPromise} from 'angular';
-import CalendarApiService from './shared/calendar-api.service';
-import {Calendar, Event} from './shared/models/index';
+import { IScope, IPromise } from 'angular';
+import { CalendarApiService } from './shared/calendar-api.service';
+import { Calendar, Event } from './shared/models/index';
 
-class CalendarController {
+export class CalendarController {
 
     public static $inject: string[] = [ '$scope', 'calendarApiService', '$ionicLoading' ];
 
-    private calendar: { currentDate?: Date;  eventSources?: Calendar[]; } = {};
+    private calendar: { currentDate?: Date; eventSources?: Calendar[]; } = {};
     private selectedCalendars: string[] = [];
     private availableCalendars: string[] = [];
     private viewTitle: string = '';
@@ -19,8 +19,8 @@ class CalendarController {
      * @param {IonicLoadingService} $ionicLoading - ionic $ionicLoading service
      */
     constructor( private $scope: IScope,
-                 private calendarApiService: CalendarApiService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService ) {
+        private calendarApiService: CalendarApiService,
+        private $ionicLoading: ionic.loading.IonicLoadingService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -31,9 +31,9 @@ class CalendarController {
      */
     public activate(): void {
         this.showLoading()
-            .then( () => this.getAvailableCalendars() )
+            .then(() => this.getAvailableCalendars() )
             .then( availableCalendars => this.loadCalendars( availableCalendars ) )
-            .finally( () => this.hideLoading() );
+            .finally(() => this.hideLoading() );
     }
 
     /**
@@ -43,7 +43,7 @@ class CalendarController {
      * @returns {IPromise<void>}
      */
     public showLoading( delay = 0 ): IPromise<void> {
-        return this.$ionicLoading.show( { delay: delay } );
+        return this.$ionicLoading.show( { delay: delay });
     }
 
     /**
@@ -61,10 +61,10 @@ class CalendarController {
      */
     public getAvailableCalendars(): IPromise<string[]> {
         return this.calendarApiService.getAvailableCalendars()
-                   .then( calendars => {
-                       this.selectedCalendars = this.availableCalendars = calendars.map( calendar => calendar.name );
-                       return this.selectedCalendars;
-                   } );
+            .then( calendars => {
+                this.selectedCalendars = this.availableCalendars = calendars.map( calendar => calendar.name );
+                return this.selectedCalendars;
+            });
     }
 
     /**
@@ -72,12 +72,12 @@ class CalendarController {
      */
     public loadCalendars( selectedCalendars: string[] ): IPromise<Calendar[]> {
         return this.showLoading( 200 )
-                   .then( () => this.calendarApiService.getFullCalendars( selectedCalendars ) )
-                   .then( calendars => {
-                       this.calendar.eventSources = calendars;
-                       return calendars;
-                   } )
-                   .finally( () => this.hideLoading() );
+            .then(() => this.calendarApiService.getFullCalendars( selectedCalendars ) )
+            .then( calendars => {
+                this.calendar.eventSources = calendars;
+                return calendars;
+            })
+            .finally(() => this.hideLoading() );
     }
 
     /**
@@ -118,4 +118,3 @@ class CalendarController {
     }
 }
 
-export default CalendarController;

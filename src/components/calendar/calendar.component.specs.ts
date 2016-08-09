@@ -6,7 +6,7 @@
  no-unused-expressions: 0
  */
 
-import CalendarController from './calendar.component.controller';
+import { CalendarController } from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
 import CalendarTemplate from './calendar.component.html';
 

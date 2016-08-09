@@ -1,7 +1,7 @@
-import {IHttpService, IPromise} from 'angular';
-import {News, NewsDetail} from '../shared/models/index';
+import { IHttpService, IPromise } from 'angular';
+import { News, NewsDetail, Filter } from '../shared/models/index';
 
-class NewsApiService {
+export class NewsApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
@@ -41,7 +41,7 @@ class NewsApiService {
      * @param options
      * @returns {Array}
      */
-    public getNews( options = {} ): IPromise<News[]> {
+    public getNews( options: Filter = {} ): IPromise<News[]> {
         let today = new Date();
         let defaults = {
             origins: [],
@@ -69,5 +69,3 @@ class NewsApiService {
                    .then(  ( response: { data: string[] } ) => response.data );
     }
 }
-
-export default NewsApiService;

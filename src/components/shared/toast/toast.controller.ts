@@ -1,7 +1,7 @@
 /**
  * Controller
  */
-class ToastController {
+export class ToastController {
 
     public static $inject: string[] = [ 'displayOption' ];
     /**
@@ -26,4 +26,3 @@ class ToastController {
     }
 }
 
-export default ToastController;

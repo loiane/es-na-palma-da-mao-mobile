@@ -1,7 +1,7 @@
-import {IHttpService, IPromise} from 'angular';
-import {Calendar} from '../shared/models/calendar';
+import { IHttpService, IPromise } from 'angular';
+import { Calendar } from './models/calendar';
 
-class CalendarApiService {
+export class CalendarApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
@@ -49,5 +49,3 @@ class CalendarApiService {
                    .then( response => response.data );
     }
 }
-
-export default CalendarApiService;

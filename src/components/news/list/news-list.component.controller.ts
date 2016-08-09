@@ -1,21 +1,13 @@
-import {IScope, IPromise} from 'angular';
-import {IStateService} from 'angular-ui-router';
+import { IScope, IPromise } from 'angular';
+import { IStateService } from 'angular-ui-router';
 
-import sourcesDialogTemplate from './sources-dialog/sources-dialog.html';
-import datesDialogTemplate from './dates-dialog/dates-dialog.html';
-import SourcesDialogController from './sources-dialog/sources-dialog.controller';
-import DatesDialogController from './dates-dialog/dates-dialog.controller';
-import NewsApiService from '../shared/news-api.service';
-import {News, NewsDetail} from '../shared/models/index';
+import sourcesFilterTemplate from './sources-filter/sources-filter.html';
+import datesFilterTemplate from './dates-filter/dates-filter.html';
+import { SourcesFilterController } from './sources-filter/sources-filter.controller';
+import { DatesFilterController } from './dates-filter/dates-filter.controller';
+import { News, NewsDetail, NewsApiService, Filter } from '../shared/index';
 
-interface Filter {
-    origins?: string[];
-    dateMin?: Date;
-    dateMax?: Date;
-    pageNumber?: number;
-}
-
-class NewsListController {
+export class NewsListController {
 
     public static $inject: string[] = [
         '$scope',
@@ -115,8 +107,8 @@ class NewsListController {
      */
     public openOriginsFilter(): void {
         this.$mdDialog.show( {
-            controller: SourcesDialogController,
-            template: sourcesDialogTemplate,
+            controller: SourcesFilterController,
+            template: sourcesFilterTemplate,
             bindToController: true,
             controllerAs: 'vm',
             locals: {
@@ -132,8 +124,8 @@ class NewsListController {
      */
     public openDateFilter(): void {
         this.$mdDialog.show( {
-            controller: DatesDialogController,
-            template: datesDialogTemplate,
+            controller: DatesFilterController,
+            template: datesFilterTemplate,
             bindToController: true,
             controllerAs: 'vm',
             locals: {
@@ -176,5 +168,3 @@ class NewsListController {
         this.$state.go( 'app.news/:id', { id: id } );
     }
 }
-
-export default NewsListController;

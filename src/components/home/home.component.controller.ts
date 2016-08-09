@@ -1,7 +1,7 @@
-import {IStateService} from 'angular-ui-router';
-import {IWindowService} from 'angular';
+import { IStateService } from 'angular-ui-router';
+import { IWindowService } from 'angular';
 
-class HomeController {
+export class HomeController {
 
     public static $inject: string[] = [ '$state', '$window', 'settings' ];
 
@@ -32,4 +32,3 @@ class HomeController {
 
 }
 
-export default HomeController;

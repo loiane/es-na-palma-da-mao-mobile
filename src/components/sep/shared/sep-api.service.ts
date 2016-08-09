@@ -1,7 +1,7 @@
-import {IHttpService, IPromise} from 'angular';
-import {Process} from './models/index';
+import { IHttpService, IPromise } from 'angular';
+import { Process } from './models/index';
 
-class SepApiService {
+export class SepApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
@@ -24,5 +24,3 @@ class SepApiService {
                    .then( ( response: { data: Process } ) => response.data );
     }
 }
-
-export default SepApiService;

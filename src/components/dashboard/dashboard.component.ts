@@ -1,11 +1,11 @@
 import './dashboard.component.css';
 import template from './dashboard.component.html';
-import DashboardController from './dashboard.component.controller';
+import { DashBoardController } from './dashboard.component.controller';
 
 const directive = () => {
     return {
         template: template,
-        controller: DashboardController,
+        controller: DashBoardController,
         restrict: 'E',
         controllerAs: 'vm', // scope: {},
         replace: true,

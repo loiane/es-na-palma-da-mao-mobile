@@ -1,4 +1,4 @@
-class DatesDialogController {
+export class DatesFilterController {
 
     public static $inject: string[] = [ '$mdDialog' ];
 
@@ -28,7 +28,5 @@ class DatesDialogController {
         } );
     }
 }
-
-export default DatesDialogController;
 
 

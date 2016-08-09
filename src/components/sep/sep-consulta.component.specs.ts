@@ -6,13 +6,12 @@
  no-unused-expressions: 0
  */
 
-import SepConsultaController from './sep-consulta.component.controller';
 import SepConsultaComponent from './sep-consulta.component';
 import SepConsultaTemplate from './sep-consulta.component.html';
-import {Process, ProcessUpdate} from './shared/models/index';
+import { Process, ProcessUpdate } from './shared/index';
+import { SepConsultaController } from './sep-consulta.component.controller';
 
 let expect = chai.expect;
-
 
 /**
  *

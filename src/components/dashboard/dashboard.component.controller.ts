@@ -1,18 +1,16 @@
-import ToastService from '../shared/toast/toast.service';
+
 import {IStateService} from 'angular-ui-router';
 
-class DashBoardController {
+export class DashBoardController {
 
-    public static $inject: string[] = [ 'toast', '$state' ];
+    public static $inject: string[] = ['$state' ];
 
     /**
-     * @constructor
-     *
-     * @param {ToastService} toast
+     * Creates an instance of DashBoardController.
+     * 
      * @param {IStateService} $state
      */
-    constructor( private toast: ToastService,
-                 private $state: IStateService ) {
+    constructor( private $state: IStateService ) {
         this.activate();
     }
 
@@ -36,7 +34,6 @@ class DashBoardController {
     }
 }
 
-export default DashBoardController;
 
 
 

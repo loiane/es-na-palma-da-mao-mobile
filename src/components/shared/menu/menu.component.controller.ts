@@ -1,7 +1,7 @@
-import {IScope, IWindowService, ITimeoutService, ILogService} from 'angular';
-import {IStateService} from 'angular-ui-router';
+import { IScope, IWindowService, ITimeoutService, ILogService } from 'angular';
+import { IStateService } from 'angular-ui-router';
 
-import {AcessoCidadaoService, GoogleService, FacebookService, DigitsService, AcessoCidadaoClaims} from '../authentication/index';
+import { AcessoCidadaoService, GoogleService, FacebookService, DigitsService, AcessoCidadaoClaims } from '../authentication/index';
 import defaultAvatar from './img/user.png!image';
 
 /**
