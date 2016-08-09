@@ -1,13 +1,12 @@
 import moment from 'moment';
-import {IScope, IPromise} from 'angular';
-import DetranApiService from '../shared/detran-api.service';
-import {DriverData, Ticket, DriverStatus} from '../shared/models/index';
+import { IScope, IPromise } from 'angular';
+import { DriverData, Ticket, DriverStatus, DetranApiService } from '../shared/index';
 
 
 /**
  * @class DriverLicenseStatusController
  */
-class DriverLicenseStatusController {
+export class DriverLicenseStatusController {
 
     public static $inject: string[] = [ '$scope', 'detranApiService' ];
 
@@ -49,7 +48,7 @@ class DriverLicenseStatusController {
      * @param {DetranApiService} sepApiService - Api do SEP
      */
     constructor( private $scope: IScope,
-                 private detranApiService: DetranApiService ) {
+        private detranApiService: DetranApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -105,12 +104,12 @@ class DriverLicenseStatusController {
         return this.driverDataPopulated && this.driverData.status === DriverStatus.Blocked;
     }
 
-     /**
-     * Se o condutor autenticado no sistema está com a carteira de motorista vencida.
-     * 
-     * @readonly
-     * @type {boolean}
-     */
+    /**
+    * Se o condutor autenticado no sistema está com a carteira de motorista vencida.
+    * 
+    * @readonly
+    * @type {boolean}
+    */
     public get licenseExpired(): boolean {
         return this.driverDataPopulated && moment( this.expirationDate ).add( 1, 'months' ).isBefore( moment().startOf( 'day' ) );
     }
@@ -165,7 +164,7 @@ class DriverLicenseStatusController {
             if ( moment( ticket.date ).isAfter( moment().startOf( 'day' ).subtract( 1, 'year' ) ) ) {
                 points += ticket.points;
             }
-        } );
+        });
         return points;
     }
 
@@ -205,10 +204,10 @@ class DriverLicenseStatusController {
      */
     public getDriverData(): IPromise<DriverData> {
         return this.detranApiService.getDriverData()
-            .then( ( driverData ) => {
+            .then(( driverData ) => {
                 this.driverData = driverData;
                 return driverData;
-            } );
+            });
     }
 
     /**
@@ -216,13 +215,11 @@ class DriverLicenseStatusController {
      * 
      * @returns {IPromise<Ticket[]>}
      */
-    public getTickets(): IPromise<Ticket[]>  {
+    public getTickets(): IPromise<Ticket[]> {
         return this.detranApiService.getTickets()
             .then( tickets => {
                 this.tickets = tickets;
                 return tickets;
-            } );
+            });
     }
 }
-
-export default DriverLicenseStatusController;

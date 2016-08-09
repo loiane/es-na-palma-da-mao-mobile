@@ -6,10 +6,10 @@
  no-unused-expressions: 0
  */
 import moment from 'moment';
-import DriverLicenseStatusController from './driver-license-status.component.controller';
 import DriverLicenseStatusComponent from './driver-license-status.component';
 import DriverLicenseStatusTemplate from './driver-license-status.component.html';
-import {DriverData, Ticket, DriverStatus} from '../shared/models/index';
+import { DriverLicenseStatusController } from './driver-license-status.component.controller';
+import { DriverData, Ticket, DriverStatus } from '../shared/models/index';
 
 let expect = chai.expect;
 

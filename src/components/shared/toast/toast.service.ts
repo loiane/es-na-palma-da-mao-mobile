@@ -8,7 +8,7 @@ import template from './toast.html';
 /**
  * Controller
  */
-class ToastService {
+export class ToastService {
 
     public static $inject: string[] = [
         '$mdToast'
@@ -117,5 +117,3 @@ class ToastService {
         return this.show( angular.merge( displayOption, { type: 'warn' } ) );
     }
 }
-
-export default ToastService;

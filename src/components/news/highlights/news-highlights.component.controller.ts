@@ -1,10 +1,9 @@
 import {IScope, IPromise} from 'angular';
 import {IStateService} from 'angular-ui-router';
 
-import NewsApiService from '../shared/news-api.service';
-import {News, NewsDetail} from '../shared/models/index';
+import { NewsApiService, News, NewsDetail } from '../shared/index';
 
-class NewsHighlightsController {
+export class NewsHighlightsController {
 
     public static $inject: string[] = [ '$scope', 'newsApiService', '$ionicLoading', '$state' ];
 
@@ -79,7 +78,5 @@ class NewsHighlightsController {
         this.$state.go( 'app.news/:id', {id: id} );
     }
 }
-
-export default NewsHighlightsController;
 
 

@@ -1,9 +1,9 @@
-import {IHttpService, IPromise} from 'angular';
-import {DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus} from './models/index';
+import { IHttpService, IPromise } from 'angular';
+import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus } from './models/index';
 
 
 /** @class */
-class DetranApiService {
+export class DetranApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
@@ -25,8 +25,8 @@ class DetranApiService {
      */
     public getDriverData(): IPromise<DriverData> {
         return this.$http
-                .get( `${this.settings.api.detran}/driverData` )
-                .then( ( response: { data: DriverData } ) => response.data );
+            .get( `${this.settings.api.detran}/driverData` )
+            .then(( response: { data: DriverData }) => response.data );
     }
 
     /**
@@ -37,7 +37,7 @@ class DetranApiService {
     public getTickets(): IPromise<Ticket[]> {
         return this.$http
             .get( `${this.settings.api.detran}/tickets` )
-            .then( ( response: { data: Ticket[] } ) => response.data );
+            .then(( response: { data: Ticket[] }) => response.data );
     }
 
 
@@ -49,7 +49,7 @@ class DetranApiService {
     public getAdministrativeCharges(): IPromise<Charge[]> {
         return this.$http
             .get( `${this.settings.api.detran}/administrativeCharges ` )
-            .then( ( response: { data: Charge[] } )  => response.data );
+            .then(( response: { data: Charge[] }) => response.data );
     }
 
     /**
@@ -60,8 +60,6 @@ class DetranApiService {
     public getDriverLicenseProcess(): IPromise<DriverLicenseProcess[]> {
         return this.$http
             .get( `${this.settings.api.detran}/driverLicenseProcess ` )
-            .then( ( response: { data: DriverLicenseProcess[] } ) => response.data );
+            .then(( response: { data: DriverLicenseProcess[] }) => response.data );
     }
 }
-
-export default DetranApiService;

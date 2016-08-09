@@ -6,7 +6,7 @@
  no-unused-expressions: 0
  */
 import 'angular';
-import DetranApiService from './detran-api.service';
+import { DetranApiService } from './detran-api.service';
 import settings from '../../shared/settings';
 
 let expect = chai.expect;

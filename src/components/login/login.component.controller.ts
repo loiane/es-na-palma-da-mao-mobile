@@ -1,8 +1,8 @@
-import {IStateService} from 'angular-ui-router';
-import {IWindowService, IPromise} from 'angular';
+import { IStateService } from 'angular-ui-router';
+import { IWindowService, IPromise } from 'angular';
 
 import DialogService from '../shared/dialog/dialog.service';
-import ToastService from '../shared/toast/toast.service';
+import { ToastService } from '../shared/toast/index';
 import {
     AcessoCidadaoService,
     DigitsService,
@@ -26,7 +26,7 @@ import {
  * 
  * @class LoginController
  */
-export default class LoginController {
+export class LoginController {
     /**
      * 
      * 

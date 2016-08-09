@@ -6,7 +6,7 @@
  no-unused-expressions: 0
  */
 import 'angular';
-import CalendarApiService from './calendar-api.service';
+import { CalendarApiService } from './calendar-api.service';
 import settings from '../../shared/settings';
 
 let expect = chai.expect;

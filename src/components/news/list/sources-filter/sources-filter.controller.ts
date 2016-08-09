@@ -1,4 +1,4 @@
-class SourceController {
+export class SourcesFilterController {
 
     public static $inject: string[] = [ '$mdDialog' ];
 
@@ -77,7 +77,5 @@ class SourceController {
         return selectedOrigins.indexOf( origin ) > -1;
     }
 }
-
-export default SourceController;
 
 

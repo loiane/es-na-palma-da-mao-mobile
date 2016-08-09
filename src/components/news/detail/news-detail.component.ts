@@ -1,6 +1,6 @@
 import './news-detail.component.css';
 import template from './news-detail.component.html';
-import NewsDetailController from './news-detail.component.controller';
+import { NewsDetailController } from './news-detail.component.controller';
 
 const directive = () => {
     return {
