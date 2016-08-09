@@ -10,7 +10,7 @@
 	<ion-content id="state-ceturb-bus-lines" class="md-espm-content has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-ceturb-subheader"
 		offset="25">
 		<md-list id="device-information-content" class="fade-in" ng-show="vm.hasLines">
-			<md-list-item ng-repeat="line in vm.filteredLines" ng-click="vm.goToLine( line.number )">
+			<md-list-item ng-repeat="line in vm.lines" ng-click="vm.goToLine( line.number )">
 				<strong>{{line.number}}</strong> - {{line.name}}
 				<md-divider></md-divider>
 			</md-list-item>
@@ -21,6 +21,11 @@
 				<div style="color: #999;">Verifique o filtro informado</div>
 			</div>
 		</div>
+		<ion-infinite-scroll
+				ng-if="vm.populated && vm.hasMoreLines"
+				on-infinite="vm.getFilteredLines( vm.defaultPageSize )"
+				distance="10%">
+			</ion-infinite-scroll>
 	</ion-content>
 	<!--Dashboard section-->
 </ion-view>
