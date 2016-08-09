@@ -1,60 +1,20 @@
 <md-dialog aria-label="List dialog" id="dio-search-filter">
 	<md-dialog-content class="md-padding">
-	
-		<!--<md-input-container class="md-block">
-			<span>Busca por palavra</span>
-			<input ng-model="vm.query">
+		<md-input-container md-no-float class="md-block">
+			<label>Palavra-chave</label>
+			<input ng-model="vm.query" name="query">
+
 		</md-input-container>
 
-		<md-input-container class="md-block">
-			<span>De</span>
-			<input ng-model="vm.dateMin">
-		</md-input-container>
-
-		<md-input-container class="md-block">
-			<span>Até</span>
-			<input ng-model="vm.dateMax">
-		</md-input-container>
-
-		<div class="list">
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Busca por palavra</span>
-				<input type="text" placeholder="" ng-model="vm.query">
-			</label>
-			<label class="item item-input">
-				<input type="date" placeholder="De" ng-model="vm.dateMin">
-			</label>
-			<label class="item item-input">
-				<input type="date" placeholder="Até" ng-model="vm.dateMax">
-			</label>
-		</div>-->
-		
-
-			<md-input-container md-no-float class="md-block">
-				<label>Palavra-chave</label>
-				<input ng-model="vm.query" name="query"> 
-			
-			</md-input-container>
-
-			<md-input-container md-no-float class="md-block">
-				<label>Data inicial</label>
-				<input type="date" ng-model="vm.dateMin">
-			</md-input-container>
-
-			<md-input-container md-no-float class="md-block">
-				<label>Data Final</label>
-				<input type="date" class="md-input" ng-model="vm.dateMax">
-			</md-input-container>
-		
-		
-		<!--<label class="item item-input">
-			<span>De</span>
+		<md-input-container md-no-float class="md-block">
+			<label>Data inicial</label>
 			<input type="date" ng-model="vm.dateMin">
-		</label>
-		<label class="item item-input">
-			<span>Até</span>
-			<input type="date" ng-model="vm.dateMax">
-		</label>-->
+		</md-input-container>
+
+		<md-input-container md-no-float class="md-block">
+			<label>Data Final</label>
+			<input type="date" class="md-input" ng-model="vm.dateMax">
+		</md-input-container>
 	</md-dialog-content>
 	<md-dialog-actions>
 		<md-button ng-click="vm.cancel()" class="md-primary">Cancelar</md-button>
