@@ -218,8 +218,8 @@ export class DriverLicenseStatusController {
     public getTickets(): IPromise<Ticket[]> {
         return this.detranApiService.getTickets()
             .then( tickets => {
-                this.tickets = tickets;
-                return tickets;
+                this.tickets = tickets || [];
+                return this.tickets;
             });
     }
 }

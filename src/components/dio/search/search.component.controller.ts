@@ -26,7 +26,7 @@ export class SearchController {
     ];
 
     private hits: SearchResult[] = [];
-    private pristine = true;
+    private uiState = { pristine: true, loading: false };
     private hasMoreHits = false;
     private totalHits: number = 0;
     private filter: SearchFilter = {
@@ -61,6 +61,16 @@ export class SearchController {
     }
 
     /**
+     * 
+     * 
+     * @readonly
+     */
+    public get resultsFounded() {
+        return !this.uiState.loading && !!this.totalHits;
+    }
+
+
+    /**
      * Ativa o controller
      */
     public activate(): void {}
@@ -76,7 +86,7 @@ export class SearchController {
         angular.extend( this.filter, options || {} ); // atualiza o filtro
 
         if ( this.filter.pageNumber === 0 ) {
-             this.$ionicLoading.show( 200 );
+             this.$ionicLoading.show( 200 ).then( () => this.uiState.loading = true );
              this.hits = [];
              this.hasMoreHits = false;
              this.totalHits = 0;
@@ -87,14 +97,14 @@ export class SearchController {
                                      this.totalHits = nextResults.totalHits;
                                      this.hits = this.hits.concat( nextResults.hits );
                                      this.hasMoreHits = nextResults.hits && nextResults.hits.length > 0;
-                                     this.pristine = false;
+                                     this.uiState.pristine = false;
                                  } )
                                  .catch( err => {
                                      this.toast.error( { title: 'Falha ao consultar o DIO/ES'} );
                                      this.$log.error( err );
                                  })
                                  .finally( () => {
-                                     this.$ionicLoading.hide();
+                                     this.$ionicLoading.hide().then( () => this.uiState.loading = false );
                                      this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
                                  } );
     }
