@@ -28,15 +28,26 @@ ion-content#state-ceturb-bus-info.espm-has-tabs-top {
 }
 
  #state-ceturb-bus-info md-list-item.wrap-hours {
-	 flex-wrap: wrap;
+	 -ms-flex-wrap: wrap;
+	     flex-wrap: wrap;
  }
+
+
+ 
 
 #state-ceturb-bus-info md-list {
 	padding: 1px 0;
 }
 
- #state-ceturb-bus-info md-list-item, #state-ceturb-bus-info md-list-item ._md-list-item-inner {
-    min-height: 25px;
+#state-ceturb-bus-info md-list-item.itinerario, 
+#state-ceturb-bus-info md-list-item.itinerario ._md-list-item-inner {
+    min-height: 20px;
+}
+
+#state-ceturb-bus-info md-list-item.itinerario i {
+	float: right;
+	color: #c86673;
+	margin-top: 10px;
 }
 
 #state-ceturb-bus-info .list-note-subheader {
@@ -44,12 +55,26 @@ ion-content#state-ceturb-bus-info.espm-has-tabs-top {
 	opacity: 0.8;
 }
 
-#state-ceturb-bus-info md-list-item.wrap-hours ._md-no-style, #state-ceturb-bus-info md-list-item._md-no-proxy.wrap-hours {
-	padding: 5px 16px;
+
+#state-ceturb-bus-info md-list-item.wrap-hours .hour {
+	 margin-left: 5px;
+	 margin-bottom: 2px;
+	 min-width: 51px;
+ }
+
+#state-ceturb-bus-info md-list-item.wrap-hours ._md-no-style, 
+#state-ceturb-bus-info md-list-item._md-no-proxy.wrap-hours {
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+    padding: 10px;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-bottom: 15px;
 }
 
 #state-ceturb-bus-info .line-notes {
-	font-size: 0.9em;
+	margin-right: 20px;
 }
 
 #state-ceturb-bus-info .line-notes-title{
@@ -57,5 +82,5 @@ ion-content#state-ceturb-bus-info.espm-has-tabs-top {
 }
 
 #state-ceturb-bus-info .perdeu-busao {
-	color: #777;
+	color: #afafaf;
 }

@@ -1,14 +1,15 @@
-import {IScope, IPromise} from 'angular';
-import {scroll} from 'ionic';
+import { IScope, IPromise, ILogService } from 'angular';
+import { SepApiService, Process, ProcessUpdate } from './shared/index';
+import { ToastService, ToastOptions } from '../shared/toast/index';
 
-import SepApiService from './shared/sep-api.service';
-import {Process, ProcessUpdate} from './shared/models/index';
-
-class SepConsultaController {
+export class SepConsultaController {
 
     public static $inject: string[] = [
         '$scope',
+        '$log',
         '$ionicScrollDelegate',
+        '$ionicLoading',
+        'toast',
         'sepApiService'
     ];
 
@@ -21,13 +22,19 @@ class SepConsultaController {
 
     /**
      * Creates an instance of SepConsultaController.
-     * @constructor
+     * 
      * @param {IScope} $scope
-     * @param {scroll.IonicScrollDelegate} $ionicScrollDelegate
+     * @param {ILogService} $log
+     * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
+     * @param {ionic.loading.IonicLoadingService} $ionicLoading
+     * @param {ToastService} toast
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
-                 private $ionicScrollDelegate: scroll.IonicScrollDelegate,
+                 private $log: ILogService,
+                 private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
+                 private $ionicLoading: ionic.loading.IonicLoadingService,
+                 private toast: ToastService,
                  private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -111,18 +118,26 @@ class SepConsultaController {
      * @return {undefined}
      */
     public getProcess( procNumber: string ): void {
-         this.sepApiService.getProcessByNumber( procNumber )
+
+        if ( !procNumber ) {
+             this.toast.info( { title: 'N° do processo é obrigatório', } as ToastOptions ); return;
+        }
+
+        this.$ionicLoading.show();
+
+        this.sepApiService.getProcessByNumber( procNumber )
                         .then( process => {
                             this.process = process;
                             return process;
                         } )
-                        .catch( () => {
+                        .catch( error => {
+                            this.toast.error( { title: `Falha ao buscar processo n° ${ procNumber}` } );
+                            this.$log.error( error );
                             this.process = undefined;
                         } )
                         .finally( () => {
+                            this.$ionicLoading.hide();
                             this.populated = true;
                         } );
     }
 }
-
-export default SepConsultaController;

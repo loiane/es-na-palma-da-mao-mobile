@@ -2,16 +2,21 @@
 
 	<div class="bar bar-subheader state-ceturb-subheader">
 		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
-			<input ng-model="vm.filter" ng-change="vm.filterLines(vm.filter)" type="text" placeholder="Filtro">
+			<input ng-model="vm.filter" ng-change="vm.filterLines(vm.filter)" type="text" placeholder="Pesquisar Linhas de Ônibus">
 			<md-icon style="display:inline-block;"><i class="fa fa-search" aria-hidden="true"></i></md-icon>
 		</md-input-container>
 	</div>
 
-	<ion-content id="state-ceturb-bus-lines" class="md-espm-content has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-ceturb-subheader"
-		offset="25">
+	<ion-content id="state-ceturb-bus-lines"
+				 class="md-espm-content has-subheader" 
+				 scroll-watch scroll-class="fix-top" 
+				 class-target=".state-ceturb-subheader"
+				 offset="25">
 		<md-list id="device-information-content" class="fade-in" ng-show="vm.hasLines">
-			<md-list-item ng-repeat="line in vm.lines" ng-click="vm.goToLine( line.number )">
-				<strong>{{line.number}}</strong> - {{line.name}}
+			<md-list-item class="md-2-line" ng-repeat="line in vm.lines" ng-click="vm.goToLine( line.number )">
+				<div layout="row" class="md-list-item-text">
+					<strong class="line-number" flex="1">{{line.number}}</strong> <span flex> {{line.name}}</span>
+				</div>
 				<md-divider></md-divider>
 			</md-list-item>
 		</md-list>

@@ -9,7 +9,7 @@
 
 	<ion-content id="state-sep-consulta" class="md-espm-content has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-sep-subheader"
 		offset="25">
-		<md-content class="md-padding">
+		<md-content>
 			<md-list id="device-information-content" class="fade-in" ng-show="vm.hasProcess">
 				<md-list-item class="row">
 					<div class="col-50 title">
@@ -97,9 +97,11 @@
 				</div>
 			</md-list>
 			<div ng-show="vm.populated && !vm.hasProcess" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
-				<div class="md-padding" style="padding: 20px;">
-					<div class="md-subhead">Nenhum processo encontrado</div>
-					<div style="color: #999;">Verifique o número informado</div>
+				<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
+					<div class="md-subhead" flex >Nenhum processo encontrado</div>
+					<div style="color: #999;" flex>
+						Verifique o número informado
+					</div>
 				</div>
 			</div>
 		</md-content>

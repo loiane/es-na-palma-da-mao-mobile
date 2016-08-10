@@ -1,10 +1,9 @@
-import {IScope, IPromise} from 'angular';
-import {IStateService} from 'angular-ui-router';
+import { IScope, IPromise } from 'angular';
+import { IStateService } from 'angular-ui-router';
 
-import {News, NewsDetail} from '../shared/models/index';
-import NewsApiService from '../shared/news-api.service';
+import { News, NewsDetail, NewsApiService } from '../shared/index';
 
-class NewsDetailController {
+export class NewsDetailController {
 
     public static $inject: string[] = [ '$scope', 'newsApiService', '$ionicLoading', '$stateParams' ];
 
@@ -42,7 +41,7 @@ class NewsDetailController {
      * @param {string} id
      */
     public getNewsById( id: string ): void {
-        this.$ionicLoading.show( 200 );
+        this.$ionicLoading.show();
         this.newsApiService.getNewsById( id )
             .then( news => this.news = news )
             .finally( () => {
@@ -50,5 +49,3 @@ class NewsDetailController {
             } );
     }
 }
-
-export default NewsDetailController;

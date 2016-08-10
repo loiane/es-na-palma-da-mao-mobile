@@ -7,7 +7,8 @@
 }
 
 .state-ceturb-subheader {
-    transition: padding 0.5s;
+    -webkit-transition: padding 0.3s;
+    transition: padding 0.3s;
     background: none;
     background-color: rgb(250,250,250);
 }
@@ -30,3 +31,7 @@
     height: 44px;
     background-color: white;
 }
+
+#state-ceturb-bus-lines .line-number{ margin-right: 20px; }
+#state-ceturb-bus-lines md-list-item ._md-no-style.md-button, 
+#state-ceturb-bus-lines md-list-item._md-no-proxy.md-button{ line-height: 25px;}

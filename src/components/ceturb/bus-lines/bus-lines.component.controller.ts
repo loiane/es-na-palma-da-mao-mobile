@@ -1,7 +1,6 @@
 import { IScope, IPromise, IState } from 'angular';
 
-import { CeturbApiService } from '../shared/ceturb-api.service';
-import { BusLine } from '../shared/models/index';
+import { BusLine, CeturbApiService } from '../shared/index';
 
 export class BusLinesController {
 
@@ -43,6 +42,11 @@ export class BusLinesController {
         this.getLines();
     }
 
+    /**
+     * 
+     * 
+     * @param {string} id
+     */
     public goToLine( id: string ): void {
         this.$state.go( 'app.busInfo/:id', { id: id });
     }
@@ -65,7 +69,7 @@ export class BusLinesController {
      * 
      */
     public getLines(): void {
-        this.$ionicLoading.show( 200 );
+        this.$ionicLoading.show();
         this.ceturbApiService.getLines()
             .then( lines => {
                 this.cachedLines = this.filteredLines = <BusLine[]>lines;

@@ -88,5 +88,17 @@
     "url": "busInfo/:id",
     "type": "load",
     "src": "components/ceturb/bus-info/index"
+  },
+  {
+    "name": "app.dioSearch",
+    "url": "dio",
+    "type": "load",
+    "src": "components/dio/search/index"
+  },
+  {
+    "name": "app.dioLatest",
+    "url": "dio",
+    "type": "load",
+    "src": "components/dio/latest/index"
   }
 ]

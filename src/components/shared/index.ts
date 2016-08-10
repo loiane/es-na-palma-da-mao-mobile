@@ -10,11 +10,13 @@ import settings from './settings';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
 import httpInterceptorsConfig from './http-interceptors.config';
+import delayInterceptorConfig from './delay-interceptor.config';
 import appRun from './run';
 import loader from './loader/index';
 import routes from './routes/index';
 import authentication from './authentication/index';
 import directives from './directives/index';
+import { ionicLoadingConfig } from './ionic-loading.config';
 
 let dependencies = [
     menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name
@@ -24,10 +26,13 @@ export default angular.module( 'shared', dependencies )
                       .config( ionicConfig )
                       .config( themeConfig )
                       .config( httpInterceptorsConfig )
+                      // .config( delayInterceptorConfig )
                       .constant( 'settings', settings )
+                      .constant( '$ionicLoadingConfig', ionicLoadingConfig )
                       .service( 'cpfService', cpfService )
                       .filter( 'fromNow', fromNowFilter )
                       .filter( 'toNow', toNowFilter )
                       .filter( 'calendar', calendarFilter )
                       .filter( 'capitalize', capitalizeFilter )
                       .run( appRun );
+

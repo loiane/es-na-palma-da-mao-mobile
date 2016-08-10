@@ -1,4 +1,5 @@
 import template from './toast.html';
+import { ToastOptions } from './models/index';
 
 /**
  * Supplies a function that will continue to operate until the
@@ -8,7 +9,7 @@ import template from './toast.html';
 /**
  * Controller
  */
-class ToastService {
+export class ToastService {
 
     public static $inject: string[] = [
         '$mdToast'
@@ -33,7 +34,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public show( displayOption ) {
+    public show( displayOption: ToastOptions ) {
         return this.$mdToast.show( {
             controller: 'toastController',
             controllerAs: 'vm',
@@ -52,7 +53,7 @@ class ToastService {
      * @param {any} displayOption
      * @returns
      */
-    public showActionToast( displayOption ) {
+    public showActionToast( displayOption: ToastOptions ) {
         if ( !displayOption ) {
             return;
         }
@@ -82,7 +83,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public success( displayOption ) {
+    public success( displayOption: ToastOptions ) {
         return this.show( angular.merge( displayOption, { type: 'success' } ) );
     }
 
@@ -93,7 +94,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public error( displayOption ) {
+    public error( displayOption: ToastOptions ) {
         return this.show( angular.merge( displayOption, { type: 'error' } ) );
     }
 
@@ -103,7 +104,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public info( displayOption ) {
+    public info( displayOption: ToastOptions) {
         return this.show( angular.merge( displayOption, { type: 'info' } ) );
     }
 
@@ -113,9 +114,7 @@ class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public warn( displayOption ) {
+    public warn( displayOption: ToastOptions ) {
         return this.show( angular.merge( displayOption, { type: 'warn' } ) );
     }
 }
-
-export default ToastService;

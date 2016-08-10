@@ -1,6 +1,6 @@
 import './sep-consulta.component.css';
 import template from './sep-consulta.component.html';
-import SepConsultaController from './sep-consulta.component.controller';
+import { SepConsultaController } from './sep-consulta.component.controller';
 
 const directive = () => {
     return {

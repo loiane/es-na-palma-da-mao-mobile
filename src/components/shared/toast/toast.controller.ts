@@ -1,19 +1,18 @@
+import { ToastOptions } from './models/index';
+
 /**
  * Controller
  */
-class ToastController {
+export class ToastController {
 
     public static $inject: string[] = [ 'displayOption' ];
-    /**
-     * Toast Message controller
-     *
-     * @constructor
-     *
-     * @param {Object} displayOption - xxx
 
-     * @returns {void}
+    /**
+     * Creates an instance of ToastController.
+     * 
+     * @param {IToastOptions} displayOption
      */
-    constructor( private displayOption ) {
+    constructor( private displayOption: ToastOptions ) {
         this.activate();
     }
 
@@ -26,4 +25,3 @@ class ToastController {
     }
 }
 
-export default ToastController;

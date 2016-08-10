@@ -1,4 +1,7 @@
-import detranApiService from './detran-api.service';
+import { DetranApiService } from './detran-api.service';
 
 export default angular.module( 'detran.shared', [] )
-                      .service( 'detranApiService', detranApiService );
+                      .service( 'detranApiService', DetranApiService );
+
+export * from './detran-api.service';
+export * from './models/index';

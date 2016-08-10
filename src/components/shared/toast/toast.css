@@ -19,8 +19,8 @@
 }
 
 .toast.info .md-toast-content {
-	background-color: #7fc5d1;
-	color: #333;
+	background-color: #208baa !important;
+	color: #fff;
 }
 
 .toast.warn .md-toast-content {
