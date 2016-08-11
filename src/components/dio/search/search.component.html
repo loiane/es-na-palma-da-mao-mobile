@@ -12,7 +12,6 @@
 	</ion-nav-buttons>
 	<ion-content id="dio-search">
 		<md-content>
-				{{uiState.pendingRequests}}/{{uiState.loading}}
 			<md-list>
 				<md-subheader ng-if="!vm.pristine && vm.totalHits" class="md-no-sticky">{{ vm.totalHits }} resultados encontrados para <span class="accent">"{{vm.filter.query}}"</span></md-subheader>
 				<md-list-item class="md-2-line" ng-repeat="hit in vm.hits | orderBy:['-date','pageNumber']">

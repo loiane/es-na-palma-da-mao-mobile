@@ -93,7 +93,7 @@ export class NewsListController {
         return this.newsApiService.getNews( this.filter )
                                     .then( nextNews => {
                                         this.news = this.news.concat( nextNews );
-                                        this.hasMoreNews = !!nextNews.length && nextNews.length === this.filter.pageSize;
+                                        this.hasMoreNews = ( nextNews.length === this.filter.pageSize );
                                         this.populated = true;
                                     } )
                                     .finally( () => {

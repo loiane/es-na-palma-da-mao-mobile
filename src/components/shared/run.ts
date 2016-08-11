@@ -54,7 +54,7 @@ function run( $rootScope: any,
          // HTTP requests that we're waiting for.
          $rootScope.$watch( () => {
              $rootScope.uiState.pendingRequests = httpSnifferService.pending.all;
-             $rootScope.uiState.loading = httpSnifferService.pending.all > 0;
+             $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
          });
     }
 

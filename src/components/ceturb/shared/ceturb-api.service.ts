@@ -17,7 +17,7 @@ export class CeturbApiService {
      * @param {Http} http
      * @param {Settings} settings
      */
-    constructor(private http: Http, private settings: Settings) {
+    constructor( private http: Http, private settings: Settings ) {
     }
 
     /**
@@ -28,8 +28,8 @@ export class CeturbApiService {
      */
     public getLines(): IPromise<BusLine[]> {
         return this.http
-            .get(`${this.settings.api.ceturb}/lines/`)
-            .then( ( response: { data: BusLine[] } ) => response.data );
+            .get( `${this.settings.api.ceturb}/lines/` )
+            .then( ( response: { data: BusLine[] }) => response.data );
     }
 
     /**
@@ -38,10 +38,10 @@ export class CeturbApiService {
      * @param {string} id
      * @returns {IPromise<BusSchedule>}
      */
-    public getSchecule(id: string): IPromise<BusSchedule> {
+    public getSchedule( id: string = '' ): IPromise<BusSchedule> {
         return this.http
-            .get(`${this.settings.api.ceturb}/schedule/${id || ''}`)
-            .then( ( response: { data: BusSchedule } ) => response.data );
+            .get( `${this.settings.api.ceturb}/schedule/${id}` )
+            .then( ( response: { data: BusSchedule }) => response.data );
     }
 
     /**
@@ -50,9 +50,9 @@ export class CeturbApiService {
      * @param {string} id
      * @returns {IPromise<BusRoute>}
      */
-    public getRoute(id: string): IPromise<BusRoute> {
+    public getRoute( id: string = '' ): IPromise<BusRoute> {
         return this.http
-            .get(`${this.settings.api.ceturb}/route/${id || ''}`)
-            .then( ( response: { data: BusRoute } ) => response.data );
+            .get( `${this.settings.api.ceturb}/route/${id}` )
+            .then( ( response: { data: BusRoute }) => response.data );
     }
 }

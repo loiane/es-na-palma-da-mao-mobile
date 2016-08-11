@@ -42,6 +42,7 @@ ion-content#state-ceturb-bus-info.espm-has-tabs-top {
 #state-ceturb-bus-info md-list-item.itinerario, 
 #state-ceturb-bus-info md-list-item.itinerario ._md-list-item-inner {
     min-height: 20px;
+	display: block;
 }
 
 #state-ceturb-bus-info md-list-item.itinerario i {
