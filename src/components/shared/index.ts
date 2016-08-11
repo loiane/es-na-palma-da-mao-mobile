@@ -9,8 +9,11 @@ import menu from './menu/index';
 import settings from './settings';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
-import httpInterceptorsConfig from './http-interceptors.config';
-import delayInterceptorConfig from './delay-interceptor.config';
+import httpAuthInterceptorConfig from './http/http-auth-interceptor.config';
+import httpDelayInterceptorConfig from './http/http-delay-interceptor.config';
+import httpErrorInterceptorConfig from './http/http-error-interceptor.config';
+import httpSnifferInterceptorConfig from './http/http-sniffer-interceptor.config';
+import { HttpSnifferService } from './http/http-sniffer.service';
 import appRun from './run';
 import loader from './loader/index';
 import routes from './routes/index';
@@ -23,10 +26,13 @@ let dependencies = [
 ];
 
 export default angular.module( 'shared', dependencies )
+                      .service( 'httpSnifferService', HttpSnifferService )
                       .config( ionicConfig )
                       .config( themeConfig )
-                      .config( httpInterceptorsConfig )
-                      // .config( delayInterceptorConfig )
+                      .config( httpSnifferInterceptorConfig )
+                      .config( httpErrorInterceptorConfig )
+                      // .config( httpDelayInterceptorConfig )
+                      .config( httpAuthInterceptorConfig )
                       .constant( 'settings', settings )
                       .constant( '$ionicLoadingConfig', ionicLoadingConfig )
                       .service( 'cpfService', cpfService )

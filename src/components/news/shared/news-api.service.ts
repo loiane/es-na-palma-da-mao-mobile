@@ -5,9 +5,6 @@ export class NewsApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
-    private defaultPage = 0;
-    private defaultPageSize = 10;
-
     /**
      *
      * @param {Object} $http - angular $http service
@@ -47,8 +44,8 @@ export class NewsApiService {
             origins: [],
             dateMin: new Date( today.getFullYear(), 0, 1, 0 ),   // começo do ano corrente
             dateMax: new Date( today.getFullYear(), 11, 31, 0 ),  // final do ano corrente
-            pageNumber: this.defaultPage,
-            pageSize: this.defaultPageSize
+            pageNumber: this.settings.pagination.pageNumber,
+            pageSize: this.settings.pagination.pageSize
         };
 
         let params = angular.extend( {}, defaults, options );

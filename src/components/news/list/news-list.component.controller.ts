@@ -28,7 +28,8 @@ export class NewsListController {
         origins: [],
         dateMin: undefined,
         dateMax: undefined,
-        pageNumber: 1
+        pageNumber: 1,
+        pageSize: 10
     };
 
     /**
@@ -81,7 +82,7 @@ export class NewsListController {
     /**
      * Obtém uma lista de notícias
      */
-    public getNews( options: Filter = {} ): void {
+    public getNews( options: Filter = {} ): IPromise<News[]> {
 
         angular.extend( this.filter, options ); // atualiza o filtro
 
@@ -89,22 +90,15 @@ export class NewsListController {
             this.currentPage = this.filter.pageNumber;
         }
 
-        this.$ionicLoading.show();
-
-        this.newsApiService.getNews( this.filter )
-            .then( nextNews => {
-                this.news = this.news.concat( nextNews );
-
-                if ( !nextNews.length ) {
-                    this.hasMoreNews = false;
-                }
-
-                this.populated = true;
-            } )
-            .finally( () => {
-                this.$ionicLoading.hide();
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-            } );
+        return this.newsApiService.getNews( this.filter )
+                                    .then( nextNews => {
+                                        this.news = this.news.concat( nextNews );
+                                        this.hasMoreNews = !!nextNews.length && nextNews.length === this.filter.pageSize;
+                                        this.populated = true;
+                                    } )
+                                    .finally( () => {
+                                        this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+                                    } );
     }
 
     /**
@@ -149,7 +143,8 @@ export class NewsListController {
     public reload( filter ): void {
         this.resetPagination();
         filter.pageNumber = 1;
-        this.getNews( filter );
+        this.$ionicLoading.show();
+        this.getNews( filter ).finally( () => this.$ionicLoading.hide() );
     }
 
 

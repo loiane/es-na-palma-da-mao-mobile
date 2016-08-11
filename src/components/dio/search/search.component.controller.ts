@@ -17,7 +17,6 @@ export class SearchController {
     public static $inject: string[] = [
         '$scope',
         '$state',
-        '$log',
         '$window',
         '$mdDialog',
         '$ionicLoading',
@@ -27,7 +26,7 @@ export class SearchController {
     ];
 
     private hits: SearchResult[] = [];
-    private uiState = { pristine: true, loading: false };
+    private pristine = true;
     private hasMoreHits = false;
     private totalHits: number = 0;
     private filter: SearchFilter = {
@@ -41,7 +40,6 @@ export class SearchController {
      * 
      * @param {IScope} $scope
      * @param {IStateService} $state
-     * @param {ILogService} $log
      * @param {IWindowService} $window
      * @param {angular.material.IDialogService} $mdDialog
      * @param {ionic.loading.IonicLoadingService} $ionicLoading
@@ -51,7 +49,6 @@ export class SearchController {
      */
     constructor( private $scope: IScope,
                  private $state: IStateService,
-                 private $log: ILogService,
                  private $window: IWindowService,
                  private $mdDialog: angular.material.IDialogService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
@@ -59,15 +56,6 @@ export class SearchController {
                  private toast: ToastService,
                  private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
-    }
-
-    /**
-     * 
-     * 
-     * @readonly
-     */
-    public get resultsFounded() {
-        return !this.uiState.loading && !!this.totalHits;
     }
 
 
@@ -87,7 +75,7 @@ export class SearchController {
         angular.extend( this.filter, options || {} ); // atualiza o filtro
 
         if ( this.filter.pageNumber === 0 ) {
-             this.$ionicLoading.show().then( () => this.uiState.loading = true );
+             this.$ionicLoading.show();
              this.hits = [];
              this.hasMoreHits = false;
              this.totalHits = 0;
@@ -98,14 +86,13 @@ export class SearchController {
                                      this.totalHits = nextResults.totalHits;
                                      this.hits = this.hits.concat( nextResults.hits );
                                      this.hasMoreHits = nextResults.hits && nextResults.hits.length > 0;
-                                     this.uiState.pristine = false;
+                                     this.pristine = false;
                                  } )
                                  .catch( error => {
                                      this.toast.warn( { title: 'Falha ao consultar o DIO/ES' } );
-                                     this.$log.error( error );
                                  })
                                  .finally( () => {
-                                     this.$ionicLoading.hide().then( () => this.uiState.loading = false );
+                                     this.$ionicLoading.hide();
                                      this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
                                  } );
     }

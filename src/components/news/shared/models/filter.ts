@@ -3,4 +3,5 @@ export interface Filter {
     dateMin?: Date;
     dateMax?: Date;
     pageNumber?: number;
+    pageSize?: number;
 }

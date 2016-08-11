@@ -12,8 +12,9 @@
 	</ion-nav-buttons>
 	<ion-content id="dio-search">
 		<md-content>
+				{{uiState.pendingRequests}}/{{uiState.loading}}
 			<md-list>
-				<md-subheader ng-if="!vm.uiState.pristine && vm.resultsFounded" class="md-no-sticky">{{ vm.totalHits }} resultados encontrados para <span class="accent">"{{vm.filter.query}}"</span></md-subheader>
+				<md-subheader ng-if="!vm.pristine && vm.totalHits" class="md-no-sticky">{{ vm.totalHits }} resultados encontrados para <span class="accent">"{{vm.filter.query}}"</span></md-subheader>
 				<md-list-item class="md-2-line" ng-repeat="hit in vm.hits | orderBy:['-date','pageNumber']">
 					<div class="md-padding">
 						<div class="md-list-item-text">
@@ -31,7 +32,7 @@
 					</div>
 					<md-divider></md-divider>
 				</md-list-item>
-				<div ng-if="vm.uiState.pristine" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+				<div ng-if="vm.pristine" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
 					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
 						<div class="md-subhead" flex>Consulta ao Diário Oficial do ES </div>
 						<div style="color: #999;" flex>
@@ -42,7 +43,7 @@
 						</div>
 					</div>
 				</div>
-				<div ng-if="!vm.uiState.pristine && !vm.resultsFounded" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+				<div ng-if="!uiState.loading && !vm.pristine && !vm.totalHits" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
 					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
 						<div class="md-subhead" flex>Nenhum resultado encontrado para</div>
 						<div class="accent" flex>"{{vm.filter.query}}"</div>
@@ -56,7 +57,7 @@
 				</mensagem>-->
 			</md-list>
 
-			<ion-infinite-scroll ng-if="!vm.uiState.pristine && vm.hasMoreHits" on-infinite="vm.search( { pageNumber: vm.filter.pageNumber + 1  })"
+			<ion-infinite-scroll ng-if="!vm.pristine && vm.hasMoreHits" on-infinite="vm.search( { pageNumber: vm.filter.pageNumber + 1  })"
 				immediate-check="false" distance="20%">
 			</ion-infinite-scroll>
 		</md-content>
