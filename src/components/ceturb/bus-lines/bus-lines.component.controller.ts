@@ -26,9 +26,9 @@ export class BusLinesController {
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
-        private $state: IState,
-        private $ionicLoading: ionic.loading.IonicLoadingService,
-        private ceturbApiService: CeturbApiService ) {
+                 private $state: IState,
+                 private $ionicLoading: ionic.loading.IonicLoadingService,
+                 private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

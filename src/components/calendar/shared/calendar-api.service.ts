@@ -1,5 +1,6 @@
 import { IHttpService, IPromise } from 'angular';
 import { Calendar } from './models/calendar';
+import { ISettings } from '../../shared/settings/index';
 
 export class CalendarApiService {
 
@@ -9,13 +10,13 @@ export class CalendarApiService {
     private eventsEndPoint: string;
 
     /**
-     * @constructor
-     *
-     * @param {IHttpService} $http - angular $http service
-     * @param settings
+     * Creates an instance of CalendarApiService.
+     * 
+     * @param {IHttpService} $http
+     * @param {ISettings} settings
      */
     constructor( private $http: IHttpService,
-                 private settings ) {
+                 private settings: ISettings ) {
         this.calendarsEndPoint = settings.api.calendars;
         this.eventsEndPoint = `${settings.api.calendars}/events`;
     }

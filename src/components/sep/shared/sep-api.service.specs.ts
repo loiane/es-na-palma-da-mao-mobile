@@ -7,7 +7,7 @@
  */
 import 'angular';
 import { SepApiService } from './sep-api.service';
-import settings from '../../shared/settings';
+import { Settings, ISettings } from '../../shared/settings/index';
 
 let expect = chai.expect;
 
@@ -16,6 +16,7 @@ describe( 'SepApiService', () => {
     let sandbox;
     let sepApiService;
     let $http;
+    let settings: ISettings = Settings.getInstance();
 
     let processNumber = 68985037;
 

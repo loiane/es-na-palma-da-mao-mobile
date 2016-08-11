@@ -1,9 +1,4 @@
-class CPFService {
-
-    /** @constructor */
-    constructor() {
-
-    }
+export default class CPFService {
 
     /*
      Valida CPF
@@ -100,5 +95,3 @@ class CPFService {
     } // _calcularPosicoesDosDigitos
 
 }
-
-export default CPFService;

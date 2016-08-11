@@ -58,6 +58,7 @@ describe( 'Calendar', () => {
                 show: sandbox.stub().returnsPromise().resolves(),
                 hide: sandbox.stub().returnsPromise().resolves()
             };
+
             calendarApiService = {
                 getAvailableCalendars: sandbox.stub().returnsPromise(),
                 getFullCalendars: sandbox.stub().returnsPromise()
@@ -152,8 +153,8 @@ describe( 'Calendar', () => {
                 controller.loadCalendars( selectedCalendars );
             } );
 
-            it( 'should show loading spinner after 200ms', () => {
-                expect( $ionicLoading.show.calledWith( { delay: 200 } ) ).to.be.true;
+            it( 'should show loading spinner', () => {
+                expect( $ionicLoading.show.calledOnce ).to.be.true;
             } );
 
             it( 'should retrieve selected calendars events', () => {

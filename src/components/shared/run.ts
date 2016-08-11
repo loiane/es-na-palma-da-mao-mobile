@@ -3,8 +3,8 @@ import 'moment/locale/pt-br';
 import { AcessoCidadaoService } from './authentication/index';
 import { HttpSnifferService } from './http/http-sniffer.service';
 import { IWindowService, IRootScopeService } from 'angular';
-import Settings from './settings';
 import jwt from 'jwt-simple';
+import { ISettings } from './settings/index';
 
 /**
  * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
@@ -16,8 +16,9 @@ import jwt from 'jwt-simple';
  * @param {ionic.navigation.IonicHistoryService} $ionicHistory
  * @param {angular.material.IDialogService} $mdDialog
  * @param {any} $mdBottomSheet
- * @param {acessoCidadaoService} AcessoCidadaoService
- * @param {*} settings
+ * @param {AcessoCidadaoService} acessoCidadaoService
+ * @param {HttpSnifferService} httpSnifferService
+ * @param {ISettings} settings
  */
 function run( $rootScope: any,
               $window: IWindowService,
@@ -28,7 +29,7 @@ function run( $rootScope: any,
               $mdBottomSheet,
               acessoCidadaoService: AcessoCidadaoService,
               httpSnifferService: HttpSnifferService,
-              settings: any,
+              settings: ISettings,
               $localStorage: any ) {
 
     // configura locale do moment
@@ -149,7 +150,7 @@ run.$inject = [
     '$mdBottomSheet',
     'acessoCidadaoService',
     'httpSnifferService',
-    'settings'
+    'settings',
     '$localStorage'
 ];
 

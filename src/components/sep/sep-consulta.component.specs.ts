@@ -44,7 +44,9 @@ describe( 'SepConsulta', () => {
         let controller;
         let $scope;
         let sepApiService;
+        let toastService;
         let $ionicScrollDelegate;
+        let $ionicLoading;
         let onIonicBeforeEnterEvent;
 
         let processNumber = 68985037;
@@ -154,14 +156,25 @@ describe( 'SepConsulta', () => {
                     }
                 }
             };
+
             $ionicScrollDelegate = {
                 scrollTo: sandbox.stub().returnsPromise().resolves()
             };
+
+            toastService = {
+                show: sandbox.stub()
+            };
+
+            $ionicLoading = {
+                show: sandbox.stub().returnsPromise().resolves(),
+                hide: sandbox.stub().returnsPromise().resolves()
+            };
+
             sepApiService = {
                 getProcessByNumber: sandbox.stub().returnsPromise()
             };
 
-            controller = new SepConsultaController( $scope, $ionicScrollDelegate, sepApiService );
+            controller = new SepConsultaController( $scope, $ionicScrollDelegate, $ionicLoading, toastService, sepApiService );
         } );
 
         describe( 'on instanciation', () => {
@@ -207,7 +220,7 @@ describe( 'SepConsulta', () => {
                 controller.getProcess( processNumber );
             } );
 
-            it( 'should fill process with object from promisse', () => {
+            it( 'should fill process with object from promise', () => {
                 expect( controller.process ).to.deep.equal( process );
             } );
 

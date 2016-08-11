@@ -1,20 +1,21 @@
 import { IHttpService, IPromise } from 'angular';
+
+import { ISettings } from '../../shared/settings/index';
 import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus } from './models/index';
 
 
-/** @class */
 export class DetranApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
     /**
-     * @constructor
+     * Creates an instance of DetranApiService.
      * 
-     * @param {IHttpService} $http - angular $http service
-     * @param {any} settings - application settings
+     * @param {IHttpService} $http
+     * @param {ISettings} settings
      */
     constructor( private $http: IHttpService,
-                 private settings: any ) {
+                 private settings: ISettings ) {
     }
 
 
@@ -26,7 +27,7 @@ export class DetranApiService {
     public getDriverData(): IPromise<DriverData> {
         return this.$http
             .get( `${this.settings.api.detran}/driverData` )
-            .then(( response: { data: DriverData }) => response.data );
+            .then(( response: { data: DriverData } ) => response.data );
     }
 
     /**
@@ -37,7 +38,7 @@ export class DetranApiService {
     public getTickets(): IPromise<Ticket[]> {
         return this.$http
             .get( `${this.settings.api.detran}/tickets` )
-            .then(( response: { data: Ticket[] }) => response.data );
+            .then(( response: { data: Ticket[] } ) => response.data );
     }
 
 
@@ -49,7 +50,7 @@ export class DetranApiService {
     public getAdministrativeCharges(): IPromise<Charge[]> {
         return this.$http
             .get( `${this.settings.api.detran}/administrativeCharges ` )
-            .then(( response: { data: Charge[] }) => response.data );
+            .then(( response: { data: Charge[] } ) => response.data );
     }
 
     /**
@@ -60,6 +61,6 @@ export class DetranApiService {
     public getDriverLicenseProcess(): IPromise<DriverLicenseProcess[]> {
         return this.$http
             .get( `${this.settings.api.detran}/driverLicenseProcess ` )
-            .then(( response: { data: DriverLicenseProcess[] }) => response.data );
+            .then(( response: { data: DriverLicenseProcess[] } ) => response.data );
     }
 }

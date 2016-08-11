@@ -1,19 +1,21 @@
 import { IStateService } from 'angular-ui-router';
 import { IWindowService } from 'angular';
+import { ISettings } from '../shared/settings/index';
 
 export class HomeController {
 
     public static $inject: string[] = [ '$state', '$window', 'settings' ];
 
     /**
-     * @constructor
+     * Creates an instance of HomeController.
+     * 
      * @param {IStateService} $state
      * @param {IWindowService} $window
-     * @param {Object} settings
+     * @param {ISettings} settings
      */
     constructor( private $state: IStateService,
                  private $window: IWindowService,
-                 private settings ) {
+                 private settings: ISettings ) {
     }
 
     /**

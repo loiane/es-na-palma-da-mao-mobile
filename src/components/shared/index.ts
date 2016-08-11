@@ -6,7 +6,7 @@ import toNowFilter from './to-now.filter';
 import calendarFilter from './date-calendar.filter';
 import capitalizeFilter from './capitalize.filter';
 import menu from './menu/index';
-import settings from './settings';
+import { Settings } from './settings/index';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
 import httpAuthInterceptorConfig from './http/http-auth-interceptor.config';
@@ -26,6 +26,7 @@ let dependencies = [
 ];
 
 export default angular.module( 'shared', dependencies )
+                      .constant( 'settings', Settings.getInstance() )
                       .service( 'httpSnifferService', HttpSnifferService )
                       .config( ionicConfig )
                       .config( themeConfig )
@@ -33,7 +34,6 @@ export default angular.module( 'shared', dependencies )
                       .config( httpErrorInterceptorConfig )
                       // .config( httpDelayInterceptorConfig )
                       .config( httpAuthInterceptorConfig )
-                      .constant( 'settings', settings )
                       .constant( '$ionicLoadingConfig', ionicLoadingConfig )
                       .service( 'cpfService', cpfService )
                       .filter( 'fromNow', fromNowFilter )

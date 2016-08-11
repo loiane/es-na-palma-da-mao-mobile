@@ -1,6 +1,7 @@
 import { IStateService } from 'angular-ui-router';
 import { IWindowService, IPromise } from 'angular';
 
+import { ISettings } from '../shared/settings/index';
 import DialogService from '../shared/dialog/dialog.service';
 import { ToastService } from '../shared/toast/index';
 import {
@@ -75,7 +76,7 @@ export class LoginController {
                  private googleService: GoogleService,
                  private dialog: DialogService,
                  private toast: ToastService,
-                 private settings,
+                 private settings: ISettings,
                  private $window: IWindowService,
                  private $ionicHistory: ionic.navigation.IonicHistoryService,
                  private $ionicLoading: ionic.loading.IonicLoadingService ) {

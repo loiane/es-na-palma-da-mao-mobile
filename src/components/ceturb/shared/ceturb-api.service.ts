@@ -1,4 +1,5 @@
-import { IHttpService, IPromise } from 'angular';
+import { IHttpService, IPromise, Http } from 'angular';
+import { ISettings } from '../../shared/settings/index';
 import { BusLine, BusRoute, BusSchedule } from './models/index';
 
 /**
@@ -15,9 +16,9 @@ export class CeturbApiService {
      * Creates an instance of CeturbApiService.
      * 
      * @param {Http} http
-     * @param {Settings} settings
+     * @param {ISettings} settings
      */
-    constructor( private http: Http, private settings: Settings ) {
+    constructor( private http: Http, private settings: ISettings ) {
     }
 
     /**
@@ -29,7 +30,7 @@ export class CeturbApiService {
     public getLines(): IPromise<BusLine[]> {
         return this.http
             .get( `${this.settings.api.ceturb}/lines/` )
-            .then( ( response: { data: BusLine[] }) => response.data );
+            .then( ( response: { data: BusLine[] } ) => response.data );
     }
 
     /**
@@ -41,7 +42,7 @@ export class CeturbApiService {
     public getSchedule( id: string = '' ): IPromise<BusSchedule> {
         return this.http
             .get( `${this.settings.api.ceturb}/schedule/${id}` )
-            .then( ( response: { data: BusSchedule }) => response.data );
+            .then( ( response: { data: BusSchedule } ) => response.data );
     }
 
     /**
@@ -53,6 +54,6 @@ export class CeturbApiService {
     public getRoute( id: string = '' ): IPromise<BusRoute> {
         return this.http
             .get( `${this.settings.api.ceturb}/route/${id}` )
-            .then( ( response: { data: BusRoute }) => response.data );
+            .then( ( response: { data: BusRoute } ) => response.data );
     }
 }
