@@ -6,7 +6,6 @@ export class SepConsultaController {
 
     public static $inject: string[] = [
         '$scope',
-        '$log',
         '$ionicScrollDelegate',
         '$ionicLoading',
         'toast',
@@ -24,14 +23,12 @@ export class SepConsultaController {
      * Creates an instance of SepConsultaController.
      * 
      * @param {IScope} $scope
-     * @param {ILogService} $log
      * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
      * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {ToastService} toast
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
-                 private $log: ILogService,
                  private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
                  private toast: ToastService,
@@ -126,18 +123,16 @@ export class SepConsultaController {
         this.$ionicLoading.show();
 
         this.sepApiService.getProcessByNumber( procNumber )
-                        .then( process => {
-                            this.process = process;
-                            return process;
-                        } )
-                        .catch( error => {
-                            this.toast.error( { title: `Falha ao buscar processo n° ${ procNumber}` } );
-                            this.$log.error( error );
-                            this.process = undefined;
-                        } )
-                        .finally( () => {
-                            this.$ionicLoading.hide();
-                            this.populated = true;
-                        } );
+                          .then( process => {
+                              this.process = process;
+                              return process;
+                          } )
+                          .catch( error => {
+                              this.process = undefined;
+                          } )
+                          .finally( () => {
+                              this.$ionicLoading.hide();
+                              this.populated = true;
+                          } );
     }
 }

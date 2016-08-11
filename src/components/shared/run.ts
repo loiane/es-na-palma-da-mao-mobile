@@ -1,7 +1,8 @@
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import {AcessoCidadaoService} from './authentication/index';
-import {IWindowService, IRootScopeService} from 'angular';
+import { AcessoCidadaoService } from './authentication/index';
+import { HttpSnifferService } from './http/http-sniffer.service';
+import { IWindowService, IRootScopeService } from 'angular';
 import Settings from './settings';
 
 
@@ -26,6 +27,7 @@ function run( $rootScope: any,
               $mdDialog: angular.material.IDialogService,
               $mdBottomSheet,
               acessoCidadaoService: AcessoCidadaoService,
+              httpSnifferService: HttpSnifferService,
               settings: any ) {
 
     // configura locale do moment
@@ -37,10 +39,23 @@ function run( $rootScope: any,
      * @returns {void}
      */
     function initialRootScope() {
+
         $rootScope.moment = moment;
         $rootScope.$state = $state;
         $rootScope.isAndroid = ionic.Platform.isAndroid();  // Check platform of running device is android or not.
         $rootScope.isIOS = ionic.Platform.isIOS();          // Check platform of running device is ios or not.
+
+         $rootScope.httpSnifferService = httpSnifferService;
+         $rootScope.uiState = {
+             loading: false,
+             pendingRequests: 0
+         };
+         // We can now watch the trafficCop service to see when there are pending
+         // HTTP requests that we're waiting for.
+         $rootScope.$watch( () => {
+             $rootScope.uiState.pendingRequests = httpSnifferService.pending.all;
+             $rootScope.uiState.loading = httpSnifferService.pending.all > 0;
+         });
     }
 
     /**
@@ -123,6 +138,7 @@ run.$inject = [
     '$mdDialog',
     '$mdBottomSheet',
     'acessoCidadaoService',
+    'httpSnifferService',
     'settings'
 ];
 

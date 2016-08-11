@@ -29,7 +29,7 @@ export class DioApiService {
      * @param {SearchFilter} [filter={ pageNumber: 0, sort: 'date' }]
      * @returns {IPromise<SearchResult[]>}
      */
-    public search( filter: SearchFilter = { pageNumber: 0, sort: 'date' } ): IPromise<SearchResult[]> {
+    public search( filter: SearchFilter = { pageNumber: this.settings.pagination.pageNumber, sort: 'date' } ): IPromise<SearchResult[]> {
 
         let params = angular.extend( {}, filter );
 
