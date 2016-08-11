@@ -13,6 +13,7 @@ export class BusLinesController {
 
     private defaultPageSize = 50;
     private filter: string;
+    private lastFilter: string;
     private filteredLines: BusLine[];
     private cachedLines: BusLine[];
     private lines: BusLine[];
@@ -38,6 +39,7 @@ export class BusLinesController {
     public activate(): void {
         this.populated = false;
         this.filter = '';
+        this.lastFilter = '';
         this.lines = this.cachedLines = this.filteredLines = [];
         this.getLines();
     }
@@ -94,7 +96,7 @@ export class BusLinesController {
      * 
      * @private
      */
-    private lastFilter = undefined;
+    private fnLastFilter = undefined;
 
     /**
      * Função de filtro implementada com debounce de 500ms
@@ -102,16 +104,21 @@ export class BusLinesController {
      * @param {string} filter
      */
     public filterLines( filter: string ): void {
-        if ( this.lastFilter ) {
-            clearTimeout( this.lastFilter );
+        if ( this.fnLastFilter ) {
+            clearTimeout( this.fnLastFilter );
         }
 
-        this.lastFilter = setTimeout( () => {
+        this.fnLastFilter = setTimeout( () => {
             this.lines = [];
             let upperFilter = filter.toUpperCase();
             this.filteredLines = this.cachedLines.filter( x => ( x.name.indexOf( upperFilter ) >= 0 ) || ( x.number.indexOf( upperFilter ) >= 0 ) );
-            this.lastFilter = undefined;
+            this.fnLastFilter = undefined;
             this.getFilteredLines( this.defaultPageSize );
+
+            if ( this.filteredLines.length === 0 ) {
+                this.lastFilter = filter;
+            }
+
             this.$scope.$apply();
         }, 500 );
     }

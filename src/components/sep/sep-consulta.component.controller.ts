@@ -14,6 +14,7 @@ export class SepConsultaController {
 
     private seeMoreUpdates: string;
     private processNumber: string;
+    private lastProcessNumber: string;
     private process: Process;
     private populated: boolean;
     private showAllUpdates: boolean;
@@ -42,6 +43,7 @@ export class SepConsultaController {
     public activate(): void {
         this.seeMoreUpdates = 'VER MAIS';
         this.processNumber = '';
+        this.lastProcessNumber = '';
         this.process = undefined;
         this.populated = false;
         this.showAllUpdates = false;
@@ -133,6 +135,12 @@ export class SepConsultaController {
                           .finally( () => {
                               this.$ionicLoading.hide();
                               this.populated = true;
+
+                              if ( this.process ) {
+                                  this.lastProcessNumber = '';
+                              } else {
+                                  this.lastProcessNumber = procNumber;
+                              }
                           } );
     }
 }

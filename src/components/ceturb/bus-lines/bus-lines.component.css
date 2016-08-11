@@ -7,6 +7,10 @@
 	color: #c86673;
 }
 
+#state-ceturb-bus-lines .line-number{ margin-right: 20px; }
+#state-ceturb-bus-lines md-list-item ._md-no-style.md-button, 
+#state-ceturb-bus-lines md-list-item._md-no-proxy.md-button{ line-height: 25px;}
+
 .state-ceturb-subheader {
     -webkit-transition: padding 0.3s;
     transition: padding 0.3s;
@@ -33,6 +37,6 @@
     background-color: white;
 }
 
-#state-ceturb-bus-lines .line-number{ margin-right: 20px; }
-#state-ceturb-bus-lines md-list-item ._md-no-style.md-button, 
-#state-ceturb-bus-lines md-list-item._md-no-proxy.md-button{ line-height: 25px;}
+.state-ceturb-subheader input.input-search {
+    border: none !important;
+}

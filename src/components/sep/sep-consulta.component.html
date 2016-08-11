@@ -2,7 +2,7 @@
 
 	<div class="bar bar-subheader state-sep-subheader">
 		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
-			<input ng-model="vm.processNumber" type="number" placeholder="Número do Processo">
+			<input class="input-search" ng-model="vm.processNumber" type="number" placeholder="Número do Processo">
 			<md-icon style="display:inline-block;" ng-click="vm.getProcess(vm.processNumber)"><i class="fa fa-search" aria-hidden="true"></i></md-icon>
 		</md-input-container>
 	</div>
@@ -99,7 +99,7 @@
 			<div ng-show="vm.populated && !vm.hasProcess" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
 				<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
 					<div class="md-subhead" flex >Nenhum processo encontrado para</div>
-					<div class="accent" flex>"{{vm.processNumber}}"</div>
+					<div class="accent" flex>"{{vm.lastProcessNumber}}"</div>
 					<div style="color: #999;" flex>Verifique o número informado</div>
 				</div>
 			</div>
