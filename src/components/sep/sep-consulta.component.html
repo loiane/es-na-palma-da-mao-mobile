@@ -98,10 +98,9 @@
 			</md-list>
 			<div ng-show="vm.populated && !vm.hasProcess" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
 				<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
-					<div class="md-subhead" flex >Nenhum processo encontrado</div>
-					<div style="color: #999;" flex>
-						Verifique o número informado
-					</div>
+					<div class="md-subhead" flex >Nenhum processo encontrado para</div>
+					<div class="accent" flex>"{{vm.processNumber}}"</div>
+					<div style="color: #999;" flex>Verifique o número informado</div>
 				</div>
 			</div>
 		</md-content>

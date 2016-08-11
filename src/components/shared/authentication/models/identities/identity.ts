@@ -10,5 +10,6 @@ export interface Identity {
     client_secret: string;
     grant_type: string;
     scope: string;
+    refresh_token: string;
 }
 

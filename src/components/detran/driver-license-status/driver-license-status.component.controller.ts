@@ -27,6 +27,7 @@ export class DriverLicenseStatusController {
      */
     public tickets: Ticket[] = [];
 
+    public ticketsPopulated: Boolean = false;
 
     /**
      * Lista de possíveis classificações de multas: leve, média, grave ou gravíssima.
@@ -71,18 +72,6 @@ export class DriverLicenseStatusController {
         return angular.isDefined( this.driverData );
     }
 
-
-    /**
-     * Se as multas do condutor já foram carregadas.
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get ticketsPopulated(): boolean {
-        return !!this.tickets.length;
-    }
-
-
     /**
      * Se o condutor autenticado no sistema está com a carteira de motorista 'ok'.
      * 
@@ -111,7 +100,7 @@ export class DriverLicenseStatusController {
     * @type {boolean}
     */
     public get licenseExpired(): boolean {
-        return this.driverDataPopulated && moment( this.expirationDate ).add( 1, 'months' ).isBefore( moment().startOf( 'day' ) );
+        return this.driverDataPopulated && moment( this.expirationDate ).add( 30, 'day' ).isBefore( moment().startOf( 'day' ) );
     }
 
     /**
@@ -122,10 +111,9 @@ export class DriverLicenseStatusController {
      */
     public get licenseRenew(): boolean {
         return this.driverDataPopulated
-            && moment( this.expirationDate ).add( 1, 'months' ).isAfter( moment().startOf( 'day' ) )
+            && moment( this.expirationDate ).add( 30, 'day' ).isAfter( moment().startOf( 'day' ) )
             && moment().startOf( 'day' ).isAfter( this.expirationDate );
     }
-
 
     /**
      * A data de validade da carteira de motorista do condutor autenticado no sistema.
@@ -219,6 +207,7 @@ export class DriverLicenseStatusController {
         return this.detranApiService.getTickets()
             .then( tickets => {
                 this.tickets = tickets || [];
+                this.ticketsPopulated = true;
                 return this.tickets;
             });
     }

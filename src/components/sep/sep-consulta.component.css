@@ -18,6 +18,10 @@
     padding-top: 0;
 }
 
+#state-sep-consulta .accent {
+	color: #c86673;
+}
+
 .state-sep-subheader {
     transition: all 0.5s;
     background: none;
@@ -42,4 +46,3 @@
     height: 44px;
     background-color: white;
 }
-

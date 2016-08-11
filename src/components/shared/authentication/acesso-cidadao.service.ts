@@ -103,7 +103,6 @@ export class AcessoCidadaoService {
                    .then( ( response: { data: Token } ) => response.data );
     }
 
-
     /**
      * Obtém as claims do usuário no acesso cidadão.
      * 

@@ -8,17 +8,8 @@
 						<i class="fa fa-car" aria-hidden="true"></i>
 					</md-card-avatar>
 					<md-card-header-text>
-						<span class="md-title">Diriga com segurança</span>
+						<span class="md-title">CNH Ok - Dirija com segurança</span>
 						<span class="md-subhead">CNH válida até {{vm.expirationDate | calendar}}</span>
-					</md-card-header-text>
-				</md-card-header>
-				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseExpired && !vm.licenseBlocked">
-					<md-card-avatar>
-						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-					</md-card-avatar>
-					<md-card-header-text>
-						<span class="md-title">Quase na hora de renovar</span>
-						<span class="md-subhead">Expira {{::vm.expirationDate | fromNow: true}}</span>
 					</md-card-header-text>
 				</md-card-header>
 				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseRenew && !vm.licenseBlocked">
@@ -26,8 +17,17 @@
 						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 					</md-card-avatar>
 					<md-card-header-text>
+						<span class="md-title">Está na hora de renovar</span>
+						<span class="md-subhead">Expira {{vm.expirationDate | fromNow: true}}</span>
+					</md-card-header-text>
+				</md-card-header>
+				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseExpired && !vm.licenseBlocked">
+					<md-card-avatar>
+						<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+					</md-card-avatar>
+					<md-card-header-text>
 						<span class="md-title">Renove sua CNH</span>
-						<span class="md-subhead">Expirou à {{::vm.expirationDate | fromNow: true}}</span>
+						<span class="md-subhead">Expirou à {{vm.expirationDate | fromNow: true}}</span>
 					</md-card-header-text>
 				</md-card-header>
 				<md-card-header ng-show="vm.driverDataPopulated && vm.licenseBlocked">
@@ -45,7 +45,7 @@
 				</md-card-title-text>
 			</md-card>
 
-			<h4 class="list-header tickets-history">Histórico de Multas <span ng-if="vm.last12MonthsPoints > 0">- {{::vm.last12MonthsPoints}} Pontos</span></h4>
+			<h4 class="list-header tickets-history">Histórico de Multas</h4>
 			<div class="center">
 				<ion-spinner ng-hide="vm.ticketsPopulated" icon="android"></ion-spinner>
 			</div>
