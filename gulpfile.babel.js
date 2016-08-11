@@ -741,7 +741,7 @@ gulp.task( 'build-android-release', () => {
 gulp.task( 'bundle', ( done ) => {
 		const bundler = new Bundler( {
 				baseUrl: 'www',
-				source: '',
+				source: 'www',
 				dest: 'www/bundles',
 				cssOptimize: true,
 				systemJsConfig: 'www/system.config.js'

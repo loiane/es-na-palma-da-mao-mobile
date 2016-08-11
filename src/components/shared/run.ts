@@ -4,7 +4,7 @@ import { AcessoCidadaoService } from './authentication/index';
 import { HttpSnifferService } from './http/http-sniffer.service';
 import { IWindowService, IRootScopeService } from 'angular';
 import Settings from './settings';
-
+import jwt from 'jwt-simple';
 
 /**
  * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
@@ -28,7 +28,8 @@ function run( $rootScope: any,
               $mdBottomSheet,
               acessoCidadaoService: AcessoCidadaoService,
               httpSnifferService: HttpSnifferService,
-              settings: any ) {
+              settings: any,
+              $localStorage: any ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -62,7 +63,7 @@ function run( $rootScope: any,
      * 
      */
     function initAuthentication() {
-         acessoCidadaoService.initialize( settings.identityServer.url );
+        acessoCidadaoService.initialize( settings.identityServer.url );
     }
 
     /**
@@ -76,15 +77,27 @@ function run( $rootScope: any,
         $mdDialog.cancel();
     }
 
-    // /**
-    //  * TODO:
-    //  */
-    // function isAuthenticated() {
-    //     acessoCidadaoService.initialize( settings.identityServer.url );
-    //     return acessoCidadaoService.getAcessoCidadaoUserClaims();
-    // }
+    /**
+     * 
+     * 
+     * @returns {Boolean}
+     */
+    function isAuthenticated() {
+        let token = $localStorage.token;
 
-    $ionicPlatform.ready( () => {
+        if ( !token ) {
+            return false;
+        }
+
+        let decodedToken = jwt.decode( token, settings.identityServer.publicKey );
+        if ( !!decodedToken.error ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    $ionicPlatform.ready(() => {
         ionic.Platform.isFullScreen = true;
 
         if ( $window.cordova && $window.cordova.plugins.Keyboard ) {
@@ -97,7 +110,7 @@ function run( $rootScope: any,
 
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();
-        } );
+        });
 
         if ( acessoCidadaoService.authenticated ) {
             $state.go( 'app.dashboard.newsHighlights' );
@@ -109,24 +122,21 @@ function run( $rootScope: any,
             $window.navigator.splashscreen.hide();
         }
 
-        // Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
-        // isAuthenticated()
-        //     .then( () => {
-        //         if ( acessoCidadaoService.authenticated ) {
-        //             $state.go( 'app.dashboard.newsHighlights' );
-        //         } else {
-        //             $state.go( 'home' );
-        //         }
-        //     }, () => {
-        //         $state.go( 'home' );
-        //     } )
-        //     .finally( () => {
-        //         if ( $window.navigator.splashscreen ) {
-        //             $window.navigator.splashscreen.hide();
-        //         }
-        //     } );
+       /* // Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
+        if ( isAuthenticated() ) {
+            // TODO: Refresh Token?
+            // let refreshTokenIdentity = settings.identityServer.refreshTokenIdentity;
+            // refreshTokenIdentity.refresh_token = $localStorage.token;
+            // acessoCidadaoService.getToken( refreshTokenIdentity ); 
+            $state.go( 'app.dashboard.newsHighlights' );
+        } else {
+            $state.go( 'home' );
+        }
 
-    } );
+         if ( $window.navigator.splashscreen ) {
+            $window.navigator.splashscreen.hide();
+        }*/
+    });
 }
 
 run.$inject = [
@@ -140,6 +150,7 @@ run.$inject = [
     'acessoCidadaoService',
     'httpSnifferService',
     'settings'
+    '$localStorage'
 ];
 
 export default run;
