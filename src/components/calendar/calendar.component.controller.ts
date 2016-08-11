@@ -19,8 +19,8 @@ export class CalendarController {
      * @param {IonicLoadingService} $ionicLoading - ionic $ionicLoading service
      */
     constructor( private $scope: IScope,
-        private calendarApiService: CalendarApiService,
-        private $ionicLoading: ionic.loading.IonicLoadingService ) {
+                 private calendarApiService: CalendarApiService,
+                 private $ionicLoading: ionic.loading.IonicLoadingService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

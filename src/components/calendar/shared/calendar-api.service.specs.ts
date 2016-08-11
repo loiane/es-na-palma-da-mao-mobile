@@ -7,7 +7,7 @@
  */
 import 'angular';
 import { CalendarApiService } from './calendar-api.service';
-import settings from '../../shared/settings';
+import { Settings, ISettings } from '../../shared/settings/index';
 
 let expect = chai.expect;
 
@@ -16,6 +16,7 @@ describe( 'CalendarApiService', () => {
     let sandbox;
     let calendarApiService;
     let $http;
+    let settings: ISettings = Settings.getInstance();
 
     beforeEach( () => {
         sandbox = sinon.sandbox.create();

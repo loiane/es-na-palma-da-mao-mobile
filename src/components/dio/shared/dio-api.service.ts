@@ -1,15 +1,19 @@
 import { IHttpService, IPromise } from 'angular';
+
 import { Edition, SearchResult, SearchFilter } from './models/index';
+import { ISettings } from '../../shared/settings/index';
 
 export class DioApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
     /**
-     *
-     * @param {Object} $http - angular $http service
+     * Creates an instance of DioApiService.
+     * 
+     * @param {IHttpService} $http
+     * @param {ISettings} settings
      */
-    constructor( private $http: IHttpService, private settings ) {}
+    constructor( private $http: IHttpService, private settings: ISettings ) {}
 
 
     /**

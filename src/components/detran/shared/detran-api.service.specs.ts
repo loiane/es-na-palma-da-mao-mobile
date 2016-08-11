@@ -7,7 +7,8 @@
  */
 import 'angular';
 import { DetranApiService } from './detran-api.service';
-import settings from '../../shared/settings';
+
+import { Settings, ISettings } from '../../shared/settings/index';
 
 let expect = chai.expect;
 
@@ -16,6 +17,7 @@ describe( 'DetranApiService', () => {
     let sandbox;
     let detranApiService;
     let $http;
+    let settings: ISettings = Settings.getInstance();
 
     beforeEach( () => {
         sandbox = sinon.sandbox.create();

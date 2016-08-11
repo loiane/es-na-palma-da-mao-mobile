@@ -1,6 +1,9 @@
+import { ISettings } from '../settings/index';
+import { IQService } from 'angular';
+
 let httpInterceptorsConfig = $httpProvider => {
 
-    let authorizationInterceptor = ( $q, $location, $localStorage, settings ) => {
+    let authorizationInterceptor = ( $q: IQService, $localStorage, settings: ISettings ) => {
 
         // Add Bearer token Authorization header to the config (request object)
         let addAuthorizationHeader = ( config, token ) => {
@@ -29,7 +32,7 @@ let httpInterceptorsConfig = $httpProvider => {
         };
     };
 
-    $httpProvider.interceptors.push( [ '$q', '$location', '$localStorage', 'settings', authorizationInterceptor ] );
+    $httpProvider.interceptors.push( [ '$q', '$localStorage', 'settings', authorizationInterceptor ] );
 };
 
 httpInterceptorsConfig.$inject = [ '$httpProvider', 'settings' ];

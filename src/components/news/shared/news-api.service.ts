@@ -1,4 +1,5 @@
 import { IHttpService, IPromise } from 'angular';
+import { ISettings } from '../../shared/settings/index';
 import { News, NewsDetail, Filter } from '../shared/models/index';
 
 export class NewsApiService {
@@ -6,10 +7,12 @@ export class NewsApiService {
     public static $inject: string[] = [ '$http', 'settings' ];
 
     /**
-     *
-     * @param {Object} $http - angular $http service
+     * Creates an instance of NewsApiService.
+     * 
+     * @param {IHttpService} $http
+     * @param {ISettings} settings
      */
-    constructor( private $http: IHttpService, private settings ) {
+    constructor( private $http: IHttpService, private settings: ISettings ) {
     }
 
     /**
