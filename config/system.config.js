@@ -80,7 +80,7 @@ System.config({
     "oidc-token-manager": "github:IdentityModel/oidc-token-manager@1.2.0",
     "plugin-babel": "npm:systemjs-plugin-babel@0.0.12",
     "plugin-babel-runtime": "npm:babel-runtime@5.8.38",
-    "robotoDraft": "github:raibutera/robotodraft@1.1.0",
+    "roboto": "github:choffmeister/roboto-fontface-bower@0.5.0",
     "systemjs-babel-build": "npm:systemjs-plugin-babel@0.0.12/systemjs-babel-browser.js",
     "text": "github:systemjs/plugin-text@0.0.7",
     "toastr": "github:CodeSeven/toastr@2.1.2",

@@ -11,7 +11,7 @@ import 'oclazyload';
 
 import 'angular-material/angular-material.min.css!';
 import 'font-awesome';
-import 'robotoDraft/robotodraft.css!';
+import 'roboto/css/roboto/roboto-fontface.css!';
 
 // shared
 import shared from '../shared/index';
