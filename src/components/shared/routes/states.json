@@ -78,6 +78,12 @@
     "src": "components/detran/driver-license-status/index"
   },
   {
+    "name": "app.vehicles",
+    "url": "detran/vehicles",
+    "type": "load",
+    "src": "components/detran/vehicles/index"
+  },
+  {
     "name": "app.busLines",
     "url": "busLines",
     "type": "load",

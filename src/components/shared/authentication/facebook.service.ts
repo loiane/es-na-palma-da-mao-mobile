@@ -1,4 +1,4 @@
-import {FacebookResponse, FacebookAuthResponse} from './models/index';
+import { FacebookResponse, FacebookAuthResponse } from './models/index';
 
 /**
  * https://github.com/jeduan/cordova-plugin-facebook4
@@ -24,8 +24,8 @@ export class FacebookService {
      * @param {( error: any ) => void} onError
      */
     public login( scopes,
-                  onSuccess: ( authResponse: FacebookAuthResponse ) => void,
-                  onError: ( error: any ) => void ): void {
+        onSuccess: ( authResponse: FacebookAuthResponse ) => void,
+        onError: ( error: any ) => void ): void {
 
         /** Exemplo do objeto retornado pelo plugin de login nativo do facebook
          * {
@@ -49,7 +49,7 @@ export class FacebookService {
             onSuccess( response.authResponse );
         }, error => {
             onError( error );
-        } );
+        });
     }
 
     /**
@@ -58,7 +58,7 @@ export class FacebookService {
      * @param {any} onSuccess
      * @param {any} onError
      */
-    public logout( onSuccess?, onError? ) {
+    public logout( onSuccess?, onError?) {
         if ( this.$window.facebookConnectPlugin ) {
             this.$window.facebookConnectPlugin.logout( onSuccess, onError );
         }

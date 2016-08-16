@@ -1,4 +1,4 @@
-import {DigitsAccessToken, DigitsAuthResponse} from './models/index';
+import { DigitsAccessToken, DigitsAuthResponse } from './models/index';
 
 /**
  * https://github.com/JimmyMakesThings/cordova-plugin-digits
@@ -14,7 +14,7 @@ export class DigitsService {
      * @param {*} $localStorage
      */
     constructor( private $window: any,
-                 private $localStorage: any) {
+        private $localStorage: any ) {
     }
 
     /**
@@ -25,8 +25,8 @@ export class DigitsService {
      * @param {( error: any ) => void} onError
      */
     public login( options: any,
-                  onSuccess: ( authResponse: DigitsAuthResponse ) => void,
-                  onError: ( error: any ) => void ): void {
+        onSuccess: ( authResponse: DigitsAuthResponse ) => void,
+        onError: ( error: any ) => void ): void {
 
         let defaultOptions = {
             accentColor: '#ff0000',
@@ -56,7 +56,7 @@ export class DigitsService {
             onSuccess( authResponse );
         }, errorDigits => {
             onError( errorDigits );
-        } );
+        });
     }
 
 
@@ -79,10 +79,10 @@ export class DigitsService {
      */
     protected buildAccessToken( authResponse: DigitsAuthResponse ): DigitsAccessToken {
         let digitsAccessToken = {};
-        authResponse[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach( ( item ) => {
+        authResponse[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach(( item ) => {
             let aux = item.split( '=' );
             digitsAccessToken[ aux[ 0 ] ] = aux[ 1 ].substring( 1, aux[ 1 ].length - 1 );
-        } );
+        });
         return digitsAccessToken as DigitsAccessToken;
     }
 }
