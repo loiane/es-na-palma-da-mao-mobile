@@ -1,0 +1,14 @@
+<ion-view title="Avisos">
+	<ion-content id="state-warning-list">
+		<md-content>
+			<md-list>
+				<div ng-repeat="warning in vm.warnings">
+					<md-list-item class="md-2-line" ng-click="vm.goToWarning(warning.id)">
+						Aviso
+					</md-list-item>
+					<md-divider></md-divider>
+				</div>
+			</md-list>
+		</md-content>
+	</ion-content>
+</ion-view>

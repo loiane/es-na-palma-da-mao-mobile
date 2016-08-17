@@ -21,8 +21,10 @@ import authentication from './authentication/index';
 import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
 
+import pushModule from './push/index';
+
 let dependencies = [
-    menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name
+    menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name, pushModule.name
 ];
 
 export default angular.module( 'shared', dependencies )
@@ -41,4 +43,3 @@ export default angular.module( 'shared', dependencies )
                       .filter( 'calendar', calendarFilter )
                       .filter( 'capitalize', capitalizeFilter )
                       .run( appRun );
-

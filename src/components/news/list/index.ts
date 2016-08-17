@@ -16,9 +16,6 @@ export default angular.module( 'news-list.component', dependencies )
                                   .state( 'app.news', {
                                       url: 'news',
                                       data: {title: 'Notícias'},
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       views: {
                                           content: {
                                               template: '<news-list></news-list>'

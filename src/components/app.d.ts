@@ -28,4 +28,12 @@ declare module 'chai' {
     }
 }
 
+declare namespace angular {
+    interface IRootScopeService {
+        backButtonPressedOnceToExit: boolean;
+    }
 
+    interface IScope {
+        isAndroid: boolean;
+    }
+}

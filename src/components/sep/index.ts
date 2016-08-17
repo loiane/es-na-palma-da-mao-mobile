@@ -16,9 +16,6 @@ export default angular.module( 'sep-consulta.component', dependencies )
                                   .state( 'app.sepConsulta', {
                                       url: 'sepConsulta',
                                       data: {title: 'Consulta SEP'},
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       views: {
                                           content: {
                                               template: '<sep-consulta></sep-consulta>'

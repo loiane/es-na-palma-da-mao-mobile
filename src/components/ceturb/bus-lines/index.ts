@@ -16,9 +16,6 @@ export default angular.module( 'bus-lines.component', dependencies )
                                   .state( 'app.busLines', {
                                       url: 'busLines',
                                       data: {title: 'Ceturb - Consulta de Ônibus'},
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       views: {
                                           content: {
                                               template: '<bus-lines></bus-lines>'
