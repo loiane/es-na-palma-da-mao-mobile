@@ -27,6 +27,9 @@ let dependencies = [
     menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name, pushModule.name
 ];
 
+export * from './toast/index';
+export * from './dialog/index';
+
 export default angular.module( 'shared', dependencies )
                       .constant( 'settings', Settings.getInstance() )
                       .service( 'httpSnifferService', HttpSnifferService )

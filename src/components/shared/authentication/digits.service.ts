@@ -1,4 +1,4 @@
-import {DigitsAccessToken, DigitsAuthResponse} from './models/index';
+import { DigitsAccessToken, DigitsAuthResponse } from './models/index';
 
 /**
  * https://github.com/JimmyMakesThings/cordova-plugin-digits
@@ -14,7 +14,7 @@ export class DigitsService {
      * @param {*} $localStorage
      */
     constructor( private $window: any,
-                 private $localStorage: any) {
+        private $localStorage: any ) {
     }
 
     /**
@@ -25,8 +25,8 @@ export class DigitsService {
      * @param {( error: any ) => void} onError
      */
     public login( options: any,
-                  onSuccess: ( authResponse: DigitsAuthResponse ) => void,
-                  onError: ( error: any ) => void ): void {
+        onSuccess: ( authResponse: DigitsAuthResponse ) => void,
+        onError: ( error: any ) => void ): void {
 
         let defaultOptions = {
             accentColor: '#ff0000',
@@ -50,9 +50,7 @@ export class DigitsService {
             }
          */
         this.$window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
-
             this.$localStorage.digitsAuthResponse = this.buildAccessToken( authResponse );
-
             onSuccess( authResponse );
         }, errorDigits => {
             onError( errorDigits );

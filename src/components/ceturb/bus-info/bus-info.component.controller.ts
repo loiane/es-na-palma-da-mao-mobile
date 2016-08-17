@@ -1,5 +1,4 @@
 import { IScope, IPromise, IWindowService, IQService } from 'angular';
-import { IStateService } from 'angular-ui-router';
 
 import { CeturbApiService } from '../shared/ceturb-api.service';
 import { BusLine, BusRoute, BusSchedule } from '../shared/models/index';
@@ -25,14 +24,14 @@ export class BusInfoController {
      * Creates an instance of BusInfoController.
      * 
      * @param {IScope} $scope
-     * @param {IStateService} $stateParams
+     * @param {angular.ui.IStateService} $stateParams
      * @param {IQService} $q
      * @param {IWindowService} $window
      * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {CeturbApiService} ceturbApiService
      */
     constructor( private $scope: IScope,
-                 private $stateParams: IStateService,
+                 private $stateParams: angular.ui.IStateService,
                  private $q: IQService,
                  private $window: IWindowService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,

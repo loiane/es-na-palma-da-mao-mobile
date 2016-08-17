@@ -1,4 +1,4 @@
-import {GoogleAuthResponse} from './models/index';
+import { GoogleAuthResponse } from './models/index';
 /**
  * https://github.com/EddyVerbruggen/cordova-plugin-googleplus
  */
@@ -23,13 +23,13 @@ export class GoogleService {
      * @param {( error: any ) => void} onError
      */
     public login( options,
-                  onSuccess: ( authResponse: GoogleAuthResponse ) => void,
-                  onError: ( error: any ) => void ): void {
+        onSuccess: ( authResponse: GoogleAuthResponse ) => void,
+        onError: ( error: any ) => void ): void {
 
         this.$window.plugins.googleplus.login( options, ( authResponse: GoogleAuthResponse ) => {
-                this.$localStorage.googleAuthResponse = authResponse;
-                onSuccess( authResponse );
-            }, onError );
+            this.$localStorage.googleAuthResponse = authResponse;
+            onSuccess( authResponse );
+        }, onError );
     }
 
     /**
@@ -59,7 +59,7 @@ export class GoogleService {
      * 
      * @param {any} onSuccess
      */
-    public logout( onSuccess? ) {
+    public logout( onSuccess?) {
         if ( this.$window.plugins && this.$window.plugins.googleplus ) {
             this.$window.plugins.googleplus.logout( onSuccess );
         }

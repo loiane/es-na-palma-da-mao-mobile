@@ -2,7 +2,7 @@ import { IStateService } from 'angular-ui-router';
 import { IWindowService, IPromise } from 'angular';
 
 import { ISettings } from '../shared/settings/index';
-import DialogService from '../shared/dialog/dialog.service';
+import { DialogService } from '../shared/dialog/dialog.service';
 import { ToastService } from '../shared/toast/index';
 import {
     AcessoCidadaoService,

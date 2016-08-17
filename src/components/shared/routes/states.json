@@ -78,6 +78,18 @@
     "src": "components/detran/driver-license-status/index"
   },
   {
+    "name": "app.vehicles",
+    "url": "detran/vehicles",
+    "type": "load",
+    "src": "components/detran/vehicles/index"
+  },
+  {
+    "name": "app.vehicleTickets/:plate/:renavam",
+    "url": "detran/vehicle/tickets/:plate/:renavam",
+    "type": "load",
+    "src": "components/detran/vehicle-tickets/index"
+  },
+  {
     "name": "app.busLines",
     "url": "busLines",
     "type": "load",

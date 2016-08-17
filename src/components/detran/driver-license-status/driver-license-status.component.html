@@ -1,8 +1,10 @@
 <ion-view title="Situação CNH">
+	<div class="spinner" ng-if="uiState.loading">
+		<ion-spinner icon="android"></ion-spinner>
+	</div>
 	<ion-content id="state-driver-license-status" class="md-espm-content">
 		<md-content>
-			<!-- Card with status -->
-			<md-card class="card-driver-license" ng-class="{ 'bg-green-70': vm.licenseOk, 'bg-red-70': vm.licenseBlocked, 'bg-pink-70': vm.licenseExpired, 'bg-yellow-70': vm.licenseRenew }">
+			<md-card ng-if="vm.driverDataPopulated" class="card-driver-license" ng-class="{ 'bg-green-70': vm.licenseOk, 'bg-red-70': vm.licenseBlocked, 'bg-pink-70': vm.licenseExpired, 'bg-yellow-70': vm.licenseRenew }">
 				<md-card-header ng-hide="!vm.driverDataPopulated || vm.licenseBlocked || vm.licenseRenew || vm.licenseExpired">
 					<md-card-avatar>
 						<i class="fa fa-car" aria-hidden="true"></i>
@@ -39,48 +41,38 @@
 						<span class="md-subhead">{{::vm.driverData.blockMotive}}</span>
 					</md-card-header-text>
 				</md-card-header>
-				<md-card-title-text ng-hide="vm.driverDataPopulated">
+				<!--<md-card-title-text ng-hide="vm.driverDataPopulated">
 					<br />
 					<ion-spinner icon="android"></ion-spinner>
-				</md-card-title-text>
+				</md-card-title-text>-->
 			</md-card>
-
-			<h4 class="list-header tickets-history">Histórico de Multas</h4>
-			<div class="center">
-				<ion-spinner ng-hide="vm.ticketsPopulated" icon="android"></ion-spinner>
-			</div>
-
-			<div ng-show="vm.ticketsPopulated && !vm.hasTickets" class="center">
-				<div class="md-padding">
-					<div class="md-subhead">Nenhuma Multa</div>
-				</div>
-				<md-divider></md-divider>
-			</div>
-
-			<md-item ng-repeat="ticket in vm.tickets track by $index" 
-					 class="ticket"
-					 ng-class="{ 'selected-ticket': $index == vm.selectedIndex}">
-				<md-item-content ng-class="{ 'selected md-whiteframe-10dp': $index == vm.selectedIndex}" layout="column">
-					<div layout="row" ng-click="vm.showDetails($index)" class="folded">
-						<div class="md-tile-left">
-							<div class="avatar-points bg-{{::vm.getClassificationColor( ticket.classification ) }}">{{::ticket.points}}</div>
+			<md-list>
+				<md-subheader ng-if="vm.ticketsPopulated && vm.hasTickets" class="md-no-sticky">
+					{{ vm.tickets.length }} multas encontradas
+				</md-subheader>
+				<md-list-item class="md-3-line ticket" ng-repeat="ticket in vm.tickets track by $index">
+					<div class="md-list-item-text md-padding" layout="row">
+						<div flex="20">
+							<div class="avatar-points bg-{{::vm.getTicketLevelColor( ticket.classification ) }}">{{::ticket.points}}</div>
 						</div>
-						<div class="md-tile-content" layout="column" layout-align="center start">
-							<h4>{{::ticket.classification | capitalize}} - {{::ticket.date | calendar}}</h4>
+						<div flex="80">
+							<h4 flex>{{::ticket.classification | capitalize}} - {{::ticket.date | calendar}}</h4>
 							<p>
 								{{::ticket.place | capitalize}}, {{::ticket.district | capitalize}}
 							</p>
+							<small style="margin-bottom:10px;"><span class="accent"> Placa: {{ticket.plate}}</span></small>
+							<small>{{::ticket.description}}</small>
 						</div>
 					</div>
-					<md-divider ng-show="$index == vm.selectedIndex"></md-divider>
-					<div layout="column" class="expanded">
-						<p><strong>Placa:</strong> {{::ticket.plate}}</p>
-						<p>{{::ticket.description}}</p>
+					<md-divider></md-divider>
+				</md-list-item>
+				<div ng-if="!uiState.loading && vm.ticketsPopulated && !vm.hasTickets" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
+						<div class="md-subhead" flex>Nenhuma multa encontrada para a placa</div>
+						<div class="accent" flex>{{vm.vehicle.plate}}</div>
 					</div>
-				</md-item-content>
-				<md-divider class="divider-inset" ng-hide="$index == vm.selectedIndex && $last"></md-divider>
-			</md-item>
+				</div>
+			</md-list>
 		</md-content>
 	</ion-content>
-	<!--Dashboard section-->
 </ion-view>

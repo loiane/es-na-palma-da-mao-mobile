@@ -136,9 +136,7 @@ describe( 'DriverLicenseStatus', () => {
 
             detranApiService = {
                 getDriverData: sandbox.stub().returnsPromise(),
-                getTickets: sandbox.stub().returnsPromise(),
-                getAdministrativeCharges: sandbox.stub().returnsPromise(),
-                getDriverLicenseProcess: sandbox.stub().returnsPromise()
+                getTickets: sandbox.stub().returnsPromise()
             };
 
             controller = new DriverLicenseStatusController( $scope, detranApiService );

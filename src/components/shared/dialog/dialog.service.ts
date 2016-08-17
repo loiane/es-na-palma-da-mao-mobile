@@ -1,7 +1,7 @@
 /**
  * Serviço que centraliza configurações e chamadas a janelas de diálogo
  */
-class DialogService {
+export class DialogService {
 
     public static $inject: string[] = [ '$mdDialog' ];
 
@@ -101,5 +101,3 @@ class DialogService {
     }
 
 }
-
-export default DialogService;

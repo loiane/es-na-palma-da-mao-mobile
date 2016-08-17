@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { IScope, IPromise } from 'angular';
-import { DriverData, Ticket, DriverStatus, DetranApiService } from '../shared/index';
+import { DriverData, Ticket, DriverStatus, DetranApiService, TicketColorService } from '../shared/index';
 
 
 /**
@@ -8,9 +8,7 @@ import { DriverData, Ticket, DriverStatus, DetranApiService } from '../shared/in
  */
 export class DriverLicenseStatusController {
 
-    public static $inject: string[] = [ '$scope', 'detranApiService' ];
-
-    public selectedIndex: number = -1;
+    public static $inject: string[] = [ '$scope', 'ticketColorService', 'detranApiService' ];
 
     /**
      * Informações sobre a carteira de motorista do condutor
@@ -27,29 +25,16 @@ export class DriverLicenseStatusController {
      */
     public tickets: Ticket[] = [];
 
-    public ticketsPopulated: Boolean = false;
-
     /**
-     * Lista de possíveis classificações de multas: leve, média, grave ou gravíssima.
+     * Creates an instance of DriverLicenseStatusController.
      * 
-     * @private
-     * @type { name: string, color: string }
-     */
-    private classifications = [
-        { name: 'leve', color: 'green' },
-        { name: 'média', color: 'yellow' },
-        { name: 'grave', color: 'red' },
-        { name: 'gravíssima', color: 'black' }
-    ];
-
-    /**
-     * @constructor
-     *
-     * @param {IScope} $scope: $scope - $scope do angular
-     * @param {DetranApiService} sepApiService - Api do SEP
+     * @param {IScope} $scope
+     * @param {TicketColorService} ticketColorService
+     * @param {DetranApiService} detranApiService
      */
     constructor( private $scope: IScope,
-        private detranApiService: DetranApiService ) {
+                 private ticketColorService: TicketColorService,
+                 private detranApiService: DetranApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -59,7 +44,7 @@ export class DriverLicenseStatusController {
      */
     public activate(): void {
         this.getDriverData();
-        this.getTickets();
+        this.getDriverTickets();
     }
 
     /**
@@ -73,13 +58,23 @@ export class DriverLicenseStatusController {
     }
 
     /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     */
+    public get ticketsPopulated(): boolean {
+        return angular.isDefined( this.tickets );
+    }
+
+    /**
      * Se o condutor autenticado no sistema está com a carteira de motorista 'ok'.
      * 
      * @readonly
      * @type {boolean}
      */
     public get licenseOk(): boolean {
-        return this.driverDataPopulated && this.driverData.status === DriverStatus.Ok;
+        return this.driverData.status === DriverStatus.Ok;
     }
 
 
@@ -90,7 +85,7 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get licenseBlocked(): boolean {
-        return this.driverDataPopulated && this.driverData.status === DriverStatus.Blocked;
+        return this.driverData.status === DriverStatus.Blocked;
     }
 
     /**
@@ -100,7 +95,7 @@ export class DriverLicenseStatusController {
     * @type {boolean}
     */
     public get licenseExpired(): boolean {
-        return this.driverDataPopulated && moment( this.expirationDate ).add( 30, 'day' ).isBefore( moment().startOf( 'day' ) );
+        return moment( this.expirationDate ).add( 30, 'day' ).isBefore( moment().startOf( 'day' ) );
     }
 
     /**
@@ -110,9 +105,8 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get licenseRenew(): boolean {
-        return this.driverDataPopulated
-            && moment( this.expirationDate ).add( 30, 'day' ).isAfter( moment().startOf( 'day' ) )
-            && moment().startOf( 'day' ).isAfter( this.expirationDate );
+        return moment( this.expirationDate ).add( 30, 'day' ).isAfter( moment().startOf( 'day' ) ) &&
+               moment().startOf( 'day' ).isAfter( this.expirationDate );
     }
 
     /**
@@ -122,9 +116,7 @@ export class DriverLicenseStatusController {
      * @type {Date}
      */
     public get expirationDate(): Date {
-        if ( this.driverDataPopulated ) {
-            return this.driverData.expirationDate;
-        }
+        return this.driverData.expirationDate;
     }
 
 
@@ -139,51 +131,16 @@ export class DriverLicenseStatusController {
     }
 
 
-
-    /**
-     * O total de pontos acumulados na carteira do condutor autenticado, nos últimos 12 meses.
-     * 
-     * @readonly
-     * @type {number}
-     */
-    public get last12MonthsPoints(): number {
-        let points = 0;
-        this.tickets.forEach( ticket => {
-            if ( moment( ticket.date ).isAfter( moment().startOf( 'day' ).subtract( 1, 'year' ) ) ) {
-                points += ticket.points;
-            }
-        });
-        return points;
-    }
-
-
     /**
      * Obtem a cor relativa à uma classificação de multa. Usado somente na interface.
      * 
-     * @param {string} classificationName
+     * @param {string} level
      * @returns {string}
      */
-    public getClassificationColor( classificationName: string ): string {
-        classificationName = classificationName.toLowerCase();
-        let classification = this.classifications.filter( c => c.name === classificationName );
-
-        if ( classification && classification.length === 1 ) {
-            return classification[ 0 ].color;
-        }
+    public getTicketLevelColor( level: string ): string {
+        return this.ticketColorService.getTicketLevelColor( level );
     }
 
-    /**
-     * Exibe o detalhamento de uma multa.
-     * 
-     * @param {number} $index - o índice da multa na lista de multas do condutor exibida.
-     */
-    public showDetails( $index: number ): void {
-        if ( this.selectedIndex !== $index ) {
-            this.selectedIndex = $index;
-        } else {
-            this.selectedIndex = -1;
-        }
-    }
 
     /**
      * Obtem dados da carteira de motorista do condutor autenticado no sistema.
@@ -203,11 +160,10 @@ export class DriverLicenseStatusController {
      * 
      * @returns {IPromise<Ticket[]>}
      */
-    public getTickets(): IPromise<Ticket[]> {
-        return this.detranApiService.getTickets()
+    public getDriverTickets(): IPromise<Ticket[]> {
+        return this.detranApiService.getDriverTickets()
             .then( tickets => {
                 this.tickets = tickets || [];
-                this.ticketsPopulated = true;
                 return this.tickets;
             });
     }

@@ -1,5 +1,5 @@
-import {IWindowService, IHttpService, IPromise } from 'angular';
-import {Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity} from './models/index';
+import { IWindowService, IHttpService, IPromise } from 'angular';
+import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './models/index';
 
 /**
  * Classe para autenticação usando IdentityServer3
@@ -14,8 +14,8 @@ export class AcessoCidadaoService {
 
     /** @constructor */
     constructor( private $window: IWindowService,
-                 private $http: IHttpService,
-                 private $localStorage ) {
+        private $http: IHttpService,
+        private $localStorage ) {
     }
 
     /**
@@ -73,10 +73,10 @@ export class AcessoCidadaoService {
      */
     public signIn( data: Identity ): IPromise<AcessoCidadaoClaims> {
         return this.getToken( data )
-                   .then( token => {
-                        this.saveTokenOnLocaStorage( token );
-                        return this.getAcessoCidadaoUserClaims();
-                    } );
+            .then( token => {
+                this.saveTokenOnLocaStorage( token );
+                return this.getAcessoCidadaoUserClaims();
+            } );
     }
 
 
@@ -90,7 +90,7 @@ export class AcessoCidadaoService {
             url: getTokenUrl,
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            transformRequest: function( obj ) {
+            transformRequest: function ( obj ) {
                 let str = [];
                 for ( let p in obj ) {
                     str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
@@ -100,7 +100,7 @@ export class AcessoCidadaoService {
             data: data
         };
         return this.$http( options )
-                   .then( ( response: { data: Token } ) => response.data );
+            .then( ( response: { data: Token } ) => response.data );
     }
 
     /**
@@ -108,18 +108,18 @@ export class AcessoCidadaoService {
      * 
      * @returns
      */
-    public getAcessoCidadaoUserClaims(): IPromise<AcessoCidadaoClaims>  {
+    public getAcessoCidadaoUserClaims(): IPromise<AcessoCidadaoClaims> {
         let userClaimsUrl = `${this.identityServerUrl}/connect/userinfo`;
 
         return this.$http.get( userClaimsUrl )
-            .then(( response: { data: AcessoCidadaoClaims }) => {
+            .then( ( response: { data: AcessoCidadaoClaims } ) => {
                 // Check if the object is correct (This request can return the Acesso Cidadão login page)
                 if ( angular.isDefined( response.data.sid ) ) {
                     this.$localStorage.userClaims = response.data;
                 }
 
                 return response.data;
-            });
+            } );
     }
 
 
@@ -145,11 +145,11 @@ export class AcessoCidadaoService {
     }
 
 
-     /**
-     * Faz o parse do token e retorna os claims do usuário
-     * 
-     * @return {Claim} Claims do usuário
-     */
+    /**
+    * Faz o parse do token e retorna os claims do usuário
+    * 
+    * @return {Claim} Claims do usuário
+    */
     protected getTokenClaims( token: Token ): LowLevelProtocolClaims {
         let claims: LowLevelProtocolClaims = undefined;
 
