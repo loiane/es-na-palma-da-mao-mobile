@@ -105,7 +105,7 @@ export class LoginController {
             client_id: this.settings.identityServer.clients.espm.id,
             client_secret: this.settings.identityServer.clients.espm.secret,
             grant_type: 'password',
-            scope: 'openid',
+            scope: 'openid offline_access',
             username: this.user.username,
             password: this.user.password
         };
@@ -124,7 +124,7 @@ export class LoginController {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
                 grant_type: 'customloginexterno',
-                scope: 'openid',
+                scope: 'openid offline_access',
                 provider: 'Facebook',
                 accesstoken: authResponse.accessToken
             };
@@ -150,7 +150,7 @@ export class LoginController {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
                 grant_type: 'customloginexterno',
-                scope: 'openid',
+                scope: 'openid offline_access',
                 provider:  'Google',
                 accesstoken: authResponse.oauthToken
             };
@@ -170,7 +170,7 @@ export class LoginController {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
                 grant_type: 'customloginexterno',
-                scope: 'openid',
+                scope: 'openid offline_access',
                 provider: 'Celular',
                 accesstoken: 'token',
                 apiUrl: authResponse['X-Auth-Service-Provider'],

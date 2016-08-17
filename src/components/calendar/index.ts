@@ -18,9 +18,6 @@ export default angular.module( 'calendar.component', dependencies )
                                   .state( 'app.calendar', {
                                       url: 'agenda',
                                       data: { title: 'Agenda ES' },
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       views: {
                                           content: {
                                               template: '<espm-calendar></espm-calendar>'

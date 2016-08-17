@@ -16,9 +16,6 @@ export default angular.module( 'driver-license-status.component', dependencies )
                                   .state( 'app.driverLicenseStatus', {
                                       url: 'driverLicenseStatus',
                                       data: { title: 'Situação CNH' },
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       views: {
                                           content: {
                                               template: '<driver-license-status></driver-license-status>'

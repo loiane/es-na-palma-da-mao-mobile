@@ -1,8 +1,10 @@
-import { IScope, IWindowService, ITimeoutService, ILogService } from 'angular';
+import { IScope, IWindowService, ITimeoutService, ILogService, IRootScopeService } from 'angular';
 import { IStateService } from 'angular-ui-router';
 
 import { AcessoCidadaoService, GoogleService, FacebookService, DigitsService, AcessoCidadaoClaims } from '../authentication/index';
 import defaultAvatar from './img/user.png!image';
+
+import { ToastService } from '../toast/index';
 
 /**
  * Controller raiz da aplicação
@@ -10,6 +12,7 @@ import defaultAvatar from './img/user.png!image';
 export default class MenuController {
 
     public static $inject: string[] = [
+        '$rootScope',
         '$scope',
         '$window',
         '$timeout',
@@ -26,7 +29,8 @@ export default class MenuController {
         'acessoCidadaoService',
         'facebookService',
         'googleService',
-        'digitsService'
+        'digitsService',
+        'toast'
     ];
 
     /**
@@ -50,23 +54,25 @@ export default class MenuController {
      * @param {GoogleService} googleService
      * @param {DigitsService} digitsService
      */
-    constructor( private $scope: IScope,
-                 private $window: IWindowService,
-                 private $timeout: ITimeoutService,
-                 private $mdSidenav: angular.material.ISidenavService,
-                 private $log: ILogService,
-                 private $ionicHistory: ionic.navigation.IonicHistoryService,
-                 private $state: IStateService,
-                 private $ionicNativeTransitions,
-                 private $ionicPlatform: ionic.platform.IonicPlatformService,
-                 private $mdDialog: angular.material.IDialogService,
-                 private $mdBottomSheet: angular.material.IBottomSheetService,
-                 private $mdMenu: angular.material.IMenuService,
-                 private $mdSelect: any,
-                 private acessoCidadaoService: AcessoCidadaoService,
-                 private facebookService: FacebookService,
-                 private googleService: GoogleService,
-                 private digitsService: DigitsService ) {
+    constructor( private $rootScope: IRootScopeService,
+        private $scope: IScope,
+        private $window: IWindowService,
+        private $timeout: ITimeoutService,
+        private $mdSidenav: angular.material.ISidenavService,
+        private $log: ILogService,
+        private $ionicHistory: ionic.navigation.IonicHistoryService,
+        private $state: IStateService,
+        private $ionicNativeTransitions,
+        private $ionicPlatform: ionic.platform.IonicPlatformService,
+        private $mdDialog: angular.material.IDialogService,
+        private $mdBottomSheet: angular.material.IBottomSheetService,
+        private $mdMenu: angular.material.IMenuService,
+        private $mdSelect: any,
+        private acessoCidadaoService: AcessoCidadaoService,
+        private facebookService: FacebookService,
+        private googleService: GoogleService,
+        private digitsService: DigitsService,
+        private toast: ToastService ) {
         this.activate();
     }
 
@@ -101,13 +107,18 @@ export default class MenuController {
         //
         //  Learn more at : http://ionicframework.com/docs/api/service/$ionicPlatform/#registerBackButtonAction
 
-        this.$ionicPlatform.registerBackButtonAction( () => {
+        this.$ionicPlatform.registerBackButtonAction(() => {
+
+            if ( this.$rootScope.backButtonPressedOnceToExit ) {
+                this.$rootScope.backButtonPressedOnceToExit = false;
+                ionic.Platform.exitApp();
+            }
 
             const sidenavIsOpen = this.$mdSidenav( 'left' ).isOpen();
-            const bottomSheetIsOpen = angular.element( 'md-bottom-sheet' ).length > 0;
-            const dialogIsOpen = angular.element( '[id^=dialog]' ).length > 0;
-            const menuContentIsOpen = angular.element( 'md-template-content' ).length > 0;
-            const selectMenuIsOpen = angular.element( 'md-select-menu' ).length > 0;
+            const bottomSheetIsOpen = angular.element( document.querySelectorAll( 'md-bottom-sheet' ) ).length > 0;
+            const dialogIsOpen = angular.element( document.querySelectorAll( '[id^=dialog]' ) ).length > 0;
+            const menuContentIsOpen = angular.element( document.querySelectorAll( 'md-template-content' ) ).length > 0;
+            const selectMenuIsOpen = angular.element( document.querySelectorAll( 'div._md-select-menu-container._md-active' ) ).length > 0;
             const previousStateIsEmpty = this.$ionicHistory.backView() === null;
 
             if ( sidenavIsOpen ) {
@@ -120,32 +131,22 @@ export default class MenuController {
                 this.$mdMenu.hide();
             } else if ( selectMenuIsOpen ) {
                 this.$mdSelect.hide();
-            } else if ( previousStateIsEmpty && !dialogIsOpen ) {
+            } else if ( previousStateIsEmpty ) {
 
-                // todo: refatorar $mdDialog para usar o service $dialog
-                // se não há nenhum dos "componentes" acima abertos e não existe state anterior,
-                // então exibe uma janela de diálogo pedindo a confirmação para fechar a app.
-                this.$mdDialog.show( {
-                    controller: 'MenuComponent',
-                    templateUrl: 'confirm-dialog.html',
-                    targetEvent: null,
-                    locals: {
-                        displayOption: {
-                            title: 'Confirmação',
-                            content: 'Deseja sair da aplicação?',
-                            ok: 'Confirmar',
-                            cancel: 'Cancelar'
-                        }
-                    }
-                } ).then( () => {
-                    // Se o usuário confirma a janela de diálogo, então fecha a app.
-                    ionic.Platform.exitApp();
-                }, () => {
-                    // Se o usuário clica no botão cancelar
-                } );
+                this.$rootScope.backButtonPressedOnceToExit = true;
+                this.toast.info( { title: 'Aperte voltar novamente para sair' });
+
+                setTimeout( () => {
+                    this.$rootScope.backButtonPressedOnceToExit = false;
+                }, 2000 );
+
             } else {
                 // se existe uma view anterior, volta para ela
-                this.$ionicHistory.goBack();
+                if ( this.$ionicNativeTransitions ) {
+                    this.$ionicNativeTransitions.goBack();
+                } else {
+                    this.$ionicHistory.goBack();
+                }
             }
 
         }, 100 );
@@ -213,18 +214,18 @@ export default class MenuController {
      * @returns {void}
      */
     public navigateTo( stateName: string ): void {
-        this.$timeout( () => {
+        this.$timeout(() => {
             this.closeSideNav();
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
                 this.$ionicHistory.nextViewOptions( {
                     disableAnimate: true,
                     disableBack: true,
                     historyRoot: true
-                } );
+                });
                 if ( this.$ionicNativeTransitions ) {
                     this.$ionicNativeTransitions.stateGo( stateName, {}, {
                         'type': 'fade'
-                    } );
+                    });
                 } else {
                     this.$state.go( stateName );
                 }
@@ -240,9 +241,9 @@ export default class MenuController {
         this.googleService.logout();
         this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
 
-        this.acessoCidadaoService.signOut( () => {
+        this.acessoCidadaoService.signOut(() => {
             this.navigateTo( 'home' );
-        } );
+        });
     }
 }
 

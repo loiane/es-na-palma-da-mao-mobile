@@ -16,9 +16,6 @@ export default angular.module( 'dashboard.component', dependencies )
                                       url: 'dashboard/',
                                       data: { title: 'Dashboard' },
                                       abstract: true,
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       views: {
                                           content: {
                                               template: '<dashboard></dashboard>'

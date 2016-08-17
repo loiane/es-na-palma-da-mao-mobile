@@ -210,9 +210,9 @@
     "cordova-plugin-inappbrowser",
     {
       "variables": {
-        "FABRIC_API_KEY": "",
-        "FABRIC_CONSUMER_KEY": "",
-        "FABRIC_CONSUMER_SECRET": ""
+        "FABRIC_API_KEY": "a280e4739950d91784dd9b1e5bcdfc8e977a73cd",
+        "FABRIC_CONSUMER_KEY": "gFpU3PLmi4sPb7F8BxRvtNaXh",
+        "FABRIC_CONSUMER_SECRET": "jDM7b8xHw1KgOdhFjsXiWguqmxoCo3CsSe4TH4cSYlzkQh2okb"
       },
       "locator": "cordova-plugin-digits",
       "id": "cordova-plugin-digits"
@@ -226,8 +226,14 @@
       "locator": "cordova-plugin-facebook4@~1.7.1",
       "id": "cordova-plugin-facebook4"
     },
-    "cordova-plugin-facebook4@~1.7.1",
-    "cordova-plugin-digits"
+    "https://github.com/Telerik-Verified-Plugins/NativePageTransitions",
+    {
+      "variables": {
+        "SENDER_ID": "1014254010175"
+      },
+      "locator": "https://github.com/prodest/phonegap-plugin-push",
+      "id": "phonegap-plugin-push"
+    }
   ],
   "cordovaPlatforms": [
     "android"
