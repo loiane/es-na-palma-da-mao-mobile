@@ -1,27 +1,27 @@
 import angular from 'angular';
 import 'angular-ui-router';
 
-import licenseStatusComponent from './driver-license-status.component';
+import vehicleTicketsComponent from './vehicle-tickets.component';
 import detranShared from '../shared/index';
 
 const dependencies = [
     'ui.router', detranShared.name
 ];
 
-export default angular.module( 'driver-license-status.component', dependencies )
-                      .directive( 'driverLicenseStatus', licenseStatusComponent )
+export default angular.module( 'vehicle-tickets.component', dependencies )
+                      .directive( 'detranVehicleTickets', vehicleTicketsComponent )
                       .config( [
                           '$stateProvider', ( $stateProvider ) => {
                               $stateProvider
-                                  .state( 'app.driverLicenseStatus', {
-                                      url: 'driverLicenseStatus',
-                                      data: { title: 'Situação CNH' },
+                                  .state( 'app.vehicleTickets/:placa/:renavam', {
+                                      url: 'detran/vehicle/tickets/:placa/:renavam',
+                                      data: { title: 'Multas por Veículo' },
                                       nativeTransitions: {
                                           'type': 'fade'
                                       },
                                       views: {
                                           content: {
-                                              template: '<driver-license-status></driver-license-status>'
+                                              template: '<detran-vehicle-tickets></detran-vehicle-tickets>'
                                           }
                                       }
                                   } );

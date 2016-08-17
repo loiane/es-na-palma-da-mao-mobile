@@ -13,67 +13,76 @@ import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
  */
 export class VehiclesController {
 
-  public static $inject: string[] = [ '$scope', '$mdDialog', 'detranApiService', 'dialog', 'toast', 'vehicleStorage' ];
+    public static $inject: string[] = [ '$scope', '$mdDialog', '$state', 'detranApiService', 'dialog', 'toast', 'vehicleStorage' ];
 
-  public vehicles: Vehicle[];
-  public editing: boolean = false;
+    public vehicles: Vehicle[];
+    public editing: boolean = false;
 
-  /**
-   * Creates an instance of VehiclesController.
-   * 
-   * @param {IScope} $scope
-   * @param {angular.material.IDialogService} $mdDialog
-   * @param {DetranApiService} detranApiService
-   * @param {DialogService} dialog
-   * @param {ToastService} toast
-   * @param {VehicleStorage} vehicleStorage
-   */
-  constructor( private $scope: IScope,
-               private $mdDialog: angular.material.IDialogService,
-               private detranApiService: DetranApiService,
-               private dialog: DialogService,
-               private toast: ToastService,
-               private vehicleStorage: VehicleStorage ) {
-    this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
-  }
+    /**
+     * Creates an instance of VehiclesController.
+     * 
+     * @param {IScope} $scope
+     * @param {angular.material.IDialogService} $mdDialog
+     * @param {angular.material.IState} $state
+     * @param {DetranApiService} detranApiService
+     * @param {DialogService} dialog
+     * @param {ToastService} toast
+     * @param {VehicleStorage} vehicleStorage
+     */
+    constructor( private $scope: IScope,
+        private $mdDialog: angular.material.IDialogService,
+        private $state: angular.material.IState,
+        private detranApiService: DetranApiService,
+        private dialog: DialogService,
+        private toast: ToastService,
+        private vehicleStorage: VehicleStorage ) {
+        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+    }
 
-  /**
-   * 
-   */
-  public activate(): void {
-      this.vehicles = this.vehicleStorage.vehicles;
-  }
+    /**
+     * 
+     */
+    public activate(): void {
+        this.vehicles = this.vehicleStorage.vehicles;
+    }
 
-  /**
-   * 
-   * 
-   * @param {Vehicle} vehicle
-   */
-  public removeVehicle( vehicle: Vehicle ) {
-    this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.placa}?` } )
-      .then( () => {
-          this.vehicles = this.vehicleStorage.remove( vehicle );
+    /**
+     * 
+     * 
+     * @param {Vehicle} vehicle
+     */
+    public removeVehicle( vehicle: Vehicle ) {
+        this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.placa}?` } )
+            .then( () => {
+                this.vehicles = this.vehicleStorage.remove( vehicle );
 
-          // sai do modo de edição se não resta nenhum veículo
-          if ( !this.vehicles.length ) {
-              this.editing = false;
-          }
-      } );
-  }
+                // sai do modo de edição se não resta nenhum veículo
+                if ( !this.vehicles.length ) {
+                    this.editing = false;
+                }
+            } );
+    }
+
+    /**
+     * 
+     */
+    public addVehicle(): void {
+        this.$mdDialog.show( {
+            controller: AddVehicleController,
+            template: addVehicleTemplate,
+            bindToController: true,
+            controllerAs: 'vm'
+        } )
+        .then( ( vehicle: Vehicle ) => {
+            this.vehicles = this.vehicleStorage.add( vehicle );
+        });
+    }
 
 
-  /**
-   * 
-   */
-  public addVehicle(): void {
-    this.$mdDialog.show( {
-        controller: AddVehicleController,
-        template: addVehicleTemplate,
-        bindToController: true,
-        controllerAs: 'vm'
-      })
-      .then( ( vehicle: Vehicle ) => {
-          this.vehicles = this.vehicleStorage.add( vehicle );
-      } );
-  }
+    /**
+     * 
+     */
+    public viewTickets( vehicle: Vehicle ) {
+        this.$state.go( 'app.vehicleTickets/:placa/:renavam', { placa: vehicle.placa, renavam: vehicle.renavam } );
+    }
 }

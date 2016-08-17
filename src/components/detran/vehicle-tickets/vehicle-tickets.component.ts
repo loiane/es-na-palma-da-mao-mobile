@@ -1,11 +1,11 @@
-import './car-tickets.component.css';
-import template from './car-tickets.componenent.html';
-import { CarTicketsController } from './car-tickets.component.controller';
+import './vehicle-tickets.component.css';
+import template from './vehicle-tickets.component.html';
+import { VehicleTicketsController } from './vehicle-tickets.component.controller';
 
 const directive = () => {
     return {
         template: template,
-        controller: CarTicketsController,
+        controller: VehicleTicketsController,
         restrict: 'E',
         controllerAs: 'vm', // scope: {},
         replace: true,

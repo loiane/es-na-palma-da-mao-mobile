@@ -84,6 +84,12 @@
     "src": "components/detran/vehicles/index"
   },
   {
+    "name": "app.vehicleTickets/:placa/:renavam",
+    "url": "detran/vehicle/tickets/:placa/:renavam",
+    "type": "load",
+    "src": "components/detran/vehicle-tickets/index"
+  },
+  {
     "name": "app.busLines",
     "url": "busLines",
     "type": "load",
