@@ -1,5 +1,4 @@
 import {IScope, IPromise} from 'angular';
-import {IStateService} from 'angular-ui-router';
 
 import { NewsApiService, News, NewsDetail } from '../shared/index';
 
@@ -20,7 +19,7 @@ export class NewsHighlightsController {
     constructor( private $scope: IScope,
                  private newsApiService: NewsApiService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private $state: IStateService ) {
+                 private $state: angular.ui.IStateService ) {
 
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -33,29 +32,6 @@ export class NewsHighlightsController {
     public activate(): void {
         this.getHighlightNews();
     }
-
-
-    /**
-     * Obtém a 1° notícia de destaque
-     * 
-     * @readonly
-     * @type {News}
-     */
-    public get firstNews(): News {
-        return this.highlights[0];
-    }
-
-
-    /**
-     * Obtém todas as notícias em destaque menos a 1°.
-     * 
-     * @readonly
-     * @type {News[]}
-     */
-    public get otherNews(): News[] {
-        return this.highlights.length > 0 ? this.highlights.slice( 1 ) : [];
-    }
-
 
     /**
      * Obtém a lista de notícias em destaque
