@@ -52,7 +52,7 @@ export class VehiclesController {
      * @param {Vehicle} vehicle
      */
     public removeVehicle( vehicle: Vehicle ) {
-        this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.placa}?` } )
+        this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.plate}?` } )
             .then( () => {
                 this.vehicles = this.vehicleStorage.remove( vehicle );
 
@@ -83,6 +83,6 @@ export class VehiclesController {
      * 
      */
     public viewTickets( vehicle: Vehicle ) {
-        this.$state.go( 'app.vehicleTickets/:placa/:renavam', { placa: vehicle.placa, renavam: vehicle.renavam } );
+        this.$state.go( 'app.vehicleTickets/:plate/:renavam', { plate: vehicle.plate, renavam: vehicle.renavam } );
     }
 }

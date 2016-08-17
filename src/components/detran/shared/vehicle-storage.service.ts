@@ -32,8 +32,8 @@ export class VehicleStorage {
      */
     public exists( vehicle: Vehicle ): boolean {
         const existsPlaca = this.$localStorage.vehicles
-                                              .map( v => v.placa.toUpperCase() )
-                                              .indexOf( vehicle.placa );
+                                              .map( v => v.plate.toUpperCase() )
+                                              .indexOf( vehicle.plate );
 
         const existsRENAVAM = this.$localStorage.vehicles
                                                 .map( v => v.renavam.toUpperCase() )
@@ -50,7 +50,7 @@ export class VehicleStorage {
      */
     public remove( vehicle: Vehicle ): Vehicle[] {
         this.$localStorage.vehicles = this.vehicles.filter( ( v1: Vehicle ) => {
-             return v1.placa !== vehicle.placa && v1.renavam !== vehicle.renavam;
+             return v1.plate !== vehicle.plate && v1.renavam !== vehicle.renavam;
         } );
 
         return this.$localStorage.vehicles;
@@ -64,7 +64,7 @@ export class VehicleStorage {
      */
     public add( vehicle: Vehicle ): Vehicle[] {
         if  ( !this.exists( vehicle ) ) {
-            vehicle.placa = vehicle.placa.toUpperCase();
+            vehicle.plate = vehicle.plate.toUpperCase();
             vehicle.renavam = vehicle.renavam.toUpperCase();
 
             this.$localStorage.vehicles.push( vehicle );

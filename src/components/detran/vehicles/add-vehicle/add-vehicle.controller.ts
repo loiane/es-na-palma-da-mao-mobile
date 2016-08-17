@@ -28,13 +28,13 @@ export class AddVehicleController {
     /**
      * 
      * 
-     * @param {string} placa
+     * @param {string} plate
      * @param {string} renavam
      * @returns
      */
-    public ok( placa: string, renavam: string ) {
+    public ok( plate: string, renavam: string ) {
 
-        if ( !placa ) {
+        if ( !plate ) {
             this.toast.info( { title: 'Placa é obrigatória' } ); return;
         }
 
@@ -43,7 +43,7 @@ export class AddVehicleController {
         }
 
         const vehicle = {
-            placa: placa.toUpperCase(),
+            plate: plate.toUpperCase(),
             renavam: renavam.toUpperCase()
         };
 

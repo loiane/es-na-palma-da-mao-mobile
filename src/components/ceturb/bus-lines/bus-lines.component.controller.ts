@@ -1,4 +1,4 @@
-import { IScope, IPromise, IState } from 'angular';
+import { IScope, IPromise } from 'angular';
 
 import { BusLine, CeturbApiService } from '../shared/index';
 
@@ -27,7 +27,7 @@ export class BusLinesController {
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
-                 private $state: IState,
+                 private $state: angular.ui.IState,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
                  private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );

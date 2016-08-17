@@ -1,4 +1,4 @@
 export interface Vehicle {
-    placa: string;
+    plate: string;
     renavam: string;
 }

@@ -53,14 +53,6 @@
 	color: #c86673;
 }
 
-.spinner {
-    margin-top: calc(100vh/2 - 30px);
-    width: 30px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-
 #vehicle-tickets .ticket small {
     font-size: 85%;
     margin: 10px 0;

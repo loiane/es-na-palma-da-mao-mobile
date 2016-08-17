@@ -84,8 +84,8 @@
     "src": "components/detran/vehicles/index"
   },
   {
-    "name": "app.vehicleTickets/:placa/:renavam",
-    "url": "detran/vehicle/tickets/:placa/:renavam",
+    "name": "app.vehicleTickets/:plate/:renavam",
+    "url": "detran/vehicle/tickets/:plate/:renavam",
     "type": "load",
     "src": "components/detran/vehicle-tickets/index"
   },

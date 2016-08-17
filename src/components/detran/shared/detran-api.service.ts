@@ -1,7 +1,7 @@
 import { IHttpService, IPromise } from 'angular';
 
 import { ISettings } from '../../shared/settings/index';
-import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus } from './models/index';
+import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus, Vehicle } from './models/index';
 
 
 export class DetranApiService {
@@ -26,7 +26,7 @@ export class DetranApiService {
      */
     public getDriverData(): IPromise<DriverData> {
         return this.$http
-            .get( `${this.settings.api.detran}/driverData` )
+            .get( `${this.settings.api.detran}/driver` )
             .then(( response: { data: DriverData } ) => response.data );
     }
 
@@ -35,9 +35,9 @@ export class DetranApiService {
      * 
      * @returns {IPromise<Ticket[]>}
      */
-    public getTickets(): IPromise<Ticket[]> {
+    public getDriverTickets(): IPromise<Ticket[]> {
         return this.$http
-            .get( `${this.settings.api.detran}/tickets` )
+            .get( `${this.settings.api.detran}/driver/tickets` )
             .then(( response: { data: Ticket[] } ) => response.data );
     }
 
@@ -45,22 +45,12 @@ export class DetranApiService {
     /**
      * 
      * 
-     * @returns {IPromise<Charge[]>}
+     * @param {Vehicle} vehicle
+     * @returns {IPromise<Ticket[]>}
      */
-    public getAdministrativeCharges(): IPromise<Charge[]> {
+    public getVehicleTickets( vehicle: Vehicle ): IPromise<Ticket[]> {
         return this.$http
-            .get( `${this.settings.api.detran}/administrativeCharges ` )
-            .then(( response: { data: Charge[] } ) => response.data );
-    }
-
-    /**
-     * 
-     * 
-     * @returns {IPromise<DriverLicenseProcess[]>}
-     */
-    public getDriverLicenseProcess(): IPromise<DriverLicenseProcess[]> {
-        return this.$http
-            .get( `${this.settings.api.detran}/driverLicenseProcess ` )
-            .then(( response: { data: DriverLicenseProcess[] } ) => response.data );
+            .get( `${this.settings.api.detran}/vehicle/tickets`, { params: vehicle } )
+            .then(( response: { data: Ticket[] } ) => response.data );
     }
 }

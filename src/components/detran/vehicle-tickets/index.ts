@@ -13,8 +13,8 @@ export default angular.module( 'vehicle-tickets.component', dependencies )
                       .config( [
                           '$stateProvider', ( $stateProvider ) => {
                               $stateProvider
-                                  .state( 'app.vehicleTickets/:placa/:renavam', {
-                                      url: 'detran/vehicle/tickets/:placa/:renavam',
+                                  .state( 'app.vehicleTickets/:plate/:renavam', {
+                                      url: 'detran/vehicle/tickets/:plate/:renavam',
                                       data: { title: 'Multas por Veículo' },
                                       nativeTransitions: {
                                           'type': 'fade'
