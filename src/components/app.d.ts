@@ -24,7 +24,7 @@ declare interface Navigator {
 
 declare module 'chai' {
      interface LanguageChains {
-        called: chai.Assertion;
+        called: Chai.Assertion;
     }
 }
 
