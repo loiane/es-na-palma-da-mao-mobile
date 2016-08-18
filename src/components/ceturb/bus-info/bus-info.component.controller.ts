@@ -24,14 +24,14 @@ export class BusInfoController {
      * Creates an instance of BusInfoController.
      * 
      * @param {IScope} $scope
-     * @param {angular.ui.IStateService} $stateParams
+     * @param {angular.ui.IStateParamsService} $stateParams
      * @param {IQService} $q
      * @param {IWindowService} $window
      * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {CeturbApiService} ceturbApiService
      */
     constructor( private $scope: IScope,
-                 private $stateParams: angular.ui.IStateService,
+                 private $stateParams: angular.ui.IStateParamsService,
                  private $q: IQService,
                  private $window: IWindowService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,

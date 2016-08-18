@@ -32,12 +32,12 @@ export class VehicleTicketsController {
      * Creates an instance of VehicleTicketsController.
      * 
      * @param {IScope} $scope
-     * @param {angular.ui.IStateService} $stateParams
+     * @param {angular.ui.IStateParamsService} $stateParams
      * @param {TicketColorService} detranApiService
      * @param {DetranApiService} ticketColorService
      */
     constructor( private $scope: IScope,
-                 private $stateParams: angular.ui.IStateService,
+                 private $stateParams: angular.ui.IStateParamsService,
                  private ticketColorService: TicketColorService,
                  private detranApiService: DetranApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );

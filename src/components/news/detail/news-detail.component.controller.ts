@@ -14,12 +14,12 @@ export class NewsDetailController {
      * @param {IScope} $scope
      * @param {NewsApiService} newsApiService
      * @param {ionic.loading.IonicLoadingService} $ionicLoading
-     * @param {angular.ui.IStateService} $stateParams
+     * @param {angular.ui.IStateParamsService} $stateParams
      */
     constructor( private $scope: IScope,
                  private newsApiService: NewsApiService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private $stateParams: angular.ui.IStateService ) {
+                 private $stateParams: angular.ui.IStateParamsService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

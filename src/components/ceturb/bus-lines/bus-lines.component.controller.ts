@@ -21,13 +21,15 @@ export class BusLinesController {
     private lineCount: number;
 
     /**
-     * Creates an instance of SepConsultaController.
-     * @constructor
+     * Creates an instance of BusLinesController.
+     * 
      * @param {IScope} $scope
-     * @param {SepApiService} sepApiService
+     * @param {angular.ui.IStateService} $state
+     * @param {ionic.loading.IonicLoadingService} $ionicLoading
+     * @param {CeturbApiService} ceturbApiService
      */
     constructor( private $scope: IScope,
-                 private $state: angular.ui.IState,
+                 private $state: angular.ui.IStateService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
                  private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
@@ -73,8 +75,8 @@ export class BusLinesController {
     public getLines(): void {
         this.$ionicLoading.show();
         this.ceturbApiService.getLines()
-            .then( lines => {
-                this.cachedLines = this.filteredLines = <BusLine[]>lines;
+            .then( ( lines: BusLine[] ) => {
+                this.cachedLines = this.filteredLines = lines;
                 this.populated = true;
                 return this.cachedLines;
             } )
