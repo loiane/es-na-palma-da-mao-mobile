@@ -38,12 +38,12 @@ declare namespace angular {
     }
 }
 
-declare module "*.html" {
+declare module '*.html' {
     const content: string;
     export = content;
 }
 
-declare module "*.json" {
+declare module '*.json' {
     const content: any;
     export = content;
 }
