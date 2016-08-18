@@ -37,3 +37,13 @@ declare namespace angular {
         isAndroid: boolean;
     }
 }
+
+declare module "*.html" {
+    const content: string;
+    export = content;
+}
+
+declare module "*.json" {
+    const content: any;
+    export = content;
+}
