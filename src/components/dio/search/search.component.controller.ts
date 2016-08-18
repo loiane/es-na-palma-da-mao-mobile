@@ -2,10 +2,11 @@ import { IScope, IPromise, IWindowService, ILogService } from 'angular';
 
 import filterTemplate from './filter/filter.html';
 import { FilterController } from './filter/filter.controller';
-import { ToastService } from '../../shared/toast';
+import { ToastService } from '../../shared/toast/index';
 import {
     SearchFilter,
     SearchResult,
+    Hit,
     Edition,
     DioApiService
 } from '../shared/index';
@@ -24,7 +25,7 @@ export class SearchController {
         '$ionicScrollDelegate'
     ];
 
-    private hits: SearchResult[] = [];
+    private hits: Hit[] = [];
     private pristine = true;
     private hasMoreHits = false;
     private totalHits: number = 0;
@@ -69,7 +70,7 @@ export class SearchController {
      * @param {SearchFilter} options
      * @returns {IPromise<SearchResult[]>}
      */
-    public search( options: SearchFilter ): IPromise<SearchResult[]> {
+    public search( options: SearchFilter ): IPromise<SearchResult> {
 
         angular.extend( this.filter, options || {} ); // atualiza o filtro
 
@@ -81,14 +82,17 @@ export class SearchController {
         }
 
         return this.dioApiService.search( this.filter )
-                                 .then( nextResults => {
+                                 .then( ( nextResults: SearchResult ) => {
                                      this.totalHits = nextResults.totalHits;
                                      this.hits = this.hits.concat( nextResults.hits );
                                      this.hasMoreHits = nextResults.hits && nextResults.hits.length > 0;
                                      this.pristine = false;
+
+                                     return nextResults;
                                  } )
                                  .catch( error => {
                                      this.toast.warn( { title: 'Falha ao consultar o DIO/ES' } );
+                                     return error;
                                  })
                                  .finally( () => {
                                      this.$ionicLoading.hide();

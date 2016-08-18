@@ -31,14 +31,14 @@ export class DioApiService {
      * 
      * 
      * @param {SearchFilter} [filter={ pageNumber: 0, sort: 'date' }]
-     * @returns {IPromise<SearchResult[]>}
+     * @returns {IPromise<SearchResult>}
      */
-    public search( filter: SearchFilter = { pageNumber: this.settings.pagination.pageNumber, sort: 'date' } ): IPromise<SearchResult[]> {
+    public search( filter: SearchFilter = { pageNumber: this.settings.pagination.pageNumber, sort: 'date' } ): IPromise<SearchResult> {
 
         let params = angular.extend( {}, filter );
 
         return this.$http.get( `${this.settings.api.dio}/search`, { params: params } )
-                         .then( ( response: { data: SearchResult[] } ) => {
+                         .then( ( response: { data: SearchResult } ) => {
                              return response.data;
                          });
     }
