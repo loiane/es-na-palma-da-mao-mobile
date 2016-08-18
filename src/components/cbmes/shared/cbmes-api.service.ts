@@ -2,7 +2,7 @@ import { IHttpService, IPromise } from 'angular';
 import { ISettings } from '../../shared/settings/index';
 import { Warning } from './models/index';
 
-export class NewsApiService {
+export class CBMESApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 

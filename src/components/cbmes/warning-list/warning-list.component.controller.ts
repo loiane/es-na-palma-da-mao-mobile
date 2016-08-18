@@ -1,7 +1,6 @@
 import { IScope, IPromise } from 'angular';
-import { IStateService } from 'angular-ui-router';
 
-import { CbmesApiService } from '../shared/index';
+import { CBMESApiService, Warning } from '../shared/index';
 
 export class WarningListController {
 
@@ -14,14 +13,14 @@ export class WarningListController {
         '$ionicScrollDelegate'
     ];
 
-    private warning: Warning[] = [];
+    private warnings: Warning[] = [];
     private activated = false;
     private populated = false;
 
     constructor( private $scope: IScope,
-                 private $state: IStateService,
+                 private $state: angular.ui.IStateService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private cbmesApiService: CbmesApiService ) {
+                 private cbmesApiService: CBMESApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
