@@ -83,6 +83,6 @@ export class VehiclesController {
      * 
      */
     public viewTickets( vehicle: Vehicle ) {
-        this.$state.go( 'app.vehicleTickets/:plate/:renavam', { plate: vehicle.plate, renavam: vehicle.renavam } );
+        this.$state.go( 'app.vehicleTickets/:plate/:renavam', vehicle );
     }
 }
