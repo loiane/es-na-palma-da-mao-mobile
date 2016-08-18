@@ -1,4 +1,3 @@
-import { IStateService } from 'angular-ui-router';
 import { IWindowService, IPromise } from 'angular';
 
 import { ISettings } from '../shared/settings/index';
@@ -57,7 +56,7 @@ export class LoginController {
     /**
      * @constructor
      *
-     * @param {IStateService} $state
+     * @param {angular.ui.IStateService} $state
      * @param {AcessoCidadaoService} acessoCidadaoService
      * @param {DigitsService} digitsService
      * @param {FacebookService} facebookService
@@ -69,7 +68,7 @@ export class LoginController {
      * @param {IonicHistoryService} $ionicHistory
      * @param {IonicLoadingService} $ionicLoading
      */
-    constructor( private $state: IStateService,
+    constructor( private $state: angular.ui.IStateService,
                  private acessoCidadaoService: AcessoCidadaoService,
                  private digitsService: DigitsService,
                  private facebookService: FacebookService,

@@ -1,5 +1,4 @@
 import { IScope, IPromise } from 'angular';
-import { IStateService } from 'angular-ui-router';
 
 import { News, NewsDetail, NewsApiService } from '../shared/index';
 
@@ -10,17 +9,17 @@ export class NewsDetailController {
     private news: NewsDetail;
 
     /**
-     * @constructor
-     *
-     * @param $scope
-     * @param newsApiService
-     * @param $ionicLoading
-     * @param $stateParams
+     * Creates an instance of NewsDetailController.
+     * 
+     * @param {IScope} $scope
+     * @param {NewsApiService} newsApiService
+     * @param {ionic.loading.IonicLoadingService} $ionicLoading
+     * @param {angular.ui.IStateService} $stateParams
      */
     constructor( private $scope: IScope,
                  private newsApiService: NewsApiService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private $stateParams: IStateService ) {
+                 private $stateParams: angular.ui.IStateService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

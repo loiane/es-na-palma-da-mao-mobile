@@ -14,7 +14,7 @@ export class NewsHighlightsController {
      * @param {IScope} $scope
      * @param {NewsApiService} newsApiService
      * @param {IonicLoadingService} $ionicLoading
-     * @param {IStateService} $state
+     * @param {angular.ui.IStateService} $state
      */
     constructor( private $scope: IScope,
                  private newsApiService: NewsApiService,

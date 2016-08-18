@@ -1,5 +1,4 @@
 import { ITimeoutService } from 'angular';
-import { IStateService } from 'angular-ui-router';
 
 export class PushService {
 
@@ -10,10 +9,10 @@ export class PushService {
         '$mdSidenav'
     ];
 
-    constructor( private $state: IStateService,
-        private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private $ionicNativeTransitions,
-        private $mdSidenav: angular.material.ISidenavService ) {
+    constructor( private $state: angular.ui.IStateService,
+                 private $ionicHistory: ionic.navigation.IonicHistoryService,
+                 private $ionicNativeTransitions,
+                 private $mdSidenav: angular.material.ISidenavService ) {
     }
 
     public notify( data: any ): void {

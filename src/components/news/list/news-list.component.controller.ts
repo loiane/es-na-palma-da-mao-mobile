@@ -1,5 +1,4 @@
 import { IScope, IPromise } from 'angular';
-import { IStateService } from 'angular-ui-router';
 
 import sourcesFilterTemplate from './sources-filter/sources-filter.html';
 import datesFilterTemplate from './dates-filter/dates-filter.html';
@@ -32,18 +31,19 @@ export class NewsListController {
         pageSize: 10
     };
 
+
     /**
-     * @constructor
-     *
-     * @param $scope
-     * @param $state
-     * @param $mdDialog
-     * @param $ionicLoading
-     * @param newsApiService
-     * @param $ionicScrollDelegate
+     * Creates an instance of NewsListController.
+     * 
+     * @param {IScope} $scope
+     * @param {angular.ui.IStateService} $state
+     * @param {angular.material.IDialogService} $mdDialog
+     * @param {ionic.loading.IonicLoadingService} $ionicLoading
+     * @param {NewsApiService} newsApiService
+     * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
      */
     constructor( private $scope: IScope,
-                 private $state: IStateService,
+                 private $state: angular.ui.IStateService,
                  private $mdDialog: angular.material.IDialogService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
                  private newsApiService: NewsApiService,
@@ -95,6 +95,8 @@ export class NewsListController {
                                         this.news = this.news.concat( nextNews );
                                         this.hasMoreNews = ( nextNews.length === this.filter.pageSize );
                                         this.populated = true;
+
+                                        return nextNews;
                                     } )
                                     .finally( () => {
                                         this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );

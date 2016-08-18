@@ -1,9 +1,7 @@
 import { IScope, IWindowService, ITimeoutService, ILogService, IRootScopeService } from 'angular';
-import { IStateService } from 'angular-ui-router';
 
 import { AcessoCidadaoService, GoogleService, FacebookService, DigitsService, AcessoCidadaoClaims } from '../authentication/index';
 import defaultAvatar from './img/user.png!image';
-
 import { ToastService } from '../toast/index';
 
 /**
@@ -42,7 +40,7 @@ export default class MenuController {
      * @param {angular.material.ISidenavService} $mdSidenav
      * @param {ILogService} $log
      * @param {ionic.navigation.IonicHistoryService} $ionicHistory
-     * @param {IStateService} $state
+     * @param {angular.ui.IStateService} $state
      * @param {any} $ionicNativeTransitions
      * @param {ionic.platform.IonicPlatformService} $ionicPlatform
      * @param {angular.material.IDialogService} $mdDialog
@@ -61,7 +59,7 @@ export default class MenuController {
         private $mdSidenav: angular.material.ISidenavService,
         private $log: ILogService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private $state: IStateService,
+        private $state: angular.ui.IStateService,
         private $ionicNativeTransitions,
         private $ionicPlatform: ionic.platform.IonicPlatformService,
         private $mdDialog: angular.material.IDialogService,

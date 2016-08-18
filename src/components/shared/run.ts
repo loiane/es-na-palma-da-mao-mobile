@@ -11,7 +11,7 @@ import { ISettings } from './settings/index';
  * 
  * @param {*} $rootScope
  * @param {IWindowService} $window
- * @param {ng.ui.IStateService} $state
+ * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
  * @param {ionic.navigation.IonicHistoryService} $ionicHistory
  * @param {angular.material.IDialogService} $mdDialog
@@ -22,7 +22,7 @@ import { ISettings } from './settings/index';
  */
 function run( $rootScope: any,
               $window: IWindowService,
-              $state: ng.ui.IStateService,
+              $state: angular.ui.IStateService,
               $ionicPlatform: ionic.platform.IonicPlatformService,
               $ionicHistory: ionic.navigation.IonicHistoryService,
               $mdDialog: angular.material.IDialogService,

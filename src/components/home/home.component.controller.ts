@@ -1,4 +1,3 @@
-import { IStateService } from 'angular-ui-router';
 import { IWindowService } from 'angular';
 import { ISettings } from '../shared/settings/index';
 
@@ -9,11 +8,11 @@ export class HomeController {
     /**
      * Creates an instance of HomeController.
      * 
-     * @param {IStateService} $state
+     * @param {angular.ui.IStateService} $state
      * @param {IWindowService} $window
      * @param {ISettings} settings
      */
-    constructor( private $state: IStateService,
+    constructor( private $state: angular.ui.IStateService,
                  private $window: IWindowService,
                  private settings: ISettings ) {
     }

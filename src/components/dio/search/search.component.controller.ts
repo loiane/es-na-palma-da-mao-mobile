@@ -1,5 +1,4 @@
 import { IScope, IPromise, IWindowService, ILogService } from 'angular';
-import { IStateService } from 'angular-ui-router';
 
 import filterTemplate from './filter/filter.html';
 import { FilterController } from './filter/filter.controller';
@@ -39,7 +38,7 @@ export class SearchController {
      * Creates an instance of SearchController.
      * 
      * @param {IScope} $scope
-     * @param {IStateService} $state
+     * @param {angular.ui.IStateService} $state
      * @param {IWindowService} $window
      * @param {angular.material.IDialogService} $mdDialog
      * @param {ionic.loading.IonicLoadingService} $ionicLoading
@@ -48,7 +47,7 @@ export class SearchController {
      * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
      */
     constructor( private $scope: IScope,
-                 private $state: IStateService,
+                 private $state: angular.ui.IStateService,
                  private $window: IWindowService,
                  private $mdDialog: angular.material.IDialogService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,

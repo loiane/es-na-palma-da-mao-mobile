@@ -1,5 +1,3 @@
-import { IStateService } from 'angular-ui-router';
-
 export class DashBoardController {
 
     public static $inject: string[] = [ '$state' ];
@@ -7,9 +5,9 @@ export class DashBoardController {
     /**
      * Creates an instance of DashBoardController.
      * 
-     * @param {IStateService} $state
+     * @param {angular.ui.IStateService} $state
      */
-    constructor( private $state: IStateService ) {
+    constructor( private $state: angular.ui.IStateService ) {
         this.activate();
     }
 
