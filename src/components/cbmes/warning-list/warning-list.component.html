@@ -1,12 +1,36 @@
-<ion-view title="Avisos">
+<ion-view>
+	<ion-nav-title>
+		Alertas
+	</ion-nav-title>
 	<ion-content id="state-warning-list">
 		<md-content>
 			<md-list>
-				<div ng-repeat="warning in vm.warnings">
-					<md-list-item class="md-2-line" ng-click="vm.goToWarning(warning.id)">
-						Aviso
-					</md-list-item>
+				<md-subheader ng-if="vm.warnings.length" class="md-no-sticky">
+					{{ vm.warnings.length }} Alertas
+				</md-subheader>
+				<md-list-item class="md-2-line" ng-repeat="warning in vm.warnings">
+
+					<div class="md-padding" flex>
+						<div class="md-list-item-text md-padding">
+							<h4>
+								<strong>{{warning.title}}</strong>
+							</h4>
+							<h5>{{warning.level}}</h5>
+							<h5>{{warning.region.name}}</h5>
+							<p>{{warning.description}}</p>
+						</div>
+					</div>
+
 					<md-divider></md-divider>
+				</md-list-item>
+
+				<div ng-if="vm.populated && !vm.warnings.length" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
+					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
+						<div class="md-subhead" flex>Listagem de alertas dos bombeiros </div>
+						<div style="color: #999;" flex>
+							Nenhum alerta nos últimos 7 dias <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+						</div>
+					</div>
 				</div>
 			</md-list>
 		</md-content>

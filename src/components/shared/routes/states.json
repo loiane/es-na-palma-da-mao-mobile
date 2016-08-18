@@ -112,5 +112,11 @@
     "url": "dio",
     "type": "load",
     "src": "components/dio/latest/index"
+  },
+  {
+    "name": "app.warningList",
+    "url": "warningList",
+    "type": "load",
+    "src": "components/cbmes/warning-list/index"
   }
 ]

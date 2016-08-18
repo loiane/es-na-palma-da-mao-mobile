@@ -1,22 +1,19 @@
 import { IScope, IPromise } from 'angular';
 import { IStateService } from 'angular-ui-router';
 
-import { CbmesApiService } from '../shared/index';
+import { CbmesApiService, Warning } from '../shared/index';
 
 export class WarningListController {
 
     public static $inject: string[] = [
         '$scope',
         '$state',
-        '$mdDialog',
         '$ionicLoading',
-        'newsApiService',
-        '$ionicScrollDelegate'
+        'cbmesApiService'
     ];
 
-    private warning: Warning[] = [];
-    private activated = false;
-    private populated = false;
+    private warnings: Warning[] = [];
+    private populated: boolean = false;
 
     constructor( private $scope: IScope,
                  private $state: IStateService,
@@ -29,30 +26,17 @@ export class WarningListController {
      * Ativa o controller
      */
     public activate(): void {
-        this.getLastWarnings()
-            .finally( () => {
-                this.activated = true;
-            } );
+        this.getWarnings()
+            .finally( () => this.populated = true );
     }
 
     /**
-     * Obtém uma lista de notícias
-     */
-    public getLastWarnings( ): IPromise<Warning[]> {
-
-        return this.cbmesApiService.getLastWarnings( )
-                                    .then( warnings => {
-                                        this.warnings = warnings;
-                                        this.populated = true;
-                                    } );
-    }
-
-    /**
-     * Navega para um notícia
+     * Retorna os alertas dos últimos 7 dias 
      * 
-     * @param {string} id
+     * @returns {IPromise<Warning[]>}
      */
-    public goToWarning( id: string ): void {
-        this.$state.go( 'app.warning/:id', { id: id } );
+    public getWarnings(): IPromise<Warning[]> {
+        return this.cbmesApiService.getLastWarnings()
+                                   .then( warnings => this.warnings = warnings );
     }
 }

@@ -8,8 +8,10 @@ export class TicketColorService {
     private levels = [
         { name: 'leve', color: 'green' },
         { name: 'média', color: 'yellow' },
+        { name: 'media', color: 'yellow' },
         { name: 'grave', color: 'red' },
-        { name: 'gravíssima', color: 'black' }
+        { name: 'gravíssima', color: 'black' },
+        { name: 'gravissima', color: 'black' }
     ];
 
     /**

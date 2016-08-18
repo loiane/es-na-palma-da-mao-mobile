@@ -13,8 +13,8 @@ export default angular.module( 'warning-list.component', dependencies )
                       .config( [
                           '$stateProvider', ( $stateProvider ) => {
                               $stateProvider
-                                  .state( 'app.warning-list', {
-                                      url: 'warning-list',
+                                  .state( 'app.warningList', {
+                                      url: 'warningList',
                                       data: {title: 'Avisos'},
                                       views: {
                                           content: {
