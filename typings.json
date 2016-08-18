@@ -1,6 +1,6 @@
 {
   "globalDependencies": {
-    "angular": "registry:dt/angular#1.5.0+20160627105203",
+    "angular": "registry:dt/angular#1.5.0+20160809151918",
     "angular-material": "registry:dt/angular-material#1.0.0-rc5.0+20160627174759",
     "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
     "chai": "registry:dt/chai#3.4.0+20160601211834",

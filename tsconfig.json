@@ -11,13 +11,7 @@
     "noResolve": false,
     "outDir": "www/components"
   },
-  "filesGlob": [
-    ".src/components/**/*.ts"
-  ],
-  "files": [
-    "typings/index.d.ts", 
-    "src/components/main.ts"
-  ],
+  
   "exclude": [
     "www",
     "config",
