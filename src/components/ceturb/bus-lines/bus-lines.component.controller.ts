@@ -77,10 +77,10 @@ export class BusLinesController {
                 this.cachedLines = this.filteredLines = <BusLine[]>lines;
                 this.populated = true;
                 return this.cachedLines;
-            })
-            .catch(() => {
+            } )
+            .catch( () => {
                 this.cachedLines = this.filteredLines = [];
-            }).finally( () => {
+            } ).finally( () => {
                 this.$ionicLoading.hide();
             } );
     }
