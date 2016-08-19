@@ -20,6 +20,7 @@ import {
     DigitsAuthResponse,
     GoogleAuthResponse
 } from '../shared/authentication/index';
+import { PushConfig } from '../shared/push/index';
 
 /**
  * 
@@ -44,7 +45,8 @@ export class LoginController {
         'settings',
         '$window',
         '$ionicHistory',
-        '$ionicLoading'
+        '$ionicLoading',
+        'pushConfig'
     ];
 
     private user: { username: string, password: string } = { username: '', password: '' };
@@ -67,6 +69,7 @@ export class LoginController {
      * @param {IWindowService} $window
      * @param {IonicHistoryService} $ionicHistory
      * @param {IonicLoadingService} $ionicLoading
+     * @param {PushConfig} pushConfig
      */
     constructor( private $state: angular.ui.IStateService,
                  private acessoCidadaoService: AcessoCidadaoService,
@@ -78,7 +81,8 @@ export class LoginController {
                  private settings: ISettings,
                  private $window: IWindowService,
                  private $ionicHistory: ionic.navigation.IonicHistoryService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService ) {
+                 private $ionicLoading: ionic.loading.IonicLoadingService,
+                 private pushConfig: PushConfig ) {
         this.activate();
     }
 
@@ -201,6 +205,7 @@ export class LoginController {
      * Callback de sucesso no login no acesso cidadão.
      */
     public onAcessoCidadaoLoginSuccess(): void {
+        this.pushConfig.init();
         this.user = undefined;
         this.goToDashboard();
     }

@@ -23,7 +23,7 @@ declare interface Navigator {
 
 
 declare module 'chai' {
-     interface LanguageChains {
+    interface LanguageChains {
         called: Chai.Assertion;
     }
 }
@@ -46,4 +46,15 @@ declare module '*.html' {
 declare module '*.json' {
     const content: any;
     export = content;
+}
+
+declare namespace PhonegapPluginPush {
+    interface PushNotificationStatic {
+        /**
+         * 
+         * 
+         * @param {() => any} [successHandler]
+         */
+        hasPermission( successHandler?: ( data: any ) => any );
+    }
 }
