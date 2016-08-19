@@ -5,6 +5,7 @@ import { HttpSnifferService } from './http/http-sniffer.service';
 import { IWindowService, IRootScopeService } from 'angular';
 import jwt from 'jwt-simple';
 import { ISettings } from './settings/index';
+import { CordovaPermissions } from './permissions/index';
 
 /**
  * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
@@ -30,7 +31,8 @@ function run( $rootScope: any,
               acessoCidadaoService: AcessoCidadaoService,
               httpSnifferService: HttpSnifferService,
               settings: ISettings,
-              $localStorage: any ) {
+              $localStorage: any,
+              cordovaPermissions: CordovaPermissions ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -123,6 +125,9 @@ function run( $rootScope: any,
             $window.navigator.splashscreen.hide();
         }
 
+        // Check coarse location permissions
+        cordovaPermissions.RequestCoarseLocationPermission();
+
        /* // Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
         if ( isAuthenticated() ) {
             // TODO: Refresh Token?
@@ -151,7 +156,8 @@ run.$inject = [
     'acessoCidadaoService',
     'httpSnifferService',
     'settings',
-    '$localStorage'
+    '$localStorage',
+    'cordovaPermissions'
 ];
 
 export default run;
