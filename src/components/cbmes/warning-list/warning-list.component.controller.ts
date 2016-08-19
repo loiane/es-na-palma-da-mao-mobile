@@ -1,26 +1,24 @@
 import { IScope, IPromise } from 'angular';
 
-import { CBMESApiService, Warning } from '../shared/index';
+import { CbmesApiService, Warning } from '../shared/index';
 
 export class WarningListController {
 
     public static $inject: string[] = [
         '$scope',
         '$state',
-        '$mdDialog',
         '$ionicLoading',
-        'newsApiService',
-        '$ionicScrollDelegate'
+        'cbmesApiService'
     ];
 
     private warnings: Warning[] = [];
-    private activated = false;
-    private populated = false;
+    private activated: boolean = false;
+    private populated: boolean = false;
 
     constructor( private $scope: IScope,
                  private $state: angular.ui.IStateService,
                  private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private cbmesApiService: CBMESApiService ) {
+                 private cbmesApiService: CbmesApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -28,30 +26,17 @@ export class WarningListController {
      * Ativa o controller
      */
     public activate(): void {
-        this.getLastWarnings()
-            .finally( () => {
-                this.activated = true;
-            } );
+        this.getWarnings()
+            .finally( () => this.populated = true );
     }
 
     /**
-     * Obtém uma lista de notícias
-     */
-    public getLastWarnings( ): IPromise<Warning[]> {
-
-        return this.cbmesApiService.getLastWarnings( )
-                                    .then( warnings => {
-                                        this.warnings = warnings;
-                                        this.populated = true;
-                                    } );
-    }
-
-    /**
-     * Navega para um notícia
+     * Retorna os alertas dos últimos 7 dias 
      * 
-     * @param {string} id
+     * @returns {IPromise<Warning[]>}
      */
-    public goToWarning( id: string ): void {
-        this.$state.go( 'app.warning/:id', { id: id } );
+    public getWarnings(): IPromise<Warning[]> {
+        return this.cbmesApiService.getLastWarnings()
+                                   .then( warnings => this.warnings = warnings );
     }
 }

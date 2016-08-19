@@ -1,7 +1,7 @@
-import { CBMESApiService } from './cbmes-api.service';
+import { CbmesApiService } from './cbmes-api.service';
 
 export default angular.module( 'cbmes.shared', [] )
-                      .service( 'CBMESApiService', CBMESApiService );
+                      .service( 'cbmesApiService', CbmesApiService );
 
 export * from './cbmes-api.service';
 export * from './models/index';
