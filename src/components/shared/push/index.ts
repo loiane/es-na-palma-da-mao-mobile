@@ -1,11 +1,10 @@
 import angular from 'angular';
-import { IServiceProvider } from 'angular';
-
 import { PushService } from './push.service';
-import pushConfig from './push.config';
+import { PushConfig } from './push.config';
 
 export default angular.module( 'shared.push', [] )
                       .service( 'pushService', PushService )
-                      .run( pushConfig );
+                      .service( 'pushConfig', PushConfig );
 
 export * from './push.service';
+export * from './push.config';

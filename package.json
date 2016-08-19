@@ -229,7 +229,7 @@
     "https://github.com/Telerik-Verified-Plugins/NativePageTransitions",
     {
       "variables": {
-        "SENDER_ID": "1014254010175"
+        "SENDER_ID": ""
       },
       "locator": "https://github.com/prodest/phonegap-plugin-push",
       "id": "phonegap-plugin-push"
