@@ -208,6 +208,7 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-inappbrowser",
+    "cordova-plugin-android-permissions",
     {
       "variables": {
         "FABRIC_API_KEY": "",

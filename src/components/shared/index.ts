@@ -20,11 +20,11 @@ import routes from './routes/index';
 import authentication from './authentication/index';
 import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
-
 import pushModule from './push/index';
+import permissionsModule from './permissions/index';
 
 let dependencies = [
-    menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name, pushModule.name
+    menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name, pushModule.name, permissionsModule.name
 ];
 
 export * from './toast/index';

@@ -58,3 +58,7 @@ declare namespace PhonegapPluginPush {
         hasPermission( successHandler?: ( data: any ) => any );
     }
 }
+
+interface CordovaPlugins {
+    permissions: any;
+}
