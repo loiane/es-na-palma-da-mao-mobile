@@ -1,0 +1,45 @@
+
+#state-driver-license .bg-yellow {
+    background-color: #fdc44a !important; 
+}
+
+#state-driver-license .md-raised.button-block{
+   margin:20px 0px;
+}
+
+#state-driver-license img#img-cnh{
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    max-width: 100%;
+    margin-top: -50px;
+    margin-left: 35px;
+    margin-bottom: -50px;
+}
+
+
+#state-driver-license .question {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+#state-driver-license blockquote {
+    /*margin: 0 0 10px 0;
+    border-left: 2px solid #c86673; 
+    padding: 10px 20px 10px 10px;*/
+
+    margin: 0;
+    border-left: 0px solid #c86673;
+    padding: 0 0 10px 0;
+}
+
+#state-driver-license #disclaimer { text-align: center; }
+
+#state-driver-license blockquote::before {
+    content: none;
+}
+
+#state-driver-license .accent {
+	color: #c86673;
+}
