@@ -38,12 +38,12 @@ export class DialogService {
         let opts = this.buildOptionsTo( 'alert', contextualOptions );
 
         let alert = this.$mdDialog.alert()
-                        .clickOutsideToClose( opts.clickOutsideToClose )
-                        .title( opts.title )
-                        .textContent( opts.content )
-                        .htmlContent( opts.htmlContent )
-                        .targetEvent( opts.targetEvent )
-                        .ok( opts.ok );
+            .clickOutsideToClose( opts.clickOutsideToClose )
+            .title( opts.title )
+            .textContent( opts.content )
+            .htmlContent( opts.htmlContent )
+            .targetEvent( opts.targetEvent )
+            .ok( opts.ok );
         return this.$mdDialog.show( alert );
     }
 
@@ -58,12 +58,12 @@ export class DialogService {
         let opts = this.buildOptionsTo( 'confirm', contextualOptions );
 
         let confirm = this.$mdDialog.confirm()
-                          .title( opts.title )
-                          .textContent( opts.content )
-                          .htmlContent( opts.htmlContent )
-                          .targetEvent( opts.targetEvent )
-                          .ok( opts.ok )
-                          .cancel( opts.cancel );
+            .title( opts.title )
+            .textContent( opts.content )
+            .htmlContent( opts.htmlContent )
+            .targetEvent( opts.targetEvent )
+            .ok( opts.ok )
+            .cancel( opts.cancel );
         return this.$mdDialog.show( confirm );
     }
 

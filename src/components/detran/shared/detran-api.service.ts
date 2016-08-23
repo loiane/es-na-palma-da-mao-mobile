@@ -1,7 +1,7 @@
 import { IHttpService, IPromise } from 'angular';
 
 import { ISettings } from '../../shared/settings/index';
-import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus, Vehicle } from './models/index';
+import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus, Vehicle, DriverLicense } from './models/index';
 
 
 export class DetranApiService {
@@ -52,5 +52,11 @@ export class DetranApiService {
         return this.$http
             .get( `${this.settings.api.detran}/vehicle/tickets`, { params: vehicle } )
             .then(( response: { data: Ticket[] } ) => response.data );
+    }
+
+    public saveLicense( license: DriverLicense ): IPromise<any> {
+        return this.$http
+            .post( `${this.settings.api.acessocidadao}/Perfil/SalvarCNH`, { numero: license.registerNumber, cedula: license.ballot } )
+            .then(( response: { data: any } ) => response.data );
     }
 }

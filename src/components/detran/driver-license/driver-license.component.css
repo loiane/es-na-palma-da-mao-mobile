@@ -8,16 +8,9 @@
 }
 
 #state-driver-license img#img-cnh{
-    -moz-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
     max-width: 100%;
-    margin-top: -50px;
-    margin-left: 35px;
-    margin-bottom: -50px;
+    margin-top: 5px;
 }
-
 
 #state-driver-license .question {
     margin-top: 5px;
@@ -25,10 +18,6 @@
 }
 
 #state-driver-license blockquote {
-    /*margin: 0 0 10px 0;
-    border-left: 2px solid #c86673; 
-    padding: 10px 20px 10px 10px;*/
-
     margin: 0;
     border-left: 0px solid #c86673;
     padding: 0 0 10px 0;
@@ -43,3 +32,9 @@
 #state-driver-license .accent {
 	color: #c86673;
 }
+
+#detran-register-license-dialog md-dialog-content md-input-container {
+    margin: 5px 0 0 0 !important;
+}
+
+#detran-register-license-dialog input[type="number"] { border-bottom: 1px solid rgba(0,0,0,0.12); }

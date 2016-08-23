@@ -22,9 +22,9 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<div>Clique no botão "+" e preencha o <span class="accent">n° de registro</span> e <span class="accent">cédula</span> da carteira, destacados na imagem abaixo.</div>
-					<img id="img-cnh" ng-src="{{vm.imgCNH}}" alt="">
-					<md-button id="detran-btn-add-cnh" class="md-raised md-primary button-block">Cadastrar CNH</md-button>
+					<div>Clique no botão "Cadastrar CNH" e preencha o <span class="accent">n° de registro</span> e <span class="accent">cédula</span> da carteira, destacados na imagem abaixo.</div>
+					<img id="img-cnh" ng-src="{{vm.imgLicense}}" alt="">
+					<md-button id="detran-btn-add-cnh" class="md-raised md-primary button-block" ng-click="vm.registerLicense()">Cadastrar CNH</md-button>
 				</div>
 			</div>
 			<div class="row">

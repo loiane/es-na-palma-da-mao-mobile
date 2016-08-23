@@ -4,6 +4,8 @@ import { AcessoCidadaoService, GoogleService, FacebookService, AcessoCidadaoClai
 import defaultAvatar from './img/user.png!image';
 import { ToastService } from '../toast/index';
 
+import { DriverLicenseStorage } from '../../detran/shared/index';
+
 /**
  * Controller raiz da aplicação
  */
@@ -28,12 +30,14 @@ export default class MenuController {
         'facebookService',
         'googleService',
         'loginService',
-        'toast'
+        'toast',
+        'detranStorage'
     ];
 
     /**
-     * Cria uma instância de MenuController.
+     * Creates an instance of MenuController.
      * 
+     * @param {IRootScopeService} $rootScope
      * @param {IScope} $scope
      * @param {IWindowService} $window
      * @param {ITimeoutService} $timeout
@@ -50,7 +54,9 @@ export default class MenuController {
      * @param {AcessoCidadaoService} acessoCidadaoService
      * @param {FacebookService} facebookService
      * @param {GoogleService} googleService
-     * @param {DigitsService} digitsService
+     * @param {LoginService} loginService
+     * @param {ToastService} toast
+     * @param {DriverLicenseStorage} driverLicenseStorage
      */
     constructor( private $rootScope: IRootScopeService,
         private $scope: IScope,
@@ -70,7 +76,8 @@ export default class MenuController {
         private facebookService: FacebookService,
         private googleService: GoogleService,
         private loginService: LoginService,
-        private toast: ToastService ) {
+        private toast: ToastService,
+        private driverLicenseStorage: DriverLicenseStorage ) {
         this.activate();
     }
 
