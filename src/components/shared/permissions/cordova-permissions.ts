@@ -6,6 +6,8 @@
  */
 export class CordovaPermissions {
 
+    public static $inject: string[] = [ '$window' ];
+
     /**
      *  
      * @private
@@ -17,12 +19,15 @@ export class CordovaPermissions {
      * Creates an instance of CordovaPermissions.
      * 
      */
-    constructor() {
-        if ( cordova.plugins.permissions ) {
+    constructor(private $window: Window) {
+        if ( this.isCordovaApp && this.$window.cordova.plugins.permissions ) {
             this.permissions = cordova.plugins.permissions;
         }
     }
 
+    private get isCordovaApp() {
+        return !!this.$window.cordova;
+    }
 
     /**
      * 
@@ -46,7 +51,9 @@ export class CordovaPermissions {
      * @param {string[]} permissions
      */
     public RequestPermissions( permissions: string[] ): void {
-        this.permissions.requestPermissions( permissions, ( status: any[] ) => status, this.HandleError );
+        if ( this.permissions ) {
+            this.permissions.requestPermissions( permissions, ( status: any[] ) => status, this.HandleError );
+        }
     }
 
     /**
@@ -56,7 +63,9 @@ export class CordovaPermissions {
      * @param {( status: any ) => void} successCallback
      */
     public HasPermission( permission: string, successCallback: ( status: any ) => void ): void {
-        this.permissions.hasPermission( permission, successCallback, this.HandleError );
+        if ( this.permissions ) {
+            this.permissions.hasPermission( permission, successCallback, this.HandleError );
+        }
     }
 
     /**

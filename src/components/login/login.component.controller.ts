@@ -1,25 +1,8 @@
 import { IWindowService, IPromise } from 'angular';
 
-import { ISettings } from '../shared/settings/index';
 import { DialogService } from '../shared/dialog/dialog.service';
 import { ToastService } from '../shared/toast/index';
-import {
-    AcessoCidadaoService,
-    DigitsService,
-    FacebookService,
-    GoogleService,
-    Identity,
-    AcessoCidadaoIdentity,
-    SocialNetworkIdentity,
-    PhoneIdentity,
-    AcessoCidadaoClaims,
-    LowLevelProtocolClaims,
-    FacebookResponse,
-    FacebookAuthResponse,
-    DigitsAccessToken,
-    DigitsAuthResponse,
-    GoogleAuthResponse
-} from '../shared/authentication/index';
+import { LoginService, Identity } from '../shared/authentication/index';
 import { PushConfig } from '../shared/push/index';
 
 /**
@@ -36,13 +19,9 @@ export class LoginController {
      */
     public static $inject: string[] = [
         '$state',
-        'acessoCidadaoService',
-        'digitsService',
-        'facebookService',
-        'googleService',
+        'loginService',
         'dialog',
         'toast',
-        'settings',
         '$window',
         '$ionicHistory',
         '$ionicLoading',
@@ -54,46 +33,28 @@ export class LoginController {
         accountNotLinked: 'Usuário não encontrado.'
     };
 
-
     /**
-     * @constructor
-     *
+     * Creates an instance of LoginController.
+     * 
      * @param {angular.ui.IStateService} $state
-     * @param {AcessoCidadaoService} acessoCidadaoService
-     * @param {DigitsService} digitsService
-     * @param {FacebookService} facebookService
-     * @param {GoogleService} googleService
+     * @param {LoginService} loginService
      * @param {DialogService} dialog
      * @param {ToastService} toast
-     * @param {} settings
+     * @param {ISettings} settings
      * @param {IWindowService} $window
-     * @param {IonicHistoryService} $ionicHistory
-     * @param {IonicLoadingService} $ionicLoading
+     * @param {ionic.navigation.IonicHistoryService} $ionicHistory
+     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {PushConfig} pushConfig
      */
     constructor( private $state: angular.ui.IStateService,
-                 private acessoCidadaoService: AcessoCidadaoService,
-                 private digitsService: DigitsService,
-                 private facebookService: FacebookService,
-                 private googleService: GoogleService,
-                 private dialog: DialogService,
-                 private toast: ToastService,
-                 private settings: ISettings,
-                 private $window: IWindowService,
-                 private $ionicHistory: ionic.navigation.IonicHistoryService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private pushConfig: PushConfig ) {
-        this.activate();
+        private loginService: LoginService,
+        private dialog: DialogService,
+        private toast: ToastService,
+        private $window: IWindowService,
+        private $ionicHistory: ionic.navigation.IonicHistoryService,
+        private $ionicLoading: ionic.loading.IonicLoadingService,
+        private pushConfig: PushConfig ) {
     }
-
-
-    /**
-     * Ativa o controller
-     */
-    public activate(): void {
-        this.acessoCidadaoService.initialize( this.settings.identityServer.url );
-    }
-
 
     /**
      * Executa login na aplicação de acordo com as configurações do settings, usuário e senha.
@@ -101,19 +62,12 @@ export class LoginController {
     public login(): void {
 
         if ( !this.user.username || !this.user.password ) {
-            this.toast.info( { title: 'Login e senha são obrigatórios' } ); return;
+            this.toast.info( { title: 'Login e senha são obrigatórios' }); return;
         }
 
-        let identity: AcessoCidadaoIdentity = {
-            client_id: this.settings.identityServer.clients.espm.id,
-            client_secret: this.settings.identityServer.clients.espm.secret,
-            grant_type: 'password',
-            scope: 'openid offline_access',
-            username: this.user.username,
-            password: this.user.password
-        };
-
-        this.signInAcessoCidadao( identity );
+        this.loginService.login( this.user.username, this.user.password )
+            .then(() => this.onAcessoCidadaoLoginSuccess() )
+            .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }
 
     /**
@@ -121,68 +75,28 @@ export class LoginController {
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
     public facebookLogin(): void {
-        this.facebookService.login( [ 'email', 'public_profile' ], ( authResponse: FacebookAuthResponse ) => {
-
-            let identity: SocialNetworkIdentity = {
-                client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
-                client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
-                grant_type: 'customloginexterno',
-                scope: 'openid offline_access',
-                provider: 'Facebook',
-                accesstoken: authResponse.accessToken
-            };
-
-            this.signInAcessoCidadao( identity );
-
-        }, () => this.toast.error( { title: '[Facebook] Falha no login' } ) );
+        this.loginService.facebookLogin(
+            ( identity ) => this.signInAcessoCidadao( identity ),
+            () => this.toast.error( { title: '[Facebook] Falha no login' })
+        );
     }
 
-     /**
-      * Realiza o login usando conta do google
-      */
-     public googleLogin(): void {
-        let options = {
-            'scopes': 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-            'webClientId': this.settings.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
-            'offline': true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
-        };
-
-        this.googleService.login( options, ( authResponse: GoogleAuthResponse )  => {
-
-            let identity: SocialNetworkIdentity = {
-                client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
-                client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
-                grant_type: 'customloginexterno',
-                scope: 'openid offline_access',
-                provider:  'Google',
-                accesstoken: authResponse.oauthToken
-            };
-
-            this.signInAcessoCidadao( identity );
-
-        }, () => this.toast.error( { title: '[Google] Falha no login' } ) );
+    /**
+     * Realiza o login usando conta do google
+     */
+    public googleLogin(): void {
+        this.loginService.googleLogin(
+            identity => this.signInAcessoCidadao( identity ),
+            () => this.toast.error( { title: '[Google] Falha no login' }) );
     }
 
-     /**
-      * Realiza login digits
-      */
-     public digitsLogin(): void {
-        this.digitsService.login( {}, ( authResponse: DigitsAuthResponse ) => {
-
-            let identity: PhoneIdentity = {
-                client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
-                client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
-                grant_type: 'customloginexterno',
-                scope: 'openid offline_access',
-                provider: 'Celular',
-                accesstoken: 'token',
-                apiUrl: authResponse['X-Auth-Service-Provider'],
-                authHeader: authResponse['X-Verify-Credentials-Authorization'],
-            };
-
-            this.signInAcessoCidadao( identity );
-
-        }, () =>  this.toast.error( { title: '[SMS] Falha no login' } ) );
+    /**
+     * Realiza login digits
+     */
+    public digitsLogin(): void {
+        this.loginService.digitsLogin(
+            ( identity ) => this.signInAcessoCidadao( identity ),
+            () => this.toast.error( { title: '[SMS] Falha no login' }) );
     }
 
 
@@ -193,13 +107,11 @@ export class LoginController {
      */
     public signInAcessoCidadao( identity: Identity ): void {
         this.$ionicLoading.show();
-        this.acessoCidadaoService
-            .signIn( identity )
-            .then( () => this.onAcessoCidadaoLoginSuccess() )
+        this.loginService.signInAcessoCidadao( identity )
+            .then(() => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) )
             .finally( () => this.$ionicLoading.hide() );
     }
-
 
     /**
      * Callback de sucesso no login no acesso cidadão.
@@ -215,14 +127,13 @@ export class LoginController {
      * 
      * @param {{ data: { error: string } }} error
      */
-    public onAcessoCidadaoLoginError( error: { data: { error: string } } ): void {
+    public onAcessoCidadaoLoginError( error: { data: { error: string } }): void {
         if ( this.isAccountNotLinked( error.data ) ) {
             this.showDialogAccountNotLinked();
         } else {
-            this.toast.error( { title: 'Falha no Login' } );
+            this.toast.error( { title: 'Falha no Login' });
         }
     }
-
 
     /**
     *
@@ -232,9 +143,9 @@ export class LoginController {
             title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
             ok: 'Criar conta'
-        } ).then( () => {
+        }).then(() => {
             this.$window.open( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' );
-        } );
+        });
     }
 
     /**
@@ -254,7 +165,7 @@ export class LoginController {
         this.$ionicHistory.nextViewOptions( {
             disableAnimate: true,
             historyRoot: true
-        } );
+        });
 
         this.$state.go( 'app.dashboard.newsHighlights' );
     }

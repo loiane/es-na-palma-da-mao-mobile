@@ -218,7 +218,6 @@
       "locator": "cordova-plugin-digits",
       "id": "cordova-plugin-digits"
     },
-    "cordova-plugin-googleplus",
     {
       "variables": {
         "APP_ID": "926428880739042",
@@ -234,6 +233,13 @@
       },
       "locator": "https://github.com/prodest/phonegap-plugin-push",
       "id": "phonegap-plugin-push"
+    },
+    {
+      "variables": {
+        "REVERSED_CLIENT_ID": ""
+      },
+      "locator": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
+      "id": "cordova-plugin-googleplus"
     }
   ],
   "cordovaPlatforms": [

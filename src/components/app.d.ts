@@ -62,3 +62,7 @@ declare namespace PhonegapPluginPush {
 interface CordovaPlugins {
     permissions: any;
 }
+
+interface Window {
+    plugins: any;
+}

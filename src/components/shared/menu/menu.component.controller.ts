@@ -1,6 +1,6 @@
 import { IScope, IWindowService, ITimeoutService, ILogService, IRootScopeService } from 'angular';
 
-import { AcessoCidadaoService, GoogleService, FacebookService, DigitsService, AcessoCidadaoClaims } from '../authentication/index';
+import { AcessoCidadaoService, GoogleService, FacebookService, AcessoCidadaoClaims, LoginService } from '../authentication/index';
 import defaultAvatar from './img/user.png!image';
 import { ToastService } from '../toast/index';
 
@@ -27,7 +27,7 @@ export default class MenuController {
         'acessoCidadaoService',
         'facebookService',
         'googleService',
-        'digitsService',
+        'loginService',
         'toast'
     ];
 
@@ -69,7 +69,7 @@ export default class MenuController {
         private acessoCidadaoService: AcessoCidadaoService,
         private facebookService: FacebookService,
         private googleService: GoogleService,
-        private digitsService: DigitsService,
+        private loginService: LoginService,
         private toast: ToastService ) {
         this.activate();
     }
@@ -134,7 +134,7 @@ export default class MenuController {
                 this.$rootScope.backButtonPressedOnceToExit = true;
                 this.toast.info( { title: 'Aperte voltar novamente para sair' });
 
-                setTimeout( () => {
+                setTimeout(() => {
                     this.$rootScope.backButtonPressedOnceToExit = false;
                 }, 2000 );
 
@@ -215,18 +215,24 @@ export default class MenuController {
         this.$timeout(() => {
             this.closeSideNav();
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
-                this.$ionicHistory.nextViewOptions( {
-                    disableAnimate: true,
-                    disableBack: true,
-                    historyRoot: true
-                });
-                if ( this.$ionicNativeTransitions ) {
-                    this.$ionicNativeTransitions.stateGo( stateName, {}, {
-                        'type': 'fade'
-                    });
-                } else {
-                    this.$state.go( stateName );
-                }
+
+                // Only change state if has a valid token
+                this.loginService.refreshTokenAcessoCidadaoIfNeeded()
+                    .then(() => {
+                        this.$ionicHistory.nextViewOptions( {
+                            disableAnimate: true,
+                            disableBack: true,
+                            historyRoot: true
+                        });
+                        if ( this.$ionicNativeTransitions ) {
+                            this.$ionicNativeTransitions.stateGo( stateName, {}, {
+                                'type': 'fade'
+                            });
+                        } else {
+                            this.$state.go( stateName );
+                        }
+                    })
+                    .catch( () => this.$state.go('home') );
             }
         }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }
@@ -235,11 +241,7 @@ export default class MenuController {
      * Desloga usuário do sistema
      */
     public signOut(): void {
-        this.facebookService.logout();
-        this.googleService.logout();
-        this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
-
-        this.acessoCidadaoService.signOut(() => {
+        this.loginService.signOut(() => {
             this.navigateTo( 'home' );
         });
     }
