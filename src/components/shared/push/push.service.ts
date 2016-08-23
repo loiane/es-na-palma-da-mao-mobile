@@ -1,4 +1,7 @@
-import { ITimeoutService } from 'angular';
+import { ITimeoutService, IHttpService } from 'angular';
+
+import { ISettings } from '../settings/index';
+import { PushUser } from './models/index';
 
 export class PushService {
 
@@ -6,13 +9,29 @@ export class PushService {
         '$state',
         '$ionicHistory',
         '$ionicNativeTransitions',
-        '$mdSidenav'
+        '$http',
+        '$mdSidenav',
+        'settings',
+        '$localStorage'
     ];
 
     constructor( private $state: angular.ui.IStateService,
                  private $ionicHistory: ionic.navigation.IonicHistoryService,
                  private $ionicNativeTransitions,
-                 private $mdSidenav: angular.material.ISidenavService ) {
+                 private $http: IHttpService,
+                 private $mdSidenav: angular.material.ISidenavService,
+                 private settings: ISettings,
+                 private $localStorage ) {
+    }
+
+    public registerUser( token: string ) {
+        let data: PushUser = {
+            user: this.$localStorage.tokenClaims.sub,
+            type: ionic.Platform.platform(),
+            token: token,
+        };
+
+        this.$http.post( `${this.settings.api.push}/subscribe`, data );
     }
 
     public notify( data: any ): void {

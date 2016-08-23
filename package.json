@@ -208,6 +208,7 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-inappbrowser",
+    "cordova-plugin-android-permissions",
     {
       "variables": {
         "FABRIC_API_KEY": "",
@@ -217,7 +218,6 @@
       "locator": "cordova-plugin-digits",
       "id": "cordova-plugin-digits"
     },
-    "cordova-plugin-googleplus",
     {
       "variables": {
         "APP_ID": "926428880739042",
@@ -229,10 +229,17 @@
     "https://github.com/Telerik-Verified-Plugins/NativePageTransitions",
     {
       "variables": {
-        "SENDER_ID": "1014254010175"
+        "SENDER_ID": ""
       },
       "locator": "https://github.com/prodest/phonegap-plugin-push",
       "id": "phonegap-plugin-push"
+    },
+    {
+      "variables": {
+        "REVERSED_CLIENT_ID": ""
+      },
+      "locator": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
+      "id": "cordova-plugin-googleplus"
     }
   ],
   "cordovaPlatforms": [

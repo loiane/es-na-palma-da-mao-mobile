@@ -1,4 +1,6 @@
-import { IWindowService, IHttpService, IPromise } from 'angular';
+import { IWindowService, IHttpService, IPromise, IQService } from 'angular';
+import jwt from 'jwt-simple';
+
 import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './models/index';
 
 /**
@@ -9,22 +11,23 @@ import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './
  */
 export class AcessoCidadaoService {
 
-    public static $inject: string[] = [ '$window', '$http', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q' ];
     private identityServerUrl: string;
 
     /** @constructor */
     constructor( private $window: IWindowService,
         private $http: IHttpService,
-        private $localStorage ) {
+        private $localStorage,
+        private $q: IQService) {
     }
+
 
     /**
      * 
      * @param identityServerUrl
      */
-    public initialize( identityServerUrl: string ): void {
-        this.identityServerUrl = identityServerUrl;
-    }
+    public initialize( identityServerUrl: string): void {
+        this.identityServerUrl = identityServerUrl; }
 
     /**
      * 
@@ -76,7 +79,7 @@ export class AcessoCidadaoService {
             .then( token => {
                 this.saveTokenOnLocaStorage( token );
                 return this.getAcessoCidadaoUserClaims();
-            } );
+            });
     }
 
 
@@ -84,23 +87,24 @@ export class AcessoCidadaoService {
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.
      */
     protected getToken( data: Identity ): IPromise<Token> {
-        let getTokenUrl = `${this.identityServerUrl}/connect/token`;
+        return this.$http( this.getRequestTokenOptions( data ) )
+            .then(( response: { data: Token }) => {
+                return response.data;
+            });
+    }
 
-        let options: ng.IRequestConfig = {
-            url: getTokenUrl,
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            transformRequest: function ( obj ) {
-                let str = [];
-                for ( let p in obj ) {
-                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
-                }
-                return str.join( '&' );
-            },
-            data: data
-        };
-        return this.$http( options )
-            .then( ( response: { data: Token } ) => response.data );
+    public refreshToken( data: Identity ): IPromise<AcessoCidadaoClaims> {
+        let token = this.token;
+        if ( token ) {
+            data.refresh_token = token.refresh_token;
+            return this.getToken( data )
+                .then( token => {
+                    this.saveTokenOnLocaStorage( token );
+                    return this.getAcessoCidadaoUserClaims();
+                });
+        } else {
+            return this.$q.reject( new Error( 'Usuário não logado' ) );
+        }
     }
 
     /**
@@ -112,16 +116,15 @@ export class AcessoCidadaoService {
         let userClaimsUrl = `${this.identityServerUrl}/connect/userinfo`;
 
         return this.$http.get( userClaimsUrl )
-            .then( ( response: { data: AcessoCidadaoClaims } ) => {
+            .then(( response: { data: AcessoCidadaoClaims }) => {
                 // Check if the object is correct (This request can return the Acesso Cidadão login page)
                 if ( angular.isDefined( response.data.sid ) ) {
                     this.$localStorage.userClaims = response.data;
                 }
 
                 return response.data;
-            } );
+            });
     }
-
 
     /**
      * Persiste informações do token no local storage.
@@ -133,7 +136,6 @@ export class AcessoCidadaoService {
         this.$localStorage.tokenClaims = this.getTokenClaims( token );
     }
 
-
     /**
      * Faz logout do usuário. Remove o token do localstore e os claims salvos.
      */
@@ -143,7 +145,6 @@ export class AcessoCidadaoService {
         delete this.$localStorage.tokenClaims;
         success();
     }
-
 
     /**
     * Faz o parse do token e retorna os claims do usuário
@@ -180,5 +181,25 @@ export class AcessoCidadaoService {
                 throw 'Illegal base64url string!';
         }
         return this.$window.atob( output );
+    }
+
+    private getRequestTokenOptions( data ) {
+        let getTokenUrl = `${this.identityServerUrl}/connect/token`;
+
+        let options: ng.IRequestConfig = {
+            url: getTokenUrl,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            transformRequest: function ( obj ) {
+                let str = [];
+                for ( let p in obj ) {
+                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
+                }
+                return str.join( '&' );
+            },
+            data: data
+        };
+
+        return options;
     }
 }

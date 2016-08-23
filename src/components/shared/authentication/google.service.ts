@@ -12,7 +12,7 @@ export class GoogleService {
      * @param {*} $window
      * @param {*} $localStorage
      */
-    constructor( private $window: any, private $localStorage: any ) {
+    constructor( private $window: Window, private $localStorage: any ) {
     }
 
     /**

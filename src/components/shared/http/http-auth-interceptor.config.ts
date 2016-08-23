@@ -28,6 +28,11 @@ let httpInterceptorsConfig = $httpProvider => {
                 }
 
                 return config;
+            },
+            'responseError': ( rejection ) => {
+                // rejection.status 498 = invalid token
+                // console.error( 'responseError', rejection );
+                return $q.reject( rejection );
             }
         };
     };

@@ -1,10 +1,10 @@
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { AcessoCidadaoService } from './authentication/index';
+import { LoginService } from './authentication/index';
 import { HttpSnifferService } from './http/http-sniffer.service';
 import { IWindowService, IRootScopeService } from 'angular';
-import jwt from 'jwt-simple';
 import { ISettings } from './settings/index';
+import { CordovaPermissions } from './permissions/index';
 
 /**
  * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
@@ -21,16 +21,17 @@ import { ISettings } from './settings/index';
  * @param {ISettings} settings
  */
 function run( $rootScope: any,
-              $window: IWindowService,
-              $state: angular.ui.IStateService,
-              $ionicPlatform: ionic.platform.IonicPlatformService,
-              $ionicHistory: ionic.navigation.IonicHistoryService,
-              $mdDialog: angular.material.IDialogService,
-              $mdBottomSheet,
-              acessoCidadaoService: AcessoCidadaoService,
-              httpSnifferService: HttpSnifferService,
-              settings: ISettings,
-              $localStorage: any ) {
+    $window: IWindowService,
+    $state: angular.ui.IStateService,
+    $ionicPlatform: ionic.platform.IonicPlatformService,
+    $ionicHistory: ionic.navigation.IonicHistoryService,
+    $mdDialog: angular.material.IDialogService,
+    $mdBottomSheet,
+    loginService: LoginService,
+    httpSnifferService: HttpSnifferService,
+    settings: ISettings,
+    $localStorage: any,
+    cordovaPermissions: CordovaPermissions ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -47,24 +48,17 @@ function run( $rootScope: any,
         $rootScope.isAndroid = ionic.Platform.isAndroid();  // Check platform of running device is android or not.
         $rootScope.isIOS = ionic.Platform.isIOS();          // Check platform of running device is ios or not.
 
-         $rootScope.httpSnifferService = httpSnifferService;
-         $rootScope.uiState = {
-             loading: false,
-             pendingRequests: 0
-         };
-         // We can now watch the trafficCop service to see when there are pending
-         // HTTP requests that we're waiting for.
-         $rootScope.$watch( () => {
-             $rootScope.uiState.pendingRequests = httpSnifferService.pending.all;
-             $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
-         });
-    }
-
-    /**
-     * 
-     */
-    function initAuthentication() {
-        acessoCidadaoService.initialize( settings.identityServer.url );
+        $rootScope.httpSnifferService = httpSnifferService;
+        $rootScope.uiState = {
+            loading: false,
+            pendingRequests: 0
+        };
+        // We can now watch the trafficCop service to see when there are pending
+        // HTTP requests that we're waiting for.
+        $rootScope.$watch(() => {
+            $rootScope.uiState.pendingRequests = httpSnifferService.pending.all;
+            $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
+        });
     }
 
     /**
@@ -78,26 +72,6 @@ function run( $rootScope: any,
         $mdDialog.cancel();
     }
 
-    /**
-     * 
-     * 
-     * @returns {Boolean}
-     */
-    function isAuthenticated() {
-        let token = $localStorage.token;
-
-        if ( !token ) {
-            return false;
-        }
-
-        let decodedToken = jwt.decode( token, settings.identityServer.publicKey );
-        if ( !!decodedToken.error ) {
-            return false;
-        }
-
-        return true;
-    }
-
     $ionicPlatform.ready(() => {
         ionic.Platform.isFullScreen = true;
 
@@ -107,36 +81,35 @@ function run( $rootScope: any,
         }
 
         initialRootScope();
-        initAuthentication();
 
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();
         });
 
-        if ( acessoCidadaoService.authenticated ) {
-            $state.go( 'app.dashboard.newsHighlights' );
-        } else {
-            $state.go( 'home' );
-        }
-
         if ( $window.navigator.splashscreen ) {
             $window.navigator.splashscreen.hide();
         }
 
-       /* // Check if is authenticated and redirect correctly. After the verification hide the splashscreen on device
-        if ( isAuthenticated() ) {
-            // TODO: Refresh Token?
-            // let refreshTokenIdentity = settings.identityServer.refreshTokenIdentity;
-            // refreshTokenIdentity.refresh_token = $localStorage.token;
-            // acessoCidadaoService.getToken( refreshTokenIdentity ); 
-            $state.go( 'app.dashboard.newsHighlights' );
-        } else {
-            $state.go( 'home' );
-        }
+        // Check coarse location permissions
+        cordovaPermissions.RequestCoarseLocationPermission();
 
-         if ( $window.navigator.splashscreen ) {
+        // Refresh token if it's almost expired
+        loginService.refreshTokenAcessoCidadaoIfNeeded()
+            .then(() => {
+                $state.go( 'app.dashboard.newsHighlights' );
+            })
+            .catch(() => {
+                $state.go( 'home' );
+            });
+
+        if ( $window.navigator.splashscreen ) {
             $window.navigator.splashscreen.hide();
-        }*/
+        }
+    });
+
+    $ionicPlatform.on( 'resume', () => {
+        loginService.refreshTokenAcessoCidadaoIfNeeded()
+            .catch(() => $state.go( 'home' ) );
     });
 }
 
@@ -148,10 +121,11 @@ run.$inject = [
     '$ionicHistory',
     '$mdDialog',
     '$mdBottomSheet',
-    'acessoCidadaoService',
+    'loginService',
     'httpSnifferService',
     'settings',
-    '$localStorage'
+    '$localStorage',
+    'cordovaPermissions'
 ];
 
 export default run;
