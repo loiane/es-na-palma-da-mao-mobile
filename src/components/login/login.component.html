@@ -13,11 +13,11 @@
 	<ion-content id="login-component" md-colors="::{backgroundColor: 'primary'}">
 
 		<!--login form section-->
-		<form class="login-form">
+		<form class="login-form" ng-submit="vm.login()" novalidate>
 
 			<md-input-container md-no-float class="md-block">
 				<label>CPF ou E-mail</label>
-				<input ng-model="vm.user.username">
+				<input type="email" ng-model="vm.user.username" remove-email-validation>
 			</md-input-container>
 
 			<md-input-container md-no-float class="md-block">
@@ -28,10 +28,10 @@
 
 			<a href="" ng-click="vm.openUrlForgotPassword()" class="espm-forgot-password">Esqueceu a Senha?</a>
 
-			<md-button class="espm-login-button md-raised"
+			<md-button type="submit"
+					   class="espm-login-button md-raised"
 					   md-colors="::{color: 'primary'}"
-					   md-no-ink="isAndroid"
-					   ng-click="vm.login()">ENTRAR
+					   md-no-ink="isAndroid">ENTRAR
 			</md-button>
 		</form>
 		<!--login form section-->
