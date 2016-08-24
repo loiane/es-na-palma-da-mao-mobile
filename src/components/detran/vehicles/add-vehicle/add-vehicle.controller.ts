@@ -3,7 +3,7 @@ import { VehicleStorage } from '../../shared/index';
 
 export class AddVehicleController {
 
-    public static $inject: string[] = [ '$mdDialog', 'vehicleStorage', 'toast' ];
+    public static $inject: string[] = [ '$mdDialog', 'detranStorage', 'toast' ];
 
     /**
      * Creates an instance of AddVehicleController.
@@ -13,8 +13,8 @@ export class AddVehicleController {
      * @param {ToastService} toast
      */
     constructor( private $mdDialog: angular.material.IDialogService,
-        private vehicleStorage: VehicleStorage,
-        private toast: ToastService ) { }
+                 private vehicleStorage: VehicleStorage,
+                 private toast: ToastService ) {}
 
 
     /**
@@ -47,7 +47,7 @@ export class AddVehicleController {
             renavam: renavam.toUpperCase()
         };
 
-        if ( this.vehicleStorage.exists( vehicle ) ) {
+        if ( this.vehicleStorage.existsVehicle( vehicle ) ) {
             this.toast.error( { title: `Placa ou RENAVAM já cadastrado(s)` } ); return;
         }
 
