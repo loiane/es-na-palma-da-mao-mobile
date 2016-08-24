@@ -149,10 +149,10 @@ export class DriverLicenseStatusController {
      */
     public getDriverData(): IPromise<DriverData> {
         return this.detranApiService.getDriverData()
-            .then(( driverData ) => {
-                this.driverData = driverData;
-                return driverData;
-            });
+                                    .then( ( driverData ) => {
+                                        this.driverData = driverData;
+                                        return driverData;
+                                    } );
     }
 
     /**
@@ -162,9 +162,9 @@ export class DriverLicenseStatusController {
      */
     public getDriverTickets(): IPromise<Ticket[]> {
         return this.detranApiService.getDriverTickets()
-            .then( tickets => {
-                this.tickets = tickets || [];
-                return this.tickets;
-            });
+                                    .then( tickets => {
+                                        this.tickets = tickets || [];
+                                        return this.tickets;
+                                    } );
     }
 }
