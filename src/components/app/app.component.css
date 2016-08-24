@@ -61,6 +61,12 @@ ion-header-bar {
    text-transform: capitalize;
 }
 
+md-input-container input[type=tel] {
+    border: solid;
+    border-width: 0 0 1px;
+}
+
+
 /*.keyboard-body .hide-with-keyboard{
 	display:none !important;
 }
