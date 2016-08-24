@@ -2,8 +2,8 @@ import moment from 'moment';
 import { IScope, IPromise } from 'angular';
 import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared/index';
 import imgLicense  from '../../shared/img/CNH_Frente.png!image';
-import registerLicenseTemplate from '../shared/register-license/register-license.html';
-import { RegisterLicenseController } from '../shared/register-license/register-license.controller';
+import registerLicenseTemplate from './add-license/add-license.html';
+import { RegisterLicenseController } from './add-license/add-license.controller';
 
 /**
  * @class DriverLicenseController
@@ -13,13 +13,13 @@ export class DriverLicenseController {
     public static $inject: string[] = [ '$scope', '$state', '$ionicLoading', 'detranApiService', 'detranStorage', '$mdDialog' ];
 
     private imgLicense: string;
-    private license: DriverLicense;
 
     /**
      * Creates an instance of DriverLicenseController.
      * 
      * @param {IScope} $scope
      * @param {angular.ui.IStateService} $state
+     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {DetranApiService} detranApiService
      * @param {DriverLicenseStorage} driverLicenseStorage
      * @param {angular.material.IDialogService} $mdDialog
@@ -44,13 +44,16 @@ export class DriverLicenseController {
         }
     }
 
+    /**
+     * 
+     */
     public registerLicense(): void {
         this.$mdDialog.show( {
             controller: RegisterLicenseController,
             template: registerLicenseTemplate,
             bindToController: true,
             controllerAs: 'vm',
-            locals: this.license
+            locals: this.driverLicenseStorage.driverLicense || {}
         } )
         .then( ( license: DriverLicense ) => {
             this.$ionicLoading.show();
