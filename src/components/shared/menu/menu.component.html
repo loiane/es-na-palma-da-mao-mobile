@@ -85,12 +85,20 @@
 					</div>
 
 					<md-subheader class="md-accent">Detran</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicenseStatus')">
+					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicenseStatus')" ng-if="vm.driverLicenseStorage.hasDriverLicense">
 						<div class="col-25">
 							<i class="fa fa-car"></i>
 						</div>
 						<div class="col-75">
 							<span>Situação CNH</span>
+						</div>
+					</div>
+					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicense')" ng-if="!vm.driverLicenseStorage.hasDriverLicense">
+						<div class="col-25">
+							<i class="fa fa-car"></i>
+						</div>
+						<div class="col-75">
+							<span>Cadastro de CNH</span>
 						</div>
 					</div>
 					<div class="row menu-item" ng-click="vm.navigateTo('app.vehicles')">
@@ -173,9 +181,13 @@
 						<span>Consulta Ônibus</span>
 					</md-list-item>
 					<md-subheader class="md-accent">Detran</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.driverLicenseStatus')">
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.driverLicenseStatus')" ng-if="vm.driverLicenseStorage.hasDriverLicense">
 						<i class="fa fa-car"></i>
 						<span>Situação CNH</span>
+					</md-list-item>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.driverLicense')" ng-if="!vm.driverLicenseStorage.hasDriverLicense">
+						<i class="fa fa-car"></i>
+						<span>Cadastro de CNH</span>
 					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.vehicles')">
 						<i class="fa fa-car"></i>

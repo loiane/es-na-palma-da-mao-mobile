@@ -68,7 +68,7 @@ export class LoginService {
             client_id: this.settings.identityServer.clients.espm.id,
             client_secret: this.settings.identityServer.clients.espm.secret,
             grant_type: 'password',
-            scope: 'openid offline_access',
+            scope: 'openid offline_access ApiAcessoCidadao',
             username: username,
             password: password
         };
@@ -87,7 +87,7 @@ export class LoginService {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
                 grant_type: 'customloginexterno',
-                scope: 'openid offline_access',
+                scope: 'openid offline_access ApiAcessoCidadao',
                 provider: 'Facebook',
                 accesstoken: authResponse.accessToken
             };
@@ -112,7 +112,7 @@ export class LoginService {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
                 grant_type: 'customloginexterno',
-                scope: 'openid offline_access',
+                scope: 'openid offline_access ApiAcessoCidadao',
                 provider: 'Google',
                 accesstoken: authResponse.oauthToken
             };
@@ -131,7 +131,7 @@ export class LoginService {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
                 client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
                 grant_type: 'customloginexterno',
-                scope: 'openid offline_access',
+                scope: 'openid offline_access ApiAcessoCidadao',
                 provider: 'Celular',
                 accesstoken: 'token',
                 apiUrl: authResponse[ 'X-Auth-Service-Provider' ],
@@ -164,7 +164,7 @@ export class LoginService {
             client_id: this.settings.identityServer.clients.espm.id,
             client_secret: this.settings.identityServer.clients.espm.secret,
             grant_type: 'refresh_token',
-            scope: 'openid offline_access'
+            scope: 'openid offline_access ApiAcessoCidadao'
         };
         return this.acessoCidadaoService.refreshToken( identity );
     }

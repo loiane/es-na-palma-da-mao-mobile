@@ -13,7 +13,7 @@ import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
  */
 export class VehiclesController {
 
-    public static $inject: string[] = [ '$scope', '$mdDialog', '$state', 'detranApiService', 'dialog', 'toast', 'vehicleStorage' ];
+    public static $inject: string[] = [ '$scope', '$mdDialog', '$state', 'detranApiService', 'dialog', 'toast', 'detranStorage' ];
 
     public vehicles: Vehicle[];
     public editing: boolean = false;
@@ -31,7 +31,7 @@ export class VehiclesController {
      */
     constructor( private $scope: IScope,
         private $mdDialog: angular.material.IDialogService,
-        private $state: angular.material.IState,
+        private $state: angular.ui.IStateService,
         private detranApiService: DetranApiService,
         private dialog: DialogService,
         private toast: ToastService,
@@ -54,7 +54,7 @@ export class VehiclesController {
     public removeVehicle( vehicle: Vehicle ) {
         this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.plate}?` } )
             .then( () => {
-                this.vehicles = this.vehicleStorage.remove( vehicle );
+                this.vehicles = this.vehicleStorage.removeVehicle( vehicle );
 
                 // sai do modo de edição se não resta nenhum veículo
                 if ( !this.vehicles.length ) {
@@ -74,7 +74,7 @@ export class VehiclesController {
             controllerAs: 'vm'
         } )
         .then( ( vehicle: Vehicle ) => {
-            this.vehicles = this.vehicleStorage.add( vehicle );
+            this.vehicles = this.vehicleStorage.addVehicle( vehicle );
         });
     }
 

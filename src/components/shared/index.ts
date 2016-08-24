@@ -22,9 +22,10 @@ import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
 import pushModule from './push/index';
 import permissionsModule from './permissions/index';
+import detranShared from '../detran/shared/index';
 
 let dependencies = [
-    menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name, pushModule.name, permissionsModule.name
+    menu.name, toast.name, dialog.name, loader.name, routes.name, authentication.name, directives.name, pushModule.name, permissionsModule.name, detranShared.name
 ];
 
 export * from './toast/index';
