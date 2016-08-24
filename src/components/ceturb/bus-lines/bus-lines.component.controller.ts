@@ -29,9 +29,9 @@ export class BusLinesController {
      * @param {CeturbApiService} ceturbApiService
      */
     constructor( private $scope: IScope,
-                 private $state: angular.ui.IStateService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private ceturbApiService: CeturbApiService ) {
+        private $state: angular.ui.IStateService,
+        private $ionicLoading: ionic.loading.IonicLoadingService,
+        private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -75,16 +75,19 @@ export class BusLinesController {
     public getLines(): void {
         this.$ionicLoading.show();
         this.ceturbApiService.getLines()
-            .then( ( lines: BusLine[] ) => {
+            .then(( lines: BusLine[] ) => {
+                for (let i = 0; i < lines.length; i++ ) {
+                    lines[i].nameFolded = this.accentFold( lines[i].name );
+                }
                 this.cachedLines = this.filteredLines = lines;
                 this.populated = true;
                 return this.cachedLines;
-            } )
-            .catch( () => {
+            })
+            .catch(() => {
                 this.cachedLines = this.filteredLines = [];
-            } ).finally( () => {
+            }).finally(() => {
                 this.$ionicLoading.hide();
-            } );
+            });
     }
 
     public getFilteredLines( lineCount ): void {
@@ -110,10 +113,10 @@ export class BusLinesController {
             clearTimeout( this.fnLastFilter );
         }
 
-        this.fnLastFilter = setTimeout( () => {
+        this.fnLastFilter = setTimeout(() => {
             this.lines = [];
-            let upperFilter = filter.toUpperCase();
-            this.filteredLines = this.cachedLines.filter( x => ( x.name.indexOf( upperFilter ) >= 0 ) || ( x.number.indexOf( upperFilter ) >= 0 ) );
+            let upperFilter = this.accentFold( filter.toUpperCase() );
+            this.filteredLines = this.cachedLines.filter( x => ( x.nameFolded.indexOf( upperFilter ) >= 0 ) || ( x.number.indexOf( upperFilter ) >= 0 ) );
             this.fnLastFilter = undefined;
             this.getFilteredLines( this.defaultPageSize );
 
@@ -124,4 +127,20 @@ export class BusLinesController {
             this.$scope.$apply();
         }, 500 );
     }
+
+    private accentMap: any = {
+        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+        'Â': 'A', 'Ê': 'E', 'Ô': 'O',
+        'Ã': 'A', 'Õ': 'O',
+        'Ç': 'C'
+    };
+
+    private accentFold( s ) {
+        if ( !s ) { return ''; }
+        let ret = '';
+        for ( let i = 0; i < s.length; i++ ) {
+            ret += this.accentMap[ s.charAt( i ) ] || s.charAt( i );
+        }
+        return ret;
+    };
 }

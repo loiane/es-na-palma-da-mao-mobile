@@ -30,7 +30,7 @@
 	font-weight: 500;
 }
 
-#login-component input[type="password"] {
+#login-component input[type="password"], #login-component input[type="email"] {
 	border-bottom: 1px solid #eee !important;
 }
 

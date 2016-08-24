@@ -56,6 +56,10 @@ export class LoginController {
         private pushConfig: PushConfig ) {
     }
 
+    public setUserName( e: any ) {
+        console.log( e );
+    }
+
     /**
      * Executa login na aplicação de acordo com as configurações do settings, usuário e senha.
      */
@@ -65,9 +69,11 @@ export class LoginController {
             this.toast.info( { title: 'Login e senha são obrigatórios' }); return;
         }
 
+        this.$ionicLoading.show();
         this.loginService.login( this.user.username, this.user.password )
             .then(() => this.onAcessoCidadaoLoginSuccess() )
-            .catch( error => this.onAcessoCidadaoLoginError( error ) );
+            .catch( error => this.onAcessoCidadaoLoginError( error ) )
+            .finally(() => this.$ionicLoading.hide() );
     }
 
     /**
