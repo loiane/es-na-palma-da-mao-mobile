@@ -1,16 +1,28 @@
 import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage } from './models/index';
+import { AcessoCidadaoService } from '../../shared/authentication/index';
 
 export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
-    public static $inject: string[] = ['$localStorage' ];
+    public static $inject: string[] = [ '$localStorage', 'acessoCidadaoService' ];
+    private userStorageKey: string;
 
     /**
-     * Creates an instance of VehicleStorageService.
+     * Creates an instance of DetranStorage.
      * 
      * @param {*} $localStorage
+     * @param {AcessoCidadaoService} acessoCidadaoService
      */
-    constructor( private $localStorage: any ) {
-        this.$localStorage.vehicles = this.$localStorage.vehicles || [];
+    constructor( private $localStorage: any,
+                 private acessoCidadaoService: AcessoCidadaoService ) {
+        this.vehicles = this.vehicles || [];
+    }
+
+
+    /**
+     * 
+     */
+    private refreshStorageKey() {
+        this.userStorageKey = `user-${this.acessoCidadaoService.tokenClaims.sub}-vehicles`; // sub é o id do usuário logado
     }
 
 
@@ -20,7 +32,15 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @returns {Vehicle[]}
      */
     public get vehicles(): Vehicle[] {
-        return this.$localStorage.vehicles as Vehicle[];
+        this.refreshStorageKey();
+        return this.$localStorage[ this.userStorageKey ] as Vehicle[];
+    }
+
+    /**
+     * 
+     */
+    public set vehicles( vehicles: Vehicle[] ) {
+        this.$localStorage[ this.userStorageKey ] = vehicles;
     }
 
     /**
@@ -30,13 +50,13 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @returns {boolean}
      */
     public existsVehicle( vehicle: Vehicle ): boolean {
-        const existsPlaca = this.$localStorage.vehicles
-                                              .map( v => v.plate.toUpperCase() )
-                                              .indexOf( vehicle.plate );
+        const existsPlaca = this.vehicles
+            .map( v => v.plate.toUpperCase() )
+            .indexOf( vehicle.plate );
 
-        const existsRENAVAM = this.$localStorage.vehicles
-                                                .map( v => v.renavam.toUpperCase() )
-                                                .indexOf( vehicle.renavam );
+        const existsRENAVAM = this.vehicles
+            .map( v => v.renavam.toUpperCase() )
+            .indexOf( vehicle.renavam );
 
         return existsPlaca !== -1 || existsRENAVAM !== -1;
     }
@@ -48,11 +68,11 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @param {Vehicle} vehicle
      */
     public removeVehicle( vehicle: Vehicle ): Vehicle[] {
-        this.$localStorage.vehicles = this.vehicles.filter( ( v1: Vehicle ) => {
-             return v1.plate !== vehicle.plate && v1.renavam !== vehicle.renavam;
+        this.vehicles = this.vehicles.filter(( v1: Vehicle ) => {
+            return v1.plate !== vehicle.plate && v1.renavam !== vehicle.renavam;
         } );
 
-        return this.$localStorage.vehicles;
+        return this.vehicles;
     }
 
     /**
@@ -62,13 +82,13 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @returns {Vehicle[]}
      */
     public addVehicle( vehicle: Vehicle ): Vehicle[] {
-        if  ( !this.existsVehicle( vehicle ) ) {
+        if ( !this.existsVehicle( vehicle ) ) {
             vehicle.plate = vehicle.plate.toUpperCase();
             vehicle.renavam = vehicle.renavam.toUpperCase();
 
-            this.$localStorage.vehicles.push( vehicle );
+            this.vehicles.push( vehicle );
         }
-        return this.$localStorage.vehicles;
+        return this.vehicles;
     }
 
 
@@ -91,7 +111,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @type {void}
      */
     public set driverLicense( driverLicense: DriverLicense ) {
-         this.$localStorage.driverLicense = driverLicense;
+        this.$localStorage.driverLicense = driverLicense;
     }
 
     /**
@@ -101,6 +121,6 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @type {boolean}
      */
     public get hasDriverLicense(): boolean {
-         return angular.isDefined( this.driverLicense );
+        return angular.isDefined( this.driverLicense );
     }
 }

@@ -16,7 +16,6 @@ export class AddVehicleController {
                  private vehicleStorage: VehicleStorage,
                  private toast: ToastService ) {}
 
-
     /**
      * 
      */
