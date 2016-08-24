@@ -40,6 +40,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * 
      */
     public set vehicles( vehicles: Vehicle[] ) {
+        this.refreshStorageKey();
         this.$localStorage[ this.userStorageKey ] = vehicles;
     }
 
