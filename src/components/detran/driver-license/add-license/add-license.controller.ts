@@ -1,15 +1,32 @@
 import { ToastService } from '../../../shared/toast/index';
 
-export class RegisterLicenseController {
+export class AddLicenseController {
 
     public static $inject: string[] = [ '$mdDialog', 'toast' ];
 
+    /**
+     * Creates an instance of RegisterLicenseController.
+     * 
+     * @param {any} $mdDialog
+     * @param {ToastService} toast
+     */
     constructor( private $mdDialog, private toast: ToastService ) {}
 
+
+    /**
+     * 
+     */
     public cancel() {
         this.$mdDialog.cancel();
     }
 
+    /**
+     * 
+     * 
+     * @param {string} registerNumber
+     * @param {string} ballot
+     * @returns
+     */
     public ok( registerNumber: string, ballot: string ) {
 
         if ( !registerNumber ) {

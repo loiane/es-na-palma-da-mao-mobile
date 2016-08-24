@@ -3,7 +3,7 @@ import { IScope, IPromise } from 'angular';
 import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared/index';
 import imgLicense  from '../../shared/img/CNH_Frente.png!image';
 import registerLicenseTemplate from './add-license/add-license.html';
-import { RegisterLicenseController } from './add-license/add-license.controller';
+import { AddLicenseController } from './add-license/add-license.controller';
 
 /**
  * @class DriverLicenseController
@@ -49,7 +49,7 @@ export class DriverLicenseController {
      */
     public registerLicense(): void {
         this.$mdDialog.show( {
-            controller: RegisterLicenseController,
+            controller: AddLicenseController,
             template: registerLicenseTemplate,
             bindToController: true,
             controllerAs: 'vm',

@@ -54,6 +54,13 @@ export class DetranApiService {
             .then(( response: { data: Ticket[] } ) => response.data );
     }
 
+
+    /**
+     * 
+     * 
+     * @param {DriverLicense} license
+     * @returns {IPromise<any>}
+     */
     public saveLicense( license: DriverLicense ): IPromise<any> {
         return this.$http
             .post( `${this.settings.api.acessocidadao}/Perfil/SalvarCNH`, { numero: license.registerNumber, cedula: license.ballot } )

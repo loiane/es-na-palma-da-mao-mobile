@@ -103,5 +103,4 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
     public get hasDriverLicense(): boolean {
          return angular.isDefined( this.driverLicense );
     }
-
 }
