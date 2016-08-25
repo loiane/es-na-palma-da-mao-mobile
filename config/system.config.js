@@ -55,9 +55,9 @@ System.config({
   buildCSS: true,
 
   map: {
-    "angular": "github:angular/bower-angular@1.5.7",
+    "angular": "github:angular/bower-angular@1.5.8",
     "angular-i18n": "npm:angular-i18n@1.5.7",
-    "angular-material": "github:angular/bower-material@1.1.0-rc.5",
+    "angular-material": "github:angular/bower-material@1.1.0",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.7",
     "angular-ui-bootstrap": "npm:angular-ui-bootstrap@1.3.3",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.18",
@@ -66,7 +66,7 @@ System.config({
     "bootstrap": "github:twbs/bootstrap@3.3.6",
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
     "core-js": "npm:core-js@1.2.6",
-    "css": "github:systemjs/plugin-css@0.1.23",
+    "css": "github:systemjs/plugin-css@0.1.27",
     "font-awesome": "npm:font-awesome@4.6.3",
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic": "github:driftyco/ionic-bower@1.3.1",
@@ -90,43 +90,39 @@ System.config({
     "ui-router-extras": "github:christopherthielen/ui-router-extras@0.0.14",
     "underscore": "github:jashkenas/underscore@1.8.3",
     "github:CodeSeven/toastr@2.1.2": {
-      "css": "github:systemjs/plugin-css@0.1.23",
+      "css": "github:systemjs/plugin-css@0.1.27",
       "jquery": "github:components/jquery@3.0.0"
     },
     "github:angular-ui/ui-router@0.2.18": {
-      "angular": "github:angular/bower-angular@1.5.7"
+      "angular": "github:angular/bower-angular@1.5.8"
     },
-    "github:angular/bower-angular-animate@1.5.7": {
-      "angular": "github:angular/bower-angular@1.5.7"
+    "github:angular/bower-angular-animate@1.5.8": {
+      "angular": "github:angular/bower-angular@1.5.8"
     },
-    "github:angular/bower-angular-aria@1.5.7": {
-      "angular": "github:angular/bower-angular@1.5.7"
-    },
-    "github:angular/bower-angular-messages@1.5.7": {
-      "angular": "github:angular/bower-angular@1.5.7"
+    "github:angular/bower-angular-aria@1.5.8": {
+      "angular": "github:angular/bower-angular@1.5.8"
     },
     "github:angular/bower-angular-mocks@1.5.7": {
-      "angular": "github:angular/bower-angular@1.5.7"
+      "angular": "github:angular/bower-angular@1.5.8"
     },
     "github:angular/bower-angular-sanitize@1.5.7": {
-      "angular": "github:angular/bower-angular@1.5.7"
+      "angular": "github:angular/bower-angular@1.5.8"
     },
-    "github:angular/bower-material@1.1.0-rc.5": {
-      "angular": "github:angular/bower-angular@1.5.7",
-      "angular-animate": "github:angular/bower-angular-animate@1.5.7",
-      "angular-aria": "github:angular/bower-angular-aria@1.5.7",
-      "angular-messages": "github:angular/bower-angular-messages@1.5.7",
-      "css": "github:systemjs/plugin-css@0.1.23"
+    "github:angular/bower-material@1.1.0": {
+      "angular": "github:angular/bower-angular@1.5.8",
+      "angular-animate": "github:angular/bower-angular-animate@1.5.8",
+      "angular-aria": "github:angular/bower-angular-aria@1.5.8",
+      "css": "github:systemjs/plugin-css@0.1.27"
     },
     "github:christopherthielen/ui-router-extras@0.0.14": {
-      "angular": "github:angular/bower-angular@1.5.7"
+      "angular": "github:angular/bower-angular@1.5.8"
     },
     "github:driftyco/ionic-bower@1.3.1": {
-      "angular": "github:angular/bower-angular@1.5.7",
-      "angular-animate": "github:angular/bower-angular-animate@1.5.7",
+      "angular": "github:angular/bower-angular@1.5.8",
+      "angular-animate": "github:angular/bower-angular-animate@1.5.8",
       "angular-sanitize": "github:angular/bower-angular-sanitize@1.5.7",
       "angular-ui-router": "github:angular-ui/angular-ui-router-bower@0.2.13",
-      "css": "github:systemjs/plugin-css@0.1.23"
+      "css": "github:systemjs/plugin-css@0.1.27"
     },
     "github:frankwallis/plugin-typescript@4.0.16": {
       "typescript": "npm:typescript@1.8.10"
@@ -325,7 +321,7 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
     },
     "npm:font-awesome@4.6.3": {
-      "css": "github:systemjs/plugin-css@0.1.23"
+      "css": "github:systemjs/plugin-css@0.1.27"
     },
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"

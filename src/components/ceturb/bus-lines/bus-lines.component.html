@@ -12,7 +12,7 @@
 				 scroll-watch scroll-class="fix-top" 
 				 class-target=".state-ceturb-subheader"
 				 offset="25">
-		<md-list id="device-information-content" class="fade-in" ng-show="vm.hasLines">
+		<md-list ng-show="vm.hasLines">
 			<md-list-item class="md-2-line" ng-repeat="line in vm.lines" ng-click="vm.goToLine( line.number )">
 				<div layout="row" class="md-list-item-text">
 					<strong class="line-number" flex="1">{{line.number}}</strong> <span flex> {{line.name}}</span>

@@ -33,22 +33,12 @@ ion-content#state-ceturb-bus-info.espm-has-tabs-top {
  }
 
 
- 
-
 #state-ceturb-bus-info md-list {
 	padding: 1px 0;
 }
 
-#state-ceturb-bus-info md-list-item.itinerario, 
-#state-ceturb-bus-info md-list-item.itinerario ._md-list-item-inner {
-    min-height: 20px;
-	display: block;
-}
-
 #state-ceturb-bus-info md-list-item.itinerario i {
-	float: right;
 	color: #c86673;
-	margin-top: 10px;
 }
 
 #state-ceturb-bus-info .list-note-subheader {
@@ -57,14 +47,13 @@ ion-content#state-ceturb-bus-info.espm-has-tabs-top {
 }
 
 
-#state-ceturb-bus-info md-list-item.wrap-hours .hour {
+#state-ceturb-bus-info .wrap-hours .hour {
 	 margin-left: 5px;
 	 margin-bottom: 2px;
 	 min-width: 51px;
  }
 
-#state-ceturb-bus-info md-list-item.wrap-hours ._md-no-style, 
-#state-ceturb-bus-info md-list-item._md-no-proxy.wrap-hours {
+#state-ceturb-bus-info .wrap-hours {
 	-ms-flex-wrap: wrap;
 	    flex-wrap: wrap;
     padding: 10px;
