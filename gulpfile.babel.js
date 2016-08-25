@@ -310,6 +310,14 @@ taskMaker.defineTask( 'copy', {
 } );
 
 taskMaker.defineTask( 'copy', {
+    taskName: 'packageJson',
+    src: config.paths.packageJson,
+    dest: config.paths.output.root,
+    changed: { extension: '.json' },
+    debug: config.debugOptions
+} );
+
+taskMaker.defineTask( 'copy', {
     taskName: 'systemConfig',
     src: config.paths.systemConfig,
     dest: config.paths.output.root,
@@ -649,6 +657,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'json',
         'assets',
         'system.yuml',
+        'packageJson',
         'systemConfig',
         'index.html',
         transpile ? 'transpile-app-ts' : 'app-ts',

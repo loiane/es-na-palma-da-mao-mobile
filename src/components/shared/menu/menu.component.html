@@ -138,6 +138,15 @@
 						</div>
 					</div>
 
+					<md-subheader class="md-accent">Outros</md-subheader>
+					<div class="row menu-item" ng-click="vm.navigateTo('app.about')">
+						<div class="col-25">
+							<i class="ion-information-circled"></i>
+						</div>
+						<div class="col-75">
+							<span>Sobre</span>
+						</div>
+					</div>
 					<md-divider></md-divider>
 					<div class="row menu-item" ng-click="vm.signOut()">
 						<div class="col-25">
@@ -208,6 +217,10 @@
 						<span>Edições Recentes</span>
 					</md-list-item>
 					<md-divider></md-divider>
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.about')">
+						<i class="ion-information-circled"></i>
+						<span>Sobre</span>
+					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
 						<i class="ion-ios-undo"></i>
 						<span>Sair</span>

@@ -29,6 +29,8 @@ body {
     margin-left: auto;
 }
 
+.component-spinner{ text-align: center; padding:15px;}
+
 md-content.md-espm-theme {
     color: rgba(0,0,0,0.87);
     background-color: #fff;

@@ -6,6 +6,12 @@
     "src": "components/shared/menu/index"
   },
   {
+    "name": "app.about",
+    "url": "about",
+    "type": "load",
+    "src": "components/about/index"
+  },
+  {
     "name": "app.dashboard",
     "url": "dashboard/",
     "type": "load",
