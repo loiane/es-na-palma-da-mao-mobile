@@ -73,8 +73,6 @@ gulp/tasks/_*.js
 platforms/
 plugins/
 www/
-hooks/
-
 
 #typings
 typings/
