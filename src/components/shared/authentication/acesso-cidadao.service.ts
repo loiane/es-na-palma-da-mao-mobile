@@ -1,3 +1,4 @@
+import { IScope } from 'angular';
 import { IWindowService, IHttpService, IPromise, IQService } from 'angular';
 import jwt from 'jwt-simple';
 
@@ -11,14 +12,15 @@ import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './
  */
 export class AcessoCidadaoService {
 
-    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q' ];
+    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q', 'notifyingService' ];
     private identityServerUrl: string;
 
     /** @constructor */
     constructor( private $window: IWindowService,
         private $http: IHttpService,
         private $localStorage,
-        private $q: IQService) {
+        private $q: IQService,
+        private notifyingService ) {
     }
 
 
@@ -26,8 +28,9 @@ export class AcessoCidadaoService {
      * 
      * @param identityServerUrl
      */
-    public initialize( identityServerUrl: string): void {
-        this.identityServerUrl = identityServerUrl; }
+    public initialize( identityServerUrl: string ): void {
+        this.identityServerUrl = identityServerUrl;
+    }
 
     /**
      * 
@@ -118,8 +121,10 @@ export class AcessoCidadaoService {
         return this.$http.get( userClaimsUrl )
             .then(( response: { data: AcessoCidadaoClaims }) => {
                 // Check if the object is correct (This request can return the Acesso Cidadão login page)
-                if ( angular.isDefined( response.data.sid ) ) {
+                if ( angular.isDefined( response.data.sub ) ) {
                     this.$localStorage.userClaims = response.data;
+                    // firing an event downwards
+                    this.notifyingService.notify( 'user-claims-stored', response.data );
                 }
 
                 return response.data;

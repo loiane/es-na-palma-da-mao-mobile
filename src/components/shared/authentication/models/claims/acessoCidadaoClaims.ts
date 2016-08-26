@@ -86,4 +86,28 @@ export interface AcessoCidadaoClaims {
      * @type {string}
      */
     sid: string;
+
+    /**
+     * Subject Id Claim
+     * 
+     * O Id do usuário
+     * 
+     * @type {string}
+     */
+    sub: number;
+
+
+    /**
+     * Número de registro da CNH  
+     * 
+     * @type {string}
+     */
+    cnhNumero: string;
+
+    /**
+     * Cédula da CNH 
+     * 
+     * @type {string}
+     */
+    cnhCedula: string;
 }
