@@ -1,15 +1,17 @@
 export interface Warning {
-    title: string;
-    description: string;
     level: string;
+    title: string;
+    message: string;
+    beginDate: Date;
+    endDate: Date;
     region: Region;
 }
 
 export interface Region {
-    name: string;
-    location: LatLng;
-    polygon: LatLng[];
-    radius: number;
+    type: string;
+    radius?: number;
+    center?: LatLng;
+    polygon?: LatLng[];
 }
 
 export interface LatLng {

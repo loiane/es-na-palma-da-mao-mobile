@@ -11,14 +11,15 @@ export class WarningListController {
         'cbmesApiService'
     ];
 
+    private levels: any = [ 'alto', 'medio', 'baixo' ];
     private warnings: Warning[] = [];
     private activated: boolean = false;
     private populated: boolean = false;
 
     constructor( private $scope: IScope,
-                 private $state: angular.ui.IStateService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService,
-                 private cbmesApiService: CbmesApiService ) {
+        private $state: angular.ui.IStateService,
+        private $ionicLoading: ionic.loading.IonicLoadingService,
+        private cbmesApiService: CbmesApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -27,7 +28,7 @@ export class WarningListController {
      */
     public activate(): void {
         this.getWarnings()
-            .finally( () => this.populated = true );
+            .finally(() => this.populated = true );
     }
 
     /**
@@ -37,6 +38,16 @@ export class WarningListController {
      */
     public getWarnings(): IPromise<Warning[]> {
         return this.cbmesApiService.getLastWarnings()
-                                   .then( warnings => this.warnings = warnings );
+            .then( warnings => this.warnings = warnings );
+    }
+
+    public openLocation( lat: number, lng: number, label: string ) {
+        let geocoords = lat + ',' + lng;
+
+        if ( this.$scope.isAndroid ) {
+            window.open( 'geo:0,0?q=' + geocoords + '(' + encodeURI( label ) + ')', '_system' );
+        } else {
+            window.open( 'maps://?q=' + geocoords, '_system' );
+        }
     }
 }
