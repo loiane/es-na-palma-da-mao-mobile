@@ -161,11 +161,7 @@ export class DriverLicenseStatusController {
                 this.driverData = driverData;
                 return driverData;
             })
-            .catch(( error ) => {
-                if ( error.status === 404 ) {
-                    this.errorMessage = this.default404Message;
-                }
-            });
+            .catch(( error ) => this.setErrorMessage( error.status ) );
     }
 
     /**
@@ -180,11 +176,15 @@ export class DriverLicenseStatusController {
                 this.tickets = tickets || [];
                 return this.tickets;
             })
-            .catch(( error ) => {
-                if ( error.status === 404 ) {
-                    this.errorMessage = this.default404Message;
-                }
-            });
+            .catch(( error ) => this.setErrorMessage( error.status ) );
+    }
+
+    private setErrorMessage( status: number ) {
+        if ( status === 404 ) {
+            this.errorMessage = this.default404Message;
+        } else {
+            this.errorMessage = this.defaultMessage;
+        }
     }
 
     public editLicense() {
