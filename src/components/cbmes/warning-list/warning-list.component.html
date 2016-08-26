@@ -6,21 +6,22 @@
 		<md-content>
 			<md-list>
 				<md-subheader ng-if="vm.warnings.length" class="md-no-sticky">
+					<md-icon class="alert-icon" md-font-icon="ion-alert-circled">
+					</md-icon>
 					{{ vm.warnings.length }} Alertas
 				</md-subheader>
-				<md-list-item class="md-2-line" ng-repeat="warning in vm.warnings">
+				<md-list-item class="md-2-line" ng-repeat="warning in vm.warnings" ng-class="warning.level">
 
 					<div class="md-padding" flex>
-						<div class="md-list-item-text md-padding">
-							<h4>
-								<strong>{{warning.title}}</strong>
-							</h4>
-							<h5>{{warning.level}}</h5>
-							<h5>{{warning.region.name}}</h5>
-							<p>{{warning.description}}</p>
+						<div>
+							<div class="md-list-item-text">
+								<h2 ng-class="warning.level">{{warning.title}}</h2>
+								<strong><span class="warning-date">{{ warning.beginDate | date: 'dd/MM/yyyy HH:mm' }}</span></strong>
+							</div>
+							<a class="maps-link" ng-click="vm.openLocation(warning.region.center.latitude, warning.region.center.longitude, warning.title)"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
 						</div>
+						<p class="message">{{warning.message}}</p>
 					</div>
-
 					<md-divider></md-divider>
 				</md-list-item>
 
@@ -28,7 +29,7 @@
 					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
 						<div class="md-subhead" flex>Listagem de alertas dos bombeiros </div>
 						<div style="color: #999;" flex>
-							Nenhum alerta nos últimos 7 dias <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+							Nenhum alerta. <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
 						</div>
 					</div>
 				</div>
