@@ -92,6 +92,20 @@ ion-nav-bar .ion-android-arrow-back {
 loading-container .loading {
     background: none !important;
 }
+
+/* Nav Buttons */
+
+.espm-ion-nav-buttons .md-button.md-icon-button {
+    height: 20px;
+    line-height: 20px;
+    padding: 0 8px;
+}
+
+.espm-ion-nav-buttons md-icon[md-font-icon] {
+    font-size: 24px;
+    color: #fff;
+}
+
 /*body {
   font-family: RobotoDraft, Roboto, Helvetica Neue, sans-serif; }
 

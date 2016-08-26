@@ -1,14 +1,15 @@
 import moment from 'moment';
 import { IScope, IPromise } from 'angular';
-import { DriverData, Ticket, DriverStatus, DetranApiService, TicketColorService } from '../shared/index';
-
+import { DriverData, Ticket, DriverStatus, DetranApiService, TicketColorService, DriverLicenseStorage, DriverLicense } from '../shared/index';
+import registerLicenseTemplate from '../shared/add-license/add-license.html';
+import { AddLicenseController } from '../shared/add-license/add-license.controller';
 
 /**
  * @class DriverLicenseStatusController
  */
 export class DriverLicenseStatusController {
 
-    public static $inject: string[] = [ '$scope', 'ticketColorService', 'detranApiService' ];
+    public static $inject: string[] = [ '$scope', '$ionicLoading', 'ticketColorService', 'detranApiService', 'detranStorage', '$mdDialog' ];
 
     /**
      * Informações sobre a carteira de motorista do condutor
@@ -17,6 +18,9 @@ export class DriverLicenseStatusController {
      */
     public driverData: DriverData = undefined;
 
+    public defaultMessage: string = 'Nenhuma multa encontrada para a CNH';
+    public default404Message: string = 'Problema ao buscar dados. Verifique o número da CNH';
+    public errorMessage: string = '';
 
     /**
      * Lista de multas
@@ -33,8 +37,11 @@ export class DriverLicenseStatusController {
      * @param {DetranApiService} detranApiService
      */
     constructor( private $scope: IScope,
-                 private ticketColorService: TicketColorService,
-                 private detranApiService: DetranApiService ) {
+        private $ionicLoading: ionic.loading.IonicLoadingService,
+        private ticketColorService: TicketColorService,
+        private detranApiService: DetranApiService,
+        private driverLicenseStorage: DriverLicenseStorage,
+        private $mdDialog: angular.material.IDialogService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -43,6 +50,7 @@ export class DriverLicenseStatusController {
      * Preenche a página com dados do condutor, bem como de suas eventuais multas.
      */
     public activate(): void {
+        this.errorMessage = this.defaultMessage;
         this.getDriverData();
         this.getDriverTickets();
     }
@@ -106,7 +114,7 @@ export class DriverLicenseStatusController {
      */
     public get licenseRenew(): boolean {
         return moment( this.expirationDate ).add( 30, 'day' ).isAfter( moment().startOf( 'day' ) ) &&
-               moment().startOf( 'day' ).isAfter( this.expirationDate );
+            moment().startOf( 'day' ).isAfter( this.expirationDate );
     }
 
     /**
@@ -145,26 +153,53 @@ export class DriverLicenseStatusController {
     /**
      * Obtem dados da carteira de motorista do condutor autenticado no sistema.
      * 
-     * @returns {IPromise<DriverData>}
+     * @returns {void}
      */
-    public getDriverData(): IPromise<DriverData> {
-        return this.detranApiService.getDriverData()
-                                    .then( ( driverData ) => {
-                                        this.driverData = driverData;
-                                        return driverData;
-                                    } );
+    public getDriverData(): void {
+        this.detranApiService.getDriverData()
+            .then(( driverData ) => {
+                this.driverData = driverData;
+                return driverData;
+            })
+            .catch(( error ) => {
+                if ( error.status === 404 ) {
+                    this.errorMessage = this.default404Message;
+                }
+            });
     }
 
     /**
      * Obtem as eventuais multas pertencentes ao condutor autenticado no sistema.
      * 
-     * @returns {IPromise<Ticket[]>}
+     * @returns {void}
      */
-    public getDriverTickets(): IPromise<Ticket[]> {
-        return this.detranApiService.getDriverTickets()
-                                    .then( tickets => {
-                                        this.tickets = tickets || [];
-                                        return this.tickets;
-                                    } );
+    public getDriverTickets(): void {
+        this.detranApiService.getDriverTickets()
+            .then( tickets => {
+                this.errorMessage = this.defaultMessage;
+                this.tickets = tickets || [];
+                return this.tickets;
+            })
+            .catch(( error ) => {
+                if ( error.status === 404 ) {
+                    this.errorMessage = this.default404Message;
+                }
+            });
+    }
+
+    public editLicense() {
+        this.$mdDialog.show( {
+            controller: AddLicenseController,
+            template: registerLicenseTemplate,
+            bindToController: true,
+            controllerAs: 'vm',
+            locals: this.driverLicenseStorage.driverLicense || {}
+        })
+            .then(( license: DriverLicense ) => {
+                this.$ionicLoading.show();
+                this.detranApiService.saveLicense( license )
+                    .then(( data ) => this.driverLicenseStorage.driverLicense = license )
+                    .finally(() => this.$ionicLoading.hide() );
+            });
     }
 }

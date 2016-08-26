@@ -1,9 +1,10 @@
+import { IScope } from 'angular';
 import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage } from './models/index';
 import { AcessoCidadaoService } from '../../shared/authentication/index';
 
 export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
-    public static $inject: string[] = [ '$localStorage', 'acessoCidadaoService' ];
+    public static $inject: string[] = [ '$rootScope', '$localStorage', 'acessoCidadaoService', 'notifyingService' ];
     private userStorageKey: string;
 
     /**
@@ -12,11 +13,19 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @param {*} $localStorage
      * @param {AcessoCidadaoService} acessoCidadaoService
      */
-    constructor( private $localStorage: any,
-                 private acessoCidadaoService: AcessoCidadaoService ) {
+    constructor( private $rootScope: IScope,
+        private $localStorage: any,
+        private acessoCidadaoService: AcessoCidadaoService,
+        private notifyingService ) {
         this.vehicles = this.vehicles || [];
-    }
 
+        this.notifyingService.subscribe( this.$rootScope, 'user-claims-stored', ( event, userClaims ) => {
+            this.removeDriverLicense();
+            if ( angular.isDefined( userClaims.cnhNumero ) && angular.isDefined( userClaims.cnhCedula ) ) {
+                this.driverLicense = { registerNumber: userClaims.cnhNumero, ballot: userClaims.cnhCedula };
+            }
+        });
+    }
 
     /**
      * 
@@ -71,7 +80,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
     public removeVehicle( vehicle: Vehicle ): Vehicle[] {
         this.vehicles = this.vehicles.filter(( v1: Vehicle ) => {
             return v1.plate !== vehicle.plate && v1.renavam !== vehicle.renavam;
-        } );
+        });
 
         return this.vehicles;
     }
@@ -123,5 +132,9 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      */
     public get hasDriverLicense(): boolean {
         return angular.isDefined( this.driverLicense );
+    }
+
+    private removeDriverLicense(): void {
+        delete this.$localStorage.driverLicense;
     }
 }
