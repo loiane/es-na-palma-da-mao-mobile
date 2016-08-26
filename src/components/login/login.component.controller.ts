@@ -71,9 +71,9 @@ export class LoginController {
 
         this.$ionicLoading.show();
         this.loginService.login( this.user.username, this.user.password )
-            .then(() => this.onAcessoCidadaoLoginSuccess() )
+            .then( () => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) )
-            .finally(() => this.$ionicLoading.hide() );
+            .finally( () => this.$ionicLoading.hide() );
     }
 
     /**
@@ -93,7 +93,7 @@ export class LoginController {
     public googleLogin(): void {
         this.loginService.googleLogin(
             identity => this.signInAcessoCidadao( identity ),
-            () => this.toast.error( { title: '[Google] Falha no login' }) );
+            () => this.toast.error( { title: '[Google] Falha no login' } ) );
     }
 
     /**
@@ -114,7 +114,7 @@ export class LoginController {
     public signInAcessoCidadao( identity: Identity ): void {
         this.$ionicLoading.show();
         this.loginService.signInAcessoCidadao( identity )
-            .then(() => this.onAcessoCidadaoLoginSuccess() )
+            .then( () => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) )
             .finally( () => this.$ionicLoading.hide() );
     }
@@ -137,7 +137,7 @@ export class LoginController {
         if ( this.isAccountNotLinked( error.data ) ) {
             this.showDialogAccountNotLinked();
         } else {
-            this.toast.error( { title: 'Falha no Login' });
+            this.toast.error( { title: 'Falha no Login' } );
         }
     }
 
@@ -149,9 +149,9 @@ export class LoginController {
             title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
             ok: 'Criar conta'
-        }).then(() => {
+        } ).then( () => {
             this.$window.open( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' );
-        });
+        } );
     }
 
     /**

@@ -1,4 +1,4 @@
-/*
+ /*
  eslint
  no-undef: 0,
  dot-notation: 0,
@@ -6,9 +6,9 @@
  no-unused-expressions: 0
  */
 
-import { BusLinesController } from './bus-lines.component.controller';
-import BusLinesComponent from './bus-lines.component';
-import BusLinesTemplate from './bus-lines.component.html';
+import { HomeController } from './home.component.controller';
+import HomeComponent from './home.component';
+import HomeTemplate from './home.component.html';
 
 let expect = chai.expect;
 
@@ -17,7 +17,7 @@ let expect = chai.expect;
  * Referência de unit-tests em angularjs:
  * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
  */
-describe( 'Ceturb/bus-lines', () => {
+describe( 'Home', () => {
 
     let sandbox;
 
@@ -41,14 +41,14 @@ describe( 'Ceturb/bus-lines', () => {
 
     describe( 'Component', () => {
         // test the component/directive itself
-        let component = BusLinesComponent();
+        let component = HomeComponent();
 
         it( 'should use the right controller', () => {
-            expect( component.controller ).to.equal( BusLinesController );
+            expect( component.controller ).to.equal( HomeController );
         } );
 
         it( 'should use the right template', () => {
-            expect( component.template ).to.equal( BusLinesTemplate );
+            expect( component.template ).to.equal( HomeTemplate );
         } );
 
         it( 'should use controllerAs', () => {

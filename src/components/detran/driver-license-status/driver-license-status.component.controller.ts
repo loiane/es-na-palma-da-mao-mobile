@@ -107,13 +107,13 @@ export class DriverLicenseStatusController {
     }
 
     /**
-     * Se a carteira de motorista do condutor precisa ser renovada (Período de 1 mês após o vencimento)
+     * Se a carteira de motorista do condutor precisa ser renovada (Período de até 1 mês após o vencimento)
      * 
      * @readonly
      * @type {boolean}
      */
     public get licenseRenew(): boolean {
-        return moment( this.expirationDate ).add( 30, 'day' ).isAfter( moment().startOf( 'day' ) ) &&
+        return moment( this.expirationDate ).add( 1, 'month' ).isAfter( moment().startOf( 'day' ) ) &&
             moment().startOf( 'day' ).isAfter( this.expirationDate );
     }
 
@@ -149,19 +149,21 @@ export class DriverLicenseStatusController {
         return this.ticketColorService.getTicketLevelColor( level );
     }
 
-
     /**
      * Obtem dados da carteira de motorista do condutor autenticado no sistema.
      * 
      * @returns {void}
      */
-    public getDriverData(): void {
-        this.detranApiService.getDriverData()
-            .then(( driverData ) => {
+    public getDriverData(): IPromise<DriverData> {
+        return this.detranApiService.getDriverData()
+            .then( ( driverData ) => {
                 this.driverData = driverData;
                 return driverData;
-            })
-            .catch(( error ) => this.setErrorMessage( error.status ) );
+            } )
+            .catch( ( error ) => {
+                this.setErrorMessage( error.status );
+                return error;
+            } );
     }
 
     /**
@@ -169,37 +171,52 @@ export class DriverLicenseStatusController {
      * 
      * @returns {void}
      */
-    public getDriverTickets(): void {
-        this.detranApiService.getDriverTickets()
+    public getDriverTickets(): IPromise<Ticket[]> {
+        return this.detranApiService.getDriverTickets()
             .then( tickets => {
                 this.errorMessage = this.defaultMessage;
                 this.tickets = tickets || [];
                 return this.tickets;
             })
-            .catch(( error ) => this.setErrorMessage( error.status ) );
+            .catch( ( error ) => {
+                this.setErrorMessage( error.status );
+                return error;
+            } );
     }
 
-    private setErrorMessage( status: number ) {
-        if ( status === 404 ) {
-            this.errorMessage = this.default404Message;
-        } else {
-            this.errorMessage = this.defaultMessage;
-        }
-    }
 
-    public editLicense() {
-        this.$mdDialog.show( {
+    /**
+     * 
+     */
+    public editLicense(): IPromise<DriverLicense> {
+        return this.$mdDialog.show( {
             controller: AddLicenseController,
             template: registerLicenseTemplate,
             bindToController: true,
             controllerAs: 'vm',
             locals: this.driverLicenseStorage.driverLicense || {}
-        })
-            .then(( license: DriverLicense ) => {
-                this.$ionicLoading.show();
-                this.detranApiService.saveLicense( license )
-                    .then(( data ) => this.driverLicenseStorage.driverLicense = license )
-                    .finally(() => this.$ionicLoading.hide() );
-            });
+        } )
+        .then( ( license: DriverLicense ) => {
+            this.$ionicLoading.show();
+            return this.detranApiService.saveLicense( license )
+                .then( () => {
+                    this.driverLicenseStorage.driverLicense = license;
+                    return license;
+                } )
+                .finally( () => this.$ionicLoading.hide() );
+        } );
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {number} status
+     */
+    private setErrorMessage( status: number ) {
+        this.errorMessage = this.defaultMessage;
+        if ( status === 404 ) {
+            this.errorMessage = this.default404Message;
+        }
     }
 }

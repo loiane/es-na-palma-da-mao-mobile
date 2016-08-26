@@ -7,7 +7,6 @@
  */
 import 'angular';
 import { DetranApiService } from './detran-api.service';
-
 import { Settings, ISettings } from '../../shared/settings/index';
 
 let expect = chai.expect;
@@ -15,15 +14,21 @@ let expect = chai.expect;
 describe( 'DetranApiService', () => {
 
     let sandbox;
-    let detranApiService;
+    let detranApiService: DetranApiService;
     let $http;
-    let settings: ISettings = Settings.getInstance();
+    const settings: ISettings = Settings.getInstance();
+    const fakeResponse = {
+                data: {
+                    fake: 'fakeValue'
+                }
+            };
 
     beforeEach( () => {
         sandbox = sinon.sandbox.create();
 
         $http = {
-            get: sandbox.stub().returnsPromise()
+            get: sandbox.stub().returnsPromise().resolves( fakeResponse ),
+            post: sandbox.stub().returnsPromise()
         };
 
         detranApiService = new DetranApiService( $http, settings );
@@ -33,53 +38,69 @@ describe( 'DetranApiService', () => {
         sandbox.restore();
     } );
 
+
     describe( 'getDriverData()', () => {
 
-        it( 'should call driver data api endpoint', () => {
-            detranApiService.getDriverData( );
+        it( 'should call /driver endpoint on detran api', () => {
+            detranApiService.getDriverData();
 
-            expect( $http.get.calledWith( settings.api.detran + '/driverData' ) ).to.be.true;
+            expect( $http.get.calledWith( `${settings.api.detran}/driver` ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {
-            let response = {
-                data: {
-                    date: '2016/07/01'
-                }
-            };
-
-            $http.get.resolves( response );
-
             detranApiService.getDriverData().then( ( data ) => {
-                expect( data ).to.deep.equal( response.data );
+                expect( data ).to.deep.equal( fakeResponse.data );
             } );
         } );
 
     } );
 
-    describe( 'getTickets()', () => {
 
-        it( 'should call tickets api endpoint', () => {
-            detranApiService.getTickets( );
+    describe( 'getDriverTickets()', () => {
 
-            expect( $http.get.calledWith( settings.api.detran + '/tickets' ) ).to.be.true;
+        it( 'should call /driver/tickets endpoint on detran api', () => {
+            detranApiService.getDriverTickets( );
+
+            expect( $http.get.calledWith( `${settings.api.detran}/driver/tickets` ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {
-            let response = {
-                data: {
-                    date: '2016/07/01'
-                }
-            };
-
-            $http.get.resolves( response );
-
-            detranApiService.getTickets().then( ( data ) => {
-                expect( data ).to.deep.equal( response.data );
+            detranApiService.getDriverTickets().then( ( data ) => {
+                expect( data ).to.deep.equal( fakeResponse.data );
             } );
         } );
-
     } );
 
+
+    describe( 'getVehicleTickets()', () => {
+
+        it( 'should call /vehicle/tickets endpoint on detran api', () => {
+            const vehicle = { plate: 'ovl-7878', renavam: '12344555' };
+            const params = { params: vehicle };
+
+            detranApiService.getVehicleTickets( vehicle );
+
+            expect( $http.get.calledWith( `${settings.api.detran}/vehicle/tickets`, params ) ).to.be.true;
+        } );
+
+        it( 'should normalize response to response.data property', () => {
+            detranApiService.getDriverTickets().then( ( data ) => {
+                expect( data ).to.deep.equal( fakeResponse.data );
+            } );
+        } );
+    } );
+
+    describe( 'saveLicense()', () => {
+
+        it( 'should call /Perfil/SalvarCNH endpoint on acessocidadao api', () => {
+
+            const license = { registerNumber: '1234', ballot: '3423434' };
+            const params = { numero: license.registerNumber, cedula: license.ballot };
+
+            detranApiService.saveLicense( license );
+
+            expect( $http.post.calledWith( `${settings.api.acessocidadao}/Perfil/SalvarCNH`, params ) ).to.be.true;
+        } );
+    } );
 } );
 

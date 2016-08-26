@@ -27,7 +27,7 @@ export class DetranApiService {
     public getDriverData(): IPromise<DriverData> {
         return this.$http
             .get( `${this.settings.api.detran}/driver` )
-            .then(( response: { data: DriverData }) => response.data );
+            .then( ( response: { data: DriverData } ) => response.data );
     }
 
     /**
@@ -38,7 +38,7 @@ export class DetranApiService {
     public getDriverTickets(): IPromise<Ticket[]> {
         return this.$http
             .get( `${this.settings.api.detran}/driver/tickets` )
-            .then(( response: { data: Ticket[] }) => response.data );
+            .then( ( response: { data: Ticket[] } ) => response.data );
     }
 
 
@@ -50,8 +50,8 @@ export class DetranApiService {
      */
     public getVehicleTickets( vehicle: Vehicle ): IPromise<Ticket[]> {
         return this.$http
-            .get( `${this.settings.api.detran}/vehicle/tickets`, { params: vehicle })
-            .then(( response: { data: Ticket[] }) => response.data );
+            .get( `${this.settings.api.detran}/vehicle/tickets`, { params: vehicle } )
+            .then( ( response: { data: Ticket[] } ) => response.data );
     }
 
 
@@ -63,7 +63,7 @@ export class DetranApiService {
      */
     public saveLicense( license: DriverLicense ): IPromise<any> {
         return this.$http
-            .post( `${this.settings.api.acessocidadao}/Perfil/SalvarCNH`, { numero: license.registerNumber, cedula: license.ballot })
-            .then(( response: { data: any }) => response.data );
+            .post( `${this.settings.api.acessocidadao}/Perfil/SalvarCNH`, { numero: license.registerNumber, cedula: license.ballot } )
+            .then( ( response: { data: any } ) => response.data );
     }
 }

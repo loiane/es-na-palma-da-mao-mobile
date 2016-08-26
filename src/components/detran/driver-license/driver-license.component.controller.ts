@@ -56,16 +56,16 @@ export class DriverLicenseController {
             bindToController: true,
             controllerAs: 'vm',
             locals: this.driverLicenseStorage.driverLicense || {}
-        })
-            .then(( license: DriverLicense ) => {
-                this.$ionicLoading.show();
-                this.detranApiService.saveLicense( license )
-                    .then(( data ) => {
-                        this.driverLicenseStorage.driverLicense = license;
-                        this.navigateTo( 'app.driverLicenseStatus' );
-                    })
-                    .finally(() => this.$ionicLoading.hide() );
-            });
+        } )
+        .then( ( license: DriverLicense ) => {
+            this.$ionicLoading.show();
+            this.detranApiService.saveLicense( license )
+                .then( ( data ) => {
+                    this.driverLicenseStorage.driverLicense = license;
+                    this.navigateTo( 'app.driverLicenseStatus' );
+                })
+                .finally( () => this.$ionicLoading.hide() );
+        } );
     }
 
     /**
@@ -81,15 +81,14 @@ export class DriverLicenseController {
      * 
     */
     public navigateTo( stateName: string ) {
+
         this.$ionicHistory.nextViewOptions( {
             disableBack: true,
             historyRoot: true
-        });
+        } );
+
         if ( this.$ionicNativeTransitions ) {
-            this.$ionicNativeTransitions.stateGo( stateName, {}, {
-                type: 'slide',
-                direction: 'up'
-            });
+            this.$ionicNativeTransitions.stateGo( stateName, {}, { type: 'slide', direction: 'up' } );
         } else {
             this.$state.go( stateName );
         }

@@ -34,6 +34,11 @@
     background-color: #FFF176;
 }
 
+#state-warning-list h2 {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
 #state-warning-list h2.alto {
     color: #822929;
 }

@@ -18,7 +18,7 @@ let expect = chai.expect;
  * Referência de unit-tests em angularjs:
  * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
  */
-describe( 'SepConsulta', () => {
+describe( 'SEP/sep-consulta', () => {
 
     let sandbox;
 

@@ -9,7 +9,7 @@ import moment from 'moment';
 import DriverLicenseStatusComponent from './driver-license-status.component';
 import DriverLicenseStatusTemplate from './driver-license-status.component.html';
 import { DriverLicenseStatusController } from './driver-license-status.component.controller';
-import { DriverData, Ticket, DriverStatus } from '../shared/models/index';
+import { DriverData, Ticket, DriverStatus, DetranApiService, TicketColorService, DriverLicenseStorage } from '../shared/index';
 
 let expect = chai.expect;
 
@@ -18,7 +18,7 @@ let expect = chai.expect;
  * Referência de unit-tests em angularjs:
  * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
  */
-describe( 'DriverLicenseStatus', () => {
+describe( 'Detran/driver-license-status', () => {
 
     let sandbox;
 
@@ -62,7 +62,7 @@ describe( 'DriverLicenseStatus', () => {
     let driverDataExpiring: DriverData = {
         acquiringLicense: false,
         blockMotive: '',
-        expirationDate: moment().subtract( 1, 'months' ).toDate(),
+        expirationDate: moment().subtract( 1, 'month' ).toDate(),
         hasAdministrativeIssues: false,
         hasTickets: true,
         status: DriverStatus.Ok
@@ -120,10 +120,14 @@ describe( 'DriverLicenseStatus', () => {
     } );
 
     describe( 'Controller', () => {
-        let controller;
+        let controller: DriverLicenseStatusController;
         let $scope;
-        let detranApiService;
+        let $ionicLoading;
+        let $mdDialog;
         let onIonicBeforeEnterEvent;
+        let detranApiService: DetranApiService;
+        let ticketColorService: TicketColorService;
+        let driverLicenseStorage: DriverLicenseStorage;
 
         beforeEach( () => {
             $scope = {
@@ -133,16 +137,19 @@ describe( 'DriverLicenseStatus', () => {
                     }
                 }
             };
-
-            detranApiService = {
+            $ionicLoading = sandbox.stub();
+            $mdDialog = sandbox.stub();
+            detranApiService = <DetranApiService>{
                 getDriverData: sandbox.stub().returnsPromise(),
-                getTickets: sandbox.stub().returnsPromise()
+                getDriverTickets: sandbox.stub().returnsPromise()
             };
 
-            controller = new DriverLicenseStatusController( $scope, detranApiService );
+            ticketColorService = new TicketColorService();
+
+            controller = new DriverLicenseStatusController( $scope, $ionicLoading, ticketColorService, detranApiService, driverLicenseStorage, $mdDialog );
         } );
 
-        describe( 'on instanciation', () => {
+        describe( 'on instantiation', () => {
             it( 'should activate on $ionicView.beforeEnter event', () => {
                 sandbox.stub( controller, 'activate' ); // replace original activate
 
@@ -150,10 +157,6 @@ describe( 'DriverLicenseStatus', () => {
                 onIonicBeforeEnterEvent();
 
                 expect( controller.activate.calledOnce ).to.be.true;
-            } );
-
-            it( 'should set selectedIndex to "-1"', () => {
-                expect( controller.selectedIndex ).to.be.equal( -1 );
             } );
 
             it( 'should set driverData to "undefined"', () => {
@@ -168,7 +171,7 @@ describe( 'DriverLicenseStatus', () => {
         describe( 'activate()', () => {
             beforeEach( () => {
                 sandbox.stub( controller, 'getDriverData' );
-                sandbox.stub( controller, 'getTickets' );
+                sandbox.stub( controller, 'getDriverTickets' );
                 controller.activate();
             } );
 
@@ -176,15 +179,15 @@ describe( 'DriverLicenseStatus', () => {
                 expect( controller.getDriverData.calledOnce ).to.be.true;
             } );
 
-            it( 'should call getTickets()', () => {
-                expect( controller.getTickets.calledOnce ).to.be.true;
+            it( 'should call getDriverTickets()', () => {
+                expect( controller.getDriverTickets.calledOnce ).to.be.true;
             } );
         } );
 
         describe( 'Get Methods', () => {
             beforeEach( () => {
                 detranApiService.getDriverData.resolves( driverDataOk );
-                detranApiService.getTickets.resolves( tickets );
+                detranApiService.getDriverTickets.resolves( tickets );
             } );
 
             describe( 'driverDataPopulated()', () => {
@@ -316,73 +319,39 @@ describe( 'DriverLicenseStatus', () => {
 
             describe( 'hasTickets()', () => {
                 it( 'should return true if has tickets', () => {
-                    controller.getTickets().then( () => {
+                    controller.getDriverTickets().then( () => {
                         expect( controller.hasTickets ).to.be.true;
                     } );
                 } );
 
                 it( 'should return false if has no tickets', () => {
-                    detranApiService.getTickets.resolves( [] );
-                    controller.getTickets().then( () => {
+                    detranApiService.getDriverTickets.resolves( [] );
+                    controller.getDriverTickets().then( () => {
                         expect( controller.hasTickets ).to.be.false;
                     } );
                 } );
 
                 it( 'should return false if error', () => {
-                    detranApiService.getTickets.rejects();
-                    controller.getTickets().then( () => {
+                    detranApiService.getDriverTickets.rejects();
+                    controller.getDriverTickets().then( () => {
                         expect( controller.hasTickets ).to.be.false;
                     } );
                 } );
             } );
 
-            describe( 'last12MonthsPoints()', () => {
-                it( 'should return sum of points in last year tickets', () => {
-                    controller.getTickets().then( () => {
-                        expect( controller.last12MonthsPoints ).to.be.equal( 13 );
-                    } );
-                } );
 
-                it( 'should return 0 if has no tickets', () => {
-                    detranApiService.getTickets.resolves( [] );
-                    controller.getTickets().then( () => {
-                        expect( controller.last12MonthsPoints ).to.be.equal( 0 );
-                    } );
-                } );
+            // describe( 'getClassificationColor( classification )', () => {
+            //     it( 'should return correct color name by classification', () => {
+            //         expect( controller.getClassificationColor( 'leve' ) ).to.be.equal( 'green' );
+            //         expect( controller.getClassificationColor( 'média' ) ).to.be.equal( 'yellow' );
+            //         expect( controller.getClassificationColor( 'grave' ) ).to.be.equal( 'red' );
+            //         expect( controller.getClassificationColor( 'gravíssima' ) ).to.be.equal( 'black' );
+            //     } );
 
-                it( 'should return 0 if error', () => {
-                    detranApiService.getTickets.rejects();
-                    controller.getTickets().then( () => {
-                        expect( controller.last12MonthsPoints ).to.be.equal( 0 );
-                    } );
-                } );
-            } );
-
-            describe( 'getClassificationColor( classification )', () => {
-                it( 'should return correct color name by classification', () => {
-                    expect( controller.getClassificationColor( 'leve' ) ).to.be.equal( 'green' );
-                    expect( controller.getClassificationColor( 'média' ) ).to.be.equal( 'yellow' );
-                    expect( controller.getClassificationColor( 'grave' ) ).to.be.equal( 'red' );
-                    expect( controller.getClassificationColor( 'gravíssima' ) ).to.be.equal( 'black' );
-                } );
-
-                it( 'should return undefined if unable to find classification', () => {
-                    expect( controller.getClassificationColor( 'asdf' ) ).to.be.undefined;
-                } );
-            } );
-
-            describe( 'showDetails( $index )', () => {
-                it( 'should set selectedIndex property with $index value', () => {
-                    controller.showDetails( 1 );
-                    expect( controller.selectedIndex ).to.be.equal( 1 );
-                } );
-
-                it( 'should set selectedIndex to -1 if it has the same value as $index', () => {
-                    controller.showDetails( 1 );
-                    controller.showDetails( 1 );
-                    expect( controller.selectedIndex ).to.be.equal( -1 );
-                } );
-            } );
+            //     it( 'should return undefined if unable to find classification', () => {
+            //         expect( controller.getClassificationColor( 'asdf' ) ).to.be.undefined;
+            //     } );
+            // } );
 
             describe( 'getDriverData()', () => {
                 beforeEach( () => {
@@ -407,14 +376,14 @@ describe( 'DriverLicenseStatus', () => {
                 } );
             } );
 
-            describe( 'getTickets()', () => {
+            describe( 'getDriverTickets()', () => {
                 beforeEach( () => {
-                    detranApiService.getTickets.resolves( tickets );
-                    controller.getTickets();
+                    detranApiService.getDriverTickets.resolves( tickets );
+                    controller.getDriverTickets();
                 } );
 
-                it( 'should call "detranApiService.getTickets()"', () => {
-                    expect( detranApiService.getTickets.calledOnce ).to.be.true;
+                it( 'should call "detranApiService.getDriverTickets()"', () => {
+                    expect( detranApiService.getDriverTickets.calledOnce ).to.be.true;
                 } );
 
                 it( 'should populate tickets property', () => {
@@ -423,8 +392,8 @@ describe( 'DriverLicenseStatus', () => {
 
                 it( 'should not populate tickets property on error', () => {
                     controller.tickets = [];
-                    detranApiService.getTickets.rejects();
-                    controller.getTickets().then( () => {
+                    detranApiService.getDriverTickets.rejects();
+                    controller.getDriverTickets().then( () => {
                         expect( controller.tickets ).to.be.deep.equal( [] );
                     } );
                 } );
