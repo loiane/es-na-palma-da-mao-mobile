@@ -108,8 +108,10 @@ function run( $rootScope: any,
     });
 
     $ionicPlatform.on( 'resume', () => {
-        loginService.refreshTokenAcessoCidadaoIfNeeded()
-            .catch(() => $state.go( 'home' ) );
+        if ( loginService.isAuthenticated ) {
+            loginService.refreshTokenAcessoCidadaoIfNeeded()
+                .catch(() => $state.go( 'home' ) );
+        }
     });
 }
 

@@ -22,7 +22,9 @@ export class PushConfig {
                 {
                     android: {
                         senderID: this.settings.push.senderId,
-                        forceShow: this.settings.push.forceShow
+                        forceShow: this.settings.push.forceShow,
+                        icon: 'notification',
+                        iconColor: '#549db2'
                     },
                     ios: {
                         senderID: this.settings.push.senderId,
