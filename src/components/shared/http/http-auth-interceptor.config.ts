@@ -11,8 +11,6 @@ let httpInterceptorsConfig = $httpProvider => {
             config.headers.Authorization = `Bearer ${token}`;
         };
 
-        let hasUrl = ( endPoint, urls ) => urls.filter( url => endPoint.startsWith( url ) ).length > 0;
-
         return {
             'request': ( config ) => {
                 // If has no token just execute the request as is
@@ -20,12 +18,7 @@ let httpInterceptorsConfig = $httpProvider => {
                     return config;
                 }
 
-                // Check Prodest IdentityServer
-                if ( config.url.startsWith( settings.identityServer.url ) && hasUrl( config.url, settings.identityServer.AuthenticatedUrls ) ) {
-                    addAuthorizationHeader( config, $localStorage.token.access_token );
-                } else if ( hasUrl( config.url, settings.api.secure ) ) { // Check all secure APIs
-                    addAuthorizationHeader( config, $localStorage.token.access_token );
-                }
+                addAuthorizationHeader( config, $localStorage.token.access_token );
 
                 return config;
             },

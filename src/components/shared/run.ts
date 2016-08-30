@@ -73,6 +73,13 @@ function run( $rootScope: any,
     }
 
     $ionicPlatform.ready(() => {
+        if ( !String.prototype.startsWith ) {
+            String.prototype.startsWith = function ( searchString, position ) {
+                position = position || 0;
+                return this.substr( position, searchString.length ) === searchString;
+            };
+        }
+
         ionic.Platform.isFullScreen = true;
 
         if ( $window.cordova && $window.cordova.plugins.Keyboard ) {
