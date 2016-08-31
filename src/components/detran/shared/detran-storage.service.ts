@@ -2,10 +2,18 @@ import { IScope } from 'angular';
 import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage } from './models/index';
 import { AcessoCidadaoService } from '../../shared/authentication/index';
 
+/**
+ * Serviço que trata local storage no contexto do detran
+ * 
+ * @export
+ * @class DetranStorage
+ * @implements {DriverLicenseStorage}
+ * @implements {VehicleStorage}
+ */
 export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
-    public static $inject: string[] = [ '$rootScope', '$localStorage', 'acessoCidadaoService', 'notifyingService' ];
-    private userStorageKey: string;
+    public static $inject: string[] = [ '$rootScope', '$localStorage', 'acessoCidadaoService' ];
+    private vehiclesStorageKey: string;
 
     /**
      * Creates an instance of DetranStorage.
@@ -15,23 +23,15 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      */
     constructor( private $rootScope: IScope,
         private $localStorage: any,
-        private acessoCidadaoService: AcessoCidadaoService,
-        private notifyingService ) {
+        private acessoCidadaoService: AcessoCidadaoService ) {
         this.vehicles = this.vehicles || [];
-
-        this.notifyingService.subscribe( this.$rootScope, 'user-claims-stored', ( event, userClaims ) => {
-            this.removeDriverLicense();
-            if ( angular.isDefined( userClaims.cnhNumero ) && angular.isDefined( userClaims.cnhCedula ) ) {
-                this.driverLicense = { registerNumber: userClaims.cnhNumero, ballot: userClaims.cnhCedula };
-            }
-        });
     }
 
     /**
      * 
      */
-    private refreshStorageKey() {
-        this.userStorageKey = `user-${this.acessoCidadaoService.tokenClaims.sub}-vehicles`; // sub é o id do usuário logado
+    private refreshStorageKeys() {
+        this.vehiclesStorageKey = `user-${this.acessoCidadaoService.tokenClaims.sub}-vehicles`;  // sub é o id do usuário logado
     }
 
 
@@ -41,16 +41,16 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @returns {Vehicle[]}
      */
     public get vehicles(): Vehicle[] {
-        this.refreshStorageKey();
-        return this.$localStorage[ this.userStorageKey ] as Vehicle[];
+        this.refreshStorageKeys();
+        return this.$localStorage[ this.vehiclesStorageKey ] as Vehicle[];
     }
 
     /**
      * 
      */
     public set vehicles( vehicles: Vehicle[] ) {
-        this.refreshStorageKey();
-        this.$localStorage[ this.userStorageKey ] = vehicles;
+        this.refreshStorageKeys();
+        this.$localStorage[ this.vehiclesStorageKey ] = vehicles;
     }
 
     /**

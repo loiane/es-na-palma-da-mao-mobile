@@ -12,15 +12,14 @@ import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './
  */
 export class AcessoCidadaoService {
 
-    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q', 'notifyingService' ];
+    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q' ];
     private identityServerUrl: string;
 
     /** @constructor */
     constructor( private $window: IWindowService,
         private $http: IHttpService,
         private $localStorage,
-        private $q: IQService,
-        private notifyingService ) {
+        private $q: IQService ) {
     }
 
 
@@ -96,6 +95,13 @@ export class AcessoCidadaoService {
             });
     }
 
+
+    /**
+     * 
+     * 
+     * @param {Identity} data
+     * @returns {IPromise<AcessoCidadaoClaims>}
+     */
     public refreshToken( data: Identity ): IPromise<AcessoCidadaoClaims> {
         let token = this.token;
         if ( token ) {
@@ -123,8 +129,6 @@ export class AcessoCidadaoService {
                 // Check if the object is correct (This request can return the Acesso Cidadão login page)
                 if ( angular.isDefined( response.data.sub ) ) {
                     this.$localStorage.userClaims = response.data;
-                    // firing an event downwards
-                    this.notifyingService.notify( 'user-claims-stored', response.data );
                 }
 
                 return response.data;
@@ -188,6 +192,14 @@ export class AcessoCidadaoService {
         return this.$window.atob( output );
     }
 
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {any} data
+     * @returns
+     */
     private getRequestTokenOptions( data ) {
         let getTokenUrl = `${this.identityServerUrl}/connect/token`;
 

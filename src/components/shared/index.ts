@@ -22,8 +22,6 @@ import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
 import pushModule from './push/index';
 import permissionsModule from './permissions/index';
-import detranShared from '../detran/shared/index';
-import notifyingService from './notification/index';
 
 let dependencies = [
     menu.name,
@@ -35,8 +33,6 @@ let dependencies = [
     directives.name,
     pushModule.name,
     permissionsModule.name,
-    detranShared.name,
-    notifyingService.name
 ];
 
 export * from './toast/index';
