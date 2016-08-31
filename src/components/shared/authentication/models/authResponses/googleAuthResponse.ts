@@ -1,11 +1,8 @@
 export interface GoogleAuthResponse {
-    ageRangeMin: number;
     displayName: string;
     email: string;
-    familyName: string;
-    gender: string;
-    givenName: string;
+    idToken: string;
     imageUrl: string;
-    oauthToken: string;
+    serverAuthCode: string;
     userId: string;
 }

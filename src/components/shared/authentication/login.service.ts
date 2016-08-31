@@ -114,7 +114,7 @@ export class LoginService {
                 grant_type: 'customloginexterno',
                 scope: this.settings.identityServer.defaultScopes,
                 provider: 'Google',
-                accesstoken: authResponse.oauthToken
+                accesstoken: authResponse.idToken
             };
 
             success( identity );
