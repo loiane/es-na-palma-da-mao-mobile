@@ -1,4 +1,4 @@
-import { ScrollWach } from './on-scroll.directive';
+import { ScrollWach } from './scroll-watch.directive';
 import { RemoveEmailValidation } from './remove-email-validation';
 
 export default angular.module( 'shared.directives', [] )
