@@ -1,0 +1,11 @@
+.error-wrapper {
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+.error-wrapper .error{
+    padding: 20px;
+}
+
+.error-wrapper .error.unexpected{
+    color: #b90303;
+}

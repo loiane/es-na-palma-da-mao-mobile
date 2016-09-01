@@ -1,0 +1,11 @@
+<div ng-if="!uiState.loading && vm.error" class="error-wrapper" layout="row" layout-align="center center">
+    <div ng-if="!vm.error.handled" class="error unexpected" layout="column" layout-align="center center">
+        <div class="md-subhead" flex>{{vm.unhandledErrorMessage}}</div>
+        <small class="accent" flex>{{vm.error.guid}}</small>
+        <ng-transclude></ng-transclude>
+    </div>
+    <div ng-if="vm.error.handled" class="error" layout="column" layout-align="center center">
+        <div class="md-subhead" flex>{{vm.error.message}}</div>
+        <ng-transclude></ng-transclude>
+    </div>
+</div>

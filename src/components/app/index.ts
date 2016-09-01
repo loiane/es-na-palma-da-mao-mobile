@@ -15,6 +15,7 @@ import 'roboto/css/roboto/roboto-fontface.css!';
 
 // shared
 import shared from '../shared/index';
+import layout from '../layout/index';
 
 // Features
 import appComponent from './app.component';
@@ -29,7 +30,8 @@ let dependencies = [
     'ct.ui.router.extras',
     'ct.ui.router.extras.future',
     'oc.lazyLoad',
-    shared.name
+    shared.name,
+    layout.name
 ];
 
 export default angular.module( 'app', dependencies )

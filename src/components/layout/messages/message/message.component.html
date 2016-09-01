@@ -1,0 +1,6 @@
+<div ng-if="!uiState.loading && vm.text" class="message-wrapper" layout="row" layout-align="center center">
+    <div class="message" layout="column" layout-align="center center">
+        <div class="md-subhead" flex>{{vm.text}}</div>
+        <ng-transclude></ng-transclude>
+    </div>
+</div>
