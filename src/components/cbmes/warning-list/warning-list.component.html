@@ -15,7 +15,7 @@
 					<div class="md-padding" flex>
 						<div>
 							<div class="md-list-item-text">
-								<h2 ng-class="warning.level">{{warning.title}}</h2>
+								<h3 ng-class="warning.level">{{warning.title}}</h3>
 								<strong><span class="warning-date">{{ warning.beginDate | date: 'dd/MM/yyyy HH:mm' }}</span></strong>
 							</div>
 							<a class="maps-link" ng-click="vm.openLocation(warning.region.center.latitude, warning.region.center.longitude, warning.title)"><i class="fa fa-map-marker" aria-hidden="true"></i></a>

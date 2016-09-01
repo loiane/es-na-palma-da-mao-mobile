@@ -34,8 +34,9 @@
     background-color: #FFF176;
 }
 
-#state-warning-list h2 {
+#state-warning-list h3 {
     margin-top: 10px;
+    font-size: 22px;
     margin-bottom: 0;
 }
 
