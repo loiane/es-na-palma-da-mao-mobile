@@ -151,6 +151,13 @@ export class LoginService {
         return this.acessoCidadaoService.signIn( identity );
     }
 
+
+    /**
+     * 
+     * 
+     * @param {*} success
+     * @returns {void}
+     */
     public signOut( success: any ): void {
         this.facebookService.logout();
         this.googleService.logout();
@@ -159,6 +166,12 @@ export class LoginService {
         return this.acessoCidadaoService.signOut( success );
     }
 
+
+    /**
+     * 
+     * 
+     * @returns {IPromise<AcessoCidadaoClaims>}
+     */
     public refreshTokenAcessoCidadao(): IPromise<AcessoCidadaoClaims> {
         let identity: AcessoCidadaoIdentity = {
             client_id: this.settings.identityServer.clients.espm.id,
@@ -169,6 +182,12 @@ export class LoginService {
         return this.acessoCidadaoService.refreshToken( identity );
     }
 
+
+    /**
+     * 
+     * 
+     * @returns {IPromise<{}>}
+     */
     public refreshTokenAcessoCidadaoIfNeeded(): IPromise<{}> {
         let tokenInfo = this.$localStorage.tokenClaims;
         let token = this.$localStorage.token;
@@ -193,13 +212,13 @@ export class LoginService {
                         .catch(() => {
                             // Even if there's a problem refreshing only send to home if the token is completelly expired 
                             if ( timeDifference <= 0 ) {
-                                console.log('reject catch');
+                                console.log( 'reject catch' );
                                 this.signOut(() => reject() );
                             }
                         });
                 }
             } else {
-                console.log('reject token null');
+                console.log( 'reject token null' );
                 this.signOut(() => reject() );
             }
         });
