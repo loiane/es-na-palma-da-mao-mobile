@@ -3,19 +3,25 @@ import { PushService } from './push.service';
 
 export class PushConfig {
 
-    public static $inject: string[] = [
-        'pushService',
-        'settings'
-    ];
+    public static $inject: string[] = [ 'pushService', 'settings' ];
 
     private pushNotification: PhonegapPluginPush.PushNotificationStatic;
 
+    /**
+     * Creates an instance of PushConfig.
+     * 
+     * @param {PushService} pushService
+     * @param {ISettings} settings
+     */
     constructor( private pushService: PushService, private settings: ISettings ) {
         if ( window.PushNotification ) {
             this.pushNotification = window.PushNotification;
         }
     }
 
+    /**
+     * 
+     */
     public init(): void {
         if ( this.pushNotification ) {
             let push = PushNotification.init(

@@ -16,14 +16,19 @@ export class PushService {
     ];
 
     constructor( private $state: angular.ui.IStateService,
-                 private $ionicHistory: ionic.navigation.IonicHistoryService,
-                 private $ionicNativeTransitions,
-                 private $http: IHttpService,
-                 private $mdSidenav: angular.material.ISidenavService,
-                 private settings: ISettings,
-                 private $localStorage ) {
+        private $ionicHistory: ionic.navigation.IonicHistoryService,
+        private $ionicNativeTransitions,
+        private $http: IHttpService,
+        private $mdSidenav: angular.material.ISidenavService,
+        private settings: ISettings,
+        private $localStorage ) {
     }
 
+    /**
+     * 
+     * 
+     * @param {string} token
+     */
     public registerUser( token: string ) {
         let data: PushUser = {
             user: this.$localStorage.tokenClaims.sub,
@@ -34,6 +39,11 @@ export class PushService {
         this.$http.post( `${this.settings.api.push}/subscribe`, data );
     }
 
+    /**
+     * 
+     * 
+     * @param {*} data
+     */
     public notify( data: any ): void {
         // TODO: Save any data for later use
         this.navigateTo( data.appData.state );

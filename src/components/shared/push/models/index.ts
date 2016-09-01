@@ -1,1 +1,1 @@
-export * from './pushUser';
+export * from './push-user';

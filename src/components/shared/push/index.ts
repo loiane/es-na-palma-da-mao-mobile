@@ -8,3 +8,4 @@ export default angular.module( 'shared.push', [] )
 
 export * from './push.service';
 export * from './push.config';
+export * from './models/index';
