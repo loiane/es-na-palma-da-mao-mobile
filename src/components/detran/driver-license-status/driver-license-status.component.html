@@ -4,7 +4,7 @@
 	</ion-nav-title>
 	<ion-nav-buttons side="right">
 		<div class="espm-ion-nav-buttons">
-			<md-button class="md-icon-button" ng-click="vm.editLicense()" aria-label="Editar">
+			<md-button class="md-icon-button" ng-click="vm.editDriverLicense()" aria-label="Editar">
 				<md-icon md-font-icon="ion-compose">
 				</md-icon>
 			</md-button>
@@ -77,11 +77,12 @@
 					</div>
 					<md-divider></md-divider>
 				</md-list-item>
-				<div ng-if="!uiState.loading && vm.ticketsPopulated && !vm.hasTickets" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
-					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
-						<div class="md-subhead" flex>{{vm.errorMessage}}</div>
-					</div>
-				</div>
+
+				<message text="Nenhuma multa encontrada para a CNH" ng-if="vm.ticketsPopulated && !vm.hasTickets"></message>
+
+				<error-message error="uiState.error">
+					<remark ng-if="uiState.error.status === 404">Verifique os se os dados da CNH estão corretos</remark>
+				</error-message>
 			</md-list>
 		</md-content>
 	</ion-content>
