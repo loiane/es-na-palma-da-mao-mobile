@@ -1,7 +1,7 @@
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import { LoginService } from './authentication/index';
-import { HttpSnifferService } from './http/http-sniffer.service';
+import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import { IWindowService, IRootScopeService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
@@ -29,6 +29,7 @@ function run( $rootScope: any,
     $mdBottomSheet,
     loginService: LoginService,
     httpSnifferService: HttpSnifferService,
+    httpErrorSnifferService: HttpErrorSnifferService,
     settings: ISettings,
     $localStorage: any,
     cordovaPermissions: CordovaPermissions ) {
@@ -49,15 +50,19 @@ function run( $rootScope: any,
         $rootScope.isIOS = ionic.Platform.isIOS();          // Check platform of running device is ios or not.
 
         $rootScope.httpSnifferService = httpSnifferService;
+        $rootScope.httpErrorSnifferService = httpErrorSnifferService;
         $rootScope.uiState = {
             loading: false,
-            pendingRequests: 0
+            pendingRequests: 0,
+            error: undefined
         };
+
         // We can now watch the trafficCop service to see when there are pending
         // HTTP requests that we're waiting for.
         $rootScope.$watch(() => {
             $rootScope.uiState.pendingRequests = httpSnifferService.pending.all;
             $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
+            $rootScope.uiState.error = httpErrorSnifferService.error;
         });
     }
 
@@ -132,6 +137,7 @@ run.$inject = [
     '$mdBottomSheet',
     'loginService',
     'httpSnifferService',
+    'httpErrorSnifferService',
     'settings',
     '$localStorage',
     'cordovaPermissions'

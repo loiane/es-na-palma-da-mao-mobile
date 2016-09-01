@@ -13,7 +13,7 @@ import httpAuthInterceptorConfig from './http/http-auth-interceptor.config';
 import httpDelayInterceptorConfig from './http/http-delay-interceptor.config';
 import httpErrorInterceptorConfig from './http/http-error-interceptor.config';
 import httpSnifferInterceptorConfig from './http/http-sniffer-interceptor.config';
-import { HttpSnifferService } from './http/http-sniffer.service';
+import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import appRun from './run';
 import loader from './loader/index';
 import routes from './routes/index';
@@ -41,6 +41,7 @@ export * from './dialog/index';
 export default angular.module( 'shared', dependencies )
                       .constant( 'settings', Settings.getInstance() )
                       .service( 'httpSnifferService', HttpSnifferService )
+                      .service( 'httpErrorSnifferService', HttpErrorSnifferService )
                       .config( ionicConfig )
                       .config( themeConfig )
                       .config( httpSnifferInterceptorConfig )
