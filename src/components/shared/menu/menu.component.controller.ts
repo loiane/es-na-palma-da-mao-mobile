@@ -77,6 +77,8 @@ export default class MenuController {
         private googleService: GoogleService,
         private loginService: LoginService,
         private toast: ToastService,
+
+        // NÂO REMOVER: USADO NA VIEW
         private driverLicenseStorage: DriverLicenseStorage ) {
         this.activate();
     }
