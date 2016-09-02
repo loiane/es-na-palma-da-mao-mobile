@@ -26,12 +26,12 @@ export class CbmesApiService {
         today.setDate( today.getDate() - 7 );
 
         // TODO: Remover mock assim que a api estiver pronta
-        return this.mockLastWarnings();
+        // return this.mockLastWarnings();
 
-        /*return this.$http.get( this.settings.api.cbmes, today )
+        return this.$http.get( this.settings.api.cbmes, today )
             .then(( response: { data: Warning[] }) => {
                 return response.data;
-            });*/
+            });
     }
 
     public mockLastWarnings() {

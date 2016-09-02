@@ -5,7 +5,7 @@
         <ng-transclude></ng-transclude>
     </div>
     <div ng-if="vm.error.handled" class="error" layout="column" layout-align="center center">
-        <div class="md-subhead" flex>{{vm.error.message}}</div>
+        <div class="md-subhead" flex>{{vm.error.message || vm.unhandledErrorMessage }}</div>
         <ng-transclude></ng-transclude>
     </div>
 </div>

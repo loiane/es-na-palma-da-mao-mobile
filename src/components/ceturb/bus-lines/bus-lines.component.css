@@ -3,6 +3,9 @@
 	color: #c86673;
 }
 
+#state-ceturb-bus-lines .line-description,
+#state-ceturb-bus-lines .line-number{ line-height: 25px; }
+
 #state-ceturb-bus-lines .line-number{ margin-right: 20px; }
 
 .state-ceturb-subheader {
@@ -27,7 +30,7 @@
 .state-ceturb-subheader md-input-container.md-icon-right {
     padding: 5px;
     margin: 0px;
-    height: 44px;
+    height: 38px;
     background-color: white;
 }
 

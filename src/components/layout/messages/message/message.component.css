@@ -1,7 +1,14 @@
 .message-wrapper {
     border-bottom: 1px solid rgba(0,0,0,0.12);
+    height: 100%;
+    position: static;
 }
 
+.message-wrapper .md-subhead{ font-size: 18px;}
 .message-wrapper .message{
     padding: 20px;
+}
+
+.message-wrapper .message > *{
+    text-align: center;
 }

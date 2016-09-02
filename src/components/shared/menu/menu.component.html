@@ -11,7 +11,7 @@
 		<!--template section-->
 		<div class="material-background" id="toggle-menu-left-header">
 			<!--template header section-->
-			<div class="menu-left-header" ng-show="vm.authenticated">
+			<div class="menu-left-header" ng-if="vm.authenticated">
 				<img class="user-img" ng-src="{{vm.avatarUrl}}">
 
 				<p>
@@ -37,7 +37,7 @@
 						<span>Login</span>
 					</div>
 				</div>
-				<div ng-show="vm.authenticated">
+				<div ng-if="vm.authenticated">
 					<md-subheader class="md-accent">Principal</md-subheader>
 					<div class="row menu-item" ng-click="vm.navigateTo('app.dashboard.newsHighlights')">
 						<div class="col-25">
@@ -166,7 +166,7 @@
 					<i class="fa fa-database"></i>
 					<span>Login</span>
 				</md-list-item>
-				<div ng-show="vm.authenticated">
+				<div ng-if="vm.authenticated">
 					<md-subheader class="md-accent">Principal</md-subheader>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dashboard.newsHighlights')">
 						<i class="ion-ios-keypad"></i>
@@ -228,9 +228,6 @@
 					</md-list-item>
 				</div>
 			</md-list>
-			<!--end list section-->
 		</ion-content>
-		<!--end template content section-->
-		<!--end template section-->
 	</md-sidenav>
 </ion-side-menus>

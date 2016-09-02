@@ -47,7 +47,6 @@ describe( 'Detran/driver-license', () => {
         let $ionicHistory;
         let $mdDialog;
         let $ionicNativeTransitions;
-        let $ionicLoading;
         let detranApiService;
         let onIonicBeforeEnterEvent;
         let driverLicenseStorage;
@@ -63,7 +62,6 @@ describe( 'Detran/driver-license', () => {
 
             $mdDialog = sandbox.stub();
             $state = sandbox.stub();
-            $ionicLoading = sandbox.stub();
             $ionicHistory = sandbox.stub();
             $ionicNativeTransitions = sandbox.stub();
             driverLicenseStorage = {
@@ -75,7 +73,7 @@ describe( 'Detran/driver-license', () => {
             };
 
 
-            controller = new DriverLicenseController( $scope, $state, $ionicLoading, $ionicHistory, $ionicNativeTransitions, detranApiService, driverLicenseStorage, $mdDialog );
+            controller = new DriverLicenseController( $scope, $state, $ionicHistory, $ionicNativeTransitions, detranApiService, driverLicenseStorage, $mdDialog );
         } );
 
         describe( 'on instantiation', () => {

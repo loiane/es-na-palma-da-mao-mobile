@@ -46,7 +46,6 @@ describe( 'SEP/sep-consulta', () => {
         let sepApiService;
         let toastService;
         let $ionicScrollDelegate;
-        let $ionicLoading;
         let onIonicBeforeEnterEvent;
 
         let processNumber = 68985037;
@@ -165,16 +164,11 @@ describe( 'SEP/sep-consulta', () => {
                 show: sandbox.stub()
             };
 
-            $ionicLoading = {
-                show: sandbox.stub().returnsPromise().resolves(),
-                hide: sandbox.stub().returnsPromise().resolves()
-            };
-
             sepApiService = {
                 getProcessByNumber: sandbox.stub().returnsPromise()
             };
 
-            controller = new SepConsultaController( $scope, $ionicScrollDelegate, $ionicLoading, toastService, sepApiService );
+            controller = new SepConsultaController( $scope, $ionicScrollDelegate, toastService, sepApiService );
         } );
 
         describe( 'on instanciation', () => {

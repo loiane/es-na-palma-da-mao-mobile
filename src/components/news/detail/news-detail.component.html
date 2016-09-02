@@ -1,36 +1,33 @@
 <ion-view>
-	<ion-nav-title>{{::vm.news.origin}}</ion-nav-title>
+	<ion-nav-title> 
+		{{::vm.news.origin}}
+		<span ng-if="!vm.news">Notícias</span>
+	</ion-nav-title>
 	<ion-nav-buttons side="left">
 		<a ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item nav-back-btn">
-			<i class="fa fa-arrow-left espm-back-button"></i>
+			<i class="fa fa-arrow-left back-button"></i>
 		</a>
 	</ion-nav-buttons>
+	<div class="spinner-container" ng-if="uiState.loading">
+		<ion-spinner icon="android"></ion-spinner>
+	</div>
 	<ion-content id="news-detail-component">
-
-		<md-content layout-padding class="espm-full-content">
-			<img ng-src="{{::vm.news.image}}" class="md-card-image espm-img-noticia-detalhe" alt="">
+		<img ng-src="{{::vm.news.image}}" class="md-card-image img-noticia-detalhe" alt="">
+		<div layout-padding layout="column" ng-if="::vm.news">
 			<div>
 				<span md-colors="::{color: 'accent'}">
 					{{::vm.news.origin}}
 				</span>
 				<span class="noticia-info-origem">
-					{{ vm.news.date | date: 'dd/MM/yyyy' }}
+					{{ ::vm.news.date | date: 'dd/MM/yyyy' }}
 				</span>
 				<br>
-
-				<small ng-if="!moment(vm.news.date).isSame(vm.news.lastModified, 'day')"
-					   class="last-updated">Atualizada em: {{ vm.news.lastModified | date: 'dd/MM/yyyy' }}
+				<small ng-if="!moment(vm.news.date).isSame(vm.news.lastModified, 'day')" class="last-updated">Atualizada em: {{ ::vm.news.lastModified | date: 'dd/MM/yyyy' }}
 				</small>
 			</div>
-
-			<h2>{{::vm.news.title}}</h2>
+			<h3>{{::vm.news.title}}</h3>
 			<p ng-bind-html="::vm.news.body" class="news-body"></p>
-			<!--<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-				<md-button>NOTÍCIA ANTERIOR</md-button>
-				<md-button>PRÓXIMA NOTÍCIA</md-button>
-			</section>-->
-		</md-content>
-
+		</div>
+		<error-message error="uiState.error"></error-message>
 	</ion-content>
-	<!--Dashboard section-->
 </ion-view>

@@ -7,7 +7,6 @@ export class SepConsultaController {
     public static $inject: string[] = [
         '$scope',
         '$ionicScrollDelegate',
-        '$ionicLoading',
         'toast',
         'sepApiService'
     ];
@@ -16,7 +15,7 @@ export class SepConsultaController {
     private processNumber: string;
     private lastProcessNumber: string;
     private process: Process;
-    private populated: boolean;
+    private searched: boolean;
     private showAllUpdates: boolean;
 
 
@@ -25,13 +24,11 @@ export class SepConsultaController {
      * 
      * @param {IScope} $scope
      * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {ToastService} toast
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
                  private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
-                 private $ionicLoading: ionic.loading.IonicLoadingService,
                  private toast: ToastService,
                  private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
@@ -45,7 +42,7 @@ export class SepConsultaController {
         this.processNumber = '';
         this.lastProcessNumber = '';
         this.process = undefined;
-        this.populated = false;
+        this.searched = false;
         this.showAllUpdates = false;
     }
 
@@ -122,8 +119,6 @@ export class SepConsultaController {
              this.toast.info( { title: 'N° do processo é obrigatório', } as ToastOptions ); return;
         }
 
-        this.$ionicLoading.show();
-
         this.sepApiService.getProcessByNumber( procNumber )
                           .then( process => {
                               this.process = process;
@@ -133,8 +128,7 @@ export class SepConsultaController {
                               this.process = undefined;
                           } )
                           .finally( () => {
-                              this.$ionicLoading.hide();
-                              this.populated = true;
+                              this.searched = true;
 
                               if ( this.process ) {
                                   this.lastProcessNumber = '';

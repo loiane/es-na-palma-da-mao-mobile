@@ -5,7 +5,7 @@ import logoProdest from '../shared/img/prodest-logo.png!image';
 
 export class AboutController {
 
-    public static $inject: string[] = [ '$scope', '$window', 'teamsApiService', '$ionicLoading' ];
+    public static $inject: string[] = [ '$scope', '$window', 'teamsApiService' ];
 
     private teamMembers: TeamMember[] = [];
     private project: Project = packageJson;
@@ -16,12 +16,10 @@ export class AboutController {
      * @param {IScope} $scope
      * @param {IWindowService} $window
      * @param {TeamsApiService} teamsApiService
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      */
     constructor( private $scope: IScope,
                  private $window: IWindowService,
-                 private teamsApiService: TeamsApiService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService ) {
+                 private teamsApiService: TeamsApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

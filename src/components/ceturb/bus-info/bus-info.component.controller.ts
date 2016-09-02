@@ -10,7 +10,6 @@ export class BusInfoController {
         '$stateParams',
         '$q',
         '$window',
-        '$ionicLoading',
         'ceturbApiService'
     ];
 
@@ -27,14 +26,12 @@ export class BusInfoController {
      * @param {angular.ui.IStateParamsService} $stateParams
      * @param {IQService} $q
      * @param {IWindowService} $window
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {CeturbApiService} ceturbApiService
      */
     constructor( private $scope: IScope,
                  private $stateParams: angular.ui.IStateParamsService,
                  private $q: IQService,
                  private $window: IWindowService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService,
                  private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -44,9 +41,7 @@ export class BusInfoController {
      */
     public activate(): void {
 
-        this.$ionicLoading.show();
-        this.$q.all( [ this.getSchedule( this.$stateParams.id ), this.getRoute( this.$stateParams.id ) ] )
-               .finally( () => this.$ionicLoading.hide() );
+        this.$q.all( [ this.getSchedule( this.$stateParams.id ), this.getRoute( this.$stateParams.id ) ] );
 
         this.strCurrentDate = this.currentDate.toTimeString().slice( 0, 5 );
     }

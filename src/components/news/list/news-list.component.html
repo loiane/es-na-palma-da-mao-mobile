@@ -1,51 +1,47 @@
 <ion-view title="Notícias">
+	<div class="spinner-container" ng-if="uiState.loading && vm.currentPage === 0">
+		<ion-spinner icon="android"></ion-spinner>
+	</div>
 	<ion-content id="state-news-list">
 		<md-toolbar class="md-hue-1 md-whiteframe-1dp">
 			<div class="md-toolbar-tools">
-				<md-button class="md-accent md-raised" ng-click="vm.openOriginsFilter($event)">
+				<md-button class="md-accent md-raised" ng-click="::vm.openOriginsFilter($event)">
 					Fontes
 				</md-button>
-				<md-button class="md-accent md-raised" ng-click="vm.openDateFilter($event)">
+				<md-button class="md-accent md-raised" ng-click="::vm.openDateFilter($event)">
 					Data
 				</md-button>
 			</div>
 		</md-toolbar>
-		<md-content>
-			<md-list>
-				<div ng-repeat="news in vm.news">
-					<md-list-item class="md-3-line" ng-click="vm.goToNews(news.id)">
-						<md-card-title-text class="md-padding">
-							<span class="md-title lista-noticias">{{news.title}}</span>
-							<div>
-								<span md-colors="::{color: 'accent'}">
+		<md-list>
+			<div ng-repeat="news in vm.news">
+				<md-list-item class="md-3-line" ng-click="::vm.goToNews(news.id)">
+					<md-card-title-text class="md-padding">
+						<span class="md-title lista-noticias">{{::news.title}}</span>
+						<div>
+							<span md-colors="::{color: 'accent'}">
 									{{::news.origin}}
 								</span>
-								<span class="noticia-info-origem">
+							<span class="noticia-info-origem">
 									 {{::news.date | fromNow }}
 								</span>
-							</div>
-						</md-card-title-text>
-						<md-card-title-media>
-							<div class="md-media-md card-media">
-								<img alt="" ng-src="{{news.image}}"/>
-							</div>
-						</md-card-title-media>
-					</md-list-item>
-					<md-divider></md-divider>
-				</div>
-				<div ng-if="vm.populated && !vm.news.length" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
-					<div class="md-padding" style="padding: 20px;">
-						<div class="md-subhead">Nenhuma notícia encontrada</div>
-						<div style="color: #999;">Tente mudar o filtro da consulta</div>
-					</div>
-				</div>
-			</md-list>
-			<ion-infinite-scroll
-				ng-if="vm.activated && vm.hasMoreNews"
-				on-infinite="vm.getNews({ pageNumber: vm.currentPage + 1 })"
-				distance="20%">
-			</ion-infinite-scroll>
-		</md-content>
+						</div>
+					</md-card-title-text>
+					<md-card-title-media>
+						<div class="md-media-md card-media">
+							<img alt="" ng-src="{{::news.image}}" />
+						</div>
+					</md-card-title-media>
+				</md-list-item>
+				<md-divider></md-divider>
+			</div>
+		</md-list>
+		<message ng-if="vm.populated && !vm.news.length" text="Nenhuma notícia encontrada">
+			<remark>Tente mudar o filtro da consulta</remark>
+		</message>
+		<error-message error="uiState.error"></error-message>
+		<ion-infinite-scroll ng-if="vm.activated && vm.hasMoreNews" on-infinite="vm.getNews({ pageNumber: vm.currentPage + 1 })"
+			distance="20%">
+		</ion-infinite-scroll>
 	</ion-content>
-	<!--Dashboard section-->
 </ion-view>

@@ -4,7 +4,7 @@ import { News, NewsDetail, NewsApiService } from '../shared/index';
 
 export class NewsDetailController {
 
-    public static $inject: string[] = [ '$scope', 'newsApiService', '$ionicLoading', '$stateParams' ];
+    public static $inject: string[] = [ '$scope', 'newsApiService', '$stateParams' ];
 
     private news: NewsDetail;
 
@@ -13,12 +13,10 @@ export class NewsDetailController {
      * 
      * @param {IScope} $scope
      * @param {NewsApiService} newsApiService
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {angular.ui.IStateParamsService} $stateParams
      */
     constructor( private $scope: IScope,
                  private newsApiService: NewsApiService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService,
                  private $stateParams: angular.ui.IStateParamsService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -40,11 +38,7 @@ export class NewsDetailController {
      * @param {string} id
      */
     public getNewsById( id: string ): void {
-        this.$ionicLoading.show();
         this.newsApiService.getNewsById( id )
-            .then( news => this.news = news )
-            .finally( () => {
-                this.$ionicLoading.hide();
-            } );
+            .then( news => this.news = news );
     }
 }

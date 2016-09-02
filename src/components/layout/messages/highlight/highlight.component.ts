@@ -1,6 +1,7 @@
+import './highlight.component.css';
 const directive = () => {
     return {
-        template: '<div class="accent" flex><ng-transclude></ng-transclude></div>',
+        template: '<div class="msg-highlight accent" flex><ng-transclude></ng-transclude></div>',
         transclude: true,
         restrict: 'E',
         replace: true,

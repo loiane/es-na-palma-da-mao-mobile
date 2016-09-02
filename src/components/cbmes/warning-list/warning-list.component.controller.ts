@@ -7,18 +7,22 @@ export class WarningListController {
     public static $inject: string[] = [
         '$scope',
         '$state',
-        '$ionicLoading',
         'cbmesApiService'
     ];
 
     private levels: any = [ 'alto', 'medio', 'baixo' ];
-    private warnings: Warning[] = [];
+    private warnings: Warning[];
     private activated: boolean = false;
-    private populated: boolean = false;
 
+    /**
+     * Creates an instance of WarningListController.
+     * 
+     * @param {IScope} $scope
+     * @param {angular.ui.IStateService} $state
+     * @param {CbmesApiService} cbmesApiService
+     */
     constructor( private $scope: IScope,
         private $state: angular.ui.IStateService,
-        private $ionicLoading: ionic.loading.IonicLoadingService,
         private cbmesApiService: CbmesApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -27,8 +31,16 @@ export class WarningListController {
      * Ativa o controller
      */
     public activate(): void {
-        this.getWarnings()
-            .finally(() => this.populated = true );
+        this.getWarnings();
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     */
+    public get warningsPopulated() {
+        return angular.isDefined( this.warnings );
     }
 
     /**
@@ -36,11 +48,21 @@ export class WarningListController {
      * 
      * @returns {IPromise<Warning[]>}
      */
-    public getWarnings(): IPromise<Warning[]> {
-        return this.cbmesApiService.getLastWarnings()
-            .then( warnings => this.warnings = warnings );
+    public getWarnings(): void {
+         this.cbmesApiService.getLastWarnings()
+            .then( warnings => {
+                this.warnings = warnings || [];
+                return this.warnings;
+            });
     }
 
+    /**
+     * 
+     * 
+     * @param {number} lat
+     * @param {number} lng
+     * @param {string} label
+     */
     public openLocation( lat: number, lng: number, label: string ) {
         let geocoords = lat + ',' + lng;
 

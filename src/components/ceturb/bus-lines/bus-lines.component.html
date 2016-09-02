@@ -2,37 +2,36 @@
 
 	<div class="bar bar-subheader state-ceturb-subheader">
 		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
-			<input class="input-search" ng-model="vm.filter" ng-change="vm.filterLines(vm.filter)" type="text" placeholder="Pesquisar Linhas de Ônibus">
+			<input class="input-search" ng-model="vm.filter" ng-model-options="{ debounce: 500 }" ng-change="vm.filterLines(vm.filter)" type="text" placeholder="Pesquisar Linhas de Ônibus">
 			<md-icon style="display:inline-block;"><i class="fa fa-search" aria-hidden="true"></i></md-icon>
 		</md-input-container>
 	</div>
 
+	<div class="spinner-container" ng-if="uiState.loading">
+		<ion-spinner icon="android"></ion-spinner>
+	</div>
+
 	<ion-content id="state-ceturb-bus-lines"
-				 class="md-espm-content has-subheader" 
+				 class="has-subheader" 
 				 scroll-watch scroll-class="fix-top" 
 				 class-target=".state-ceturb-subheader"
 				 offset="25">
-		<md-list ng-show="vm.hasLines">
-			<md-list-item class="md-2-line" ng-repeat="line in vm.lines" ng-click="vm.goToLine( line.number )">
+		<md-list ng-if="vm.linesPopuled">
+			<md-list-item class="md-2-line" collection-repeat="line in vm.filteredLines" ng-click="::vm.goToLine( line.number )">
 				<div layout="row" class="md-list-item-text">
-					<strong class="line-number" flex="1">{{line.number}}</strong> <span flex> {{line.name}}</span>
+					<strong class="line-number" flex="1">{{line.number}}</strong> <span class="line-description" flex> {{line.name}}</span>
 				</div>
 				<md-divider></md-divider>
 			</md-list-item>
 		</md-list>
-		<div ng-show="vm.populated && !vm.hasLines" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
-			<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
-				<div class="md-subhead">Nenhum resultado encontrado para</div>
-				<div class="accent" flex>"{{vm.lastFilter}}"</div>
-				<div style="color: #999;">Tente mudar o filtro da consulta</div>
-			</div>
-		</div>
 
-		<ion-infinite-scroll
-				ng-if="vm.populated && vm.hasMoreLines"
-				on-infinite="vm.getFilteredLines( vm.defaultPageSize )"
-				distance="10%">
-			</ion-infinite-scroll>
+		<error-message error="uiState.error">
+			<remark ng-if="!uiState.error.handled">Não foi possível consultar linhas de ônibus</remark>
+		</error-message>
+		
+		<message ng-if="vm.linesPopuled && !vm.foundLines" text="Nenhum resultado encontrado para">
+			<highlight>"{{vm.lastFilter}}"</highlight>
+			<remark>Tente mudar o filtro da consulta</remark>
+		<message>
 	</ion-content>
-	<!--Dashboard section-->
 </ion-view>

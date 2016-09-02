@@ -10,7 +10,7 @@ import { AddLicenseController } from '../shared/add-license/add-license.controll
  */
 export class DriverLicenseController {
 
-    public static $inject: string[] = [ '$scope', '$state', '$ionicLoading', '$ionicHistory', '$ionicNativeTransitions', 'detranApiService', 'detranStorage', '$mdDialog' ];
+    public static $inject: string[] = [ '$scope', '$state', '$ionicHistory', '$ionicNativeTransitions', 'detranApiService', 'detranStorage', '$mdDialog' ];
 
     private imgLicense: string;
 
@@ -19,14 +19,14 @@ export class DriverLicenseController {
      * 
      * @param {IScope} $scope
      * @param {angular.ui.IStateService} $state
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
+     * @param {any} $ionicHistory
+     * @param {any} $ionicNativeTransitions
      * @param {DetranApiService} detranApiService
      * @param {DriverLicenseStorage} driverLicenseStorage
      * @param {angular.material.IDialogService} $mdDialog
      */
     constructor( private $scope: IScope,
         private $state: angular.ui.IStateService,
-        private $ionicLoading: ionic.loading.IonicLoadingService,
         private $ionicHistory,
         private $ionicNativeTransitions,
         private detranApiService: DetranApiService,
@@ -56,16 +56,15 @@ export class DriverLicenseController {
             bindToController: true,
             controllerAs: 'vm',
             locals: this.driverLicenseStorage.driverLicense || {}
-        } )
-        .then( ( license: DriverLicense ) => {
-            this.$ionicLoading.show();
-            this.detranApiService.saveLicense( license )
-                .then( ( data ) => {
-                    this.driverLicenseStorage.driverLicense = license;
-                    this.navigateTo( 'app.driverLicenseStatus' );
-                })
-                .finally( () => this.$ionicLoading.hide() );
-        } );
+        })
+            .then(( license: DriverLicense ) => {
+                this.detranApiService.saveLicense( license )
+                    .then(() => {
+                        this.driverLicenseStorage.driverLicense = license;
+                        this.navigateTo( 'app.driverLicenseStatus' );
+                        return license;
+                    });
+            });
     }
 
     /**
@@ -81,14 +80,13 @@ export class DriverLicenseController {
      * 
     */
     public navigateTo( stateName: string ) {
-
         this.$ionicHistory.nextViewOptions( {
             disableBack: true,
             historyRoot: true
-        } );
+        });
 
         if ( this.$ionicNativeTransitions ) {
-            this.$ionicNativeTransitions.stateGo( stateName, {}, { type: 'slide', direction: 'up' } );
+            this.$ionicNativeTransitions.stateGo( stateName, {}, { type: 'slide', direction: 'up' });
         } else {
             this.$state.go( stateName );
         }

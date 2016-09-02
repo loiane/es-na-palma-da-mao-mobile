@@ -5,38 +5,36 @@
 			<i class="fa fa-arrow-left espm-back-button"></i>
 		</a>
 	</ion-nav-buttons>
-	<div class="spinner" ng-if="uiState.loading">
+	<div class="spinner-container" ng-if="uiState.loading">
 		<ion-spinner icon="android"></ion-spinner>
 	</div>
-	<ion-content id="vehicle-tickets" class="md-espm-content">
-		<md-content>
-			<md-list>
-				<md-subheader ng-if="vm.ticketsPopulated && vm.hasTickets" class="md-no-sticky">
-					<div style="margin-bottom:10px;"><span class="accent"> Placa: {{vm.vehicle.plate}}</span></div>
-					{{ vm.tickets.length }} multas encontradas
-				</md-subheader>
-				<md-list-item class="md-3-line ticket" ng-repeat="ticket in vm.tickets track by $index">
-					<div class="md-list-item-text md-padding" layout="row">
-						<div flex="20">
-							<div class="avatar-points bg-{{::vm.getTicketLevelColor( ticket.classification ) }}">{{::ticket.points}}</div>
-						</div>
-						<div flex="80">
-							<h4 flex>{{::ticket.classification | capitalize}} - {{::ticket.date | calendar}}</h4>
-							<p>
-								{{::ticket.place | capitalize}}, {{::ticket.district | capitalize}}
-							</p>
-							<small>{{::ticket.description}}</small>
-						</div>
+	<ion-content id="vehicle-tickets">
+		<md-list ng-if="vm.ticketsPopulated && vm.hasTickets">
+			<md-subheader class="md-no-sticky">
+				<div style="margin-bottom:10px;"><span class="accent"> Placa: {{vm.vehicle.plate}}</span></div>
+				{{ vm.tickets.length }} multas encontradas
+			</md-subheader>
+			<md-list-item class="md-3-line ticket" ng-repeat="ticket in vm.tickets track by $index">
+				<div class="md-list-item-text md-padding" layout="row">
+					<div flex="20">
+						<div class="avatar-points bg-{{::vm.getTicketLevelColor( ticket.classification ) }}">{{::ticket.points}}</div>
 					</div>
-					<md-divider></md-divider>
-				</md-list-item>
-				<div ng-if="!uiState.loading && vm.ticketsPopulated && !vm.hasTickets" layout="row" layout-align="center center" style="border-bottom: 1px solid rgba(0,0,0,0.12);">
-					<div class="md-padding" style="padding: 20px;" layout="column" layout-align="center center">
-						<div class="md-subhead" flex>Nenhuma multa encontrada para a placa</div>
-						<div class="accent" flex>{{vm.vehicle.plate}}</div>
+					<div flex="80">
+						<h4 flex>{{::ticket.classification | capitalize}} - {{::ticket.date | calendar}}</h4>
+						<p>
+							{{::ticket.place | capitalize}}, {{::ticket.district | capitalize}}
+						</p>
+						<small>{{::ticket.description}}</small>
 					</div>
 				</div>
-			</md-list>
-		</md-content>
+				<md-divider></md-divider>
+			</md-list-item>
+		</md-list>
+		<message text="Nenhuma multa encontrada para a placa" ng-if="vm.ticketsPopulated && !vm.hasTickets">
+			<highlight>{{vm.vehicle.plate}}</highlight>
+		</message>
+		<error-message error="uiState.error">
+			<remark ng-if="uiState.error.handled">Não foi possível consultar multas. Verifique os dados do veículo cadastrado</remark>
+		</error-message>
 	</ion-content>
 </ion-view>

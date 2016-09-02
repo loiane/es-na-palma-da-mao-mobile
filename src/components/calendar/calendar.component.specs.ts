@@ -43,7 +43,6 @@ describe( 'Calendar', () => {
         let controller;
         let $scope;
         let calendarApiService;
-        let $ionicLoading;
         let onIonicBeforeEnterEvent;
 
         beforeEach( () => {
@@ -54,17 +53,13 @@ describe( 'Calendar', () => {
                     }
                 }
             };
-            $ionicLoading = {
-                show: sandbox.stub().returnsPromise().resolves(),
-                hide: sandbox.stub().returnsPromise().resolves()
-            };
 
             calendarApiService = {
                 getAvailableCalendars: sandbox.stub().returnsPromise(),
                 getFullCalendars: sandbox.stub().returnsPromise()
             };
 
-            controller = new CalendarController( $scope, calendarApiService, $ionicLoading );
+            controller = new CalendarController( $scope, calendarApiService );
         } );
 
         describe( 'on instantiation', () => {
@@ -99,10 +94,6 @@ describe( 'Calendar', () => {
                 controller.activate();
             } );
 
-            it( 'should show loading spinner immediately', () => {
-                expect( $ionicLoading.show.calledOnce ).to.be.true;
-            } );
-
             it( 'should call getAvailableCalendars()', () => {
                 expect( controller.getAvailableCalendars.calledOnce ).to.be.true;
             } );
@@ -110,11 +101,6 @@ describe( 'Calendar', () => {
             it( 'should call loadCalendars()', () => {
                 expect( controller.loadCalendars.calledOnce ).to.be.true;
             } );
-
-            it( 'should hide loading spinner on complete', () => {
-                expect( $ionicLoading.hide.called ).to.be.true;
-            } );
-
         } );
 
         describe( 'getAvailableCalendars()', () => {
@@ -153,10 +139,6 @@ describe( 'Calendar', () => {
                 controller.loadCalendars( selectedCalendars );
             } );
 
-            it( 'should show loading spinner', () => {
-                expect( $ionicLoading.show.calledOnce ).to.be.true;
-            } );
-
             it( 'should retrieve selected calendars events', () => {
                 expect( calendarApiService.getFullCalendars.calledWith( selectedCalendars ) ).to.be.true;
 
@@ -164,10 +146,6 @@ describe( 'Calendar', () => {
 
             it( 'should fill calendar.eventSources', () => {
                 expect( controller.calendar.eventSources ).to.equal( fullCalendars );
-            } );
-
-            it( 'should hide loading spinner on complete', () => {
-                expect( $ionicLoading.hide.calledOnce ).to.be.true;
             } );
         } );
 

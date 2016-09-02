@@ -4,7 +4,7 @@ import { Calendar, Event } from './shared/models/index';
 
 export class CalendarController {
 
-    public static $inject: string[] = [ '$scope', 'calendarApiService', '$ionicLoading' ];
+    public static $inject: string[] = [ '$scope', 'calendarApiService' ];
 
     private calendar: { currentDate?: Date; eventSources?: Calendar[]; } = {};
     private selectedCalendars: string[] = [];
@@ -16,12 +16,20 @@ export class CalendarController {
      *
      * @param {Object} $scope
      * @param {CalendarApiService} calendarApiService - calendarApiService service
-     * @param {IonicLoadingService} $ionicLoading - ionic $ionicLoading service
      */
     constructor( private $scope: IScope,
-                 private calendarApiService: CalendarApiService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService ) {
+        private calendarApiService: CalendarApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     */
+    public get calendarsPopulated(): boolean {
+        return angular.isDefined( this.calendar.eventSources );
     }
 
     /**
@@ -30,10 +38,8 @@ export class CalendarController {
      * @returns {void}
      */
     public activate(): void {
-        this.$ionicLoading.show()
-            .then(() => this.getAvailableCalendars() )
-            .then( availableCalendars => this.loadCalendars( availableCalendars ) )
-            .finally( () => this.$ionicLoading.hide() );
+        this.getAvailableCalendars()
+            .then( availableCalendars => this.loadCalendars( availableCalendars ) );
     }
 
     /**
@@ -53,13 +59,11 @@ export class CalendarController {
      * Carrega os eventos dos calendários selecionados
      */
     public loadCalendars( selectedCalendars: string[] ): IPromise<Calendar[]> {
-        return this.$ionicLoading.show()
-                   .then(() => this.calendarApiService.getFullCalendars( selectedCalendars ) )
-                   .then( calendars => {
-                       this.calendar.eventSources = calendars;
-                       return calendars;
-                   })
-                   .finally( () => this.$ionicLoading.hide() );
+        return this.calendarApiService.getFullCalendars( selectedCalendars )
+            .then( calendars => {
+                this.calendar.eventSources = calendars;
+                return calendars;
+            });
     }
 
     /**

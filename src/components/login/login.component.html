@@ -9,6 +9,10 @@
 		<!--end left button on navigation bar-->
 	</ion-nav-bar>
 
+	<div class="spinner-container" ng-if="uiState.loading">
+		<ion-spinner icon="android"></ion-spinner>
+	</div>
+
 	<!--login content section-->
 	<ion-content id="login-component" md-colors="::{backgroundColor: 'primary'}">
 

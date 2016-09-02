@@ -122,7 +122,6 @@ describe( 'Detran/driver-license-status', () => {
     describe( 'Controller', () => {
         let controller: DriverLicenseStatusController;
         let $scope;
-        let $ionicLoading;
         let $mdDialog;
         let onIonicBeforeEnterEvent;
         let detranApiService: DetranApiService;
@@ -137,7 +136,7 @@ describe( 'Detran/driver-license-status', () => {
                     }
                 }
             };
-            $ionicLoading = sandbox.stub();
+            driverLicenseStorage = sandbox.stub();
             $mdDialog = sandbox.stub();
             detranApiService = <DetranApiService>{
                 getDriverData: sandbox.stub().returnsPromise(),
@@ -146,7 +145,7 @@ describe( 'Detran/driver-license-status', () => {
 
             ticketColorService = new TicketColorService();
 
-            controller = new DriverLicenseStatusController( $scope, $ionicLoading, ticketColorService, detranApiService, driverLicenseStorage, $mdDialog );
+            controller = new DriverLicenseStatusController( $scope, ticketColorService, detranApiService, driverLicenseStorage, $mdDialog );
         } );
 
         describe( 'on instantiation', () => {

@@ -78,13 +78,6 @@ function run( $rootScope: any,
     }
 
     $ionicPlatform.ready(() => {
-        if ( !String.prototype.startsWith ) {
-            String.prototype.startsWith = function ( searchString, position ) {
-                position = position || 0;
-                return this.substr( position, searchString.length ) === searchString;
-            };
-        }
-
         ionic.Platform.isFullScreen = true;
 
         if ( $window.cordova && $window.cordova.plugins.Keyboard ) {
@@ -96,6 +89,7 @@ function run( $rootScope: any,
 
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();
+            httpErrorSnifferService.error = undefined; // limpa errors quando muda de tela
         });
 
         if ( $window.navigator.splashscreen ) {

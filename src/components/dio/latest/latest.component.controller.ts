@@ -6,11 +6,10 @@ export class LatestController {
     public static $inject: string[] = [
         '$scope',
         '$window',
-        '$ionicLoading',
         'dioApiService'
     ];
 
-    private latestEditions: string[] = [];
+    private latestEditions: Edition[] = [];
     private activated = false;
 
     /**
@@ -18,12 +17,10 @@ export class LatestController {
      * 
      * @param {IScope} $scope
      * @param {IWindowService} $window
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {DioApiService} dioApiService
      */
     constructor( private $scope: IScope,
         private $window: IWindowService,
-        private $ionicLoading: ionic.loading.IonicLoadingService,
         private dioApiService: DioApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -44,14 +41,10 @@ export class LatestController {
      * @returns {*}
      */
     public getLatestEditions(): IPromise<Edition[]> {
-        this.$ionicLoading.show();
         return this.dioApiService.getLatestEditions()
             .then( editions => {
                 this.latestEditions = editions;
                 return editions;
-            } )
-            .finally( () => {
-                this.$ionicLoading.hide();
             } );
     }
 

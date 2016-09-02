@@ -24,7 +24,6 @@ export class LoginController {
         'toast',
         '$window',
         '$ionicHistory',
-        '$ionicLoading',
         'pushConfig'
     ];
 
@@ -43,7 +42,6 @@ export class LoginController {
      * @param {ISettings} settings
      * @param {IWindowService} $window
      * @param {ionic.navigation.IonicHistoryService} $ionicHistory
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {PushConfig} pushConfig
      */
     constructor( private $state: angular.ui.IStateService,
@@ -52,7 +50,6 @@ export class LoginController {
         private toast: ToastService,
         private $window: IWindowService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private $ionicLoading: ionic.loading.IonicLoadingService,
         private pushConfig: PushConfig ) {
     }
 
@@ -69,11 +66,9 @@ export class LoginController {
             this.toast.info( { title: 'Login e senha são obrigatórios' }); return;
         }
 
-        this.$ionicLoading.show();
         this.loginService.login( this.user.username, this.user.password )
             .then( () => this.onAcessoCidadaoLoginSuccess() )
-            .catch( error => this.onAcessoCidadaoLoginError( error ) )
-            .finally( () => this.$ionicLoading.hide() );
+            .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }
 
     /**
@@ -112,11 +107,9 @@ export class LoginController {
      * @param {Identity} identity
      */
     public signInAcessoCidadao( identity: Identity ): void {
-        this.$ionicLoading.show();
         this.loginService.signInAcessoCidadao( identity )
             .then( () => this.onAcessoCidadaoLoginSuccess() )
-            .catch( error => this.onAcessoCidadaoLoginError( error ) )
-            .finally( () => this.$ionicLoading.hide() );
+            .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }
 
     /**

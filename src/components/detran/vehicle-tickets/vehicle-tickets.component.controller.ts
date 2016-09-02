@@ -17,29 +17,19 @@ export class VehicleTicketsController {
      */
     public tickets: Ticket[];
     public vehicle: Vehicle;
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get ticketsPopulated(): boolean {
-        return angular.isDefined( this.tickets );
-    }
-
 
     /**
      * Creates an instance of VehicleTicketsController.
      * 
      * @param {IScope} $scope
      * @param {angular.ui.IStateParamsService} $stateParams
-     * @param {TicketColorService} detranApiService
-     * @param {DetranApiService} ticketColorService
+     * @param {TicketColorService} ticketColorService
+     * @param {DetranApiService} detranApiService
      */
     constructor( private $scope: IScope,
-                 private $stateParams: angular.ui.IStateParamsService,
-                 private ticketColorService: TicketColorService,
-                 private detranApiService: DetranApiService ) {
+        private $stateParams: angular.ui.IStateParamsService,
+        private ticketColorService: TicketColorService,
+        private detranApiService: DetranApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
 
         this.vehicle = {
@@ -54,6 +44,16 @@ export class VehicleTicketsController {
      */
     public activate(): void {
         this.getVehicleTickets( this.vehicle );
+    }
+
+     /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     */
+    public get ticketsPopulated(): boolean {
+        return angular.isDefined( this.tickets );
     }
 
     /**
@@ -88,6 +88,18 @@ export class VehicleTicketsController {
             .then( tickets => {
                 this.tickets = tickets || [];
                 return this.tickets;
-            });
+            })
+            .catch(( error ) => this.handleError( error ) );
+    }
+
+     /**
+      * 
+      * 
+      * @private
+      * @param {*} error
+      */
+     private handleError( error: any ): any {
+        this.tickets = undefined;
+        return error;
     }
 }

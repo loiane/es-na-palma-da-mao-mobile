@@ -10,18 +10,12 @@
 	background-color: #fff !important;
 }
 
-#news-detail-component .espm-img-noticia-detalhe {
+#news-detail-component .img-noticia-detalhe {
 	width: 100%;
 }
 
 #news-detail-component .last-updated {
 	color: #999;
-}
-
-#news-detail-component .espm-full-content {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
 }
 
 #news-detail-component .news-body {
@@ -32,6 +26,8 @@
 	max-width: 100%;
 }
 
-#news-detail-component .espm-back-button {
+#news-detail-component .back-button {
 	font-size: 1.4em;
 }
+
+#news-detail-component h3 { margin-top: 0px;}

@@ -12,7 +12,6 @@ export class NewsListController {
         '$scope',
         '$state',
         '$mdDialog',
-        '$ionicLoading',
         'newsApiService',
         '$ionicScrollDelegate'
     ];
@@ -38,14 +37,12 @@ export class NewsListController {
      * @param {IScope} $scope
      * @param {angular.ui.IStateService} $state
      * @param {angular.material.IDialogService} $mdDialog
-     * @param {ionic.loading.IonicLoadingService} $ionicLoading
      * @param {NewsApiService} newsApiService
      * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
      */
     constructor( private $scope: IScope,
                  private $state: angular.ui.IStateService,
                  private $mdDialog: angular.material.IDialogService,
-                 private $ionicLoading: ionic.loading.IonicLoadingService,
                  private newsApiService: NewsApiService,
                  private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
@@ -67,16 +64,12 @@ export class NewsListController {
      * @returns {*}
      */
     public getAvailableOrigins(): IPromise<string[]> {
-        this.$ionicLoading.show();
         return this.newsApiService.getAvailableOrigins()
                    .then( origins => {
                        this.availableOrigins = origins;
                        this.filter.origins = angular.copy( this.availableOrigins );
                        return origins;
-                   } )
-                   .finally( () => {
-                        this.$ionicLoading.hide();
-                    } );
+                   } );
     }
 
     /**
@@ -117,7 +110,7 @@ export class NewsListController {
                 selectedOrigins: this.filter.origins
             }
         } )
-            .then( filter => this.reload( filter ) );
+        .then( filter => this.reload( filter ) );
     }
 
     /**
@@ -145,8 +138,7 @@ export class NewsListController {
     public reload( filter ): void {
         this.resetPagination();
         filter.pageNumber = 1;
-        this.$ionicLoading.show();
-        this.getNews( filter ).finally( () => this.$ionicLoading.hide() );
+        this.getNews( filter );
     }
 
 
