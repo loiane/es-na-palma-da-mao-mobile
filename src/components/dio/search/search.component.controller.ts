@@ -78,11 +78,10 @@ export class SearchController {
                 this.totalHits = nextResults.totalHits;
                 this.hits = this.hits.concat( nextResults.hits );
                 this.hasMoreHits = nextResults.hits && nextResults.hits.length > 0;
-                this.pristine = false;
-
                 return nextResults;
             })
             .finally(() => {
+                this.pristine = false;
                 this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
             });
     }
