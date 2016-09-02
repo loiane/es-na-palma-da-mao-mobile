@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { IScope, IPromise } from 'angular';
 import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared/index';
-import imgLicense from '../../shared/img/CNH_Frente.png!image';
+import imgDriverLicense from './img/cnh-frente.png!image';
 import registerLicenseTemplate from '../shared/add-license/add-license.html';
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
 
@@ -40,7 +40,7 @@ export class DriverLicenseController {
      * 
      */
     public activate(): void {
-        this.imgLicense = imgLicense.src;
+        this.imgLicense = imgDriverLicense.src;
         if ( this.hasDriverLicense ) {
             this.navigateTo( 'app.driverLicenseStatus' );
         }
