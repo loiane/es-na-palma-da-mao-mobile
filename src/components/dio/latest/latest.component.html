@@ -3,7 +3,7 @@
 		<ion-spinner icon="android"></ion-spinner>
 	</div>
 	<ion-content id="dio-latest">
-		<md-list>
+		<md-list ng-if="vm.latestEditions.length">
 			<md-subheader class="md-no-sticky">Edições Recentes</md-subheader>
 			<md-list-item class="md-2-line" ng-repeat="edition in vm.latestEditions">
 				<div class="md-list-item-text" flex>
