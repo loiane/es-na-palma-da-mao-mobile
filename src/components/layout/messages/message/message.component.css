@@ -12,3 +12,5 @@
 .message-wrapper .message > *{
     text-align: center;
 }
+
+.message-wrapper .message img { margin: 15px 0;}

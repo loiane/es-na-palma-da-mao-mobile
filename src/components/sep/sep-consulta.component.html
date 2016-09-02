@@ -99,6 +99,12 @@
 				</md-list-item>
 			</div>
 		</md-list>
+
+		<message ng-if="!vm.searched" text="Sistema Eletrônico de Protocolo">
+			<img src="components/sep/img/sep-logo.png">
+			<remark>Digite o número do processo que deseja consultar no campo acima e clique na lupa</remark>
+		</message>
+
 		<error-message error="uiState.error">
 			<remark ng-if="!uiState.error.handled">Não foi possível consultar o SEP</remark>
 			<div ng-if="uiState.error.status === 404">
