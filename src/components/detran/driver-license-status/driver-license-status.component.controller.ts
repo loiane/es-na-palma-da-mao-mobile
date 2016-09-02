@@ -192,10 +192,6 @@ export class DriverLicenseStatusController {
             .then(( license: DriverLicense ) => {
                 this.driverLicenseStorage.driverLicense = license;
                 return this.$q.all( this.activate() ); // atualiza a página
-            })
-            .catch(( error ) => {
-                this.handleError( error );
-                return error;
             });
     }
 
