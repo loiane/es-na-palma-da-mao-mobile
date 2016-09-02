@@ -65,7 +65,7 @@ export class BusInfoController {
      * @param {string} text
      */
     private openMapLink( text: string ) {
-        this.$window.open( `http://www.google.com.br/maps/place/${text}`, '_system', 'location=yes' );
+        this.$window.open( `http://www.google.com.br/maps/place/${text}, ES`, '_system', 'location=yes' );
     }
 
 
