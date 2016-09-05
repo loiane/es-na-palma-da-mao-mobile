@@ -1,7 +1,7 @@
 import { IHttpService, IPromise } from 'angular';
 
 import { ISettings } from '../../shared/settings/index';
-import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus, Vehicle, DriverLicense } from './models/index';
+import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus, Vehicle, DriverLicense, VehicleInfo } from './models/index';
 
 
 export class DetranApiService {
@@ -21,7 +21,6 @@ export class DetranApiService {
 
     /**
      * 
-     * 
      * @returns {IPromise<DriverData>}
      */
     public getDriverData(): IPromise<DriverData> {
@@ -31,7 +30,6 @@ export class DetranApiService {
     }
 
     /**
-     * 
      * 
      * @returns {IPromise<Ticket[]>}
      */
@@ -44,7 +42,6 @@ export class DetranApiService {
 
     /**
      * 
-     * 
      * @param {Vehicle} vehicle
      * @returns {IPromise<Ticket[]>}
      */
@@ -54,9 +51,18 @@ export class DetranApiService {
             .then( ( response: { data: Ticket[] } ) => response.data );
     }
 
-
     /**
      * 
+     * @param {Vehicle} vehicle
+     * @returns {IPromise<VehicleInfo>}
+     */
+    public getVehicle( vehicle: Vehicle ): IPromise<VehicleInfo> {
+        return this.$http
+            .get( `${this.settings.api.detran}/vehicle`, { params: vehicle } )
+            .then( ( response: { data: VehicleInfo } ) => response.data );
+    }
+
+    /**
      * 
      * @param {DriverLicense} license
      * @returns {IPromise<any>}
