@@ -1,5 +1,4 @@
 import { IPromise, IQService } from 'angular';
-import jwt from 'jwt-simple';
 
 import {
     AcessoCidadaoService,
@@ -18,30 +17,33 @@ import {
 import { ISettings } from '../settings/index';
 
 /**
- * Classe para autenticação usando IdentityServer3
+ * Facade de autenticação consumido por toda a aplicação
  * 
  * @export
- * @class LoginService
+ * @class AuthenticationService
  */
-export class LoginService {
+export class AuthenticationService {
 
-    public static $inject: string[] = [ 'acessoCidadaoService',
+    public static $inject: string[] = [
+        'acessoCidadaoService',
         'digitsService',
         'facebookService',
         'googleService',
         'settings',
         '$localStorage',
-        '$q' ];
+        '$q'
+    ];
 
     /**
-     * Creates an instance of LoginService.
+     * Creates an instance of AuthenticationService.
      * 
      * @param {AcessoCidadaoService} acessoCidadaoService
      * @param {DigitsService} digitsService
      * @param {FacebookService} facebookService
      * @param {GoogleService} googleService
-     * @param {Settings} settings
-     * @constructor
+     * @param {ISettings} settings
+     * @param {*} $localStorage
+     * @param {IQService} $q
      */
     constructor( private acessoCidadaoService: AcessoCidadaoService,
         private digitsService: DigitsService,
@@ -50,7 +52,6 @@ export class LoginService {
         private settings: ISettings,
         private $localStorage: any,
         private $q: IQService ) {
-
         this.activate();
     }
 
@@ -62,6 +63,14 @@ export class LoginService {
         this.acessoCidadaoService.initialize( this.settings.identityServer.url );
     }
 
+
+    /**
+     * 
+     * 
+     * @param {string} username
+     * @param {string} password
+     * @returns {IPromise<AcessoCidadaoClaims>}
+     */
     public login( username: string, password: string ): IPromise<AcessoCidadaoClaims> {
 
         let identity: AcessoCidadaoIdentity = {
@@ -170,58 +179,10 @@ export class LoginService {
     /**
      * 
      * 
-     * @returns {IPromise<AcessoCidadaoClaims>}
-     */
-    public refreshTokenAcessoCidadao(): IPromise<AcessoCidadaoClaims> {
-        let identity: AcessoCidadaoIdentity = {
-            client_id: this.settings.identityServer.clients.espm.id,
-            client_secret: this.settings.identityServer.clients.espm.secret,
-            grant_type: 'refresh_token',
-            scope: this.settings.identityServer.defaultScopes
-        };
-        return this.acessoCidadaoService.refreshToken( identity );
-    }
-
-
-    /**
-     * 
-     * 
      * @returns {IPromise<{}>}
      */
-    public refreshTokenAcessoCidadaoIfNeeded(): IPromise<{}> {
-        let tokenInfo = this.$localStorage.tokenClaims;
-        let token = this.$localStorage.token;
-        let currentDate = new Date();
-
-        return this.$q(( resolve, reject ) => {
-            if ( tokenInfo ) {
-                let timeDifference = tokenInfo.exp * 1000 - currentDate.getTime();
-                if ( timeDifference > 0 ) {
-                    resolve();
-                }
-
-                // Check if it's time to refresh the token based on the token expiration date.
-                // token.expires_in * 500 = ( token expiration time * 1000 / 2 )
-                if ( timeDifference < token.expires_in * 500 ) {
-                    this.refreshTokenAcessoCidadao()
-                        .then(() => {
-                            if ( timeDifference <= 0 ) {
-                                resolve();
-                            }
-                        })
-                        .catch(() => {
-                            // Even if there's a problem refreshing only send to home if the token is completelly expired 
-                            if ( timeDifference <= 0 ) {
-                                console.log( 'reject catch' );
-                                this.signOut(() => reject() );
-                            }
-                        });
-                }
-            } else {
-                console.log( 'reject token null' );
-                this.signOut(() => reject() );
-            }
-        });
+    public refreshTokenIfNeeded(): IPromise<{}> {
+        return this.acessoCidadaoService.refreshTokenIfNeeded();
     }
 
     /**
@@ -229,18 +190,17 @@ export class LoginService {
      * 
      * @returns {Boolean}
      */
-    public get isAuthenticated() {
-        let token = this.$localStorage.token;
+    public get isAuthenticated(): boolean {
+        return this.acessoCidadaoService.authenticated;
+    }
 
-        if ( !token ) {
-            return false;
-        }
-
-        let decodedToken = jwt.decode( token, this.settings.identityServer.publicKey );
-        if ( !!decodedToken.error ) {
-            return false;
-        }
-
-        return true;
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     */
+    public get user(): AcessoCidadaoClaims {
+        return this.acessoCidadaoService.userClaims;
     }
 }

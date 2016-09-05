@@ -1,8 +1,8 @@
 import { IScope, IWindowService, ITimeoutService, ILogService, IRootScopeService } from 'angular';
 
-import { AcessoCidadaoService, GoogleService, FacebookService, AcessoCidadaoClaims, LoginService } from '../authentication/index';
+import { AcessoCidadaoService, GoogleService, FacebookService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
 import defaultAvatar from './img/user.png!image';
-import { ToastService } from '../toast/index';
+import { ToastService } from '../../shared/toast/index';
 
 import { DriverLicenseStorage } from '../../detran/shared/index';
 
@@ -26,10 +26,9 @@ export default class MenuController {
         '$mdBottomSheet',
         '$mdMenu',
         '$mdSelect',
-        'acessoCidadaoService',
         'facebookService',
         'googleService',
-        'loginService',
+        'authenticationService',
         'toast',
         'detranStorage'
     ];
@@ -51,10 +50,9 @@ export default class MenuController {
      * @param {angular.material.IBottomSheetService} $mdBottomSheet
      * @param {angular.material.IMenuService} $mdMenu
      * @param {*} $mdSelect
-     * @param {AcessoCidadaoService} acessoCidadaoService
      * @param {FacebookService} facebookService
      * @param {GoogleService} googleService
-     * @param {LoginService} loginService
+     * @param {AuthenticationService} authenticationService
      * @param {ToastService} toast
      * @param {DriverLicenseStorage} driverLicenseStorage
      */
@@ -72,10 +70,9 @@ export default class MenuController {
         private $mdBottomSheet: angular.material.IBottomSheetService,
         private $mdMenu: angular.material.IMenuService,
         private $mdSelect: any,
-        private acessoCidadaoService: AcessoCidadaoService,
         private facebookService: FacebookService,
         private googleService: GoogleService,
-        private loginService: LoginService,
+        private authenticationService: AuthenticationService,
         private toast: ToastService,
 
         // NÂO REMOVER: USADO NA VIEW
@@ -166,11 +163,7 @@ export default class MenuController {
      * @type {string}
      */
     public get avatarUrl(): string {
-        if ( this.authenticated ) {
-            return this.googleService.avatarUrl;
-        } else {
-            return defaultAvatar.src;
-        }
+        return this.googleService.avatarUrl || defaultAvatar.src;
     }
 
     /**
@@ -180,7 +173,7 @@ export default class MenuController {
      * @type {AcessoCidadaoClaims}
      */
     public get user(): AcessoCidadaoClaims {
-        return this.acessoCidadaoService.userClaims;
+        return this.authenticationService.user;
     }
 
     /**
@@ -190,7 +183,7 @@ export default class MenuController {
      * @type {boolean}
      */
     public get authenticated(): boolean {
-        return this.acessoCidadaoService.authenticated;
+        return this.authenticationService.isAuthenticated;
     }
 
     /**
@@ -226,7 +219,7 @@ export default class MenuController {
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
 
                 // Only change state if has a valid token
-                this.loginService.refreshTokenAcessoCidadaoIfNeeded()
+                this.authenticationService.refreshTokenIfNeeded()
                     .then(() => {
                         this.$ionicHistory.nextViewOptions( {
                             disableAnimate: true,
@@ -241,7 +234,7 @@ export default class MenuController {
                             this.$state.go( stateName );
                         }
                     })
-                    .catch( () => this.$state.go('home') );
+                    .catch(() => this.$state.go( 'home' ) );
             }
         }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }
@@ -250,7 +243,7 @@ export default class MenuController {
      * Desloga usuário do sistema
      */
     public signOut(): void {
-        this.loginService.signOut(() => {
+        this.authenticationService.signOut(() => {
             this.navigateTo( 'home' );
         });
     }

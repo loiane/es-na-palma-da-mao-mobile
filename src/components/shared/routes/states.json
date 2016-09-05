@@ -3,7 +3,7 @@
     "name": "app",
     "url": "/app/",
     "type": "load",
-    "src": "components/shared/menu/index"
+    "src": "components/layout/menu/index"
   },
   {
     "name": "app.about",

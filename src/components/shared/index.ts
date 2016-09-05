@@ -5,7 +5,6 @@ import fromNowFilter from './from-now.filter';
 import toNowFilter from './to-now.filter';
 import calendarFilter from './date-calendar.filter';
 import capitalizeFilter from './capitalize.filter';
-import menu from './menu/index';
 import { Settings } from './settings/index';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
@@ -24,7 +23,6 @@ import pushModule from './push/index';
 import permissionsModule from './permissions/index';
 
 let dependencies = [
-    menu.name,
     toast.name,
     dialog.name,
     loader.name,

@@ -1,5 +1,5 @@
 import angular from 'angular';
-import { LoginService } from './login.service';
+import { AuthenticationService } from './authentication.service';
 import { AcessoCidadaoService } from './acesso-cidadao.service';
 import { FacebookService } from './facebook.service';
 import { GoogleService } from './google.service';
@@ -11,11 +11,11 @@ export default angular
     .service( 'facebookService', FacebookService )
     .service( 'googleService', GoogleService )
     .service( 'digitsService', DigitsService )
-    .service( 'loginService', LoginService );
+    .service( 'authenticationService', AuthenticationService );
 
 export * from './acesso-cidadao.service';
 export * from './digits.service';
 export * from './facebook.service';
 export * from './google.service';
 export * from './models/index';
-export * from './login.service';
+export * from './authentication.service';

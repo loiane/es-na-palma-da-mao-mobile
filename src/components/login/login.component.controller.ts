@@ -2,7 +2,7 @@ import { IWindowService, IPromise } from 'angular';
 
 import { DialogService } from '../shared/dialog/dialog.service';
 import { ToastService } from '../shared/toast/index';
-import { LoginService, Identity } from '../shared/authentication/index';
+import { AuthenticationService, Identity } from '../shared/authentication/index';
 import { PushConfig } from '../shared/push/index';
 
 /**
@@ -19,7 +19,7 @@ export class LoginController {
      */
     public static $inject: string[] = [
         '$state',
-        'loginService',
+        'authenticationService',
         'dialog',
         'toast',
         '$window',
@@ -36,7 +36,7 @@ export class LoginController {
      * Creates an instance of LoginController.
      * 
      * @param {angular.ui.IStateService} $state
-     * @param {LoginService} loginService
+     * @param {AuthenticationService} authenticationService
      * @param {DialogService} dialog
      * @param {ToastService} toast
      * @param {ISettings} settings
@@ -45,7 +45,7 @@ export class LoginController {
      * @param {PushConfig} pushConfig
      */
     constructor( private $state: angular.ui.IStateService,
-        private loginService: LoginService,
+        private authenticationService: AuthenticationService,
         private dialog: DialogService,
         private toast: ToastService,
         private $window: IWindowService,
@@ -66,7 +66,7 @@ export class LoginController {
             this.toast.info( { title: 'Login e senha são obrigatórios' }); return;
         }
 
-        this.loginService.login( this.user.username, this.user.password )
+        this.authenticationService.login( this.user.username, this.user.password )
             .then( () => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }
@@ -76,7 +76,7 @@ export class LoginController {
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
     public facebookLogin(): void {
-        this.loginService.facebookLogin(
+        this.authenticationService.facebookLogin(
             ( identity ) => this.signInAcessoCidadao( identity ),
             () => this.toast.error( { title: '[Facebook] Falha no login' })
         );
@@ -86,7 +86,7 @@ export class LoginController {
      * Realiza o login usando conta do google
      */
     public googleLogin(): void {
-        this.loginService.googleLogin(
+        this.authenticationService.googleLogin(
             identity => this.signInAcessoCidadao( identity ),
             () => this.toast.error( { title: '[Google] Falha no login' } ) );
     }
@@ -95,7 +95,7 @@ export class LoginController {
      * Realiza login digits
      */
     public digitsLogin(): void {
-        this.loginService.digitsLogin(
+        this.authenticationService.digitsLogin(
             ( identity ) => this.signInAcessoCidadao( identity ),
             () => this.toast.error( { title: '[SMS] Falha no login' }) );
     }
@@ -107,7 +107,7 @@ export class LoginController {
      * @param {Identity} identity
      */
     public signInAcessoCidadao( identity: Identity ): void {
-        this.loginService.signInAcessoCidadao( identity )
+        this.authenticationService.signInAcessoCidadao( identity )
             .then( () => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }

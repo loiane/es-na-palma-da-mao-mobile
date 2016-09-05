@@ -10,6 +10,7 @@
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
     "ionic": "registry:dt/ionic#0.0.0+20160501155303",
     "jquery": "registry:dt/jquery#1.10.0+20160704162008",
+    "jwt-simple": "registry:dt/jwt-simple#0.5.0+20160401095215",
     "mocha": "registry:dt/mocha#2.2.5+20160619032855",
     "ngstorage": "registry:dt/ngstorage#0.3.10+20160711132043",
     "oclazyload": "registry:dt/oclazyload#0.0.0+20160317120654",

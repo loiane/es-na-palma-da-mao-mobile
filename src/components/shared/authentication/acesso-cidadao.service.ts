@@ -2,24 +2,38 @@ import { IScope } from 'angular';
 import { IWindowService, IHttpService, IPromise, IQService } from 'angular';
 import jwt from 'jwt-simple';
 
-import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity } from './models/index';
+import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity } from './models/index';
+import { Settings } from '../settings/index';
+
+
+
 
 /**
- * Classe para autenticação usando IdentityServer3
+ * Classe para autenticação usando IdentityServer3 no acessso cidadão
+ * Centraliza acesso a token, claims e local-storage de autenticação
  * 
  * @export
  * @class AcessoCidadaoService
  */
 export class AcessoCidadaoService {
 
-    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q' ];
+    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q', 'settings' ];
     private identityServerUrl: string;
 
-    /** @constructor */
+    /**
+     * Creates an instance of AcessoCidadaoService.
+     * 
+     * @param {IWindowService} $window
+     * @param {IHttpService} $http
+     * @param {any} $localStorage
+     * @param {IQService} $q
+     * @param {Settings} settings
+     */
     constructor( private $window: IWindowService,
         private $http: IHttpService,
         private $localStorage,
-        private $q: IQService ) {
+        private $q: IQService,
+        private settings: Settings ) {
     }
 
 
@@ -67,7 +81,19 @@ export class AcessoCidadaoService {
      * @type {boolean}
      */
     public get authenticated(): boolean {
-        return angular.isDefined( this.userClaims ) && !angular.equals( {}, this.userClaims );
+        if ( !this.token ) {
+            return false;
+        }
+
+        try {
+            let decodedToken = jwt.decode( this.token.access_token, this.settings.identityServer.publicKey );
+            if ( !!decodedToken.error ) {
+                return false;
+            }
+        } catch ( ex ) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -95,18 +121,25 @@ export class AcessoCidadaoService {
             });
     }
 
-
     /**
      * 
      * 
      * @param {Identity} data
      * @returns {IPromise<AcessoCidadaoClaims>}
      */
-    public refreshToken( data: Identity ): IPromise<AcessoCidadaoClaims> {
+    public refreshToken(): IPromise<AcessoCidadaoClaims> {
         let token = this.token;
         if ( token ) {
-            data.refresh_token = token.refresh_token;
-            return this.getToken( data )
+
+            let identity: AcessoCidadaoIdentity = {
+                client_id: this.settings.identityServer.clients.espm.id,
+                client_secret: this.settings.identityServer.clients.espm.secret,
+                grant_type: 'refresh_token',
+                scope: this.settings.identityServer.defaultScopes
+            };
+
+            identity.refresh_token = token.refresh_token;
+            return this.getToken( identity )
                 .then( token => {
                     this.saveTokenOnLocaStorage( token );
                     return this.getAcessoCidadaoUserClaims();
@@ -114,6 +147,79 @@ export class AcessoCidadaoService {
         } else {
             return this.$q.reject( new Error( 'Usuário não logado' ) );
         }
+    }
+
+
+    /**
+     * 
+     * 
+     * @returns {IPromise<{}>}
+     */
+    public refreshTokenIfNeeded(): IPromise<{}> {
+        let currentDate = new Date();
+
+        return this.$q(( resolve, reject ) => {
+            if ( this.tokenClaims ) {
+                if ( this.tokenIsNotExpiredIn( currentDate ) ) {
+                    resolve();
+                }
+
+                if ( this.tokenIsExpiringIn( currentDate ) ) {
+                    this.refreshToken()
+                        .then(() => {
+                            if ( this.tokenIsExpiredIn( currentDate ) ) {
+                                resolve();
+                            }
+                        })
+                        .catch(() => {
+                            // Even if there's a problem refreshing only send to home if the token is completelly expired 
+                            if ( this.tokenIsExpiredIn( currentDate ) ) {
+                                console.log( 'reject catch' );
+                                this.signOut(() => reject() );
+                            }
+                        });
+                }
+            } else {
+                console.log( 'reject token null' );
+                this.signOut(() => reject() );
+            }
+        });
+    }
+
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {Date} date
+     * @returns
+     */
+    private tokenIsNotExpiredIn( date: Date ) {
+        return this.tokenClaims.exp * 1000 - date.getTime() > 0;
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {Date} date
+     * @returns
+     */
+    private tokenIsExpiredIn( date: Date ) {
+        return this.tokenClaims.exp * 1000 - date.getTime() <= 0;
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {Date} date
+     * @returns
+     */
+    private tokenIsExpiringIn( date: Date ) {
+        // Check if it's time to refresh the token based on the token expiration date.
+        // token.expires_in * 500 = ( token expiration time * 1000 / 2 )
+        return this.tokenClaims.exp * 1000 - date.getTime() < this.token.expires_in * 500;
     }
 
     /**

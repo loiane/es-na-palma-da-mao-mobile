@@ -1,6 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { LoginService } from './authentication/index';
+import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import { IWindowService, IRootScopeService } from 'angular';
 import { ISettings } from './settings/index';
@@ -16,7 +16,6 @@ import { CordovaPermissions } from './permissions/index';
  * @param {ionic.navigation.IonicHistoryService} $ionicHistory
  * @param {angular.material.IDialogService} $mdDialog
  * @param {any} $mdBottomSheet
- * @param {AcessoCidadaoService} acessoCidadaoService
  * @param {HttpSnifferService} httpSnifferService
  * @param {ISettings} settings
  */
@@ -27,11 +26,10 @@ function run( $rootScope: any,
     $ionicHistory: ionic.navigation.IonicHistoryService,
     $mdDialog: angular.material.IDialogService,
     $mdBottomSheet,
-    loginService: LoginService,
+    authenticationService: AuthenticationService,
     httpSnifferService: HttpSnifferService,
     httpErrorSnifferService: HttpErrorSnifferService,
     settings: ISettings,
-    $localStorage: any,
     cordovaPermissions: CordovaPermissions ) {
 
     // configura locale do moment
@@ -90,6 +88,10 @@ function run( $rootScope: any,
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();
             httpErrorSnifferService.error = undefined; // limpa errors quando muda de tela
+
+            if ( !( $state.is( 'home' ) || $state.is( 'login' ) ) && !authenticationService.isAuthenticated ) {
+                authenticationService.signOut(() => $state.go( 'home' ) );
+            }
         });
 
         if ( $window.navigator.splashscreen ) {
@@ -100,7 +102,7 @@ function run( $rootScope: any,
         cordovaPermissions.RequestCoarseLocationPermission();
 
         // Refresh token if it's almost expired
-        loginService.refreshTokenAcessoCidadaoIfNeeded()
+        authenticationService.refreshTokenIfNeeded()
             .then(() => {
                 $state.go( 'app.dashboard.newsHighlights' );
             })
@@ -114,8 +116,8 @@ function run( $rootScope: any,
     });
 
     $ionicPlatform.on( 'resume', () => {
-        if ( loginService.isAuthenticated ) {
-            loginService.refreshTokenAcessoCidadaoIfNeeded()
+        if ( authenticationService.isAuthenticated ) {
+            authenticationService.refreshTokenIfNeeded()
                 .catch(() => $state.go( 'home' ) );
         }
     });
@@ -129,11 +131,10 @@ run.$inject = [
     '$ionicHistory',
     '$mdDialog',
     '$mdBottomSheet',
-    'loginService',
+    'authenticationService',
     'httpSnifferService',
     'httpErrorSnifferService',
     'settings',
-    '$localStorage',
     'cordovaPermissions'
 ];
 

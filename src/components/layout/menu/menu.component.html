@@ -31,7 +31,7 @@
 			<div ng-if="isAndroid" class="menu-list">
 				<div class="row menu-item" ng-click="vm.navigateTo('home')" ng-hide="vm.authenticated">
 					<div class="col-25">
-						<i class="fa fa-database"></i>
+						<i class="fa fa-sign-in"></i>
 					</div>
 					<div class="col-75">
 						<span>Login</span>
@@ -163,7 +163,7 @@
 			<!--It will show animation when selecting row.-->
 			<md-list ng-if="!isAndroid">
 				<md-list-item class="menu-list-item" ng-click="vm.navigateTo('home')" ng-hide="vm.authenticated">
-					<i class="fa fa-database"></i>
+					<i class="fa fa-sign-in"></i>
 					<span>Login</span>
 				</md-list-item>
 				<div ng-if="vm.authenticated">
