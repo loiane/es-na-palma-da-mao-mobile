@@ -60,6 +60,7 @@ export class FacebookService {
      */
     public logout( onSuccess?, onError? ) {
         if ( this.$window.facebookConnectPlugin ) {
+            delete this.$localStorage.facebookAuthResponse;
             this.$window.facebookConnectPlugin.logout( onSuccess, onError );
         }
     }
