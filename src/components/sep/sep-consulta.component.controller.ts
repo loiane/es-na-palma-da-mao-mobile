@@ -11,7 +11,6 @@ export class SepConsultaController {
         'sepApiService'
     ];
 
-    private seeMoreUpdates: string;
     private processNumber: string;
     private lastProcessNumber: string;
     private process: Process;
@@ -38,7 +37,6 @@ export class SepConsultaController {
      *
      */
     public activate(): void {
-        this.seeMoreUpdates = 'VER MAIS';
         this.processNumber = '';
         this.lastProcessNumber = '';
         this.process = undefined;
@@ -46,18 +44,6 @@ export class SepConsultaController {
         this.showAllUpdates = false;
     }
 
-
-    /**
-     * Obtém a primeira atualização do processo
-     * 
-     * @readonly
-     * @type {ProcessUpdate}
-     */
-    public get firstUpdate(): ProcessUpdate {
-        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates[ this.process.updates.length - 1 ];
-        }
-    }
 
     /**
      * Obtém a última atualização do processo
@@ -87,25 +73,7 @@ export class SepConsultaController {
      */
     public toggleUpdates(): void {
         this.showAllUpdates = !this.showAllUpdates;
-
-        if ( this.showAllUpdates ) {
-            this.seeMoreUpdates = 'OCULTAR';
-            this.$ionicScrollDelegate.scrollTo( 0, 300, true ); // TODO: try to search the element to scroll: anchorScroll
-        } else {
-            this.seeMoreUpdates = 'VER MAIS';
-        }
-    }
-
-     /**
-     * Obtém as atualizações que ficarão inicialmente escondidas na tela.
-     * 
-     * @readonly
-     * @type {ProcessUpdate[]}
-     */
-    public get hiddenUpdates(): ProcessUpdate[] {
-        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates.slice( 1 );
-        }
+        this.$ionicScrollDelegate.scrollTo( 0, 300, true ); // TODO: try to search the element to scroll: anchorScroll
     }
 
     /**
