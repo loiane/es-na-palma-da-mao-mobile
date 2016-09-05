@@ -8,6 +8,12 @@
 
 #state-ceturb-bus-lines .line-number{ margin-right: 20px; }
 
+#state-ceturb-bus-lines .scroll, 
+#state-ceturb-bus-lines .collection-repeat-after-container{ 
+    height: 100%;
+    position: static;
+}
+
 .state-ceturb-subheader {
     -webkit-transition: padding 0.3s;
     transition: padding 0.3s;
