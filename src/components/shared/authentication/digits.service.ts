@@ -63,6 +63,7 @@ export class DigitsService {
      */
     public logout(): void {
         if ( this.$window.plugins && this.$window.plugins.digits ) {
+            delete this.$localStorage.digitsAuthResponse;
             this.$window.plugins.digits.logout();
         }
     }

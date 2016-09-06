@@ -27,6 +27,7 @@ export class LoginController {
         'pushConfig'
     ];
 
+    private processingLogin: boolean = false;
     private user: { username: string, password: string } = { username: '', password: '' };
     private errorMsgs = {
         accountNotLinked: 'Usuário não encontrado.'
@@ -62,13 +63,16 @@ export class LoginController {
      */
     public login(): void {
 
+        this.processingLogin = true;
+
         if ( !this.user.username || !this.user.password ) {
             this.toast.info( { title: 'Login e senha são obrigatórios' }); return;
         }
 
         this.authenticationService.login( this.user.username, this.user.password )
             .then( () => this.onAcessoCidadaoLoginSuccess() )
-            .catch( error => this.onAcessoCidadaoLoginError( error ) );
+            .catch( error => this.onAcessoCidadaoLoginError( error ) )
+            .finally( () => this.processingLogin = false );
     }
 
     /**
@@ -88,7 +92,7 @@ export class LoginController {
     public googleLogin(): void {
         this.authenticationService.googleLogin(
             identity => this.signInAcessoCidadao( identity ),
-            () => this.toast.error( { title: '[Google] Falha no login' } ) );
+            () => this.toast.error( { title: '[Google] Falha no login' }) );
     }
 
     /**
@@ -130,7 +134,7 @@ export class LoginController {
         if ( this.isAccountNotLinked( error.data ) ) {
             this.showDialogAccountNotLinked();
         } else {
-            this.toast.error( { title: 'Falha no Login' } );
+            this.toast.error( { title: 'Falha no Login' });
         }
     }
 
@@ -142,9 +146,9 @@ export class LoginController {
             title: 'Conta não vinculada',
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
             ok: 'Criar conta'
-        } ).then( () => {
+        }).then(() => {
             this.$window.open( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' );
-        } );
+        });
     }
 
     /**

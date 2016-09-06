@@ -61,6 +61,7 @@ export class GoogleService {
      */
     public logout( onSuccess?) {
         if ( this.$window.plugins && this.$window.plugins.googleplus ) {
+            delete this.$localStorage.googleAuthResponse;
             this.$window.plugins.googleplus.logout( onSuccess );
         }
     }
