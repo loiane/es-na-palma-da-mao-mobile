@@ -219,22 +219,18 @@ export default class MenuController {
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
 
                 // Only change state if has a valid token
-                this.authenticationService.refreshTokenIfNeeded()
-                    .then(() => {
-                        this.$ionicHistory.nextViewOptions( {
-                            disableAnimate: true,
-                            disableBack: true,
-                            historyRoot: true
-                        });
-                        if ( this.$ionicNativeTransitions ) {
-                            this.$ionicNativeTransitions.stateGo( stateName, {}, {
-                                'type': 'fade'
-                            });
-                        } else {
-                            this.$state.go( stateName );
-                        }
-                    })
-                    .catch(() => this.$state.go( 'home' ) );
+                this.$ionicHistory.nextViewOptions( {
+                    disableAnimate: true,
+                    disableBack: true,
+                    historyRoot: true
+                });
+                if ( this.$ionicNativeTransitions ) {
+                    this.$ionicNativeTransitions.stateGo( stateName, {}, {
+                        'type': 'fade'
+                    });
+                } else {
+                    this.$state.go( stateName );
+                }
             }
         }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
     }

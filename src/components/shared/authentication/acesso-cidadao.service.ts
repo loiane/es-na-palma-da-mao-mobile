@@ -1,6 +1,5 @@
 import { IScope } from 'angular';
 import { IWindowService, IHttpService, IPromise, IQService } from 'angular';
-import jwt from 'jwt-simple';
 
 import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity, SocialNetworkIdentity, PhoneIdentity } from './models/index';
 import { Settings } from '../settings/index';
@@ -74,25 +73,13 @@ export class AcessoCidadaoService {
     }
 
     /**
-     * 
+     * Verifica se o token não está expirado == usuário autenticado.
      * 
      * @readonly
      * @type {boolean}
      */
     public get authenticated(): boolean {
-        if ( !this.token ) {
-            return false;
-        }
-
-        try {
-            let decodedToken = jwt.decode( this.token.access_token, this.settings.identityServer.publicKey );
-            if ( !!decodedToken.error ) {
-                return false;
-            }
-        } catch ( ex ) {
-            return false;
-        }
-        return true;
+        return !!this.token && !!this.tokenClaims && this.tokenIsNotExpiredIn( new Date() );
     }
 
     /**
@@ -114,6 +101,13 @@ export class AcessoCidadaoService {
             });
     }
 
+    /**
+     * 
+     * 
+     * @private
+     * @param {*} data
+     * @param {boolean} success
+     */
     private sendAnswers( data: any, success: boolean ) {
         if ( !!data.provider ) {
             this.answersService.sendLogin( 'AcessoCidadao', success, { provider: data.provider, grant_type: data.grant_type } );
@@ -162,37 +156,25 @@ export class AcessoCidadaoService {
 
 
     /**
-     * 
+     * Atualiza o access token quando necessário baseado em sua data de expiração.
      * 
      * @returns {IPromise<{}>}
      */
     public refreshTokenIfNeeded(): IPromise<{}> {
         let currentDate = new Date();
-
         return this.$q(( resolve, reject ) => {
-            if ( this.tokenClaims ) {
-                if ( this.tokenIsNotExpiredIn( currentDate ) ) {
-                    resolve();
-                }
+            if ( !this.tokenClaims || !this.token ) {
+                return reject();
+            }
 
-                if ( this.tokenIsExpiringIn( currentDate ) ) {
-                    this.refreshToken()
-                        .then(() => {
-                            if ( this.tokenIsExpiredIn( currentDate ) ) {
-                                resolve();
-                            }
-                        })
-                        .catch(() => {
-                            // Even if there's a problem refreshing only send to home if the token is completelly expired 
-                            if ( this.tokenIsExpiredIn( currentDate ) ) {
-                                console.log( 'reject catch' );
-                                this.signOut(() => reject() );
-                            }
-                        });
-                }
-            } else {
-                console.log( 'reject token null' );
-                this.signOut(() => reject() );
+            if ( this.tokenIsNotExpiredIn( currentDate ) ) {
+                resolve( this.token );
+            }
+
+            if ( this.tokenIsExpiringIn( currentDate ) ) {
+                return this.refreshToken()
+                    .then(() => resolve( this.token ) )
+                    .catch(() => reject() );
             }
         });
     }
@@ -309,7 +291,6 @@ export class AcessoCidadaoService {
         return this.$window.atob( output );
     }
 
-
     /**
      * 
      * 
@@ -323,7 +304,10 @@ export class AcessoCidadaoService {
         let options: ng.IRequestConfig = {
             url: getTokenUrl,
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Send-Authorization': 'no'
+            },
             transformRequest: function ( obj ) {
                 let str = [];
                 for ( let p in obj ) {

@@ -112,7 +112,7 @@ export class LoginController {
      */
     public signInAcessoCidadao( identity: Identity ): void {
         this.authenticationService.signInAcessoCidadao( identity )
-            .then( () => this.onAcessoCidadaoLoginSuccess() )
+            .then(() => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }
 

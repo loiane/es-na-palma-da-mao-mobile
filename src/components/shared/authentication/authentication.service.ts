@@ -12,7 +12,8 @@ import {
     FacebookAuthResponse,
     DigitsAuthResponse,
     GoogleAuthResponse,
-    AcessoCidadaoClaims
+    AcessoCidadaoClaims,
+    Token
 } from 'index';
 import { ISettings } from '../settings/index';
 
@@ -30,7 +31,6 @@ export class AuthenticationService {
         'facebookService',
         'googleService',
         'settings',
-        '$localStorage',
         '$q'
     ];
 
@@ -42,7 +42,6 @@ export class AuthenticationService {
      * @param {FacebookService} facebookService
      * @param {GoogleService} googleService
      * @param {ISettings} settings
-     * @param {*} $localStorage
      * @param {IQService} $q
      */
     constructor( private acessoCidadaoService: AcessoCidadaoService,
@@ -50,7 +49,6 @@ export class AuthenticationService {
         private facebookService: FacebookService,
         private googleService: GoogleService,
         private settings: ISettings,
-        private $localStorage: any,
         private $q: IQService ) {
         this.activate();
     }
@@ -188,6 +186,15 @@ export class AuthenticationService {
     /**
      * 
      * 
+     * @returns {IPromise<{}>}
+     */
+    public refreshToken(): IPromise<{}> {
+        return this.acessoCidadaoService.refreshToken();
+    }
+
+    /**
+     * 
+     * 
      * @returns {Boolean}
      */
     public get isAuthenticated(): boolean {
@@ -202,5 +209,15 @@ export class AuthenticationService {
      */
     public get user(): AcessoCidadaoClaims {
         return this.acessoCidadaoService.userClaims;
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {Token}
+     */
+    public get token(): Token {
+        return this.acessoCidadaoService.token;
     }
 }

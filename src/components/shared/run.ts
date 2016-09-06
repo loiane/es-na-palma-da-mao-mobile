@@ -75,6 +75,7 @@ function run( $rootScope: any,
         $mdDialog.cancel();
     }
 
+
     $ionicPlatform.ready(() => {
         ionic.Platform.isFullScreen = true;
 
@@ -88,10 +89,6 @@ function run( $rootScope: any,
         $rootScope.$on( '$ionicView.beforeEnter', () => {
             hideActionControl();
             httpErrorSnifferService.error = undefined; // limpa errors quando muda de tela
-
-            if ( !( $state.is( 'home' ) || $state.is( 'login' ) ) && !authenticationService.isAuthenticated ) {
-                authenticationService.signOut(() => $state.go( 'home' ) );
-            }
         });
 
         if ( $window.navigator.splashscreen ) {
@@ -101,13 +98,12 @@ function run( $rootScope: any,
         // Check coarse location permissions
         cordovaPermissions.RequestCoarseLocationPermission();
 
-        // Refresh token if it's almost expired
         authenticationService.refreshTokenIfNeeded()
             .then(() => {
                 $state.go( 'app.dashboard.newsHighlights' );
             })
             .catch(() => {
-                $state.go( 'home' );
+                authenticationService.signOut(() => $state.go( 'home' ) );
             });
 
         if ( $window.navigator.splashscreen ) {
@@ -118,7 +114,7 @@ function run( $rootScope: any,
     $ionicPlatform.on( 'resume', () => {
         if ( authenticationService.isAuthenticated ) {
             authenticationService.refreshTokenIfNeeded()
-                .catch(() => $state.go( 'home' ) );
+                .catch(() => authenticationService.signOut(() => $state.go( 'home' ) ) );
         }
     });
 }
