@@ -2,11 +2,9 @@ import { IScope } from 'angular';
 import { IWindowService, IHttpService, IPromise, IQService } from 'angular';
 import jwt from 'jwt-simple';
 
-import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity } from './models/index';
+import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity, SocialNetworkIdentity, PhoneIdentity } from './models/index';
 import { Settings } from '../settings/index';
-
-
-
+import { AnswersService } from '../fabric/index';
 
 /**
  * Classe para autenticação usando IdentityServer3 no acessso cidadão
@@ -17,7 +15,7 @@ import { Settings } from '../settings/index';
  */
 export class AcessoCidadaoService {
 
-    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q', 'settings' ];
+    public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q', 'settings', 'answersService' ];
     private identityServerUrl: string;
 
     /**
@@ -28,14 +26,15 @@ export class AcessoCidadaoService {
      * @param {any} $localStorage
      * @param {IQService} $q
      * @param {Settings} settings
+     * @param {AnswersService} answersService
      */
     constructor( private $window: IWindowService,
         private $http: IHttpService,
         private $localStorage,
         private $q: IQService,
-        private settings: Settings ) {
+        private settings: Settings,
+        private answersService: AnswersService ) {
     }
-
 
     /**
      * 
@@ -105,11 +104,23 @@ export class AcessoCidadaoService {
     public signIn( data: Identity ): IPromise<AcessoCidadaoClaims> {
         return this.getToken( data )
             .then( token => {
+                this.sendAnswers( data, true );
                 this.saveTokenOnLocaStorage( token );
                 return this.getAcessoCidadaoUserClaims();
+            })
+            .catch(( error ) => {
+                this.sendAnswers( data, false );
+                throw error;
             });
     }
 
+    private sendAnswers( data: any, success: boolean ) {
+        if ( !!data.provider ) {
+            this.answersService.sendLogin( 'AcessoCidadao', success, { provider: data.provider, grant_type: data.grant_type } );
+        } else {
+            this.answersService.sendLogin( 'AcessoCidadao', success, { grant_type: data.grant_type } );
+        }
+    }
 
     /**
      * Faz a requisição de um token no IdentityServer3, a partir dos dados fornecidos.

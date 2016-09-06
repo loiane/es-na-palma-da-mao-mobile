@@ -1,10 +1,12 @@
 import { GoogleAuthResponse } from './models/index';
+import { AnswersService } from '../fabric/index';
+
 /**
  * https://github.com/EddyVerbruggen/cordova-plugin-googleplus
  */
 export class GoogleService {
 
-    public static $inject: string[] = [ '$window', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$localStorage', 'answersService' ];
 
     /**
      * Cria uma instância de GoogleService.
@@ -12,7 +14,7 @@ export class GoogleService {
      * @param {*} $window
      * @param {*} $localStorage
      */
-    constructor( private $window: Window, private $localStorage: any ) {
+    constructor( private $window: Window, private $localStorage: any, private answersService: AnswersService ) {
     }
 
     /**
@@ -28,8 +30,12 @@ export class GoogleService {
 
         this.$window.plugins.googleplus.login( options, ( authResponse: GoogleAuthResponse ) => {
             this.$localStorage.googleAuthResponse = authResponse;
+            this.answersService.sendLogin( 'Google', true, null );
             onSuccess( authResponse );
-        }, onError );
+        }, ( error ) => {
+            this.answersService.sendLogin( 'Google', false, null );
+            onError( error );
+        } );
     }
 
     /**

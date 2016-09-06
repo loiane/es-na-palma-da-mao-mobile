@@ -1,11 +1,12 @@
 import { FacebookResponse, FacebookAuthResponse } from './models/index';
+import { AnswersService } from '../fabric/index';
 
 /**
  * https://github.com/jeduan/cordova-plugin-facebook4
  */
 export class FacebookService {
 
-    public static $inject: string[] = [ '$window', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$localStorage', 'answersService' ];
 
     /**
      * Cria uma instância de FacebookService.
@@ -13,7 +14,7 @@ export class FacebookService {
      * @param {any} $window
      * @param {any} $localStorage
      */
-    constructor( private $window, private $localStorage ) {
+    constructor( private $window, private $localStorage, private answersService: AnswersService ) {
     }
 
     /**
@@ -46,8 +47,10 @@ export class FacebookService {
          */
         this.$window.facebookConnectPlugin.login( scopes, ( response: FacebookResponse ) => {
             this.$localStorage.facebookAuthResponse = response.authResponse;
+            this.answersService.sendLogin( 'Facebook', true, null );
             onSuccess( response.authResponse );
         }, error => {
+            this.answersService.sendLogin( 'Facebook', false, null );
             onError( error );
         });
     }

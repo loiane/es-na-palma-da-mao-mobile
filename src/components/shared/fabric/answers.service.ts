@@ -8,14 +8,14 @@ export class AnswersService {
      * @static
      * @type {string[]}
      */
-    public static $inject: string[] = [ '$window' ];
+    public static $inject: string[] = ['$window'];
 
     /**
      * Creates an instance of AnswersService.
      * 
      * @param {any} $window
      */
-    constructor( private $window ) {
+    constructor(private $window) {
     }
 
     /**
@@ -26,10 +26,21 @@ export class AnswersService {
      * @type {boolean}
      */
     private get hasPlugin(): boolean {
-        if ( angular.isDefined( this.$window.plugins ) && angular.isDefined( this.$window.plugins.digits ) ) {
+        if (angular.isDefined(this.$window.plugins) && angular.isDefined(this.$window.plugins.digits)) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {string} name
+     * @param {*} attributes
+     */
+    private sendCustomEvent(name: string, attributes: any) {
+        this.$window.plugins.digits.sendCustomEvent(name, attributes);
     }
 
     /**
@@ -39,9 +50,33 @@ export class AnswersService {
      * @param {boolean} success
      * @param {any} attributes
      */
-    public sendLogin( method: string, success: boolean, attributes ) {
-        if ( this.hasPlugin ) {
-            this.$window.plugins.digits.sendLogIn( method, success, attributes );
+    public sendLogin(method: string, success: boolean, attributes) {
+        if (this.hasPlugin) {
+            this.$window.plugins.digits.sendLogIn(method, success, attributes);
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param {*} response
+     */
+    public sendResponseErrorEvent(response: any) {
+        if (this.hasPlugin) {
+
+            let attributes = {
+                method: response.config.method,
+                status: response.status,
+                error: response.data.error,
+                guid: '',
+                handled: false
+            };
+
+            if (response.data.handled) {
+                attributes.handled = response.data.handled;
+            }
+
+            this.sendCustomEvent( response.config.url, attributes );
         }
     }
 }

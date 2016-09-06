@@ -1,11 +1,12 @@
 import { DigitsAccessToken, DigitsAuthResponse } from './models/index';
+import { AnswersService } from '../fabric/index';
 
 /**
  * https://github.com/JimmyMakesThings/cordova-plugin-digits
  */
 export class DigitsService {
 
-    public static $inject: string[] = [ '$window', '$localStorage' ];
+    public static $inject: string[] = [ '$window', '$localStorage', 'answersService' ];
 
     /**
      * Cria uma instância de DigitsService.
@@ -13,8 +14,7 @@ export class DigitsService {
      * @param {*} $window
      * @param {*} $localStorage
      */
-    constructor( private $window: any,
-        private $localStorage: any ) {
+    constructor( private $window: any, private $localStorage: any, private answersService: AnswersService ) {
     }
 
     /**
@@ -51,8 +51,10 @@ export class DigitsService {
          */
         this.$window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
             this.$localStorage.digitsAuthResponse = this.buildAccessToken( authResponse );
+            this.answersService.sendLogin( 'Digits', true, null );
             onSuccess( authResponse );
         }, errorDigits => {
+            this.answersService.sendLogin( 'Digits', false, null );
             onError( errorDigits );
         } );
     }
