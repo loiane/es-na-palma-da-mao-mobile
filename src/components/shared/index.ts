@@ -21,6 +21,7 @@ import authentication from './authentication/index';
 import directives from './directives/index';
 import { ionicLoadingConfig } from './ionic-loading.config';
 import pushModule from './push/index';
+import fabricModule from './fabric/index';
 import permissionsModule from './permissions/index';
 
 let dependencies = [
@@ -32,6 +33,7 @@ let dependencies = [
     authentication.name,
     directives.name,
     pushModule.name,
+    fabricModule.name,
     permissionsModule.name,
 ];
 
