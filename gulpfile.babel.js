@@ -67,7 +67,9 @@ let argv = yargs.alias( 't', 'transpile' )
                 .default( 'serve', false )
                 .default( 'transpile', false ).argv;
 
-let tsProject = typescript.createProject( 'tsconfig.json' );
+let tsProject = typescript.createProject( 'tsconfig.json', {
+    typescript: require( 'typescript' )
+} );
 
 ////////////////////////////////////////// HELPERS /////////////////////////////////////////////////
 
