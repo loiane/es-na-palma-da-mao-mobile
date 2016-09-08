@@ -6,5 +6,5 @@
  * @class HttpErrorSnifferService
  */
 export class HttpErrorSnifferService {
-    public error: Error;
+    public error: Error | undefined;
 }

@@ -28,7 +28,7 @@ export class NewsDetailController {
      * @returns {void}
      */
     public activate(): void {
-        this.getNewsById( this.$stateParams.id );
+        this.getNewsById( this.$stateParams[ 'id' ] );
     }
 
 

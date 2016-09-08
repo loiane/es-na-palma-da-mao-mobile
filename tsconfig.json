@@ -9,7 +9,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "noResolve": false,
-    "outDir": "www/components"
+    "outDir": "www/components",
+    "strictNullChecks": true
   },
   
   "exclude": [

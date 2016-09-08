@@ -259,8 +259,8 @@ export class AcessoCidadaoService {
     * 
     * @return {Claim} Claims do usuário
     */
-    protected getTokenClaims( token: Token ): LowLevelProtocolClaims {
-        let claims: LowLevelProtocolClaims = undefined;
+    protected getTokenClaims( token: Token ): LowLevelProtocolClaims | undefined {
+        let claims: LowLevelProtocolClaims | undefined = undefined;
 
         if ( angular.isDefined( token ) ) {
             let [ , encodedClaims ] = token.access_token.split( '.' );
@@ -309,7 +309,7 @@ export class AcessoCidadaoService {
                 'Send-Authorization': 'no'
             },
             transformRequest: function ( obj ) {
-                let str = [];
+                let str: string[] = [];
                 for ( let p in obj ) {
                     str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
                 }

@@ -24,6 +24,9 @@ export class SepApiService {
     public getProcessByNumber( procNumber: string = '' ): IPromise<Process> {
         return this.$http
                    .get( `${this.settings.api.sep}/${procNumber}` )
-                   .then( ( response: { data: Process } ) => response.data );
+                   .then( ( response: { data: Process } ) => {
+                       response.data.updates = response.data.updates || [];
+                       return response.data;
+                   } );
     }
 }

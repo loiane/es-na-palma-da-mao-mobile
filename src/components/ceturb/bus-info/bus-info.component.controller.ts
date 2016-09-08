@@ -14,8 +14,8 @@ export class BusInfoController {
     ];
 
     private id: string;
-    private route: BusRoute = undefined;
-    private schedule: BusSchedule = undefined;
+    private route: BusRoute | undefined = undefined;
+    private schedule: BusSchedule | undefined = undefined;
     private currentDate: Date = new Date();
     private strCurrentDate: string;
 
@@ -41,7 +41,7 @@ export class BusInfoController {
      */
     public activate(): void {
 
-        this.$q.all( [ this.getSchedule( this.$stateParams.id ), this.getRoute( this.$stateParams.id ) ] );
+        this.$q.all( [ this.getSchedule( this.$stateParams[ 'id' ] ), this.getRoute( this.$stateParams[ 'id' ]  ) ] );
 
         this.strCurrentDate = this.currentDate.toTimeString().slice( 0, 5 );
     }
@@ -74,7 +74,7 @@ export class BusInfoController {
      * 
      * @param {string} id
      */
-    public getRoute( id: string ): IPromise<BusRoute> {
+    public getRoute( id: string ): IPromise<BusRoute | undefined> {
         return this.ceturbApiService.getRoute( id )
                    .then( routes => this.route = routes)
                    .catch( error => this.route = undefined );
@@ -86,7 +86,7 @@ export class BusInfoController {
      * 
      * @param {string} id
      */
-    public getSchedule( id: string ): IPromise<BusSchedule> {
+    public getSchedule( id: string ): IPromise<BusSchedule | undefined> {
         return this.ceturbApiService.getSchedule( id )
                    .then( schedule => this.schedule = schedule)
                    .catch( error => this.schedule = undefined );

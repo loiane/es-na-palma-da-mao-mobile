@@ -13,7 +13,7 @@ export class SepConsultaController {
 
     private processNumber: string;
     private lastProcessNumber: string;
-    private process: Process;
+    private process: Process | undefined;
     private searched: boolean;
     private showAllUpdates: boolean;
 
@@ -52,9 +52,7 @@ export class SepConsultaController {
      * @type {ProcessUpdate}
      */
     public get lastUpdate(): ProcessUpdate {
-        if ( this.process && this.process.updates && this.process.updates.length > 0 ) {
-            return this.process.updates[ 0 ];
-        }
+        return this.process!.updates[ 0 ];
     }
 
 

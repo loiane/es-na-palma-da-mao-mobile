@@ -109,13 +109,10 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @type {DriverLicense}
      */
     public get driverLicense(): DriverLicense {
-        if ( this.hasDriverLicense ) {
-            return {
-                registerNumber: this.$localStorage.userClaims.cnhNumero,
-                ballot: this.$localStorage.userClaims.cnhCedula
-            };
-        }
-        return undefined;
+        return {
+            registerNumber: this.$localStorage.userClaims.cnhNumero,
+            ballot: this.$localStorage.userClaims.cnhCedula
+        };
     }
 
     /**
@@ -134,7 +131,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @type {boolean}
      */
     public get hasDriverLicense(): boolean {
-        return angular.isDefined( this.$localStorage.userClaims.cnhNumero ) &&
-            angular.isDefined( this.$localStorage.userClaims.cnhCedula );
+        return angular.isDefined( this.driverLicense.registerNumber) &&
+            angular.isDefined( this.driverLicense.ballot );
     }
 }

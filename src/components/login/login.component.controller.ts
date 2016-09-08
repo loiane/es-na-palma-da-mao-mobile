@@ -121,7 +121,7 @@ export class LoginController {
      */
     public onAcessoCidadaoLoginSuccess(): void {
         this.pushConfig.init();
-        this.user = undefined;
+        this.user = { username: '', password: '' };
         this.goToDashboard();
     }
 

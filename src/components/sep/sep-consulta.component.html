@@ -30,7 +30,7 @@
 				</div>
 			</md-list-item>
 			<md-divider></md-divider>
-			<md-list-item class="row">
+			<md-list-item class="row" ng-if="vm.lastUpdate">
 				<div class="col">
 					<strong>Último Andamento</strong>
 					<div><strong>Data: </strong>{{vm.lastUpdate.date | calendar}}</div>

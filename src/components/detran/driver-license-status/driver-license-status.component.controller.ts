@@ -16,8 +16,8 @@ export class DriverLicenseStatusController {
      * 
      * @type {DriverData}
      */
-    public driverData: DriverData = undefined;
-    public tickets: Ticket[] = undefined;
+    public driverData: DriverData | undefined = undefined;
+    public tickets: Ticket[] | undefined = undefined;
 
     /**
      * Creates an instance of DriverLicenseStatusController.
@@ -73,7 +73,7 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get licenseOk(): boolean {
-        return this.driverData.status === DriverStatus.Ok;
+        return this.driverData!.status === DriverStatus.Ok;
     }
 
 
@@ -84,7 +84,7 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get licenseBlocked(): boolean {
-        return this.driverData.status === DriverStatus.Blocked;
+        return this.driverData!.status === DriverStatus.Blocked;
     }
 
     /**
@@ -115,7 +115,7 @@ export class DriverLicenseStatusController {
      * @type {Date}
      */
     public get expirationDate(): Date {
-        return this.driverData.expirationDate;
+        return this.driverData!.expirationDate;
     }
 
 
@@ -126,7 +126,7 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get hasTickets(): boolean {
-        return this.tickets.length > 0;
+        return this.tickets!.length > 0;
     }
 
 

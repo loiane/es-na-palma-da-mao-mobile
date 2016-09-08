@@ -15,7 +15,7 @@ export class VehicleTicketsController {
      * 
      * @type {Ticket[]}
      */
-    public tickets: Ticket[];
+    public tickets: Ticket[] | undefined;
     public vehicle: Vehicle;
 
     /**
@@ -33,8 +33,8 @@ export class VehicleTicketsController {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
 
         this.vehicle = {
-            plate: this.$stateParams.plate,
-            renavam: this.$stateParams.renavam
+            plate: this.$stateParams[ 'plate' ],
+            renavam: this.$stateParams[ 'renavam' ]
         };
     }
 
@@ -63,7 +63,7 @@ export class VehicleTicketsController {
      * @type {boolean}
      */
     public get hasTickets(): boolean {
-        return this.tickets.length > 0;
+        return this.tickets!.length > 0;
     }
 
 
