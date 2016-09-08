@@ -12,26 +12,26 @@ import { AcessoCidadaoService } from '../../shared/authentication/index';
  */
 export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
-    public static $inject: string[] = [ '$rootScope', '$localStorage', 'acessoCidadaoService' ];
-    private vehiclesStorageKey: string;
+    public static $inject: string[] = [ '$localStorage', 'acessoCidadaoService' ];
 
     /**
      * Creates an instance of DetranStorage.
      * 
      * @param {*} $localStorage
      * @param {AcessoCidadaoService} acessoCidadaoService
+     * 
+     * @memberOf DetranStorage
      */
-    constructor( private $rootScope: IScope,
-        private $localStorage: any,
-        private acessoCidadaoService: AcessoCidadaoService ) {
+    constructor( private $localStorage: any,
+                 private acessoCidadaoService: AcessoCidadaoService ) {
         this.vehicles = this.vehicles || [];
     }
 
     /**
      * 
      */
-    private refreshStorageKeys() {
-        this.vehiclesStorageKey = `user-${this.acessoCidadaoService.tokenClaims.sub}-vehicles`;  // sub é o id do usuário logado
+    private get vehiclesStorageKey() {
+        return `user-${this.acessoCidadaoService.tokenClaims.sub}-vehicles`;  // sub é o id do usuário logado
     }
 
 
@@ -41,7 +41,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @returns {Vehicle[]}
      */
     public get vehicles(): Vehicle[] {
-        this.refreshStorageKeys();
+        this.$localStorage[ this.vehiclesStorageKey ] = this.$localStorage[ this.vehiclesStorageKey ] || [];
         return this.$localStorage[ this.vehiclesStorageKey ] as Vehicle[];
     }
 
@@ -49,7 +49,6 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * 
      */
     public set vehicles( vehicles: Vehicle[] ) {
-        this.refreshStorageKeys();
         this.$localStorage[ this.vehiclesStorageKey ] = vehicles;
     }
 
