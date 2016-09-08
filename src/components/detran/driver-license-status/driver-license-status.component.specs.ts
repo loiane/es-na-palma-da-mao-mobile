@@ -123,6 +123,7 @@ describe( 'Detran/driver-license-status', () => {
         let controller: DriverLicenseStatusController;
         let $scope;
         let $mdDialog;
+        let $q: ng.IQService;
         let onIonicBeforeEnterEvent;
         let detranApiService: DetranApiService;
         let ticketColorService: TicketColorService;
@@ -138,6 +139,7 @@ describe( 'Detran/driver-license-status', () => {
             };
             driverLicenseStorage = sandbox.stub();
             $mdDialog = sandbox.stub();
+            $q = sandbox.stub();
             detranApiService = <DetranApiService>{
                 getDriverData: sandbox.stub().returnsPromise(),
                 getDriverTickets: sandbox.stub().returnsPromise()
@@ -145,7 +147,7 @@ describe( 'Detran/driver-license-status', () => {
 
             ticketColorService = new TicketColorService();
 
-            controller = new DriverLicenseStatusController( $scope, ticketColorService, detranApiService, driverLicenseStorage, $mdDialog );
+            controller = new DriverLicenseStatusController( $scope, $q, ticketColorService, detranApiService, driverLicenseStorage, $mdDialog );
         } );
 
         describe( 'on instantiation', () => {
