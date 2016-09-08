@@ -12,7 +12,7 @@ class Environment {
         this._name = process.env.NODE_ENV || 'desenvolvimento';
         this._port = process.env.PORT || '3000';
 
-        gutil.log( gutil.colors.blue( `Executando em: ${this._name}` ) );
+        gutil.log( gutil.colors.blue( `Executando em: ${this._name}:${this._port}` ) );
     }
 
     /**

@@ -75,11 +75,13 @@ class CssTask {
                 chain = chain.pipe( debug( options.debug ) );
             }
 
+            chain = chain.pipe( gulp.dest( options.dest ) );
+
             _forEach( options.globalBrowserSyncs, ( bs ) => {
                 chain = chain.pipe( bs.stream() );
             } );
 
-            return chain.pipe( gulp.dest( options.dest ) );
+            return chain;
 
         }, taskMetadata.options );
     }
