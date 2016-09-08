@@ -2,9 +2,7 @@
 	<ion-nav-title>
 		Alertas
 	</ion-nav-title>
-	<div class="spinner-container" ng-if="uiState.loading">
-		<ion-spinner icon="android"></ion-spinner>
-	</div>
+	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content id="state-warning-list">
 		<md-list>
 			<md-subheader ng-if="vm.warnings.length" class="md-no-sticky">
@@ -29,6 +27,6 @@
 		<error-message error="uiState.error">
 			<remark ng-if="!uiState.error.handled">Não foi possível consultar alertas dos bombeiros</remark>
 		</error-message>
-		<message ng-if="vm.warningsPopulated && !vm.warnings.length" text="Nenhum alerta encontrado"><message>
+		<message ng-if="vm.warningsPopulated && !vm.warnings.length" text="Nenhum alerta encontrado"></message>
 	</ion-content>
 </ion-view>

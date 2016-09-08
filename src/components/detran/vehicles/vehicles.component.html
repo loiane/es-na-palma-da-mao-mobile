@@ -15,9 +15,7 @@
     <md-button id="detran-btn-add-car" class="md-fab md-primary" aria-label="Adicionar novo veículo" ng-if="!vm.editing" ng-click="vm.addVehicle()">
         <i class="fa fa-plus" aria-hidden="true"></i>
     </md-button>
-    <div class="spinner-container" ng-if="uiState.loading">
-		<ion-spinner icon="android"></ion-spinner>
-	</div>
+    <spinner ng-if="uiState.loading"></spinner>
     <ion-content id="detran-vehicles">
         <md-list ng-if="vm.vehicles.length" ng-class="{ editing: vm.editing }">
             <md-subheader class="md-no-sticky">
@@ -48,6 +46,6 @@
         </md-list>
         <message ng-if="!vm.vehicles.length" text="Consulta de multas por veículo">
             <remark>Nenhum veículo cadastrado</remark>
-        <message>
+        </message>
     </ion-content>
 </ion-view>

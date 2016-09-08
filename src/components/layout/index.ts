@@ -1,12 +1,14 @@
-import ErrorMessageModule from './messages/error-message/index';
-import RemarkModule from './messages/remark/index';
-import HighlightModule from './messages/highlight/index';
-import MessageModule from './messages/message/index';
-import menu from './menu/index';
+import errorMessageModule from './messages/error-message/index';
+import remarkModule from './messages/remark/index';
+import highlightModule from './messages/highlight/index';
+import messageModule from './messages/message/index';
+import spinnerModule from './spinner/index';
+import menuModule from './menu/index';
 
 export default angular.module( 'layout', [
-    ErrorMessageModule.name,
-    MessageModule.name,
-    RemarkModule.name,
-    HighlightModule.name,
-    menu.name ] );
+    errorMessageModule.name,
+    messageModule.name,
+    remarkModule.name,
+    highlightModule.name,
+    spinnerModule.name,
+    menuModule.name ] );

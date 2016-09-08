@@ -11,9 +11,7 @@
 		</div>
 	</ion-nav-buttons>
 
-	<div class="spinner-container" ng-if="uiState.loading && vm.filter.pageNumber === 0">
-		<ion-spinner icon="android"></ion-spinner>
-	</div>
+	<spinner ng-if="uiState.loading && vm.filter.pageNumber === 0"></spinner>
 	
 	<ion-content id="dio-search">
 		<md-list ng-if="!vm.pristine && vm.totalHits">

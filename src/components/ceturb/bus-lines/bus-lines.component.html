@@ -7,9 +7,7 @@
 		</md-input-container>
 	</div>
 
-	<div class="spinner-container" ng-if="uiState.loading">
-		<ion-spinner icon="android"></ion-spinner>
-	</div>
+	<spinner ng-if="uiState.loading"></spinner>
 
 	<ion-content id="state-ceturb-bus-lines"
 				 class="has-subheader" 
@@ -37,6 +35,6 @@
 		<message ng-if="vm.linesPopuled && !vm.foundLines" text="Nenhum resultado encontrado para">
 			<highlight>"{{vm.filter}}"</highlight>
 			<remark>Tente mudar o filtro da consulta</remark>
-		<message>
+		</message>
 	</ion-content>
 </ion-view>

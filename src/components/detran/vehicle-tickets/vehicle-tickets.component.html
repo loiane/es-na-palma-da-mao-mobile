@@ -5,9 +5,7 @@
 			<i class="fa fa-arrow-left espm-back-button"></i>
 		</a>
 	</ion-nav-buttons>
-	<div class="spinner-container" ng-if="uiState.loading">
-		<ion-spinner icon="android"></ion-spinner>
-	</div>
+	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content id="vehicle-tickets">
 		<md-list ng-if="vm.ticketsPopulated && vm.hasTickets">
 			<md-subheader class="md-no-sticky">

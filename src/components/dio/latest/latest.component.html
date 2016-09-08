@@ -1,7 +1,5 @@
 <ion-view title="Diário Oficial ES">
-	<div class="spinner-container" ng-if="uiState.loading">
-		<ion-spinner icon="android"></ion-spinner>
-	</div>
+	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content id="dio-latest">
 		<md-list ng-if="vm.latestEditions.length">
 			<md-subheader class="md-no-sticky">Edições Recentes</md-subheader>

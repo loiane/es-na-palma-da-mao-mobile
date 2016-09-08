@@ -8,9 +8,7 @@
 			<i class="fa fa-arrow-left back-button"></i>
 		</a>
 	</ion-nav-buttons>
-	<div class="spinner-container" ng-if="uiState.loading">
-		<ion-spinner icon="android"></ion-spinner>
-	</div>
+	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content id="news-detail-component">
 		<img ng-src="{{::vm.news.image}}" class="md-card-image img-noticia-detalhe" alt="">
 		<div layout-padding layout="column" ng-if="::vm.news">
