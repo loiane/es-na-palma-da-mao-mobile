@@ -1,4 +1,4 @@
-import { IHttpService, IPromise, Http } from 'angular';
+import { IHttpService, IPromise } from 'angular';
 import { ISettings } from '../../shared/settings/index';
 import { BusLine, BusRoute, BusSchedule } from './models/index';
 
@@ -15,10 +15,10 @@ export class CeturbApiService {
     /**
      * Creates an instance of CeturbApiService.
      * 
-     * @param {Http} http
+     * @param {IHttpService} http
      * @param {ISettings} settings
      */
-    constructor( private http: Http, private settings: ISettings ) {
+    constructor( private http: IHttpService, private settings: ISettings ) {
     }
 
     /**
