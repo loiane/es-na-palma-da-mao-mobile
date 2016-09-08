@@ -18,7 +18,7 @@ export class CeturbStorage {
      * @param {AuthenticationService} authenticationService
      */
     constructor( private $localStorage: any,
-                 private authenticationService: AuthenticationService ) {
+        private authenticationService: AuthenticationService ) {
     }
 
     /**
@@ -56,8 +56,8 @@ export class CeturbStorage {
      */
     public isFavoriteLine( line: BusLine ): boolean {
         return this.favoriteLines
-                   .map( v => v.number )
-                   .indexOf( line.number ) !== -1;
+            .map( v => v.number )
+            .indexOf( line.number ) !== -1;
     }
 
     /**
