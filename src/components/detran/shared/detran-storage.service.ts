@@ -1,6 +1,6 @@
 import { IScope } from 'angular';
 import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage } from './models/index';
-import { AcessoCidadaoService } from '../../shared/authentication/index';
+import { AuthenticationService } from '../../shared/authentication/index';
 
 /**
  * Serviço que trata local storage no contexto do detran
@@ -12,26 +12,25 @@ import { AcessoCidadaoService } from '../../shared/authentication/index';
  */
 export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
-    public static $inject: string[] = [ '$localStorage', 'acessoCidadaoService' ];
+    public static $inject: string[] = [ '$localStorage', 'authenticationService' ];
 
     /**
      * Creates an instance of DetranStorage.
      * 
      * @param {*} $localStorage
-     * @param {AcessoCidadaoService} acessoCidadaoService
+     * @param {AuthenticationService} authenticationService
      * 
      * @memberOf DetranStorage
      */
     constructor( private $localStorage: any,
-                 private acessoCidadaoService: AcessoCidadaoService ) {
-        this.vehicles = this.vehicles || [];
+                 private acessoCidadaoService: AuthenticationService ) {
     }
 
     /**
      * 
      */
     private get vehiclesStorageKey() {
-        return `user-${this.acessoCidadaoService.tokenClaims.sub}-vehicles`;  // sub é o id do usuário logado
+        return `user-${this.acessoCidadaoService.user.cpf}-vehicles`;  // sub é o id do usuário logado
     }
 
 
