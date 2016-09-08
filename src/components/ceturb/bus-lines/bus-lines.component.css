@@ -4,10 +4,8 @@
 }
 
 #state-ceturb-bus-lines .line-description,
-#state-ceturb-bus-lines .line-number{ line-height: 25px; }
-
-#state-ceturb-bus-lines .line-number{ margin-right: 20px; }
-
+#state-ceturb-bus-lines .line-number{ line-height: 25px; margin-right: 20px; }
+#state-ceturb-bus-lines .line-number i{ margin-right: 10px; }
 #state-ceturb-bus-lines .scroll, 
 #state-ceturb-bus-lines .collection-repeat-after-container{ 
     height: 100%;

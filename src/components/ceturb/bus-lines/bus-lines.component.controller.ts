@@ -1,13 +1,14 @@
 import { IScope, IPromise } from 'angular';
 
-import { BusLine, CeturbApiService } from '../shared/index';
+import { BusLine, CeturbApiService, CeturbStorage } from '../shared/index';
 
 export class BusLinesController {
 
     public static $inject: string[] = [
         '$scope',
         '$state',
-        'ceturbApiService'
+        'ceturbApiService',
+        'ceturbStorage'
     ];
 
     private filter: string;
@@ -20,10 +21,12 @@ export class BusLinesController {
      * @param {IScope} $scope
      * @param {angular.ui.IStateService} $state
      * @param {CeturbApiService} ceturbApiService
+     * @param {CeturbStorage} ceturbStorage
      */
     constructor( private $scope: IScope,
         private $state: angular.ui.IStateService,
-        private ceturbApiService: CeturbApiService ) {
+        private ceturbApiService: CeturbApiService,
+        private ceturbStorage: CeturbStorage ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -67,11 +70,18 @@ export class BusLinesController {
     /**
      * 
      * 
-     * @readonly
-     * @type {boolean}
+     * @param {BusLine} line
      */
-    public get hasMoreLines(): boolean {
-        return this.lines.length < this.filteredLines.length;
+    public toggleFavorite( line: BusLine ): void {
+
+        line.isFavorite = !line.isFavorite;
+
+        if ( line.isFavorite ) {
+            this.ceturbStorage.addToFavoriteLines( line );
+        }
+        else {
+            this.ceturbStorage.removeFromFavoriteLines( line );
+        }
     }
 
     /**
@@ -82,6 +92,7 @@ export class BusLinesController {
             .then( lines => {
                 this.filteredLines = this.lines = lines.map( line => {
                     line.name = this.accentFold( line.name );
+                    line.isFavorite = this.ceturbStorage.isFavoriteLine( line );
                     return line;
                 });
                 return this.lines;
