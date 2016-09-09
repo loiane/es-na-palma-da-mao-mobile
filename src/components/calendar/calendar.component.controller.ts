@@ -6,10 +6,10 @@ export class CalendarController {
 
     public static $inject: string[] = [ '$scope', 'calendarApiService' ];
 
-    private calendar: { currentDate?: Date; eventSources?: Calendar[]; } = {};
-    private selectedCalendars: string[] = [];
-    private availableCalendars: string[] = [];
-    private viewTitle: string = '';
+    public calendar: { currentDate?: Date; eventSources?: Calendar[]; } = {};
+    public selectedCalendars: string[] = [];
+    public availableCalendars: string[] = [];
+    public viewTitle: string = '';
 
     /**
      * @constructor

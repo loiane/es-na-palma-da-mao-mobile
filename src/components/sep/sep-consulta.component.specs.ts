@@ -35,14 +35,14 @@ describe( 'SEP/sep-consulta', () => {
     } );
 
     describe( 'Controller', () => {
-        let controller;
+        let controller: SepConsultaController;
         let $scope;
         let sepApiService;
         let toastService;
         let $ionicScrollDelegate;
         let onIonicBeforeEnterEvent;
 
-        let processNumber = 68985037;
+        let processNumber = '68985037';
 
         let process: Process = {
             number: '68985037',
@@ -101,46 +101,6 @@ describe( 'SEP/sep-consulta', () => {
             status: 'EM ANDAMENTO'
         };
 
-        let firstUpdate = {
-            date: '14/01/2015 11:31:40',
-            agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-            area: 'GERENCIA DE ADMINISTRACAO GERAL',
-            status: 'AUTUADO'
-        };
-
-        let hiddenUpdates = [
-            {
-                date: '21/01/2015 15:40:00',
-                agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                area: 'GERENCIA DE RECURSOS HUMANOS',
-                status: 'EM ANDAMENTO'
-            },
-            {
-                date: '20/01/2015 17:57:00',
-                agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                area: 'GERENCIA DE FINANCAS E ORCAMENTOS',
-                status: 'EM ANDAMENTO'
-            },
-            {
-                date: '14/01/2015 11:45:00',
-                agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                area: 'DIRETORIA TECNICA',
-                status: 'EM ANDAMENTO'
-            },
-            {
-                date: '14/01/2015 11:39:00',
-                agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                area: 'GERENCIA DE RECURSOS HUMANOS',
-                status: 'EM ANDAMENTO'
-            },
-            {
-                date: '14/01/2015 11:31:40',
-                agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                area: 'GERENCIA DE ADMINISTRACAO GERAL',
-                status: 'AUTUADO'
-            }
-        ];
-
         beforeEach( () => {
             $scope = {
                 $on: ( event, callback ) => {
@@ -185,16 +145,12 @@ describe( 'SEP/sep-consulta', () => {
                 expect( controller.process ).to.be.undefined;
             } );
 
-            it( 'should have see more message button', () => {
-                expect( controller.seeMoreUpdates ).to.be.equal( 'VER MAIS' );
-            } );
-
             it( 'should have empty process number', () => {
                 expect( controller.processNumber ).to.be.empty;
             } );
 
-            it( 'should hot have been populated', () => {
-                expect( controller.populated ).to.be.false;
+            it( 'should hot have been searched', () => {
+                expect( controller.searched ).to.be.false;
             } );
 
             it( 'should hide all updates', () => {
@@ -212,8 +168,8 @@ describe( 'SEP/sep-consulta', () => {
                 expect( controller.process ).to.deep.equal( process );
             } );
 
-            it( 'should set populated to true', () => {
-                expect( controller.populated ).to.be.true;
+            it( 'should set searched to true', () => {
+                expect( controller.searched ).to.be.true;
             } );
 
             it( 'should unset process value on error', () => {
@@ -231,40 +187,6 @@ describe( 'SEP/sep-consulta', () => {
                 controller.toggleUpdates();
                 expect( controller.showAllUpdates ).to.be.equal( !oldValue );
             } );
-
-            it( 'should change seeMoreUpdates value to OCULTAR if showAllUpdates === false', () => {
-                controller.showAllUpdates = false;
-                controller.toggleUpdates();
-                expect( controller.seeMoreUpdates ).to.be.equal( 'OCULTAR' );
-
-            } );
-
-            it( 'should change seeMoreUpdates value to VER MAIS if showAllUpdates === true', () => {
-                controller.showAllUpdates = true;
-                controller.toggleUpdates();
-                expect( controller.seeMoreUpdates ).to.be.equal( 'VER MAIS' );
-            } );
-
-            it( 'should call $ionicScrollDelegate.scrollTo() if showAllUpdates === false', () => {
-                controller.showAllUpdates = false;
-                controller.toggleUpdates();
-                expect( controller.$ionicScrollDelegate.scrollTo.called ).to.be.true;
-            } );
-        } );
-
-        describe( 'firstUpdate', () => {
-            beforeEach( () => {
-                sepApiService.getProcessByNumber.resolves( process );
-            } );
-
-            it( 'should return last item if has process', () => {
-                controller.getProcess( processNumber );
-                expect( controller.firstUpdate ).to.deep.equal( firstUpdate );
-            } );
-
-            it( 'should return nothing if has no process', () => {
-                expect( controller.firstUpdate ).to.be.undefined;
-            } );
         } );
 
         describe( 'lastUpdate', () => {
@@ -276,26 +198,8 @@ describe( 'SEP/sep-consulta', () => {
                 controller.getProcess( processNumber );
                 expect( controller.lastUpdate ).to.deep.equal( lastUpdate );
             } );
-
-            it( 'should return nothing if has no process', () => {
-                expect( controller.lastUpdate ).to.be.undefined;
-            } );
         } );
 
-        describe( 'hiddenUpdates', () => {
-            beforeEach( () => {
-                sepApiService.getProcessByNumber.resolves( process );
-            } );
-
-            it( 'should return all but the first item if has process', () => {
-                controller.getProcess( processNumber );
-                expect( controller.hiddenUpdates ).to.deep.equal( hiddenUpdates );
-            } );
-
-            it( 'should return nothing if has no process', () => {
-                expect( controller.hiddenUpdates ).to.be.undefined;
-            } );
-        } );
 
         describe( 'hasProcess', () => {
             beforeEach( () => {

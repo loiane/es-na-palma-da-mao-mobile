@@ -395,7 +395,7 @@ describe( 'Detran/driver-license-status', () => {
                     controller.tickets = [];
                     detranApiService.getDriverTickets.rejects();
                     controller.getDriverTickets().then( () => {
-                        expect( controller.tickets ).to.be.deep.equal( [] );
+                        expect( controller.tickets ).to.be.undefined;
                     } );
                 } );
             } );

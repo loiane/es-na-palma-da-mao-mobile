@@ -116,7 +116,7 @@ describe( 'CalendarApiService', () => {
 
                 let spyCall = $http.get.getCall( 0 );
 
-                expect( spyCall.args[ 1 ].params.selectedCalendars ).to.equal( options.calendars );
+                expect( spyCall.args[ 1 ].params.calendars ).to.equal( options.calendars );
                 expect( spyCall.args[ 1 ].params.singleEvents ).to.equal( options.singleEvents );
                 expect( spyCall.args[ 1 ].params.orderBy ).to.equal( options.orderBy );
                 expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( options.timeMin.getTime() );

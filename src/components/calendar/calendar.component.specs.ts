@@ -40,7 +40,7 @@ describe( 'Calendar', () => {
     } );
 
     describe( 'Controller', () => {
-        let controller;
+        let controller: CalendarController;
         let $scope;
         let calendarApiService;
         let onIonicBeforeEnterEvent;
@@ -88,8 +88,8 @@ describe( 'Calendar', () => {
 
         describe( 'activate()', () => {
             beforeEach( () => {
-                sandbox.stub( controller, 'getAvailableCalendars' );
-                sandbox.stub( controller, 'loadCalendars' );
+                sandbox.spy( controller, 'getAvailableCalendars' );
+                sandbox.spy( controller, 'loadCalendars' );
 
                 controller.activate();
             } );

@@ -11,11 +11,11 @@ export class SepConsultaController {
         'sepApiService'
     ];
 
-    private processNumber: string;
-    private lastProcessNumber: string;
-    private process: Process | undefined;
-    private searched: boolean;
-    private showAllUpdates: boolean;
+    public processNumber: string;
+    public lastProcessNumber: string;
+    public process: Process | undefined;
+    public searched: boolean;
+    public showAllUpdates: boolean;
 
 
     /**
