@@ -1,4 +1,4 @@
-import { IScope } from 'angular';
+import { IScope, IWindowService } from 'angular';
 
 import { CbmesApiService, Warning } from '../shared/index';
 
@@ -6,18 +6,23 @@ export class WarningListController {
 
     public static $inject: string[] = [
         '$scope',
+        '$window',
         'cbmesApiService'
     ];
 
-    private warnings: Warning[];
+    public warnings: Warning[];
 
     /**
      * Creates an instance of WarningListController.
      * 
      * @param {IScope} $scope
+     * @param {IWindowService} $window
      * @param {CbmesApiService} cbmesApiService
+     * 
+     * @memberOf WarningListController
      */
     constructor( private $scope: IScope,
+        private $window: IWindowService,
         private cbmesApiService: CbmesApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -62,9 +67,9 @@ export class WarningListController {
         let geocoords = lat + ',' + lng;
 
         if ( this.$scope.isAndroid ) {
-            window.open( 'geo:0,0?q=' + geocoords + '(' + encodeURI( label ) + ')', '_system' );
+            this.$window.open( 'geo:0,0?q=' + geocoords + '(' + encodeURI( label ) + ')', '_system' );
         } else {
-            window.open( 'maps://?q=' + geocoords, '_system' );
+            this.$window.open( 'maps://?q=' + geocoords, '_system' );
         }
     }
 }
