@@ -15,6 +15,7 @@ export class AcessoCidadaoService {
 
     public static $inject: string[] = [ '$window', '$http', '$localStorage', '$q', 'settings', 'answersService' ];
     private identityServerUrl: string;
+    private static refreshingToken: boolean = false;
 
     /**
      * Creates an instance of AcessoCidadaoService.
@@ -109,9 +110,9 @@ export class AcessoCidadaoService {
      */
     private sendAnswers( data: any, success: boolean ) {
         if ( !!data.provider ) {
-            this.answersService.sendLogin( 'AcessoCidadao', success, { provider: data.provider, grant_type: data.grant_type } );
+            this.answersService.sendLogin( 'AcessoCidadao', success, { provider: data.provider, grant_type: data.grant_type });
         } else {
-            this.answersService.sendLogin( 'AcessoCidadao', success, { grant_type: data.grant_type } );
+            this.answersService.sendLogin( 'AcessoCidadao', success, { grant_type: data.grant_type });
         }
     }
 
@@ -133,21 +134,29 @@ export class AcessoCidadaoService {
      */
     public refreshToken(): IPromise<AcessoCidadaoClaims> {
         let token = this.token;
-        if ( token ) {
+        if ( token && !AcessoCidadaoService.refreshingToken ) {
+            AcessoCidadaoService.refreshingToken = true;
+            try {
+                let identity: AcessoCidadaoIdentity = {
+                    client_id: this.settings.identityServer.clients.espm.id,
+                    client_secret: this.settings.identityServer.clients.espm.secret,
+                    grant_type: 'refresh_token',
+                    scope: this.settings.identityServer.defaultScopes
+                };
 
-            let identity: AcessoCidadaoIdentity = {
-                client_id: this.settings.identityServer.clients.espm.id,
-                client_secret: this.settings.identityServer.clients.espm.secret,
-                grant_type: 'refresh_token',
-                scope: this.settings.identityServer.defaultScopes
-            };
-
-            identity.refresh_token = token.refresh_token;
-            return this.getToken( identity )
-                .then( token => {
-                    this.saveTokenOnLocaStorage( token );
-                    return this.getAcessoCidadaoUserClaims();
-                });
+                identity.refresh_token = token.refresh_token;
+                return this.getToken( identity )
+                    .then( token => {
+                        this.saveTokenOnLocaStorage( token );
+                        return this.getAcessoCidadaoUserClaims();
+                    })
+                    .finally(() => {
+                        AcessoCidadaoService.refreshingToken = false;
+                    });
+            } catch ( err ) {
+                AcessoCidadaoService.refreshingToken = false;
+                throw err;
+            }
         } else {
             return this.$q.reject( new Error( 'Usuário não logado' ) );
         }
