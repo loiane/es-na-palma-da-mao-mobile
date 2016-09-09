@@ -76,3 +76,6 @@ www/
 
 #typings
 typings/
+
+# Apple
+.DS_Store
