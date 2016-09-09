@@ -19,15 +19,9 @@ let expect = chai.expect;
  */
 describe( 'Detran/vehicles', () => {
 
-    let sandbox;
-
-    beforeEach( () => {
-        sandbox = sinon.sandbox.create();
-    } );
-
-    afterEach( () => {
-        sandbox.restore();
-    } );
+    let sandbox: Sinon.SinonSandbox;
+    beforeEach( () => sandbox = sinon.sandbox.create() );
+    afterEach( () => sandbox.restore() );
 
     describe( 'Module', () => {
         // test things about the component module

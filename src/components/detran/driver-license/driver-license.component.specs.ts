@@ -18,25 +18,9 @@ let expect = chai.expect;
  */
 describe( 'Detran/driver-license', () => {
 
-    let sandbox;
-
-    beforeEach( () => {
-        sandbox = sinon.sandbox.create();
-    } );
-
-    afterEach( () => {
-        sandbox.restore();
-    } );
-
-    describe( 'Module', () => {
-        // test things about the component module
-        // checking to see if it registers certain things and what not
-        // test for best practices with naming too
-        // test for routing
-
-        it( 'Module', () => {
-        } );
-    } );
+    let sandbox: Sinon.SinonSandbox;
+    beforeEach( () => sandbox = sinon.sandbox.create() );
+    afterEach( () => sandbox.restore() );
 
     describe( 'Controller', () => {
         let controller: DriverLicenseController;
