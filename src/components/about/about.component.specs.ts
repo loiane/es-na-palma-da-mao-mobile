@@ -9,6 +9,8 @@
 import { AboutController } from './about.component.controller';
 import AboutComponent from './about.component';
 import AboutTemplate from './about.component.html';
+import { TeamsApiService, TeamMember } from './shared/index';
+import packageJson from '../../package.json!';
 
 let expect = chai.expect;
 
@@ -20,24 +22,66 @@ let expect = chai.expect;
 describe( 'About', () => {
 
     let sandbox;
+    beforeEach( () => sandbox = sinon.sandbox.create() );
+    afterEach( () => sandbox.restore() );
 
-    beforeEach( () => {
-        sandbox = sinon.sandbox.create();
-    } );
+     describe( 'Controller', () => {
+        let controller: AboutController;
+        let teamsApiService: TeamsApiService;
+        let onIonicBeforeEnterEvent;
+        let teamMembers = <TeamMember[]>[
+            { login: 'login1', avatar_url: 'avatar_url1' },
+            { login: 'login2', avatar_url: 'avatar_url2' }
+        ];
 
-    afterEach( () => {
-        sandbox.restore();
-    } );
+        beforeEach( () => {
+            let $window = sandbox.stub();
+            let $scope = <any>{
+                $on: ( event, callback ) => {
+                    if ( event === '$ionicView.beforeEnter' ) {
+                        onIonicBeforeEnterEvent = callback;
+                    }
+                }
+            };
+            teamsApiService = <TeamsApiService>{
+                getTeamMembers: sandbox.stub().returnsPromise().resolves( teamMembers )
+            };
 
-    describe( 'Module', () => {
-        // test things about the component module
-        // checking to see if it registers certain things and what not
-        // test for best practices with naming too
-        // test for routing
-
-        it( 'Module', () => {
+            controller = new AboutController( $scope, $window, teamsApiService );
         } );
-    } );
+
+        describe( 'on instantiation', () => {
+
+            it( 'should have a empty team members list', () => {
+                expect( controller.teamMembers ).to.be.empty;
+            } );
+
+            it( 'should activate on $ionicView.beforeEnter event', () => {
+                let activate = sandbox.stub( controller, 'activate' ); // replace original activate
+
+                // simulates ionic before event trigger
+                onIonicBeforeEnterEvent();
+
+                expect( activate.called ).to.be.true;
+            } );
+
+            it( 'controller.project should contain package.json', () => {
+                expect( controller.project ).to.not.be.undefined;
+                expect( controller.project ).to.equal( packageJson );
+            } );
+        } );
+
+        describe( 'activate()', () => {
+            beforeEach( () => {
+                controller.activate();
+            } );
+
+            it( 'should fill team members list', () => {
+                expect( controller.teamMembers).to.equal( teamMembers );
+            } );
+        } );
+     } );
+
 
     describe( 'Component', () => {
         // test the component/directive itself

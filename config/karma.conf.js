@@ -35,14 +35,15 @@ module.exports = function( config ) {
             config: 'config/system.config.js',
             packages: 'www/jspm_packages',
             loadFiles: [
-                'src/components/**/!(about*).specs.ts'
+                'src/components/**/*.specs.ts'
             ],
             serveFiles: [
                 'src/components/**/*.css',
                 'src/components/**/*.html',
                 'src/components/**/*.json',
                 'src/components/**/*.png',
-                'src/components/**/!(*specs).ts'
+                'src/components/**/!(*specs).ts',
+                'package.json'
             ]
         },
 
@@ -61,7 +62,8 @@ module.exports = function( config ) {
         proxies: {
             '/node_modules': '/base/node_modules',
             '/jspm_packages/': '/base/www/jspm_packages/',
-            '/src/': '/base/src/'
+            '/src/': '/base/src/',
+            '/src/package.json': '/base/package.json'
         },
 
         reporters: reporters,

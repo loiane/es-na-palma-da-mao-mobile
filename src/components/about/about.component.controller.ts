@@ -7,7 +7,7 @@ export class AboutController {
 
     public static $inject: string[] = [ '$scope', '$window', 'teamsApiService' ];
 
-    private teamMembers: TeamMember[] = [];
+    public teamMembers: TeamMember[] = [];
     public project: Project = packageJson;
 
     /**
