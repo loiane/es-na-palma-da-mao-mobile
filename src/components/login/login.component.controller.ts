@@ -30,7 +30,7 @@ export class LoginController {
     private processingLogin: boolean = false;
     private user: { username: string, password: string } = { username: '', password: '' };
     private errorMsgs = {
-        accountNotLinked: 'Usuário não encontrado.'
+        accountNotLinked: 'User not found.' // Verification message with AcessoCidadao
     };
 
     /**
