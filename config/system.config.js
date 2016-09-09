@@ -59,11 +59,9 @@ System.config({
     "angular-i18n": "npm:angular-i18n@1.5.7",
     "angular-material": "github:angular/bower-material@1.1.0",
     "angular-mocks": "github:angular/bower-angular-mocks@1.5.7",
-    "angular-ui-bootstrap": "npm:angular-ui-bootstrap@1.3.3",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.18",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
-    "bootstrap": "github:twbs/bootstrap@3.3.6",
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.27",
@@ -73,7 +71,6 @@ System.config({
     "ionic-native-transitions": "npm:ionic-native-transitions@1.0.0-rc9",
     "json": "github:systemjs/plugin-json@0.1.2",
     "jwt-simple": "npm:jwt-simple@0.5.0",
-    "mobile-detect": "npm:mobile-detect@1.3.2",
     "moment": "npm:moment@2.14.1",
     "ngstorage": "npm:ngstorage@0.3.10",
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
@@ -83,16 +80,10 @@ System.config({
     "roboto": "github:choffmeister/roboto-fontface-bower@0.5.0",
     "systemjs-babel-build": "npm:systemjs-plugin-babel@0.0.12/systemjs-babel-browser.js",
     "text": "github:systemjs/plugin-text@0.0.7",
-    "toastr": "github:CodeSeven/toastr@2.1.2",
-    "ts": "github:frankwallis/plugin-typescript@4.0.16",
+    "ts": "github:frankwallis/plugin-typescript@5.1.2",
     "ts-runtime": "npm:babel-runtime@5.8.38",
-    "typescript": "npm:typescript@1.8.10",
+    "typescript": "npm:typescript@2.0.2",
     "ui-router-extras": "github:christopherthielen/ui-router-extras@0.0.14",
-    "underscore": "github:jashkenas/underscore@1.8.3",
-    "github:CodeSeven/toastr@2.1.2": {
-      "css": "github:systemjs/plugin-css@0.1.27",
-      "jquery": "github:components/jquery@3.0.0"
-    },
     "github:angular-ui/ui-router@0.2.18": {
       "angular": "github:angular/bower-angular@1.5.8"
     },
@@ -124,8 +115,8 @@ System.config({
       "angular-ui-router": "github:angular-ui/angular-ui-router-bower@0.2.13",
       "css": "github:systemjs/plugin-css@0.1.27"
     },
-    "github:frankwallis/plugin-typescript@4.0.16": {
-      "typescript": "npm:typescript@1.8.10"
+    "github:frankwallis/plugin-typescript@5.1.2": {
+      "typescript": "npm:typescript@2.0.2"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -149,7 +140,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.8"
+      "process": "npm:process@0.11.9"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -162,9 +153,6 @@ System.config({
     },
     "github:jspm/nodelibs-vm@0.1.0": {
       "vm-browserify": "npm:vm-browserify@0.0.4"
-    },
-    "github:twbs/bootstrap@3.3.6": {
-      "jquery": "npm:jquery@2.2.4"
     },
     "npm:asn1.js@4.8.0": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
@@ -310,7 +298,7 @@ System.config({
     },
     "npm:elliptic@6.3.1": {
       "bn.js": "npm:bn.js@4.11.6",
-      "brorand": "npm:brorand@1.0.5",
+      "brorand": "npm:brorand@1.0.6",
       "hash.js": "npm:hash.js@1.0.3",
       "inherits": "npm:inherits@2.0.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
@@ -341,12 +329,7 @@ System.config({
     },
     "npm:miller-rabin@4.0.0": {
       "bn.js": "npm:bn.js@4.11.6",
-      "brorand": "npm:brorand@1.0.5"
-    },
-    "npm:mobile-detect@1.3.2": {
-      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0"
+      "brorand": "npm:brorand@1.0.6"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
@@ -372,7 +355,7 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:process@0.11.8": {
+    "npm:process@0.11.9": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
@@ -419,7 +402,8 @@ System.config({
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
-    "npm:typescript@1.8.10": {
+    "npm:typescript@2.0.2": {
+      "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "os": "github:jspm/nodelibs-os@0.1.0"
     },
     "npm:util@0.10.3": {

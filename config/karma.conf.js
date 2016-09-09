@@ -35,7 +35,7 @@ module.exports = function( config ) {
             config: 'config/system.config.js',
             packages: 'www/jspm_packages',
             loadFiles: [
-                'src/components/**/*.specs.ts'
+                'src/components/**/!(about*).specs.ts'
             ],
             serveFiles: [
                 'src/components/**/*.css',
