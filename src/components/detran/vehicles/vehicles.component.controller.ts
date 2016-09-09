@@ -1,6 +1,6 @@
-import { IScope, IPromise } from 'angular';
-import { DetranApiService, Vehicle, VehicleStorage } from '../shared/index';
-import { DialogService, ToastService } from '../../shared/index';
+import { IScope } from 'angular';
+import { Vehicle, VehicleStorage } from '../shared/index';
+import { DialogService } from '../../shared/index';
 
 import addVehicleTemplate from './add-vehicle/add-vehicle.html';
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
@@ -13,7 +13,7 @@ import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
  */
 export class VehiclesController {
 
-    public static $inject: string[] = [ '$scope', '$mdDialog', '$state', 'detranApiService', 'dialog', 'toast', 'detranStorage' ];
+    public static $inject: string[] = [ '$scope', '$mdDialog', '$state', 'dialog', 'detranStorage' ];
 
     public vehicles: Vehicle[];
     public editing: boolean = false;
@@ -24,17 +24,13 @@ export class VehiclesController {
      * @param {IScope} $scope
      * @param {angular.material.IDialogService} $mdDialog
      * @param {angular.material.IState} $state
-     * @param {DetranApiService} detranApiService
      * @param {DialogService} dialog
-     * @param {ToastService} toast
      * @param {VehicleStorage} vehicleStorage
      */
     constructor( private $scope: IScope,
         private $mdDialog: angular.material.IDialogService,
         private $state: angular.ui.IStateService,
-        private detranApiService: DetranApiService,
         private dialog: DialogService,
-        private toast: ToastService,
         private vehicleStorage: VehicleStorage ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }

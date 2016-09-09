@@ -8,7 +8,7 @@ export class AboutController {
     public static $inject: string[] = [ '$scope', '$window', 'teamsApiService' ];
 
     private teamMembers: TeamMember[] = [];
-    private project: Project = packageJson;
+    public project: Project = packageJson;
 
     /**
      * Creates an instance of AboutController.

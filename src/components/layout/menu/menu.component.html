@@ -85,7 +85,7 @@
 					</div>
 
 					<md-subheader class="md-accent">Detran</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicenseStatus')" ng-if="vm.driverLicenseStorage.hasDriverLicense">
+					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicenseStatus')" ng-if="vm.hasDriverLicense">
 						<div class="col-25">
 							<i class="fa fa-car"></i>
 						</div>
@@ -93,7 +93,7 @@
 							<span>Situação CNH</span>
 						</div>
 					</div>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicense')" ng-if="!vm.driverLicenseStorage.hasDriverLicense">
+					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicense')" ng-if="!vm.hasDriverLicense">
 						<div class="col-25">
 							<i class="fa fa-car"></i>
 						</div>

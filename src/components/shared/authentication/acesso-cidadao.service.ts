@@ -1,7 +1,6 @@
-import { IScope } from 'angular';
 import { IWindowService, IHttpService, IPromise, IQService } from 'angular';
 
-import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity, SocialNetworkIdentity, PhoneIdentity } from './models/index';
+import { Token, AcessoCidadaoClaims, LowLevelProtocolClaims, Identity, AcessoCidadaoIdentity } from './models/index';
 import { Settings } from '../settings/index';
 import { AnswersService } from '../fabric/index';
 
@@ -189,17 +188,6 @@ export class AcessoCidadaoService {
      */
     private tokenIsNotExpiredIn( date: Date ) {
         return this.tokenClaims.exp * 1000 - date.getTime() > 0;
-    }
-
-    /**
-     * 
-     * 
-     * @private
-     * @param {Date} date
-     * @returns
-     */
-    private tokenIsExpiredIn( date: Date ) {
-        return this.tokenClaims.exp * 1000 - date.getTime() <= 0;
     }
 
     /**

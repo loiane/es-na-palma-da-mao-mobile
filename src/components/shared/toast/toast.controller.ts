@@ -12,7 +12,7 @@ export class ToastController {
      * 
      * @param {IToastOptions} displayOption
      */
-    constructor( private displayOption: ToastOptions ) {
+    constructor( public displayOption: ToastOptions ) {
         this.activate();
     }
 

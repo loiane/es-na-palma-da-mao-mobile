@@ -1,6 +1,6 @@
-import { IScope, IWindowService, ITimeoutService, ILogService, IRootScopeService } from 'angular';
+import { IScope, ITimeoutService, IRootScopeService } from 'angular';
 
-import { AcessoCidadaoService, GoogleService, FacebookService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
+import { GoogleService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
 import defaultAvatar from './img/user.png!image';
 import { ToastService } from '../../shared/toast/index';
 
@@ -14,10 +14,8 @@ export default class MenuController {
     public static $inject: string[] = [
         '$rootScope',
         '$scope',
-        '$window',
         '$timeout',
         '$mdSidenav',
-        '$log',
         '$ionicHistory',
         '$state',
         '$ionicNativeTransitions',
@@ -26,7 +24,6 @@ export default class MenuController {
         '$mdBottomSheet',
         '$mdMenu',
         '$mdSelect',
-        'facebookService',
         'googleService',
         'authenticationService',
         'toast',
@@ -38,10 +35,8 @@ export default class MenuController {
      * 
      * @param {IRootScopeService} $rootScope
      * @param {IScope} $scope
-     * @param {IWindowService} $window
      * @param {ITimeoutService} $timeout
      * @param {angular.material.ISidenavService} $mdSidenav
-     * @param {ILogService} $log
      * @param {ionic.navigation.IonicHistoryService} $ionicHistory
      * @param {angular.ui.IStateService} $state
      * @param {any} $ionicNativeTransitions
@@ -50,7 +45,6 @@ export default class MenuController {
      * @param {angular.material.IBottomSheetService} $mdBottomSheet
      * @param {angular.material.IMenuService} $mdMenu
      * @param {*} $mdSelect
-     * @param {FacebookService} facebookService
      * @param {GoogleService} googleService
      * @param {AuthenticationService} authenticationService
      * @param {ToastService} toast
@@ -58,10 +52,8 @@ export default class MenuController {
      */
     constructor( private $rootScope: IRootScopeService,
         private $scope: IScope,
-        private $window: IWindowService,
         private $timeout: ITimeoutService,
         private $mdSidenav: angular.material.ISidenavService,
-        private $log: ILogService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
         private $state: angular.ui.IStateService,
         private $ionicNativeTransitions,
@@ -70,12 +62,9 @@ export default class MenuController {
         private $mdBottomSheet: angular.material.IBottomSheetService,
         private $mdMenu: angular.material.IMenuService,
         private $mdSelect: any,
-        private facebookService: FacebookService,
         private googleService: GoogleService,
         private authenticationService: AuthenticationService,
         private toast: ToastService,
-
-        // NÂO REMOVER: USADO NA VIEW
         private driverLicenseStorage: DriverLicenseStorage ) {
         this.activate();
     }
@@ -154,6 +143,17 @@ export default class MenuController {
             }
 
         }, 100 );
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     * @memberOf MenuController
+     */
+    public get hasDriverLicense(): boolean {
+        return this.driverLicenseStorage.hasDriverLicense;
     }
 
     /**

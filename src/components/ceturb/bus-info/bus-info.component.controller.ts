@@ -1,7 +1,7 @@
 import { IScope, IPromise, IWindowService, IQService } from 'angular';
 
 import { CeturbApiService } from '../shared/ceturb-api.service';
-import { BusLine, BusRoute, BusSchedule } from '../shared/models/index';
+import { BusRoute, BusSchedule } from '../shared/models/index';
 
 export class BusInfoController {
 
@@ -13,7 +13,6 @@ export class BusInfoController {
         'ceturbApiService'
     ];
 
-    private id: string;
     private route: BusRoute | undefined = undefined;
     private schedule: BusSchedule | undefined = undefined;
     private currentDate: Date = new Date();
@@ -53,7 +52,7 @@ export class BusInfoController {
      * @param {string} time
      * @returns
      */
-    private beforeNow( time: string ) {
+    public beforeNow( time: string ): boolean {
         return time.localeCompare( this.strCurrentDate ) === -1;
     }
 
@@ -64,7 +63,7 @@ export class BusInfoController {
      * @private
      * @param {string} text
      */
-    private openMapLink( text: string ) {
+    public openMapLink( text: string ): void {
         this.$window.open( `http://www.google.com.br/maps/place/${text}, ES`, '_system', 'location=yes' );
     }
 
@@ -77,7 +76,7 @@ export class BusInfoController {
     public getRoute( id: string ): IPromise<BusRoute | undefined> {
         return this.ceturbApiService.getRoute( id )
                    .then( routes => this.route = routes)
-                   .catch( error => this.route = undefined );
+                   .catch( () => this.route = undefined );
     }
 
 
@@ -89,6 +88,6 @@ export class BusInfoController {
     public getSchedule( id: string ): IPromise<BusSchedule | undefined> {
         return this.ceturbApiService.getSchedule( id )
                    .then( schedule => this.schedule = schedule)
-                   .catch( error => this.schedule = undefined );
+                   .catch( () => this.schedule = undefined );
     }
 }

@@ -1,9 +1,8 @@
 import { IWindowService } from 'angular';
-import { ISettings } from '../shared/settings/index';
 
 export class HomeController {
 
-    public static $inject: string[] = [ '$state', '$window', 'settings' ];
+    public static $inject: string[] = [ '$state', '$window' ];
 
     /**
      * Creates an instance of HomeController.
@@ -13,8 +12,7 @@ export class HomeController {
      * @param {ISettings} settings
      */
     constructor( private $state: angular.ui.IStateService,
-                 private $window: IWindowService,
-                 private settings: ISettings ) {
+                 private $window: IWindowService ) {
     }
 
     /**

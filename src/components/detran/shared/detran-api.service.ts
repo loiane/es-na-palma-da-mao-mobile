@@ -1,7 +1,7 @@
 import { IHttpService, IPromise } from 'angular';
 
 import { ISettings } from '../../shared/settings/index';
-import { DriverData, Charge, DriverLicenseProcess, Ticket, DriverStatus, Vehicle, DriverLicense, VehicleInfo } from './models/index';
+import { DriverData, Ticket, Vehicle, DriverLicense, VehicleInfo } from './models/index';
 
 
 export class DetranApiService {

@@ -1,6 +1,6 @@
 import { IScope, IPromise } from 'angular';
 import { CalendarApiService } from './shared/calendar-api.service';
-import { Calendar, Event } from './shared/models/index';
+import { Calendar } from './shared/models/index';
 
 export class CalendarController {
 
@@ -95,7 +95,7 @@ export class CalendarController {
      */
     public isToday(): boolean {
         let today = new Date();
-        let currentCalendarDate = new Date( this.calendar.currentDate );
+        let currentCalendarDate = new Date( this.calendar.currentDate! );
 
         today.setHours( 0, 0, 0, 0 );
         currentCalendarDate.setHours( 0, 0, 0, 0 );

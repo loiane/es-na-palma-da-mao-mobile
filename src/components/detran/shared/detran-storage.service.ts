@@ -1,4 +1,3 @@
-import { IScope } from 'angular';
 import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage } from './models/index';
 import { AuthenticationService } from '../../shared/authentication/index';
 

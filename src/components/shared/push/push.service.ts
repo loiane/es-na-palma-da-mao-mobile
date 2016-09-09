@@ -1,4 +1,4 @@
-import { ITimeoutService, IHttpService } from 'angular';
+import { IHttpService } from 'angular';
 
 import { ISettings } from '../settings/index';
 import { PushUser } from './models/index';

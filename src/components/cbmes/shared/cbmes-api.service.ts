@@ -1,6 +1,6 @@
 import { IHttpService, IPromise } from 'angular';
 import { ISettings } from '../../shared/settings/index';
-import { Warning, Region, LatLng } from './models/index';
+import { Warning } from './models/index';
 
 export class CbmesApiService {
 
@@ -35,7 +35,7 @@ export class CbmesApiService {
     }
 
     public mockLastWarnings() {
-        return this.$q(( resolve, reject ) => {
+        return this.$q(( resolve ) => {
             resolve( this.objMock );
         });
     }

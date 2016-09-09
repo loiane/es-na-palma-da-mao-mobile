@@ -45,7 +45,7 @@ export class CrashlyticsService {
         // this.$window.plugins.digits.setUserEmail( email );
 
         if ( angular.isDefined( error.stringData ) ) {
-            Object.keys( error.stringData ).forEach(( key, index ) => {
+            Object.keys( error.stringData ).forEach(( key ) => {
                 let value = error.stringData[ key ];
                 if ( typeof ( value ) === 'string' ) {
                     this.$window.plugins.digits.setStringValueForKey( error.stringData[ key ], key );
@@ -54,7 +54,7 @@ export class CrashlyticsService {
         }
 
         if ( angular.isDefined( error.booleanData ) ) {
-            Object.keys( error.booleanData ).forEach(( key, index ) => {
+            Object.keys( error.booleanData ).forEach(( key ) => {
                 let value = error.booleanData[ key ];
                 if ( typeof ( value ) === 'boolean' ) {
                     this.$window.plugins.digits.setBoolValueForKey( error.booleanData[ key ], key );
@@ -63,7 +63,7 @@ export class CrashlyticsService {
         }
 
         if ( angular.isDefined( error.numberData ) ) {
-            Object.keys( error.numberData ).forEach(( key, index ) => {
+            Object.keys( error.numberData ).forEach(( key ) => {
                 let value = error.numberData[ key ];
                 if ( typeof ( value ) === 'number' ) {
                     this.$window.plugins.digits.setIntValueForKey( error.numberData[ key ], key );

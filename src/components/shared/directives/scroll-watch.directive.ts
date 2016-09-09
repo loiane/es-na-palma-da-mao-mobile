@@ -1,7 +1,7 @@
 /**
  * @return {undefined}
  */
-export function ScrollWach() {
+export function scrollWach() {
     return {
         restrict: 'A',
         link: function linkFn( $scope, $elem, $attrs ) {

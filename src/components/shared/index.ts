@@ -9,7 +9,7 @@ import { Settings } from './settings/index';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
 import httpAuthInterceptorConfig from './http/http-auth-interceptor.config';
-import httpDelayInterceptorConfig from './http/http-delay-interceptor.config';
+// import httpDelayInterceptorConfig from './http/http-delay-interceptor.config';
 import httpErrorInterceptorConfig from './http/http-error-interceptor.config';
 import httpSnifferInterceptorConfig from './http/http-sniffer-interceptor.config';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';

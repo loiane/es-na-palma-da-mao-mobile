@@ -1,4 +1,4 @@
-import { IScope, IPromise, ILogService } from 'angular';
+import { IScope } from 'angular';
 import { SepApiService, Process, ProcessUpdate } from './shared/index';
 import { ToastService, ToastOptions } from '../shared/toast/index';
 
@@ -90,7 +90,7 @@ export class SepConsultaController {
                               this.process = process;
                               return process;
                           } )
-                          .catch( error => {
+                          .catch( () => {
                               this.process = undefined;
                           } )
                           .finally( () => {

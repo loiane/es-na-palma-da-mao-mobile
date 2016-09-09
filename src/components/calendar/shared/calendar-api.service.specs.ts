@@ -108,7 +108,8 @@ describe( 'CalendarApiService', () => {
                     orderBy: 'endTime',
                     timeMin: date,   // começo do ano corrente
                     timeMax: date, // final do ano corrente
-                    timeZone: 'America/New_York' // an option!
+                    timeZone: 'America/New_York',
+                    calendars: []
                 };
 
                 calendarApiService.getFullCalendars( selectedCalendars, options );

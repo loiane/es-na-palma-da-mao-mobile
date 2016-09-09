@@ -10,9 +10,13 @@
     "sourceMap": true,
     "noResolve": false,
     "outDir": "www/components",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true
   },
-  
+  "include": [
+        "src/**/*"
+  ],
   "exclude": [
     "www",
     "config",

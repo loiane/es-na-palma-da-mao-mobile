@@ -1,10 +1,12 @@
-import moment from 'moment';
 import { IScope, IPromise } from 'angular';
 import { Ticket, Vehicle, DetranApiService, TicketColorService } from '../shared/index';
 
 
 /**
- * @class DriverLicenseStatusController
+ * 
+ * 
+ * @export
+ * @class VehicleTicketsController
  */
 export class VehicleTicketsController {
 

@@ -5,11 +5,9 @@
  angular/di: 0,
  no-unused-expressions: 0
  */
-import moment from 'moment';
 import DriverLicenseComponent from './driver-license.component';
 import DriverLicenseTemplate from './driver-license.component.html';
 import { DriverLicenseController } from './driver-license.component.controller';
-import { DriverData, Ticket, DriverStatus, DetranApiService, DriverLicenseStorage } from '../shared/index';
 
 let expect = chai.expect;
 

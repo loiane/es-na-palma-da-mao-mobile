@@ -208,7 +208,7 @@ describe( 'Detran/driver-license-status', () => {
 
             describe( 'licenseOk()', () => {
                 it( 'should return true if has driverData and status === 0', () => {
-                    controller.getDriverData().then( ( d ) => {
+                    controller.getDriverData().then( () => {
                         expect( controller.licenseOk ).to.be.true;
                      } );
                 } );

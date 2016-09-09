@@ -1,4 +1,4 @@
-import { IScope, IPromise, IWindowService, ILogService } from 'angular';
+import { IScope, IPromise, IWindowService } from 'angular';
 
 import filterTemplate from './filter/filter.html';
 import { FilterController } from './filter/filter.controller';
@@ -6,7 +6,6 @@ import {
     SearchFilter,
     SearchResult,
     Hit,
-    Edition,
     DioApiService
 } from '../shared/index';
 
@@ -15,11 +14,9 @@ export class SearchController {
 
     public static $inject: string[] = [
         '$scope',
-        '$state',
         '$window',
         '$mdDialog',
-        'dioApiService',
-        '$ionicScrollDelegate'
+        'dioApiService'
     ];
 
     private hits: Hit[] = [];
@@ -36,18 +33,14 @@ export class SearchController {
      * Creates an instance of SearchController.
      * 
      * @param {IScope} $scope
-     * @param {angular.ui.IStateService} $state
      * @param {IWindowService} $window
      * @param {angular.material.IDialogService} $mdDialog
      * @param {DioApiService} dioApiService
-     * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
      */
     constructor( private $scope: IScope,
-        private $state: angular.ui.IStateService,
         private $window: IWindowService,
         private $mdDialog: angular.material.IDialogService,
-        private dioApiService: DioApiService,
-        private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate ) {
+        private dioApiService: DioApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

@@ -1,4 +1,4 @@
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 
 import { BusLine, CeturbApiService, CeturbStorage } from '../shared/index';
 

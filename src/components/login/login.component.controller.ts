@@ -1,4 +1,4 @@
-import { IWindowService, IPromise } from 'angular';
+import { IWindowService } from 'angular';
 
 import { DialogService } from '../shared/dialog/dialog.service';
 import { ToastService } from '../shared/toast/index';

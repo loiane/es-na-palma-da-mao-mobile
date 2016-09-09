@@ -1,6 +1,6 @@
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 
-import { News, NewsDetail, NewsApiService } from '../shared/index';
+import { NewsDetail, NewsApiService } from '../shared/index';
 
 export class NewsDetailController {
 

@@ -17,8 +17,8 @@ export class CalendarApiService {
      */
     constructor( private $http: IHttpService,
                  private settings: ISettings ) {
-        this.calendarsEndPoint = settings.api.calendars;
-        this.eventsEndPoint = `${settings.api.calendars}/events`;
+        this.calendarsEndPoint = this.settings.api.calendars;
+        this.eventsEndPoint = `${this.settings.api.calendars}/events`;
     }
 
     /**
@@ -44,9 +44,10 @@ export class CalendarApiService {
             orderBy: 'startTime',
             timeMin: new Date( today.getFullYear(), 0, 1, 0 ),   // começo do ano corrente
             timeMax: new Date( today.getFullYear(), 11, 31, 0 ), // final do ano corrente
-            timeZone: 'America/Sao_Paulo' // an option!
+            timeZone: 'America/Sao_Paulo',
+            calendars: calendars
         };
-        return this.$http.get( this.eventsEndPoint, { params: angular.extend( { calendars: calendars }, defaults, filter ) } )
+        return this.$http.get( this.eventsEndPoint, { params: angular.extend( defaults, filter ) } )
                    .then( response => response.data );
     }
 }

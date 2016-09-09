@@ -1,4 +1,4 @@
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 
 import { CbmesApiService, Warning } from '../shared/index';
 
@@ -6,23 +6,18 @@ export class WarningListController {
 
     public static $inject: string[] = [
         '$scope',
-        '$state',
         'cbmesApiService'
     ];
 
-    private levels: any = [ 'alto', 'medio', 'baixo' ];
     private warnings: Warning[];
-    private activated: boolean = false;
 
     /**
      * Creates an instance of WarningListController.
      * 
      * @param {IScope} $scope
-     * @param {angular.ui.IStateService} $state
      * @param {CbmesApiService} cbmesApiService
      */
     constructor( private $scope: IScope,
-        private $state: angular.ui.IStateService,
         private cbmesApiService: CbmesApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }

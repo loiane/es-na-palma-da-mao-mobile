@@ -1,5 +1,4 @@
-import moment from 'moment';
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared/index';
 import imgDriverLicense from './img/cnh-frente.png!image';
 import registerLicenseTemplate from '../shared/add-license/add-license.html';

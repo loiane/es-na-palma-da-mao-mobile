@@ -1,4 +1,4 @@
-import { IPromise, IQService } from 'angular';
+import { IPromise } from 'angular';
 
 import {
     AcessoCidadaoService,
@@ -30,8 +30,7 @@ export class AuthenticationService {
         'digitsService',
         'facebookService',
         'googleService',
-        'settings',
-        '$q'
+        'settings'
     ];
 
     /**
@@ -42,14 +41,12 @@ export class AuthenticationService {
      * @param {FacebookService} facebookService
      * @param {GoogleService} googleService
      * @param {ISettings} settings
-     * @param {IQService} $q
      */
     constructor( private acessoCidadaoService: AcessoCidadaoService,
         private digitsService: DigitsService,
         private facebookService: FacebookService,
         private googleService: GoogleService,
-        private settings: ISettings,
-        private $q: IQService ) {
+        private settings: ISettings ) {
         this.activate();
     }
 

@@ -4,7 +4,7 @@ import sourcesFilterTemplate from './sources-filter/sources-filter.html';
 import datesFilterTemplate from './dates-filter/dates-filter.html';
 import { SourcesFilterController } from './sources-filter/sources-filter.controller';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
-import { News, NewsDetail, NewsApiService, Filter } from '../shared/index';
+import { News, NewsApiService, Filter } from '../shared/index';
 
 export class NewsListController {
 
@@ -12,8 +12,7 @@ export class NewsListController {
         '$scope',
         '$state',
         '$mdDialog',
-        'newsApiService',
-        '$ionicScrollDelegate'
+        'newsApiService'
     ];
 
     private availableOrigins: string[] = [];
@@ -38,13 +37,11 @@ export class NewsListController {
      * @param {angular.ui.IStateService} $state
      * @param {angular.material.IDialogService} $mdDialog
      * @param {NewsApiService} newsApiService
-     * @param {ionic.scroll.IonicScrollDelegate} $ionicScrollDelegate
      */
     constructor( private $scope: IScope,
                  private $state: angular.ui.IStateService,
                  private $mdDialog: angular.material.IDialogService,
-                 private newsApiService: NewsApiService,
-                 private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate ) {
+                 private newsApiService: NewsApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 

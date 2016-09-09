@@ -2,7 +2,7 @@ import moment from 'moment';
 import 'moment/locale/pt-br';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
-import { IWindowService, IRootScopeService } from 'angular';
+import { IWindowService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
 
@@ -13,7 +13,6 @@ import { CordovaPermissions } from './permissions/index';
  * @param {IWindowService} $window
  * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
- * @param {ionic.navigation.IonicHistoryService} $ionicHistory
  * @param {angular.material.IDialogService} $mdDialog
  * @param {any} $mdBottomSheet
  * @param {HttpSnifferService} httpSnifferService
@@ -23,7 +22,6 @@ function run( $rootScope: any,
     $window: IWindowService,
     $state: angular.ui.IStateService,
     $ionicPlatform: ionic.platform.IonicPlatformService,
-    $ionicHistory: ionic.navigation.IonicHistoryService,
     $mdDialog: angular.material.IDialogService,
     $mdBottomSheet,
     authenticationService: AuthenticationService,
@@ -124,7 +122,6 @@ run.$inject = [
     '$window',
     '$state',
     '$ionicPlatform',
-    '$ionicHistory',
     '$mdDialog',
     '$mdBottomSheet',
     'authenticationService',

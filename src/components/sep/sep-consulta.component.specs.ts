@@ -8,7 +8,7 @@
 
 import SepConsultaComponent from './sep-consulta.component';
 import SepConsultaTemplate from './sep-consulta.component.html';
-import { Process, ProcessUpdate } from './shared/index';
+import { Process } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
 
 let expect = chai.expect;
