@@ -16,6 +16,7 @@
     "oclazyload": "registry:dt/oclazyload#0.0.0+20160317120654",
     "phonegap-plugin-push": "registry:dt/phonegap-plugin-push#0.0.0+20160501153936",
     "sinon": "registry:dt/sinon#1.16.0+20160517064723",
+    "sinon-stub-promise": "registry:dt/sinon-stub-promise#1.0.1+20160317120654",
     "systemjs": "registry:dt/systemjs#0.19.29+20160702105636",
     "ui-router-extras": "registry:dt/ui-router-extras#0.0.14+20160628180949"
   },
