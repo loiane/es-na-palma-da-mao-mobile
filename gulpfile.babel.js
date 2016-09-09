@@ -761,7 +761,7 @@ gulp.task( 'bundle', ( done ) => {
             'shared/dialog',
             'shared/toast',
             'shared/loader',
-            'shared/menu',
+            'layout/menu',
             'shared/routes'
         ],
         packages: [
