@@ -8,7 +8,7 @@
 	</div>
 
 	<spinner ng-if="uiState.loading"></spinner>
-
+ 
 	<ion-content id="state-ceturb-bus-lines"
 				 class="has-subheader" 
 				 scroll-watch scroll-class="fix-top" 
@@ -17,9 +17,9 @@
 		<md-list ng-if="vm.linesPopuled">
 			<md-list-item class="md-2-line" collection-repeat="line in vm.filteredLines | orderBy:['-isFavorite', 'number']">
 				<div layout="row" class="md-list-item-text">
-					<strong class="line-number" flex="1">
-						<i class="fa fa-star-o" aria-hidden="true" ng-if="!line.isFavorite" ng-click="vm.toggleFavorite(line)"></i> 
-						<i class="fa fa-star" aria-hidden="true" ng-if="line.isFavorite" ng-click="vm.toggleFavorite(line)"></i>
+					<i class="fa fa-star-o" aria-hidden="true" ng-if="!line.isFavorite" ng-click="vm.toggleFavorite(line)"></i> 
+					<i class="fa fa-star" aria-hidden="true" ng-if="line.isFavorite" ng-click="vm.toggleFavorite(line)"></i>
+					<strong class="line-number" flex="1" ng-click="::vm.goToLine( line.number )">
 						{{line.number}}
 					</strong> 
 					<span ng-click="::vm.goToLine( line.number )" class="line-description" flex> {{line.name}}</span>
