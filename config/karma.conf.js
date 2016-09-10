@@ -66,6 +66,7 @@ module.exports = function( config ) {
 
         reporters: reporters,
         browsers: browsers,
-        singleRun: true
+        singleRun: true,
+        browserNoActivityTimeout: 60000
     } );
 };
