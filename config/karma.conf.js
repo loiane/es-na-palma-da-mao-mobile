@@ -2,26 +2,33 @@
 // ref: https://github.com/gunnarlium/babel-jspm-karma-jasmine-istanbul
 
 var browsers = [ 'PhantomJS' ]; // para builds locais
-var coverage_reporters = [ { type: 'text' } ];
-var reporters = [ 'mocha'/*, 'coverage'*/ ];
+var coverage_reporters = [
+
+    // will generate html report
+    { type: 'html', subdir: 'report-html' },
+
+    // will generate json report file and this report is loaded to
+    // make sure failed coverage cause gulp to exit non-zero
+    { type: 'json', file: 'coverage-final.json' },
+
+    // will generate Icov report file and this report is published to coveralls
+    { type: 'lcov', subdir: 'report-lcov' },
+
+    // it does not generate any file but it will print coverage to console
+    // a summary of the coverage
+    // {type: 'text-summary'},
+
+    // it does not generate any file but it will print coverage to console
+    // a detail report of every file
+    { type: 'text' }
+];
+var reporters = [ 'mocha', 'jspm'/*, 'coverage', 'coveralls'*/ ];
 
 if ( process.env.TRAVIS ) {
-
     console.log( 'Executando no Travis: enviando coveralls' );
-
-    coverage_reporters.push( {
-        type: 'lcov',
-        subdir: 'report-lcov'
-    } );
     reporters.push( 'coveralls' );
 } else {
-
     console.log( 'Executando localmente: não enviando coveralls' );
-
-    coverage_reporters.push( {
-        type: 'html',
-        subdir: 'report-html'
-    } );
 }
 
 module.exports = function( config ) {
@@ -31,7 +38,23 @@ module.exports = function( config ) {
             'jspm', 'mocha', 'chai', 'sinon-stub-promise', 'sinon'
         ],
 
+        plugins: [
+            require( '@uiuxengineering/karma-jspm' ),
+            'karma-chai',
+            'karma-coverage',
+            'karma-coveralls',
+            'karma-mocha',
+            'karma-mocha-reporter',
+            'karma-phantomjs-launcher',
+            'karma-sinon',
+            'karma-sinon-stub-promise'
+        ],
+
         jspm: {
+            stripExtension: false,
+            dev: null,
+            node: null,
+            browser: null,
             config: 'config/system.config.js',
             packages: 'www/jspm_packages',
             loadFiles: [
@@ -51,10 +74,11 @@ module.exports = function( config ) {
 		// - Arquivos fontes para os quais queremos gerar coverage
 		// - Não inclua arquivos de testes ou bibliotecas
 		// - Esses arquivos serão instrumentados pelo Istanbul
-            'src/components/**/!(*specs).ts': [ /*'coverage',*/ 'sourcemap' ]
+            'src/components/**/!(*specs).ts': [ 'jspm' ]
         },
 
         coverageReporter: {
+            remap: true,
             dir: 'coverage/',
             reporters: coverage_reporters
         },
