@@ -27,6 +27,6 @@
 		<error-message error="uiState.error">
 			<remark ng-if="!uiState.error.handled">Não foi possível consultar alertas dos bombeiros</remark>
 		</error-message>
-		<message ng-if="vm.warningsPopulated && !vm.warnings.length" text="Nenhum alerta encontrado"></message>
+		<message ng-if="vm.warnings && !vm.warnings.length" text="Nenhum alerta encontrado"></message>
 	</ion-content>
 </ion-view>

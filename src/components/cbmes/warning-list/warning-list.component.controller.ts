@@ -35,15 +35,6 @@ export class WarningListController {
     }
 
     /**
-     * 
-     * 
-     * @readonly
-     */
-    public get warningsPopulated() {
-        return angular.isDefined( this.warnings );
-    }
-
-    /**
      * Retorna os alertas dos últimos 7 dias 
      * 
      * @returns {IPromise<Warning[]>}
