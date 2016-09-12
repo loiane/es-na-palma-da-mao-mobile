@@ -51,19 +51,10 @@ export class SepConsultaController {
      * @readonly
      * @type {ProcessUpdate}
      */
-    public get lastUpdate(): ProcessUpdate {
-        return this.process!.updates[ 0 ];
-    }
-
-
-    /**
-     * Indica se existe algum processo carregado
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get hasProcess(): boolean {
-        return angular.isDefined( this.process );
+    public get lastUpdate(): ProcessUpdate | undefined {
+        if ( this.process ) {
+            return this.process.updates[ 0 ];
+        }
     }
 
     /**
@@ -82,7 +73,7 @@ export class SepConsultaController {
     public getProcess( procNumber: string ): void {
 
         if ( !procNumber ) {
-             this.toast.info( { title: 'N° do processo é obrigatório', } as ToastOptions ); return;
+             this.toast.info( { title: 'N° do processo é obrigatório' } as ToastOptions ); return;
         }
 
         this.sepApiService.getProcessByNumber( procNumber )
