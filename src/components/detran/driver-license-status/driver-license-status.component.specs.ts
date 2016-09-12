@@ -24,7 +24,7 @@ describe( 'Detran/driver-license-status', () => {
     beforeEach( () => sandbox = sinon.sandbox.create() );
     afterEach( () => sandbox.restore() );
 
-    let defaultExpirationDate = moment().add( 'year', 1 ).toDate();
+    let defaultExpirationDate = moment().add( 1, 'year' ).toDate();
 
     let driverDataOk: DriverData = {
         acquiringLicense: false,

@@ -74,7 +74,7 @@ export class DriverLicenseStatusController {
     * @type {boolean}
     */
     public get licenseExpired(): boolean {
-        return !!this.expirationDate && moment( this.expirationDate ).add( 30, 'days' ).isBefore( moment().startOf( 'day' ) );
+        return !!this.expirationDate && moment( this.expirationDate ).add( 'days', 30 ).isBefore( moment().startOf( 'day' ) );
     }
 
     /**
@@ -86,7 +86,7 @@ export class DriverLicenseStatusController {
     public get licenseRenew(): boolean {
         return !!this.expirationDate &&
             moment().startOf( 'day' ).isAfter( this.expirationDate ) &&
-            moment( this.expirationDate ).add( 30, 'days' ).isAfter( moment().startOf( 'day' ) );
+            moment( this.expirationDate ).add( 'days', 30 ).isAfter( moment().startOf( 'day' ) );
     }
 
     /**
