@@ -23,6 +23,41 @@ describe( 'Home', () => {
     beforeEach( () => sandbox = sinon.sandbox.create() );
     afterEach( () => sandbox.restore() );
 
+    describe( 'Controller', () => {
+        let controller: HomeController;
+        let $state: angular.ui.IStateService;
+        let $window: Sinon.SinonStub;
+
+        beforeEach(() => {
+            $state = <angular.ui.IStateService><any>{ go: () => { } };
+            $window = <any>{ open: () => { } };
+
+            controller = new HomeController( $state, <any>$window );
+        });
+
+
+        describe( 'navigateToLogin()', () => {
+            it( 'should redirect user to login screen', () => {
+                let go = sandbox.stub( $state, 'go' );
+
+                controller.navigateToLogin();
+
+                expect( go.calledWith( 'login' ) ).to.be.true;
+            });
+        });
+
+
+        describe( 'createAccount()', () => {
+            it( 'should open aceso cidadão', () => {
+                let $windowOpen = sandbox.stub( $window, 'open' ); // replace original activate
+
+                controller.createAccount();
+
+                expect( $windowOpen.calledWith( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' ) ).to.be.true;
+            });
+        });
+    });
+
     describe( 'Component', () => {
         // test the component/directive itself
         let component = HomeComponent();
