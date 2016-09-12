@@ -137,12 +137,21 @@ export class AcessoCidadaoService {
         if ( token && !AcessoCidadaoService.refreshingToken ) {
             AcessoCidadaoService.refreshingToken = true;
             try {
+
                 let identity: AcessoCidadaoIdentity = {
-                    client_id: this.settings.identityServer.clients.espm.id,
-                    client_secret: this.settings.identityServer.clients.espm.secret,
+                    client_id: '',
+                    client_secret: '',
                     grant_type: 'refresh_token',
                     scope: this.settings.identityServer.defaultScopes
                 };
+
+                if ( this.tokenClaims.client_id === 'espm' ) {
+                    identity.client_id = this.settings.identityServer.clients.espm.id;
+                    identity.client_secret = this.settings.identityServer.clients.espm.secret;
+                } else {
+                    identity.client_id = this.settings.identityServer.clients.espmExternalLoginAndroid.id;
+                    identity.client_secret = this.settings.identityServer.clients.espmExternalLoginAndroid.secret;
+                }
 
                 identity.refresh_token = token.refresh_token;
                 return this.getToken( identity )
