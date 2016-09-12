@@ -8,9 +8,10 @@
 
 import SepConsultaComponent from './sep-consulta.component';
 import SepConsultaTemplate from './sep-consulta.component.html';
-import { Process } from './shared/index';
+import { SepApiService, Process } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
-
+import { } from './shared/index';
+import { ToastService } from '../shared/toast/index';
 let expect = chai.expect;
 
 /**
@@ -21,24 +22,14 @@ let expect = chai.expect;
 describe( 'SEP/sep-consulta', () => {
 
     let sandbox: Sinon.SinonSandbox;
-    beforeEach( () => sandbox = sinon.sandbox.create() );
-    afterEach( () => sandbox.restore() );
-
-    describe( 'Module', () => {
-        // test things about the component module
-        // checking to see if it registers certain things and what not
-        // test for best practices with naming too
-        // test for routing
-
-        it( 'Module', () => {
-        } );
-    } );
+    beforeEach(() => sandbox = sinon.sandbox.create() );
+    afterEach(() => sandbox.restore() );
 
     describe( 'Controller', () => {
         let controller: SepConsultaController;
         let $scope;
-        let sepApiService;
-        let toastService;
+        let sepApiService: SepApiService;
+        let toastService: ToastService;
         let $ionicScrollDelegate;
         let onIonicBeforeEnterEvent;
 
@@ -94,14 +85,7 @@ describe( 'SEP/sep-consulta', () => {
             extra: 'GEREH'
         };
 
-        let lastUpdate = {
-            date: '22/01/2015 08:56:00',
-            agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-            area: 'GERENCIA DE SISTEMAS DE INFORMACAO',
-            status: 'EM ANDAMENTO'
-        };
-
-        beforeEach( () => {
+        beforeEach(() => {
             $scope = {
                 $on: ( event, callback ) => {
                     if ( event === '$ionicView.beforeEnter' ) {
@@ -114,71 +98,86 @@ describe( 'SEP/sep-consulta', () => {
                 scrollTo: sandbox.stub().returnsPromise().resolves()
             };
 
-            toastService = {
-                show: sandbox.stub()
+            toastService = <ToastService><any>{
+                info: () => { }
             };
 
-            sepApiService = {
-                getProcessByNumber: sandbox.stub().returnsPromise()
+            sepApiService = <SepApiService><any>{
+                getProcessByNumber: () => {}
             };
 
             controller = new SepConsultaController( $scope, $ionicScrollDelegate, toastService, sepApiService );
-        } );
+        });
 
         describe( 'on instanciation', () => {
             it( 'should activate on $ionicView.beforeEnter event', () => {
-                sandbox.stub( controller, 'activate' ); // replace original activate
+                let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
                 onIonicBeforeEnterEvent();
 
-                expect( controller.activate.called ).to.be.true;
-            } );
-        } );
+                expect( activate.called ).to.be.true;
+            });
+        });
 
         describe( 'activate()', () => {
-            beforeEach( () => {
+            beforeEach(() => {
                 controller.activate();
-            } );
+            });
 
             it( 'should have an undefined process', () => {
                 expect( controller.process ).to.be.undefined;
-            } );
+            });
 
             it( 'should have empty process number', () => {
                 expect( controller.processNumber ).to.be.empty;
-            } );
+            });
 
             it( 'should hot have been searched', () => {
                 expect( controller.searched ).to.be.false;
-            } );
+            });
 
             it( 'should hide all updates', () => {
                 expect( controller.showAllUpdates ).to.be.false;
-            } );
-        } );
+            });
+        });
 
         describe( 'getProcess( number )', () => {
-            beforeEach( () => {
-                sepApiService.getProcessByNumber.resolves( process );
-                controller.getProcess( processNumber );
-            } );
+
+            let getProcessByNumber: Sinon.SinonStub;
+
+            beforeEach(() => {
+                getProcessByNumber = sinon.stub( sepApiService, 'getProcessByNumber' );
+                getProcessByNumber.returnsPromise().resolves( process );
+            });
+
+            it( 'should show validation message if no process number is provided', () => {
+                let info = sandbox.stub( toastService, 'info' ); // replace original activate
+
+                controller.getProcess( '' );
+                expect( info.calledWith( { title: 'N° do processo é obrigatório' }) ).to.be.true;
+                expect( getProcessByNumber.notCalled ).to.be.true;
+            });
 
             it( 'should fill process with object from promise', () => {
+                controller.getProcess( processNumber );
                 expect( controller.process ).to.deep.equal( process );
-            } );
+            });
 
             it( 'should set searched to true', () => {
+                controller.getProcess( processNumber );
                 expect( controller.searched ).to.be.true;
-            } );
+            });
 
             it( 'should unset process value on error', () => {
-                sepApiService.getProcessByNumber.rejects();
+                getProcessByNumber.returnsPromise().rejects();
+                controller.process = process;
+
                 controller.getProcess( processNumber );
 
                 expect( controller.process ).to.be.undefined;
-            } );
-        } );
+            });
+        });
 
         describe( 'toggleUpdates()', () => {
 
@@ -186,36 +185,21 @@ describe( 'SEP/sep-consulta', () => {
                 let oldValue = controller.showAllUpdates;
                 controller.toggleUpdates();
                 expect( controller.showAllUpdates ).to.be.equal( !oldValue );
-            } );
-        } );
+            });
+        });
 
         describe( 'lastUpdate', () => {
-            beforeEach( () => {
-                sepApiService.getProcessByNumber.resolves( process );
-            } );
+            it( 'should return first update of process', () => {
+                controller.process = process;
+                expect( controller.lastUpdate ).to.deep.equal( controller.process!.updates[ 0 ] );
+            });
 
-            it( 'should return first item if has process', () => {
-                controller.getProcess( processNumber );
-                expect( controller.lastUpdate ).to.deep.equal( lastUpdate );
-            } );
-        } );
-
-
-        describe( 'hasProcess', () => {
-            beforeEach( () => {
-                sepApiService.getProcessByNumber.resolves( process );
-            } );
-
-            it( 'should return all but the first item if has process', () => {
-                controller.getProcess( processNumber );
-                expect( controller.hasProcess ).to.be.true;
-            } );
-
-            it( 'should return all but the first item if has process', () => {
-                expect( controller.hasProcess ).to.be.false;
-            } );
-        } );
-    } );
+            it( 'should return undefined if has no process', () => {
+                controller.process = undefined;
+                expect( controller.lastUpdate ).to.be.undefined;
+            });
+        });
+    });
 
     describe( 'Component', () => {
         // test the component/directive itself
@@ -223,24 +207,24 @@ describe( 'SEP/sep-consulta', () => {
 
         it( 'should use the right controller', () => {
             expect( component.controller ).to.equal( SepConsultaController );
-        } );
+        });
 
         it( 'should use the right template', () => {
             expect( component.template ).to.equal( SepConsultaTemplate );
-        } );
+        });
 
         it( 'should use controllerAs', () => {
             expect( component ).to.have.property( 'controllerAs' );
-        } );
+        });
 
         it( 'should use controllerAs "vm"', () => {
             expect( component.controllerAs ).to.equal( 'vm' );
-        } );
+        });
 
         it( 'should use bindToController: true', () => {
             expect( component ).to.have.property( 'bindToController' );
             expect( component.bindToController ).to.equal( true );
-        } );
-    } );
-} );
+        });
+    });
+});
 
