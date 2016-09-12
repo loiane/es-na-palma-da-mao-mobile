@@ -100,5 +100,16 @@ export class FacebookService {
     public api( requestPath, permissions, onSuccess, onError ) {
         this.$window.facebookConnectPlugin.api( requestPath, permissions, onSuccess, onError );
     }
+
+    /**
+     * 
+     * 
+     * @readonly
+     */
+    public get avatarUrl() {
+        if ( angular.isDefined( this.$localStorage.facebookAuthResponse ) ) {
+            return `https://graph.facebook.com/v2.7/${this.$localStorage.facebookAuthResponse.userID}/picture?type=normal`;
+        }
+    }
 }
 

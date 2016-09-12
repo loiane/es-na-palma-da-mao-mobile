@@ -1,6 +1,6 @@
 import { IScope, ITimeoutService, IRootScopeService } from 'angular';
 
-import { GoogleService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
+import { GoogleService, FacebookService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
 import defaultAvatar from './img/user.png!image';
 import { ToastService } from '../../shared/toast/index';
 
@@ -25,6 +25,7 @@ export default class MenuController {
         '$mdMenu',
         '$mdSelect',
         'googleService',
+        'facebookService',
         'authenticationService',
         'toast',
         'detranStorage'
@@ -63,6 +64,7 @@ export default class MenuController {
         private $mdMenu: angular.material.IMenuService,
         private $mdSelect: any,
         private googleService: GoogleService,
+        private facebookService: FacebookService,
         private authenticationService: AuthenticationService,
         private toast: ToastService,
         private driverLicenseStorage: DriverLicenseStorage ) {
@@ -163,7 +165,7 @@ export default class MenuController {
      * @type {string}
      */
     public get avatarUrl(): string {
-        return this.googleService.avatarUrl || defaultAvatar.src;
+        return this.googleService.avatarUrl || this.facebookService.avatarUrl || defaultAvatar.src;
     }
 
     /**
