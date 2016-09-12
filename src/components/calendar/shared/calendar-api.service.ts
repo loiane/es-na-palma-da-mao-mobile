@@ -6,9 +6,6 @@ export class CalendarApiService {
 
     public static $inject: string[] = [ '$http', 'settings' ];
 
-    private calendarsEndPoint: string;
-    private eventsEndPoint: string;
-
     /**
      * Creates an instance of CalendarApiService.
      * 
@@ -17,8 +14,6 @@ export class CalendarApiService {
      */
     constructor( private $http: IHttpService,
                  private settings: ISettings ) {
-        this.calendarsEndPoint = this.settings.api.calendars;
-        this.eventsEndPoint = `${this.settings.api.calendars}/events`;
     }
 
     /**
@@ -27,7 +22,7 @@ export class CalendarApiService {
      */
     public getAvailableCalendars(): IPromise<{ name: string, color: string}[]> {
         return this.$http
-                   .get( this.calendarsEndPoint )
+                   .get( this.settings.api.calendars )
                    .then( response => response.data );
     }
 
@@ -47,7 +42,8 @@ export class CalendarApiService {
             timeZone: 'America/Sao_Paulo',
             calendars: calendars
         };
-        return this.$http.get( this.eventsEndPoint, { params: angular.extend( defaults, filter ) } )
+        return this.$http.get( `${this.settings.api.calendars}/events`, { params: angular.extend( defaults, filter ) } )
                    .then( response => response.data );
     }
 }
+

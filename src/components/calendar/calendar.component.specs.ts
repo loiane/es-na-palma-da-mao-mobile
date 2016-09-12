@@ -9,6 +9,7 @@
 import { CalendarController } from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
 import CalendarTemplate from './calendar.component.html';
+import { CalendarApiService } from './shared/calendar-api.service';
 
 let expect = chai.expect;
 
@@ -19,46 +20,30 @@ let expect = chai.expect;
  */
 describe( 'Calendar', () => {
 
-    let sandbox;
-
-    beforeEach( () => {
-        sandbox = sinon.sandbox.create();
-    } );
-
-    afterEach( () => {
-        sandbox.restore();
-    } );
-
-    describe( 'Module', () => {
-        // test things about the component module
-        // checking to see if it registers certain things and what not
-        // test for best practices with naming too
-        // test for routing
-
-        it( 'Module', () => {
-        } );
-    } );
+    let sandbox: Sinon.SinonSandbox;
+    beforeEach( () => sandbox = sinon.sandbox.create() );
+    afterEach( () => sandbox.restore() );
 
     describe( 'Controller', () => {
         let controller: CalendarController;
-        let $scope;
-        let calendarApiService;
+        let calendarApiService: CalendarApiService;
         let onIonicBeforeEnterEvent;
 
+        // mocka data
+        let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' } ];
+        let availableCalendarsNames = availableCalendars.map( calendar => calendar.name );
+        let selectedCalendars = [ 'SEFAZ', 'SEGER' ];
+        let fullCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' }, { name: 'SECOM' } ];
+
         beforeEach( () => {
-            $scope = {
+            let $scope = <any>{
                 $on: ( event, callback ) => {
                     if ( event === '$ionicView.beforeEnter' ) {
                         onIonicBeforeEnterEvent = callback;
                     }
                 }
             };
-
-            calendarApiService = {
-                getAvailableCalendars: sandbox.stub().returnsPromise(),
-                getFullCalendars: sandbox.stub().returnsPromise()
-            };
-
+            calendarApiService = <CalendarApiService>{ getAvailableCalendars() {}, getFullCalendars() {} };
             controller = new CalendarController( $scope, calendarApiService );
         } );
 
@@ -77,70 +62,76 @@ describe( 'Calendar', () => {
             } );
 
             it( 'should activate on $ionicView.beforeEnter event', () => {
-                sandbox.stub( controller, 'activate' ); // replace original activate
+                let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
                 onIonicBeforeEnterEvent();
 
-                expect( controller.activate.called ).to.be.true;
+                expect( activate.called ).to.be.true;
             } );
         } );
 
         describe( 'activate()', () => {
+
+            let getAvailableCalendars: Sinon.SinonSpy;
+            let loadCalendars: Sinon.SinonSpy;
+
             beforeEach( () => {
-                sandbox.spy( controller, 'getAvailableCalendars' );
-                sandbox.spy( controller, 'loadCalendars' );
+                getAvailableCalendars = sandbox.spy( controller, 'getAvailableCalendars' );
+                loadCalendars = sandbox.spy( controller, 'loadCalendars' );
+
+                sandbox.stub( calendarApiService, 'getAvailableCalendars' ).returnsPromise().resolves( availableCalendars );
+                sandbox.stub( calendarApiService, 'getFullCalendars' ).returnsPromise().resolves( fullCalendars );
 
                 controller.activate();
             } );
 
             it( 'should call getAvailableCalendars()', () => {
-                expect( controller.getAvailableCalendars.calledOnce ).to.be.true;
+                expect( getAvailableCalendars.calledOnce ).to.be.true;
             } );
 
-            it( 'should call loadCalendars()', () => {
-                expect( controller.loadCalendars.calledOnce ).to.be.true;
+            it( 'should call loadCalendars( availableCalendars )', () => {
+                expect( loadCalendars.calledWith( availableCalendarsNames ) ).to.be.true;
             } );
         } );
 
+
         describe( 'getAvailableCalendars()', () => {
 
-            let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' } ];
+           let getAvailableCalendars: Sinon.SinonStub;
 
             beforeEach( () => {
-                calendarApiService.getAvailableCalendars.resolves( availableCalendars );
+                getAvailableCalendars = sandbox.stub( calendarApiService, 'getAvailableCalendars' );
+                getAvailableCalendars.returnsPromise().resolves( availableCalendars );
+
                 controller.getAvailableCalendars();
             } );
 
             it( 'should fill available calendars list with calendars names', () => {
-                expect( controller.availableCalendars ).to.deep.equal( [
-                    'SEFAZ', 'SEGER', 'SEJUS'
-                ] );
+                expect( controller.availableCalendars ).to.deep.equal( availableCalendarsNames );
             } );
 
             it( 'should retrieve all available calendars', () => {
-                expect( calendarApiService.getAvailableCalendars.called ).to.be.true;
+                expect( getAvailableCalendars.called ).to.be.true;
             } );
 
             it( 'should select all available calendars', () => {
-                expect( controller.availableCalendars ).to.deep.equal( controller.selectedCalendars );
+                expect( controller.selectedCalendars ).to.deep.equal( availableCalendarsNames );
             } );
         } );
 
         describe( 'loadCalendars( selectedCalendars )', () => {
 
-            let selectedCalendars = [ 'SEFAZ', 'SEGER' ];
-            let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER 2' }, { name: 'SEJUS' } ];
-            let fullCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' } ];
+            let getFullCalendars: Sinon.SinonStub;
 
             beforeEach( () => {
-                calendarApiService.getAvailableCalendars.resolves( availableCalendars );
-                calendarApiService.getFullCalendars.resolves( fullCalendars );
+                getFullCalendars = sandbox.stub( calendarApiService, 'getFullCalendars' );
+                getFullCalendars.returnsPromise().resolves( fullCalendars );
                 controller.loadCalendars( selectedCalendars );
             } );
 
             it( 'should retrieve selected calendars events', () => {
-                expect( calendarApiService.getFullCalendars.calledWith( selectedCalendars ) ).to.be.true;
+                expect( getFullCalendars.calledWith( selectedCalendars ) ).to.be.true;
 
             } );
 
@@ -233,3 +224,4 @@ describe( 'Calendar', () => {
         } );
     } );
 } );
+
