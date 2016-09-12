@@ -8,43 +8,43 @@
 import 'angular';
 import { DetranApiService } from './detran-api.service';
 import { Settings, ISettings } from '../../shared/settings/index';
+import { Vehicle, DriverLicense } from './models/index';
 
 let expect = chai.expect;
 
 describe( 'DetranApiService', () => {
 
-    let sandbox;
+    let sandbox: Sinon.SinonSandbox;
+    beforeEach( () => sandbox = sinon.sandbox.create() );
+    afterEach( () => sandbox.restore() );
+
     let detranApiService: DetranApiService;
-    let $http;
-    const settings: ISettings = Settings.getInstance();
+    let $httpGet: Sinon.SinonStub;
+    let $httpPost: Sinon.SinonStub;
+    let settings: ISettings;
     const fakeResponse = {
-                data: {
-                    fake: 'fakeValue'
-                }
-            };
+        data: {
+            fake: 'fakeValue'
+        }
+    };
 
     beforeEach( () => {
-        sandbox = sinon.sandbox.create();
-
-        $http = {
-            get: sandbox.stub().returnsPromise().resolves( fakeResponse ),
-            post: sandbox.stub().returnsPromise()
-        };
+        let $http: any = { get() {}, post() {} };
+        $httpGet = sandbox.stub( $http, 'get' );
+        $httpGet.returnsPromise().resolves( fakeResponse );
+        $httpPost = sandbox.stub( $http, 'post' );
+        $httpPost.returnsPromise();
+        settings = Settings.getInstance();
 
         detranApiService = new DetranApiService( $http, settings );
     } );
-
-    afterEach( () => {
-        sandbox.restore();
-    } );
-
 
     describe( 'getDriverData()', () => {
 
         it( 'should call /driver endpoint on detran api', () => {
             detranApiService.getDriverData();
 
-            expect( $http.get.calledWith( `${settings.api.detran}/driver` ) ).to.be.true;
+            expect( $httpGet.calledWith( `${settings.api.detran}/driver` ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {
@@ -61,7 +61,7 @@ describe( 'DetranApiService', () => {
         it( 'should call /driver/tickets endpoint on detran api', () => {
             detranApiService.getDriverTickets( );
 
-            expect( $http.get.calledWith( `${settings.api.detran}/driver/tickets` ) ).to.be.true;
+            expect( $httpGet.calledWith( `${settings.api.detran}/driver/tickets` ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {
@@ -80,11 +80,30 @@ describe( 'DetranApiService', () => {
 
             detranApiService.getVehicleTickets( vehicle );
 
-            expect( $http.get.calledWith( `${settings.api.detran}/vehicle/tickets`, params ) ).to.be.true;
+            expect( $httpGet.calledWith( `${settings.api.detran}/vehicle/tickets`, params ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {
             detranApiService.getDriverTickets().then( ( data ) => {
+                expect( data ).to.deep.equal( fakeResponse.data );
+            } );
+        } );
+    } );
+
+
+    describe( 'getVehicle()', () => {
+
+        it( 'should call /vehicle endpoint on detran api', () => {
+            const vehicle = { plate: 'ovl-7878', renavam: '12344555' };
+            const params = { params: vehicle };
+
+            detranApiService.getVehicle( vehicle );
+
+            expect( $httpGet.calledWith( `${settings.api.detran}/vehicle`, params ) ).to.be.true;
+        } );
+
+        it( 'should normalize response to response.data property', () => {
+            detranApiService.getVehicle( <Vehicle>{} ).then( ( data ) => {
                 expect( data ).to.deep.equal( fakeResponse.data );
             } );
         } );
@@ -99,7 +118,13 @@ describe( 'DetranApiService', () => {
 
             detranApiService.saveLicense( license );
 
-            expect( $http.post.calledWith( `${settings.api.acessocidadao}/Perfil/SalvarCNH`, params ) ).to.be.true;
+            expect( $httpPost.calledWith( `${settings.api.acessocidadao}/Perfil/SalvarCNH`, params ) ).to.be.true;
+        } );
+
+        it( 'should normalize response to response.data property', () => {
+            detranApiService.saveLicense( <DriverLicense>{} ).then( ( data ) => {
+                expect( data ).to.deep.equal( fakeResponse.data );
+            } );
         } );
     } );
 } );

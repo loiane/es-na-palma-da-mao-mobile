@@ -47,33 +47,13 @@ export class DriverLicenseStatusController {
     }
 
     /**
-     * Se dados do condutor já foram carregados.
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get driverDataPopulated(): boolean {
-        return angular.isDefined( this.driverData );
-    }
-
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get ticketsPopulated(): boolean {
-        return angular.isDefined( this.tickets );
-    }
-
-    /**
      * Se o condutor autenticado no sistema está com a carteira de motorista 'ok'.
      * 
      * @readonly
      * @type {boolean}
      */
     public get licenseOk(): boolean {
-        return this.driverData!.status === DriverStatus.Ok;
+        return !!this.driverData && this.driverData.status === DriverStatus.Ok;
     }
 
 
@@ -84,7 +64,7 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get licenseBlocked(): boolean {
-        return this.driverData!.status === DriverStatus.Blocked;
+        return !!this.driverData && this.driverData.status === DriverStatus.Blocked;
     }
 
     /**
@@ -94,7 +74,7 @@ export class DriverLicenseStatusController {
     * @type {boolean}
     */
     public get licenseExpired(): boolean {
-        return moment( this.expirationDate ).add( 30, 'day' ).isBefore( moment().startOf( 'day' ) );
+        return !!this.expirationDate && moment( this.expirationDate ).add( 30, 'days' ).isBefore( moment().startOf( 'day' ) );
     }
 
     /**
@@ -104,8 +84,9 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get licenseRenew(): boolean {
-        return moment( this.expirationDate ).add( 1, 'month' ).isAfter( moment().startOf( 'day' ) ) &&
-            moment().startOf( 'day' ).isAfter( this.expirationDate );
+        return !!this.expirationDate &&
+            moment().startOf( 'day' ).isAfter( this.expirationDate ) &&
+            moment( this.expirationDate ).add( 30, 'days' ).isAfter( moment().startOf( 'day' ) );
     }
 
     /**
@@ -114,8 +95,10 @@ export class DriverLicenseStatusController {
      * @readonly
      * @type {Date}
      */
-    public get expirationDate(): Date {
-        return this.driverData!.expirationDate;
+    public get expirationDate(): Date | undefined{
+        if ( this.driverData ) {
+            return this.driverData.expirationDate;
+        }
     }
 
 
@@ -126,7 +109,7 @@ export class DriverLicenseStatusController {
      * @type {boolean}
      */
     public get hasTickets(): boolean {
-        return this.tickets!.length > 0;
+        return !!this.tickets && this.tickets.length > 0;
     }
 
 

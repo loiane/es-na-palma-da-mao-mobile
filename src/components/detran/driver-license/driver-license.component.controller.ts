@@ -11,7 +11,7 @@ export class DriverLicenseController {
 
     public static $inject: string[] = [ '$scope', '$state', '$ionicHistory', '$ionicNativeTransitions', 'detranApiService', 'detranStorage', '$mdDialog' ];
 
-    private imgLicense: string;
+    public imgLicense: string;
 
     /**
      * Creates an instance of DriverLicenseController.
@@ -54,7 +54,7 @@ export class DriverLicenseController {
             template: registerLicenseTemplate,
             bindToController: true,
             controllerAs: 'vm',
-            locals: this.driverLicenseStorage.driverLicense || {}
+            locals: this.driverLicenseStorage.driverLicense
         })
             .then(( license: DriverLicense ) => {
                 this.detranApiService.saveLicense( license )

@@ -20,15 +20,9 @@ let expect = chai.expect;
  */
 describe( 'Detran/driver-license-status', () => {
 
-    let sandbox;
-
-    beforeEach( () => {
-        sandbox = sinon.sandbox.create();
-    } );
-
-    afterEach( () => {
-        sandbox.restore();
-    } );
+    let sandbox: Sinon.SinonSandbox;
+    beforeEach( () => sandbox = sinon.sandbox.create() );
+    afterEach( () => sandbox.restore() );
 
     let defaultExpirationDate = moment().add( 'year', 1 ).toDate();
 
@@ -53,7 +47,7 @@ describe( 'Detran/driver-license-status', () => {
     let driverDataExpired: DriverData = {
         acquiringLicense: false,
         blockMotive: '',
-        expirationDate: moment().subtract( 1, 'months' ).subtract( 1, 'days' ).toDate(),
+        expirationDate: moment().subtract( 31, 'days' ).toDate(),
         hasAdministrativeIssues: false,
         hasTickets: true,
         status: DriverStatus.Ok
@@ -62,7 +56,7 @@ describe( 'Detran/driver-license-status', () => {
     let driverDataExpiring: DriverData = {
         acquiringLicense: false,
         blockMotive: '',
-        expirationDate: moment().subtract( 1, 'month' ).toDate(),
+        expirationDate: moment().subtract( 30, 'days' ).toDate(),
         hasAdministrativeIssues: false,
         hasTickets: true,
         status: DriverStatus.Ok
@@ -70,7 +64,7 @@ describe( 'Detran/driver-license-status', () => {
 
     let tickets: Ticket[] = [ {
             classification: 'MÉDIA',
-            date: moment().subtract( 1, 'months' ).toDate(),
+            date: moment().subtract( 1, 'month' ).toDate(),
             description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
             district: 'VITORIA',
             place: 'R. DR. MOACYR GONCALVES',
@@ -79,8 +73,8 @@ describe( 'Detran/driver-license-status', () => {
             warning: false
         },
         {
-            classification: 'MÉDIA',
-            date: moment().subtract( 1, 'months' ).toDate(),
+            classification: 'GRAVE',
+            date: moment().subtract( 2, 'months' ).toDate(),
             description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
             district: 'VITORIA',
             place: 'R. DR. MOACYR GONCALVES',
@@ -90,7 +84,7 @@ describe( 'Detran/driver-license-status', () => {
         },
         {
             classification: 'MÉDIA',
-            date: moment().subtract( 1, 'months' ).toDate(),
+            date: moment().subtract( 3, 'months' ).toDate(),
             description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
             district: 'VITORIA',
             place: 'R. DR. MOACYR GONCALVES',
@@ -109,21 +103,12 @@ describe( 'Detran/driver-license-status', () => {
             warning: false
         } ];
 
-    describe( 'Module', () => {
-        // test things about the component module
-        // checking to see if it registers certain things and what not
-        // test for best practices with naming too
-        // test for routing
-
-        it( 'Module', () => {
-        } );
-    } );
-
     describe( 'Controller', () => {
-        let controller: DriverLicenseStatusController;
+
         let $scope;
         let $mdDialog;
-        let $q: ng.IQService;
+        let $q;
+        let controller: DriverLicenseStatusController;
         let onIonicBeforeEnterEvent;
         let detranApiService: DetranApiService;
         let ticketColorService: TicketColorService;
@@ -137,12 +122,12 @@ describe( 'Detran/driver-license-status', () => {
                     }
                 }
             };
-            driverLicenseStorage = sandbox.stub();
+            driverLicenseStorage = <DriverLicenseStorage>{ driverLicense: {}, hasDriverLicense: false };
             $mdDialog = sandbox.stub();
             $q = sandbox.stub();
             detranApiService = <DetranApiService>{
-                getDriverData: sandbox.stub().returnsPromise(),
-                getDriverTickets: sandbox.stub().returnsPromise()
+                getDriverData() {},
+                getDriverTickets() {}
             };
 
             ticketColorService = new TicketColorService();
@@ -152,225 +137,86 @@ describe( 'Detran/driver-license-status', () => {
 
         describe( 'on instantiation', () => {
             it( 'should activate on $ionicView.beforeEnter event', () => {
-                sandbox.stub( controller, 'activate' ); // replace original activate
+                let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
                 onIonicBeforeEnterEvent();
 
-                expect( controller.activate.calledOnce ).to.be.true;
+                expect( activate.calledOnce ).to.be.true;
             } );
 
-            it( 'should set driverData to "undefined"', () => {
+            it( 'driverData should be "undefined"', () => {
                 expect( controller.driverData ).to.be.undefined;
             } );
 
-            it( 'should clear array of tickets', () => {
-                expect( controller.tickets ).to.be.empty;
+            it( 'tickets should be "undefined"', () => {
+                expect( controller.tickets ).to.be.undefined;
+            } );
+
+            it( 'expirationDate should be "undefined"', () => {
+                expect( controller.expirationDate ).to.be.undefined;
+            } );
+
+            it( 'licenseRenew should be "false"', () => {
+                expect( controller.licenseRenew ).to.be.false;
+            } );
+
+            it( 'licenseExpired should be "false"', () => {
+                expect( controller.licenseExpired ).to.be.false;
+            } );
+
+            it( 'licenseBlocked should be "false"', () => {
+                expect( controller.licenseBlocked ).to.be.false;
+            } );
+
+            it( 'licenseOk should be "false"', () => {
+                expect( controller.licenseOk ).to.be.false;
             } );
         } );
 
         describe( 'activate()', () => {
+
+            let getDriverDataController: Sinon.SinonStub;
+            let getDriverTicketsController: Sinon.SinonStub;
+
             beforeEach( () => {
-                sandbox.stub( controller, 'getDriverData' );
-                sandbox.stub( controller, 'getDriverTickets' );
+                getDriverDataController = sandbox.stub( controller, 'getDriverData' );
+                getDriverTicketsController = sandbox.stub( controller, 'getDriverTickets' );
                 controller.activate();
             } );
 
             it( 'should call getDriverData()', () => {
-                expect( controller.getDriverData.calledOnce ).to.be.true;
+                expect( getDriverDataController.calledOnce ).to.be.true;
             } );
 
             it( 'should call getDriverTickets()', () => {
-                expect( controller.getDriverTickets.calledOnce ).to.be.true;
+                expect( getDriverTicketsController.calledOnce ).to.be.true;
             } );
         } );
 
-        describe( 'Get Methods', () => {
-            beforeEach( () => {
-                detranApiService.getDriverData.resolves( driverDataOk );
-                detranApiService.getDriverTickets.resolves( tickets );
-            } );
 
-            describe( 'driverDataPopulated()', () => {
-                it( 'should return true if has driverData', () => {
-                    controller.getDriverData().then( () => {
-                        expect( controller.driverDataPopulated ).to.be.true;
-                    } );
-                } );
+         describe( 'getDriverData()', () => {
 
-                it( 'should return false if has no driverData', () => {
-                    detranApiService.getDriverData.resolves( undefined );
-                    controller.getDriverData().then( () => {
-                        expect( controller.driverDataPopulated ).to.be.false;
-                    } );
-                } );
-            } );
+                let getDriverDataApi: Sinon.SinonStub;
 
-            describe( 'licenseOk()', () => {
-                it( 'should return true if has driverData and status === 0', () => {
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseOk ).to.be.true;
-                     } );
-                } );
-
-                it( 'should return false if has driverData and status === 1', () => {
-                    detranApiService.getDriverData.resolves( driverDataBlocked );
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseOk ).to.be.false;
-                    } );
-                } );
-
-                it( 'should return false if has no driverData', () => {
-                    detranApiService.getDriverData.rejects();
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseOk ).to.be.false;
-                    } );
-                } );
-            } );
-
-            describe( 'licenseBlocked()', () => {
-                it( 'should return true if has driverData and status == 1', () => {
-                    detranApiService.getDriverData.resolves( driverDataBlocked );
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseBlocked ).to.be.true;
-                    } );
-                } );
-
-                it( 'should return false if has driverData and status == 0', () => {
-                    controller.getDriverData().then( () => {
-                         expect( controller.licenseBlocked ).to.be.false;
-                    } );
-                } );
-
-                it( 'should return false if has no driverData', () => {
-                    detranApiService.getDriverData.rejects();
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseBlocked ).to.be.false;
-                    } );
-                } );
-            } );
-
-            describe( 'licenseExpired()', () => {
-                it( 'should return true if has driverData and it\'s expired (1 month after expiration date)', () => {
-                    detranApiService.getDriverData.resolves( driverDataExpired );
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseExpired ).to.be.true;
-                    } );
-                } );
-
-                it( 'should return false if has driverData and it\'s not expired', () => {
-                    detranApiService.getDriverData.resolves( driverDataOk );
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseExpired ).to.be.false;
-                    } );
-                } );
-
-                it( 'should return false if has no driverData', () => {
-                    detranApiService.getDriverData.rejects();
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseExpired ).to.be.false;
-                    } );
-                } );
-            } );
-
-            describe( 'licenseRenew()', () => {
-                it( 'should return true if has driverData and it\'s past expiration date no more than 1 month', () => {
-                    detranApiService.getDriverData.resolves( driverDataExpiring );
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseRenew ).to.be.true;
-                    } );
-                } );
-
-                it( 'should return false if has driverData and it\'s not past expiration date', () => {
-                    detranApiService.getDriverData.resolves( driverDataOk );
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseRenew ).to.be.false;
-                    } );
-                } );
-
-                it( 'should return true if has driverData and it\'s past expiration date more than 1 month', () => {
-                    detranApiService.getDriverData.resolves( driverDataExpired );
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseRenew ).to.be.false;
-                    } );
-                } );
-
-                it( 'should return false if has no driverData', () => {
-                    detranApiService.getDriverData.rejects();
-                    controller.getDriverData().then( () => {
-                        expect( controller.licenseRenew ).to.be.false;
-                    } );
-                } );
-            } );
-
-            describe( 'expirationDate()', () => {
-                it( 'should return expiration date if has driver data', () => {
-                    controller.getDriverData().then( () => {
-                        expect( controller.expirationDate ).to.be.deep.equal( defaultExpirationDate );
-                    } );
-                } );
-
-                it( 'should return undefined if has no driverData', () => {
-                    detranApiService.getDriverData.rejects();
-                    controller.getDriverData().then( () => {
-                        expect( controller.expirationDate ).to.be.undefined;
-                    } );
-                } );
-            } );
-
-            describe( 'hasTickets()', () => {
-                it( 'should return true if has tickets', () => {
-                    controller.getDriverTickets().then( () => {
-                        expect( controller.hasTickets ).to.be.true;
-                    } );
-                } );
-
-                it( 'should return false if has no tickets', () => {
-                    detranApiService.getDriverTickets.resolves( [] );
-                    controller.getDriverTickets().then( () => {
-                        expect( controller.hasTickets ).to.be.false;
-                    } );
-                } );
-
-                it( 'should return false if error', () => {
-                    detranApiService.getDriverTickets.rejects();
-                    controller.getDriverTickets().then( () => {
-                        expect( controller.hasTickets ).to.be.false;
-                    } );
-                } );
-            } );
-
-
-            // describe( 'getClassificationColor( classification )', () => {
-            //     it( 'should return correct color name by classification', () => {
-            //         expect( controller.getClassificationColor( 'leve' ) ).to.be.equal( 'green' );
-            //         expect( controller.getClassificationColor( 'média' ) ).to.be.equal( 'yellow' );
-            //         expect( controller.getClassificationColor( 'grave' ) ).to.be.equal( 'red' );
-            //         expect( controller.getClassificationColor( 'gravíssima' ) ).to.be.equal( 'black' );
-            //     } );
-
-            //     it( 'should return undefined if unable to find classification', () => {
-            //         expect( controller.getClassificationColor( 'asdf' ) ).to.be.undefined;
-            //     } );
-            // } );
-
-            describe( 'getDriverData()', () => {
                 beforeEach( () => {
-                    detranApiService.getDriverData.resolves( driverDataOk );
+                    getDriverDataApi = sandbox.stub( detranApiService, 'getDriverData' );
+                    getDriverDataApi.returnsPromise().resolves( driverDataOk );
                     controller.getDriverData();
                 } );
 
                 it( 'should call "detranApiService.getDriverData()"', () => {
-                    expect( detranApiService.getDriverData.calledOnce ).to.be.true;
+                    expect( getDriverDataApi.calledOnce ).to.be.true;
                 } );
 
                 it( 'should populate driverData property', () => {
                     expect( controller.driverData ).to.not.be.undefined;
+                    expect( controller.driverData ).to.be.equal( driverDataOk );
                 } );
 
                 it( 'should not populate driverData property on error', () => {
-                    controller.driverData = undefined;
-                    detranApiService.getDriverData.rejects();
+                    controller.driverData = driverDataOk;
+                    getDriverDataApi.returnsPromise().rejects();
                     controller.getDriverData().then( () => {
                         expect( controller.driverData ).to.be.undefined;
                     } );
@@ -378,30 +224,132 @@ describe( 'Detran/driver-license-status', () => {
             } );
 
             describe( 'getDriverTickets()', () => {
+
+                let getDriverTicketsApi: Sinon.SinonStub;
+
                 beforeEach( () => {
-                    detranApiService.getDriverTickets.resolves( tickets );
+                    getDriverTicketsApi = sandbox.stub( detranApiService, 'getDriverTickets' );
+                    getDriverTicketsApi.returnsPromise().resolves( tickets );
                     controller.getDriverTickets();
                 } );
 
                 it( 'should call "detranApiService.getDriverTickets()"', () => {
-                    expect( detranApiService.getDriverTickets.calledOnce ).to.be.true;
+                    expect( getDriverTicketsApi.calledOnce ).to.be.true;
                 } );
 
                 it( 'should populate tickets property', () => {
-                    expect( controller.tickets ).to.not.be.equal( [] );
+                    expect( controller.tickets ).to.not.be.undefined;
+                    expect( controller.tickets ).to.be.equal( tickets );
                 } );
 
                 it( 'should not populate tickets property on error', () => {
-                    controller.tickets = [];
-                    detranApiService.getDriverTickets.rejects();
+                    controller.tickets = tickets;
+                    getDriverTicketsApi.returnsPromise().rejects();
                     controller.getDriverTickets().then( () => {
                         expect( controller.tickets ).to.be.undefined;
                     } );
                 } );
             } );
+
+        describe( 'Properties', () => {
+
+            describe( 'licenseOk', () => {
+                it( 'should return true if has driverData and status === DriverStatus.Ok', () => {
+                    controller.driverData = driverDataOk;
+                    expect( controller.licenseOk ).to.be.true;
+                } );
+
+                it( 'should return false if has driverData and status === DriverStatus.Blocked', () => {
+                    controller.driverData = driverDataBlocked;
+                    expect( controller.licenseOk ).to.be.false;
+                } );
+
+                it( 'should return false if has no driverData', () => {
+                    controller.driverData = undefined;
+                    expect( controller.licenseOk ).to.be.false;
+                } );
+            } );
+
+            describe( 'licenseBlocked', () => {
+                it( 'should return true if has driverData and status == DriverStatus.Blocked', () => {
+                    controller.driverData = driverDataBlocked;
+                    expect( controller.licenseBlocked ).to.be.true;
+                } );
+
+                it( 'should return false if has driverData and status == DriverStatus.Ok', () => {
+                    controller.driverData = driverDataOk;
+                    expect( controller.licenseBlocked ).to.be.false;
+                } );
+
+                it( 'should return false if has no driverData', () => {
+                    controller.driverData = undefined;
+                    expect( controller.licenseBlocked ).to.be.false;
+                } );
+            } );
+
+            describe( 'licenseExpired', () => {
+                it( 'should return true if has driverData and it\'s expired ( more than 30 days after expiration date)', () => {
+                    controller.driverData = driverDataExpired;
+                    expect( controller.licenseExpired ).to.be.true;
+                } );
+
+                it( 'should return false if has driverData and it\'s not expired', () => {
+                    controller.driverData = driverDataOk;
+                    expect( controller.licenseExpired ).to.be.false;
+                } );
+
+                it( 'should return false if has no driverData', () => {
+                    controller.driverData = undefined;
+                    expect( controller.licenseExpired ).to.be.false;
+                } );
+            } );
+
+            describe( 'licenseRenew', () => {
+                it( 'should return true if has driverData and it\'s past expiration date no more than 30 days', () => {
+                    controller.driverData = driverDataExpiring;
+                    expect( controller.licenseRenew ).to.be.true;
+                } );
+
+                it( 'should return false if has driverData and it\'s not past expiration date', () => {
+                    controller.driverData = driverDataOk;
+                    expect( controller.licenseRenew ).to.be.false;
+                } );
+
+                it( 'should return false if has driverData and it\'s past expiration date more than 30 days', () => {
+                    controller.driverData = driverDataExpired;
+                    expect( controller.licenseRenew ).to.be.false;
+                } );
+
+                it( 'should return false if has no driverData', () => {
+                    controller.driverData = undefined;
+                    expect( controller.licenseRenew ).to.be.false;
+                } );
+            } );
+
+            describe( 'expirationDate', () => {
+                it( 'should return expiration date if has driver data', () => {
+                    controller.driverData = driverDataOk;
+                    expect( controller.expirationDate ).to.be.equal( driverDataOk.expirationDate );
+                } );
+
+                it( 'should return undefined if has no driverData', () => {
+                    controller.driverData = undefined;
+                    expect( controller.expirationDate ).to.be.undefined;
+                } );
+            } );
+
+            describe( 'hasTickets', () => {
+                it( 'should return true if has tickets', () => {
+                    controller.tickets = tickets;
+                    expect( controller.hasTickets ).to.be.true;
+                } );
+
+                it( 'should return false if has no tickets', () => {
+                    controller.tickets = undefined;
+                    expect( controller.hasTickets ).to.be.false;
+                } );
+            } );
         } );
-
-
     } );
 
     describe( 'Component', () => {
@@ -430,3 +378,4 @@ describe( 'Detran/driver-license-status', () => {
         } );
     } );
 } );
+
