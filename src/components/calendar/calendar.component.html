@@ -1,10 +1,10 @@
 <ion-view>
 	<ion-nav-title>
 		{{vm.viewTitle}}
-		<span ng-if="!vm.calendarsPopulated">Agenda ES</span>
+		<span ng-if="!vm.calendar.eventSources">Agenda ES</span>
 	</ion-nav-title>
 	<ion-nav-buttons side="right">
-		<div id="states-calendar-component-nav-buttons" ng-if="vm.calendarsPopulated">
+		<div id="states-calendar-component-nav-buttons" ng-if="vm.calendar.eventSources">
 			<md-button class="md-icon-button"
 					   ng-disabled="vm.isToday()"
 					   ng-click="vm.today()"
@@ -30,7 +30,7 @@
 	<ion-content id="states-calendar-component"
 				 scroll="true"
 				 class="main-content">
-		<calendar ng-if="vm.calendarsPopulated"
+		<calendar ng-if="vm.calendar.eventSources"
 		 		  ng-model="vm.calendar.currentDate"
 				  event-sources="vm.calendar.eventSources"
 				  range-changed="vm.loadCalendars( vm.selectedCalendars )"

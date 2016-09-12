@@ -22,15 +22,6 @@ export class CalendarController {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get calendarsPopulated(): boolean {
-        return angular.isDefined( this.calendar.eventSources );
-    }
 
     /**
      * Ativa o component
