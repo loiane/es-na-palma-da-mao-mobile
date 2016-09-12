@@ -26,6 +26,7 @@ var reporters = [ 'mocha', 'jspm'/*, 'coverage', 'coveralls'*/ ];
 
 if ( process.env.TRAVIS ) {
     console.log( 'Executando no Travis: enviando coveralls' );
+    reporters.push( 'coverage' );
     reporters.push( 'coveralls' );
 } else {
     console.log( 'Executando localmente: não enviando coveralls' );

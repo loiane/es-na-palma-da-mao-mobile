@@ -1,5 +1,8 @@
 
 # ES na palma da mão
+[![Build Status][travis-image]][travis-url] 
+[![Dependency Status][daviddm-image]][daviddm-url]
+[![Coverage percentage][coveralls-image]][coveralls-url]
 
 > O **ES NA PALMA DA MÃO** é um programa do **Governo do Estado do Espírito Santo** que reúne **iniciativas e serviços do Governo em plataforma móvel (aplicativo) e web, com unidade de experiência do cidadão**. Por meio do **ES NA PALMA DA MÃO**, diversos serviços governamentais podem ser acessados através da web e dispositivos móveis (sistemas operacionais iOS e Android) utilizando uma interface comum.
 
@@ -194,3 +197,9 @@ Inicia um servidor [nodemon](http://nodemon.io/) para servir a aplicação com [
 
 Inicia um *watcher* que compila a aplicação sempre que o código muda.
 
+[travis-image]: https://travis-ci.org/prodest/es-na-palma-da-mao-mobile.svg
+[travis-url]: https://travis-ci.org/prodest/es-na-palma-da-mao-mobile
+[daviddm-image]: https://david-dm.org/prodest/es-na-palma-da-mao-mobile.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/prodest/es-na-palma-da-mao-mobile
+[coveralls-image]: https://coveralls.io/repos/prodest/es-na-palma-da-mao-mobile/badge.svg
+[coveralls-url]: https://coveralls.io/r/prodest/es-na-palma-da-mao-mobile

@@ -1,0 +1,12 @@
+require: sudo
+language: node_js
+node_js:
+  - "6.5"
+script: 
+  /bin/sh .travis.sh
+# deploy:
+#   provider: script
+#   skip_cleanup: true
+#   script: /bin/sh .deploy.sh
+#   on:
+#     branch: master
