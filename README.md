@@ -200,6 +200,6 @@ Inicia um *watcher* que compila a aplicação sempre que o código muda.
 [travis-image]: https://travis-ci.org/prodest/es-na-palma-da-mao-mobile.svg
 [travis-url]: https://travis-ci.org/prodest/es-na-palma-da-mao-mobile
 [daviddm-image]: https://david-dm.org/prodest/es-na-palma-da-mao-mobile.svg?type=dev&theme=shields.io
-[daviddm-url]: https://david-dm.org/prodest/es-na-palma-da-mao-mobile?type=dev
+[daviddm-url]: https://david-dm.org/prodest/es-na-palma-da-mao-mobile/dev-status.svg
 [coveralls-image]: https://coveralls.io/repos/prodest/es-na-palma-da-mao-mobile/badge.svg
 [coveralls-url]: https://coveralls.io/r/prodest/es-na-palma-da-mao-mobile
