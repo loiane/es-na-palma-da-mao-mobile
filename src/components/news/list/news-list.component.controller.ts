@@ -15,13 +15,13 @@ export class NewsListController {
         'newsApiService'
     ];
 
-    private availableOrigins: string[] = [];
-    private news: News[] = [];
-    private activated = false;
-    private populated = false;
-    private hasMoreNews = true;
-    private currentPage = 0;
-    private filter: Filter = {
+    public availableOrigins: string[] = [];
+    public news: News[] = [];
+    public activated = false;
+    public populated = false;
+    public hasMoreNews = true;
+    public currentPage = 0;
+    public filter: Filter = {
         origins: [],
         dateMin: undefined,
         dateMax: undefined,
