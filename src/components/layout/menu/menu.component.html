@@ -24,144 +24,7 @@
 		</div>
 		<!--template content section-->
 		<ion-content id="toggle-menu-left-content">
-
-			<!--If device is android application will present below code.-->
-			<!--It will disable animation to better performance on android.-->
-			<!--list section-->
-			<div ng-if="isAndroid" class="menu-list">
-				<div class="row menu-item" ng-click="vm.navigateTo('home')" ng-hide="vm.authenticated">
-					<div class="col-25">
-						<i class="fa fa-sign-in"></i>
-					</div>
-					<div class="col-75">
-						<span>Login</span>
-					</div>
-				</div>
-				<div ng-if="vm.authenticated">
-					<md-subheader class="md-accent">Principal</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.dashboard.newsHighlights')">
-						<div class="col-25">
-							<i class="ion-android-apps"></i>
-						</div>
-						<div class="col-75">
-							<span>DashBoard</span>
-						</div>
-					</div>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.calendar')">
-						<div class="col-25">
-							<i class="ion-android-calendar"></i>
-						</div>
-						<div class="col-75">
-							<span>Agenda ES</span>
-						</div>
-					</div>
-
-					<div class="row menu-item" ng-click="vm.navigateTo('app.news')">
-						<div class="col-25">
-							<i class="fa fa-newspaper-o"></i>
-						</div>
-						<div class="col-75">
-							<span>Notícias</span>
-						</div>
-					</div>
-
-					<div class="row menu-item" ng-click="vm.navigateTo('app.sepConsulta')">
-						<div class="col-25">
-							<i class="fa fa-search"></i>
-						</div>
-						<div class="col-75">
-							<span>Consulta SEP</span>
-						</div>
-					</div>
-
-					<md-subheader class="md-accent">Ceturb</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.busLines')">
-						<div class="col-25">
-							<i class="fa fa-bus"></i>
-						</div>
-						<div class="col-75">
-							<span>Consulta Ônibus</span>
-						</div>
-					</div>
-
-					<md-subheader class="md-accent">Detran</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicenseStatus')" ng-if="vm.hasDriverLicense">
-						<div class="col-25">
-							<i class="fa fa-car"></i>
-						</div>
-						<div class="col-75">
-							<span>Situação CNH</span>
-						</div>
-					</div>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.driverLicense')" ng-if="!vm.hasDriverLicense">
-						<div class="col-25">
-							<i class="fa fa-car"></i>
-						</div>
-						<div class="col-75">
-							<span>Situação CNH</span>
-						</div>
-					</div>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.vehicles')">
-						<div class="col-25">
-							<i class="fa fa-car"></i>
-						</div>
-						<div class="col-75">
-							<span>Multas por Veículos</span>
-						</div>
-					</div>
-
-					<md-subheader class="md-accent">Bombeiros</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.warningList')">
-						<div class="col-25">
-							<i class="fa fa-fire-extinguisher"></i>
-						</div>
-						<div class="col-75">
-							<span>Alertas</span>
-						</div>
-					</div>
-					
-					<md-subheader class="md-accent">Diário Oficial ES</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.dioSearch')">
-						<div class="col-25">
-							<i class="fa fa-search"></i>
-						</div>
-						<div class="col-75">
-							<span>Consulta</span>
-						</div>
-					</div>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.dioLatest')">
-						<div class="col-25">
-							<i class="fa fa-clock-o"></i>
-						</div>
-						<div class="col-75">
-							<span>Edições Recentes</span>
-						</div>
-					</div>
-
-					<md-subheader class="md-accent">Outros</md-subheader>
-					<div class="row menu-item" ng-click="vm.navigateTo('app.about')">
-						<div class="col-25">
-							<i class="ion-information-circled"></i>
-						</div>
-						<div class="col-75">
-							<span>Sobre</span>
-						</div>
-					</div>
-					<md-divider></md-divider>
-					<div class="row menu-item" ng-click="vm.signOut()">
-						<div class="col-25">
-							<i class="ion-android-exit"></i>
-						</div>
-						<div class="col-75">
-							<span>Sair</span>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!--If device is not Android application will present below code.-->
-			<!--It will show animation when selecting row.-->
-			<md-list ng-if="!isAndroid">
+			<md-list md-no-ink>
 				<md-list-item class="menu-list-item" ng-click="vm.navigateTo('home')" ng-hide="vm.authenticated">
 					<i class="fa fa-sign-in"></i>
 					<span>Login</span>
@@ -169,11 +32,11 @@
 				<div ng-if="vm.authenticated">
 					<md-subheader class="md-accent">Principal</md-subheader>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dashboard.newsHighlights')">
-						<i class="ion-ios-keypad"></i>
+						<i class="ion-android-apps"></i>
 						<span>Dashboard</span>
 					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.calendar')">
-						<i class="ion-ios-calendar"></i>
+						<i class="ion-android-calendar"></i>
 						<span>Agenda ES</span>
 					</md-list-item>
 					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.news')">
@@ -212,7 +75,7 @@
 						<i class="fa fa-search"></i>
 						<span>Consulta</span>
 					</md-list-item>
-						<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dioLatest')">
+					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dioLatest')">
 						<i class="fa fa-clock-o"></i>
 						<span>Edições Recentes</span>
 					</md-list-item>
@@ -223,7 +86,7 @@
 					</md-list-item>
 					<md-divider></md-divider>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
-						<i class="ion-ios-undo"></i>
+						<i class="ion-android-exit"></i>
 						<span>Sair</span>
 					</md-list-item>
 				</div>
