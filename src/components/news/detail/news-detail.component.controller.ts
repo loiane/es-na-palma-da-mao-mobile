@@ -6,7 +6,7 @@ export class NewsDetailController {
 
     public static $inject: string[] = [ '$scope', 'newsApiService', '$stateParams' ];
 
-    private news: NewsDetail;
+    public news: NewsDetail;
 
     /**
      * Creates an instance of NewsDetailController.
