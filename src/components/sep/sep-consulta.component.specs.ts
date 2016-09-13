@@ -35,13 +35,8 @@ describe( 'SEP/sep-consulta', () => {
 
         let processNumber = '68985037';
 
-        let process: Process = {
+        let process: Process = <Process>{
             number: '68985037',
-            parts: [
-                'PRODEST - GEREH'
-            ],
-            subject: 'AUTORIZACAO',
-            summary: 'PEDIDO DE AUTORIZAÇÃO DE SUBSTITUIÇÃO DO GERENTE DA GESIN - GERÊNCIA DE SISTEMAS.',
             status: 'EM ANDAMENTO',
             updates: [
                 {
@@ -51,38 +46,12 @@ describe( 'SEP/sep-consulta', () => {
                     status: 'EM ANDAMENTO'
                 },
                 {
-                    date: '21/01/2015 15:40:00',
-                    agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                    area: 'GERENCIA DE RECURSOS HUMANOS',
-                    status: 'EM ANDAMENTO'
-                },
-                {
-                    date: '20/01/2015 17:57:00',
-                    agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                    area: 'GERENCIA DE FINANCAS E ORCAMENTOS',
-                    status: 'EM ANDAMENTO'
-                },
-                {
-                    date: '14/01/2015 11:45:00',
-                    agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                    area: 'DIRETORIA TECNICA',
-                    status: 'EM ANDAMENTO'
-                },
-                {
-                    date: '14/01/2015 11:39:00',
-                    agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
-                    area: 'GERENCIA DE RECURSOS HUMANOS',
-                    status: 'EM ANDAMENTO'
-                },
-                {
                     date: '14/01/2015 11:31:40',
                     agency: 'INSTITUTO DE TECNOLOGIA DE INFORMACAO E COMUNICACAO DO ESTADO DO ESPIRITO SANTO',
                     area: 'GERENCIA DE ADMINISTRACAO GERAL',
                     status: 'AUTUADO'
                 }
-            ],
-            district: 'VITÓRIA',
-            extra: 'GEREH'
+            ]
         };
 
         beforeEach(() => {
@@ -103,7 +72,7 @@ describe( 'SEP/sep-consulta', () => {
             };
 
             sepApiService = <SepApiService><any>{
-                getProcessByNumber: () => {}
+                getProcessByNumber: () => { }
             };
 
             controller = new SepConsultaController( $scope, $ionicScrollDelegate, toastService, sepApiService );
@@ -133,6 +102,10 @@ describe( 'SEP/sep-consulta', () => {
                 expect( controller.processNumber ).to.be.empty;
             });
 
+            it( 'should have empty last process number', () => {
+                expect( controller.lastProcessNumber ).to.be.empty;
+            });
+
             it( 'should hot have been searched', () => {
                 expect( controller.searched ).to.be.false;
             });
@@ -159,28 +132,51 @@ describe( 'SEP/sep-consulta', () => {
                 expect( getProcessByNumber.notCalled ).to.be.true;
             });
 
-            it( 'should fill process with object from promise', () => {
-                controller.getProcess( processNumber );
-                expect( controller.process ).to.deep.equal( process );
+            describe( 'on success:', () => {
+                it( 'should fill process property', () => {
+                    controller.getProcess( processNumber );
+                    expect( controller.process ).to.deep.equal( process );
+                });
+
+                it( 'should set searched to true', () => {
+                    controller.getProcess( processNumber );
+                    expect( controller.searched ).to.be.true;
+                });
+
+                it( 'should clear last process searched number', () => {
+                    controller.lastProcessNumber = '1232344';
+
+                    controller.getProcess( processNumber );
+
+                    expect( controller.lastProcessNumber ).to.be.empty;
+                });
             });
 
-            it( 'should set searched to true', () => {
-                controller.getProcess( processNumber );
-                expect( controller.searched ).to.be.true;
-            });
+            describe( 'on error:', () => {
 
-            it( 'should unset process value on error', () => {
-                getProcessByNumber.returnsPromise().rejects();
-                controller.process = process;
+                beforeEach(() => {
+                    getProcessByNumber.returnsPromise().rejects();
+                });
 
-                controller.getProcess( processNumber );
+                it( 'should unset process', () => {
+                    controller.process = process;
 
-                expect( controller.process ).to.be.undefined;
+                    controller.getProcess( processNumber );
+
+                    expect( controller.process ).to.be.undefined;
+                });
+
+                it( 'should fill last process searched number', () => {
+                    controller.lastProcessNumber = '9999999999';
+
+                    controller.getProcess( processNumber );
+
+                    expect( controller.lastProcessNumber ).to.be.equal( processNumber );
+                });
             });
         });
 
         describe( 'toggleUpdates()', () => {
-
             it( 'should invert showAllUpdates value', () => {
                 let oldValue = controller.showAllUpdates;
                 controller.toggleUpdates();
@@ -191,7 +187,7 @@ describe( 'SEP/sep-consulta', () => {
         describe( 'lastUpdate', () => {
             it( 'should return first update of process', () => {
                 controller.process = process;
-                expect( controller.lastUpdate ).to.deep.equal( controller.process!.updates[ 0 ] );
+                expect( controller.lastUpdate ).to.deep.equal( controller.process.updates[ 0 ] );
             });
 
             it( 'should return undefined if has no process', () => {
