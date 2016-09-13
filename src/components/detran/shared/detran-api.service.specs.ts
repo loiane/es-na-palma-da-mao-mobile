@@ -33,7 +33,7 @@ describe( 'DetranApiService', () => {
         $httpGet = sandbox.stub( $http, 'get' );
         $httpGet.returnsPromise().resolves( fakeResponse );
         $httpPost = sandbox.stub( $http, 'post' );
-        $httpPost.returnsPromise();
+        $httpPost.returnsPromise().resolves( fakeResponse );
         settings = Settings.getInstance();
 
         detranApiService = new DetranApiService( $http, settings );
@@ -123,7 +123,7 @@ describe( 'DetranApiService', () => {
 
         it( 'should normalize response to response.data property', () => {
             detranApiService.saveLicense( <DriverLicense>{} ).then( ( data ) => {
-                expect( data ).to.deep.equal( fakeResponse.data );
+                expect( data ).to.deep.equal( fakeResponse.data  );
             } );
         } );
     } );
