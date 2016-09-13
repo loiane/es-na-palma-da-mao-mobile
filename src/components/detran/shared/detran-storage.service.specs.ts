@@ -1,0 +1,195 @@
+import 'angular';
+import { DetranStorage } from './detran-storage.service';
+import { Vehicle, DriverLicense } from './models/index';
+import { AuthenticationService } from '../../shared/authentication/index';
+
+let expect = chai.expect;
+
+describe( 'DetranStorage', () => {
+
+    let sandbox: Sinon.SinonSandbox;
+    beforeEach(() => sandbox = sinon.sandbox.create() );
+    afterEach(() => sandbox.restore() );
+
+    let detranStorage: DetranStorage;
+    let $localStorage: any;
+    let authenticationService: AuthenticationService;
+
+    beforeEach(() => {
+        $localStorage = {};
+        authenticationService = <AuthenticationService><any>{
+            user: {
+                cfp: '12345678912',
+                cnhNumero: '77777777777',
+                cnhCedula: '88888888888',
+            }
+        };
+        detranStorage = new DetranStorage( $localStorage, authenticationService );
+        $localStorage[ detranStorage.vehiclesStorageKey ] = undefined;
+    });
+
+    describe( 'VehicleStorage', () => {
+        describe( 'vehiclesStorageKey', () => {
+            it( 'should be composed using user\'s CPF', () => {
+                expect( detranStorage.vehiclesStorageKey ).to.be.equal( `user-${authenticationService.user.cpf}-vehicles` );
+            });
+        });
+
+
+        describe( 'vehicles', () => {
+
+            describe( 'get()', () => {
+                it( 'should return vehicles from local storage', () => {
+                    let userVehicles: Vehicle[] = [
+                        { plate: 'ovl-1111', renavam: '111111111' },
+                        { plate: 'ovl-2222', renavam: '222222222' }
+                    ];
+
+                    $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+
+                    expect( detranStorage.vehicles ).to.be.deep.equal( userVehicles );
+                });
+
+                it( 'should be empty if no vehicles exists on local storage', () => {
+                    $localStorage[ detranStorage.vehiclesStorageKey ] = undefined;
+
+                    expect( detranStorage.vehicles ).to.be.deep.equal( [] );
+                });
+            });
+
+            describe( 'set( vehicles )', () => {
+                it( 'should save vehicles on local storage', () => {
+                    let userVehicles: Vehicle[] = [ { plate: 'ovl-1111', renavam: '111111111' }];
+
+                    detranStorage.vehicles = userVehicles;
+                    expect( $localStorage[ detranStorage.vehiclesStorageKey ] ).to.be.deep.equal( userVehicles );
+                });
+            });
+        });
+
+        describe( 'existsVehicle(vehicle)', () => {
+            beforeEach(() => {
+                let userVehicles: Vehicle[] = [
+                    { plate: 'ovl-1111', renavam: '111111111' },
+                    { plate: 'ovl-2222', renavam: '222222222' }
+                ];
+
+                $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+            });
+
+            it( 'should ignore case on search for plate', () => {
+                expect( detranStorage.existsVehicle( { plate: 'ovl-1111', renavam: '00000000' }) ).to.be.true;
+                expect( detranStorage.existsVehicle( { plate: 'OVL-1111', renavam: '00000000' }) ).to.be.true;
+            });
+
+            it( 'should return true if only plate matches any stored vehicle', () => {
+                expect( detranStorage.existsVehicle( { plate: 'ovl-1111', renavam: '0000000' }) ).to.be.true;
+            });
+
+            it( 'should return true if only renavam matches any stored vehicle', () => {
+                expect( detranStorage.existsVehicle( { plate: 'ovl-0000', renavam: '111111111' }) ).to.be.true;
+            });
+
+            it( 'should return false if plate and renavam doesn\'t match any stored vehicle', () => {
+                expect( detranStorage.existsVehicle( { plate: 'ovl-0000', renavam: '000000000' }) ).to.be.false;
+                expect( detranStorage.existsVehicle( { plate: 'ovl-3333', renavam: '333333333' }) ).to.be.false;
+            });
+        });
+
+        describe( 'removeVehicle(vehicle)', () => {
+            let userVehicles: Vehicle[];
+
+            beforeEach(() => {
+                userVehicles = [
+                    { plate: 'ovl-1111', renavam: '111111111' },
+                    { plate: 'ovl-2222', renavam: '222222222' }
+                ];
+
+                $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+            });
+
+            it( 'should remove vehicle if only plate matches any stored vehicle', () => {
+                let vehicleToRemove = { plate: 'ovl-1111', renavam: '000000000' };
+                let vehicles = detranStorage.removeVehicle( vehicleToRemove );
+                expect( vehicles ).to.not.contain( vehicleToRemove );
+            });
+
+            it( 'should remove vehicle if only renavam matches any stored vehicle', () => {
+                let vehicleToRemove = { plate: 'ovl-0000', renavam: '111111111' };
+                let vehicles = detranStorage.removeVehicle( vehicleToRemove );
+                expect( vehicles ).to.not.contain( vehicleToRemove );
+            });
+
+            it( 'should remove vehicle if both plate and renavam matches any stored vehicle', () => {
+                let vehicleToRemove = { plate: 'ovl-1111', renavam: '111111111' };
+                let vehicles = detranStorage.removeVehicle( vehicleToRemove );
+                expect( vehicles ).to.not.contain( vehicleToRemove );
+            });
+
+            it( 'should not remove vehicle if nor plate nor renavam matches any stored vehicle', () => {
+                let vehicleToRemove = { plate: 'ovl-0000', renavam: '00000' };
+                let vehicles = detranStorage.removeVehicle( vehicleToRemove );
+                expect( vehicles ).to.be.deep.equal( userVehicles );
+            });
+        });
+
+
+
+        describe( 'addVehicle(vehicle)', () => {
+            let userVehicles: Vehicle[];
+
+            beforeEach(() => {
+                userVehicles = [
+                    { plate: 'ovl-1111', renavam: '111111111' },
+                    { plate: 'ovl-2222', renavam: '222222222' }
+                ];
+
+                $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+            });
+
+            it( 'should add vehicle if it is not already stored', () => {
+                let newVehicle = { plate: 'ovl-0000', renavam: '00000000' };
+                let vehicles = detranStorage.addVehicle( newVehicle );
+                expect( vehicles ).to.contain( newVehicle );
+            });
+
+            it( 'should not add vehicle if it is already stored', () => {
+                userVehicles.forEach( vehicle => {
+                    let vehicles = detranStorage.addVehicle( vehicle );
+                    expect( vehicles ).to.be.deep.equal( userVehicles );
+                });
+            });
+
+            it( 'should always store plate in uppercase', () => {
+                let newVehicle = { plate: 'ovl-0000', renavam: '00000000' };
+                let vehicles = detranStorage.addVehicle( newVehicle );
+
+                expect( vehicles[ vehicles.length - 1 ].plate ).to.be.equal( newVehicle.plate.toUpperCase() );
+            });
+        });
+    });
+
+    describe( 'DriverLicenseStorage', () => {
+        describe( 'driverLicense', () => {
+
+            describe( 'get()', () => {
+                it( 'should return driverLicense filled by authenticationService.user', () => {
+                    expect( detranStorage.driverLicense.ballot ).to.be.equal( authenticationService.user.cnhCedula );
+                    expect( detranStorage.driverLicense.registerNumber ).to.be.equal( authenticationService.user.cnhNumero );
+                });
+            });
+
+            describe( 'set( vehicles )', () => {
+                it( 'should fill authenticationService.user with driverLicense data', () => {
+                    let driverLicense: DriverLicense = { registerNumber: '9090909090', ballot: '8080808080' };
+
+                    detranStorage.driverLicense = driverLicense;
+
+                    expect( authenticationService.user.cnhCedula ).to.be.equal( detranStorage.driverLicense.ballot );
+                    expect( authenticationService.user.cnhNumero ).to.be.equal( detranStorage.driverLicense.registerNumber );
+                });
+            });
+        });
+    });
+});
+
