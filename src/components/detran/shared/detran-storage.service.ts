@@ -59,7 +59,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
     public existsVehicle( vehicle: Vehicle ): boolean {
         const existsPlaca = this.vehicles
             .map( v => v.plate.toUpperCase() )
-            .indexOf( vehicle.plate );
+            .indexOf( vehicle.plate.toUpperCase() );
 
         const existsRENAVAM = this.vehicles
             .map( v => v.renavam.toUpperCase() )
