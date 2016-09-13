@@ -61,9 +61,12 @@
 	align-items: flex-start;
 }
 
+#state-news-list md-list-item .md-list-item-inner md-card-title-text {
+	padding: 8px 8px 0 0;
+}
+
 /* iOS specific */
 
 body.platform-ios #state-news-list md-list-item .md-list-item-inner md-card-title-text {
-	padding: 8px 8px 0 0;
 	width: 70%;
 }

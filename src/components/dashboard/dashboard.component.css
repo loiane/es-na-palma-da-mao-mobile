@@ -8,9 +8,9 @@
 	max-width: none !important;
 }
 
-body.platform-ios #dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.tab-item-active,
-body.platform-ios #dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.active,
-body.platform-ios #dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.activated {
+#dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.tab-item-active,
+#dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.active,
+#dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.activated {
 	color: #fff;
 	font-weight: bold;
 }
