@@ -9,7 +9,9 @@
 #state-ceturb-bus-lines .fa-star-o{ 
     line-height: 25px;
     padding: 0 10px 0 0;
+    color: #e3b200;
  }
+
 #state-ceturb-bus-lines .scroll, 
 #state-ceturb-bus-lines .collection-repeat-after-container{ 
     height: 100%;
