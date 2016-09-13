@@ -6,7 +6,7 @@ export class NewsHighlightsController {
 
     public static $inject: string[] = [ '$scope', 'newsApiService', '$state' ];
 
-    private highlights: News[] = [];
+    public highlights: News[] = [];
 
     /**
      * @constructor
