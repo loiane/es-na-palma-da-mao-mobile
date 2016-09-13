@@ -22,14 +22,14 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @memberOf DetranStorage
      */
     constructor( private $localStorage: any,
-                 private acessoCidadaoService: AuthenticationService ) {
+                 private authenticationService: AuthenticationService ) {
     }
 
     /**
      * 
      */
-    private get vehiclesStorageKey() {
-        return `user-${this.acessoCidadaoService.user.cpf}-vehicles`;  // sub é o id do usuário logado
+    public get vehiclesStorageKey() {
+        return `user-${this.authenticationService.user.cpf}-vehicles`;  // sub é o id do usuário logado
     }
 
 
@@ -109,8 +109,8 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      */
     public get driverLicense(): DriverLicense {
         return {
-            registerNumber: this.$localStorage.userClaims.cnhNumero,
-            ballot: this.$localStorage.userClaims.cnhCedula
+            registerNumber: this.authenticationService.user.cnhNumero,
+            ballot: this.authenticationService.user.cnhCedula
         };
     }
 
@@ -118,8 +118,8 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * 
      */
     public set driverLicense( driverLicense: DriverLicense ) {
-        this.$localStorage.userClaims.cnhNumero = driverLicense.registerNumber;
-        this.$localStorage.userClaims.cnhCedula = driverLicense.ballot;
+        this.authenticationService.user.cnhNumero = driverLicense.registerNumber;
+        this.authenticationService.user.cnhCedula = driverLicense.ballot;
     }
 
 
