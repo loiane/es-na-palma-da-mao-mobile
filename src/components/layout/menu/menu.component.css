@@ -46,7 +46,6 @@
 }
 
 #toggle-menu-left-content md-list md-list-item.menu-list-item {
-	display: table;
 	width: 100%;
 }
 

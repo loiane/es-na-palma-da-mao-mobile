@@ -17,7 +17,7 @@ function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
 
     $ionicConfigProvider.scrolling.jsScrolling( false );
 
-    $ionicNativeTransitionsProvider.setDefaultOptions( {
+    let nativeTransitionsOptions = {
         duration: 300, // in milliseconds (ms), default 400,
         // slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4
         // iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default 60
@@ -27,7 +27,13 @@ function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
         // fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
         triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option
         backInOppositeDirection: false // Takes over default back transition and state back transition to use the opposite direction transition to go back
-    } );
+    };
+
+    if (!ionic.Platform.isAndroid()) {
+        nativeTransitionsOptions.fixedPixelsTop = 63;
+    }
+
+    $ionicNativeTransitionsProvider.setDefaultOptions( nativeTransitionsOptions );
 }
 
 ionicConfig.$inject = [ '$ionicConfigProvider', '$ionicNativeTransitionsProvider' ];

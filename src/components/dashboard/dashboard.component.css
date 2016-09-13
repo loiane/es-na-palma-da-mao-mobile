@@ -8,10 +8,9 @@
 	max-width: none !important;
 }
 
-#dashboard-component ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.tab-item-active,
-#dashboard-component ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.active,
-#dashboard-component ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.activated {
-	border-bottom-color: #c86673;
+body.platform-ios #dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.tab-item-active,
+body.platform-ios #dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.active,
+body.platform-ios #dashboard-component ion-tabs.espm-tabs-color-active-material .tab-item.activated {
 	color: #fff;
 	font-weight: bold;
 }
@@ -27,6 +26,14 @@
 	box-shadow: none !important;
 }*/
 
-ion-content#dashboard-component.espm-has-tabs-top {
+/* Android specific */
+
+body.platform-android #dashboard-component ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.tab-item-active,
+body.platform-android #dashboard-component ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.active,
+body.platform-android #dashboard-component ion-tabs.tabs-striped.espm-tabs-color-active-material .tab-item.activated {
+	border-bottom-color: #c86673;
+}
+
+body.platform-android ion-content#dashboard-component.espm-has-tabs-top {
 	top: 0px;
 }

@@ -16,7 +16,7 @@
 		<md-list>
 			<div ng-repeat="news in vm.news">
 				<md-list-item class="md-3-line" ng-click="::vm.goToNews(news.id)">
-					<md-card-title-text class="md-padding">
+					<md-card-title-text>
 						<span class="md-title lista-noticias">{{::news.title}}</span>
 						<div>
 							<span md-colors="::{color: 'accent'}">
