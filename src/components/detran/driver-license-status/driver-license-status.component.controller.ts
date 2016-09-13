@@ -167,7 +167,7 @@ export class DriverLicenseStatusController {
             template: registerLicenseTemplate,
             bindToController: true,
             controllerAs: 'vm',
-            locals: this.driverLicenseStorage.driverLicense || {}
+            locals: this.driverLicenseStorage.driverLicense
         })
             .then(( license: DriverLicense ) => {
                 return this.detranApiService.saveLicense( license ).then(() => license );
