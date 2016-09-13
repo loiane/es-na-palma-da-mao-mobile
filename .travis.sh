@@ -13,4 +13,4 @@ jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 
 jspm install
 
-npm run test
+npm run test:coverage
