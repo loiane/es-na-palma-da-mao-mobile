@@ -1,5 +1,5 @@
 import { IScope, IPromise, IWindowService } from 'angular';
-import { Edition, DioApiService } from '../shared//index';
+import { Edition, DioApiService } from '../shared/index';
 
 export class LatestController {
 
@@ -10,7 +10,6 @@ export class LatestController {
     ];
 
     private latestEditions: Edition[] = [];
-    private activated = false;
 
     /**
      * Creates an instance of LatestController.
@@ -29,10 +28,7 @@ export class LatestController {
      * Ativa o controller
      */
     public activate(): void {
-        this.getLatestEditions()
-            .finally( () => {
-                this.activated = true;
-            } );
+        this.getLatestEditions();
     }
 
     /**
