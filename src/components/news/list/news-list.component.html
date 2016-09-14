@@ -36,11 +36,11 @@
 				<md-divider></md-divider>
 			</div>
 		</md-list>
-		<message ng-if="vm.populated && !vm.news.length" text="Nenhuma notícia encontrada">
+		<message ng-if="vm.news && !vm.news.length" text="Nenhuma notícia encontrada">
 			<remark>Tente mudar o filtro da consulta</remark>
 		</message>
 		<error-message error="uiState.error"></error-message>
-		<ion-infinite-scroll ng-if="!uiState.error && vm.activated && vm.hasMoreNews" on-infinite="vm.getNews({ pageNumber: vm.currentPage + 1 })"
+		<ion-infinite-scroll ng-if="!uiState.error && vm.availableOrigins && vm.hasMoreNews" on-infinite="vm.loadOrPaginate()"
 			distance="20%">
 		</ion-infinite-scroll>
 	</ion-content>

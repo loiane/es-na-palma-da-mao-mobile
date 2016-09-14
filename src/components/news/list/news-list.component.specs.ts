@@ -32,7 +32,7 @@ describe( 'News/news-list', () => {
                         onIonicBeforeEnterEvent = callback;
                     }
                 },
-                $broadcast: () => {}
+                $broadcast: () => { }
             };
             $mdDialog = { show() { } };
             $state = <angular.ui.IStateService><any>{ go: () => { } };
@@ -46,36 +46,23 @@ describe( 'News/news-list', () => {
         describe( 'on instantiation', () => {
 
             it( 'should have a empty news list', () => {
-                expect( controller.news ).to.be.not.undefined;
-                expect( controller.news ).to.be.empty;
+                expect( controller.news ).to.be.deep.equal( [] );
             });
 
             it( 'should have a empty list of news sources', () => {
-                expect( controller.availableOrigins ).to.be.not.undefined;
-                expect( controller.availableOrigins ).to.be.empty;
-            });
-
-            it( 'should not be activated', () => {
-                expect( controller.activated ).to.be.false;
-            });
-
-            it( 'should not be populated', () => {
-                expect( controller.activated ).to.be.false;
+                expect( controller.availableOrigins ).to.be.undefined;
             });
 
             it( 'should has more news to show', () => {
                 expect( controller.hasMoreNews ).to.be.true;
             });
 
-            it( 'should show the first page', () => {
-                expect( controller.currentPage ).to.be.equal( 0 );
+            it( 'should have a filter', () => {
+                expect( controller.filter ).to.be.deep.equal( {} );
             });
 
-            it( 'should have a default filter', () => {
-                expect( controller.filter ).to.be.deep.equal( {
-                    origins: [],
-                    dateMin: undefined,
-                    dateMax: undefined,
+            it( 'should have a default pagination', () => {
+                expect( controller.pagination ).to.be.deep.equal( {
                     pageNumber: 1,
                     pageSize: 10
                 });
@@ -103,12 +90,6 @@ describe( 'News/news-list', () => {
 
                 expect( getAvailableOrigins.called ).to.be.true;
             });
-
-            it( 'should mark controller as activated', () => {
-                controller.activate();
-
-                expect( controller.activated ).to.be.true;
-            });
         });
 
         describe( 'getAvailableOrigins()', () => {
@@ -135,73 +116,61 @@ describe( 'News/news-list', () => {
 
             let freshNews: News[];
             let alreadyLoadedNews: News[];
-            let filter: Filter;
 
             beforeEach(() => {
-                filter = {
-                    origins: [ 'SESA', 'SECOM' ],
-                    dateMin: new Date(),
-                    dateMax: new Date(),
-                    pageNumber: 5,
-                    pageSize: 12
-                };
                 alreadyLoadedNews = <News[]>[ { title: 'Notícia A' }, { title: 'Notícia B' }];
                 freshNews = <News[]>[ { title: 'Notícia C' }, { title: 'Notícia D' }];
                 sandbox.stub( newsApiService, 'getNews' ).returnsPromise().resolves( freshNews );
+
+                // configure controller
                 controller.news = alreadyLoadedNews;
+                controller.filter = {
+                    origins: [ 'SESA', 'SECOM' ],
+                    dateMin: new Date(),
+                    dateMax: new Date()
+                };
+                controller.pagination = {
+                    pageNumber: 5,
+                    pageSize: 12
+                };
             });
 
-            it( 'should update controller filter with provided filter', () => {
-                controller.getNews( filter );
-
-                expect( controller.filter ).to.deep.equal( filter );
-            });
-
-            it( 'should append returned news to existing news list', () => {
-                controller.getNews( filter );
+            it( 'should append returned news to existing news list if paginating', () => {
+                controller.getNews( controller.filter, controller.pagination );
 
                 expect( controller.news ).to.deep.equal( alreadyLoadedNews.concat( freshNews ) );
             });
 
+            it( 'should replace existing news with freshing ones if is not paginating', () => {
+                controller.pagination.pageNumber = 1; // not paginating
+
+                controller.getNews( controller.filter, controller.pagination );
+
+                expect( controller.news ).to.deep.equal( freshNews );
+            });
+
             it( 'should unset hasMoreNews if returned a partial page list', () => {
                 controller.hasMoreNews = true;
-                filter.pageSize = 10; // pageSize < freshNews.length
+                controller.pagination.pageSize = 10; // freshNews.length < pagination.pageSize
 
-                controller.getNews( filter );
+                controller.getNews( controller.filter, controller.pagination );
 
                 expect( controller.hasMoreNews ).to.be.false;
             });
 
             it( 'should set hasMoreNews if returned a full page list', () => {
                 controller.hasMoreNews = false;
-                filter.pageSize = 2; // pageSize == freshNews.length
+                controller.pagination.pageSize = 2; // pageSize == freshNews.length
 
-                controller.getNews( filter );
+                controller.getNews( controller.filter, controller.pagination );
 
                 expect( controller.hasMoreNews ).to.be.true;
-            });
-
-
-            it( 'should copy filter.pageNumber to controller.currentPage', () => {
-                controller.currentPage = 5;
-
-                controller.getNews( filter );
-
-                expect( controller.currentPage ).to.equal( filter.pageNumber );
-            });
-
-            it( 'should mark controller as populated', () => {
-                controller.populated = false;
-
-                controller.getNews( filter );
-
-                expect( controller.populated ).to.be.true;
             });
 
             it( 'should broadcast scroll.infiniteScrollComplete event', () => {
                 let $broadcast = sandbox.spy( $scope, '$broadcast' );
 
-                controller.getNews( filter );
+                controller.getNews( controller.filter, controller.pagination );
 
                 expect( $broadcast.called ).to.be.true;
             });
@@ -235,20 +204,18 @@ describe( 'News/news-list', () => {
                 });
 
                 describe( 'on sources filter edited:', () => {
-                    it( 'should reload controller with the inputted filter', () => {
+                    it( 'should apply user inputted filter', () => {
                         let sourceFilter = {
-                            origins: [],
+                            origins: [ 'SEDU' ],
                             dateMin: undefined,
-                            dateMax: undefined,
-                            pageNumber: 4,
-                            pageSize: 15
+                            dateMax: undefined
                         };
                         $mdDialogShow.returnsPromise().resolves( sourceFilter );
-                        let reload = sandbox.stub( controller, 'reload' );
+                        let applyUserFilter = sandbox.stub( controller, 'applyUserFilter' );
 
                         controller.openOriginsFilter();
 
-                        expect( reload.calledWith( sourceFilter ) ).to.be.true;
+                        expect( applyUserFilter.calledWith( sourceFilter ) ).to.be.true;
                     });
                 });
             });
@@ -273,17 +240,17 @@ describe( 'News/news-list', () => {
                 });
 
                 describe( 'on dates filter edited:', () => {
-                    it( 'should reload controller with the inputted filter', () => {
+                    it( 'should apply user inputted filter', () => {
                         let dateFilter = {
                             dateMin: moment().subtract( 10, 'day' ).toDate(),
                             dateMax: moment().add( 10, 'day' ).toDate()
                         };
                         $mdDialogShow.returnsPromise().resolves( dateFilter );
-                        let reload = sandbox.stub( controller, 'reload' );
+                        let applyUserFilter = sandbox.stub( controller, 'applyUserFilter' );
 
                         controller.openDateFilter();
 
-                        expect( reload.calledWith( dateFilter ) ).to.be.true;
+                        expect( applyUserFilter.calledWith( dateFilter ) ).to.be.true;
                     });
                 });
             });
@@ -300,45 +267,72 @@ describe( 'News/news-list', () => {
             });
         });
 
-        describe( 'reload(filter)', () => {
+        describe( 'applyUserFilter(filter)', () => {
 
-            let resetPagination: Sinon.SinonStub;
             let getNews: Sinon.SinonStub;
-            let filter = { pageNumber: 3 };
-
+            let userFilter: Filter = { origins: [ 'PRODEST' ] };
             beforeEach(() => {
-                resetPagination = sandbox.stub( controller, 'resetPagination' );
                 getNews = sandbox.stub( controller, 'getNews' );
+                controller.pagination = { pageNumber: 3 };
+                controller.filter = { origins: [ 'SESA', 'SEFAZ' ] };
 
-                controller.reload( filter );
+                controller.applyUserFilter( userFilter );
             });
 
-            it( 'should reset pagination', () => {
-                expect( resetPagination.called ).to.be.true;
+            it( 'should reset pagination to first page', () => {
+                expect( controller.pagination.pageNumber ).to.be.equal( 1 );
             });
 
-            it( 'should set filter.pageNumber to 1 ', () => {
-                expect( filter.pageNumber ).to.be.equal( 1 );
+            it( 'should update filter with user provided values', () => {
+                expect( controller.filter ).to.be.deep.equal( userFilter );
             });
 
-            it( 'should get news', () => {
-                expect( getNews.calledWith( filter ) ).to.be.true;
+            it( 'should get news passing controller filter and pagination', () => {
+                expect( getNews.calledWith( controller.filter, controller.pagination ) ).to.be.true;
             });
         });
 
-        describe( 'resetPagination()', () => {
-            it( 'should reset pagination related properties', () => {
-                controller.news = <News[]>[ { title: 'Notícia A' }, { title: 'Notícia B' }];
-                controller.populated = true;
-                controller.hasMoreNews = false;
-                controller.currentPage = 1;
+        describe( 'isPaginating()', () => {
+            it( 'should return false if current page === 1', () => {
+                controller.pagination.pageNumber = 1;
+                expect( controller.isPaginating ).to.be.false;
+            });
 
-                controller.resetPagination();
+            it( 'should return true if current page > 1', () => {
+                controller.pagination.pageNumber = 2;
+                expect( controller.isPaginating ).to.be.true;
+            });
+        });
 
-                expect( controller.news ).to.be.deep.equal( [] );
-                expect( controller.populated ).to.be.false;
-                expect( controller.hasMoreNews ).to.be.true;
-                expect( controller.currentPage ).to.be.equal( 0 );
+        describe( 'loadOrPaginate()', () => {
+
+            let getNews: Sinon.SinonStub;
+            beforeEach(() => {
+                getNews = sandbox.stub( controller, 'getNews' );
+                controller.filter = { origins: [ 'SECOM' ] };
+                controller.pagination = { pageNumber: 3 };
+            });
+
+            it( 'should not increment page number if there are no news loaded (first load)', () => {
+                controller.news = [];
+
+                controller.loadOrPaginate();
+
+                expect( controller.pagination.pageNumber ).to.be.equal( 3 );
+            });
+
+            it( 'should increment page number if any news already loaded', () => {
+                controller.news = <News[]>[ {}, {}, {}];
+
+                controller.loadOrPaginate();
+
+                expect( controller.pagination.pageNumber ).to.be.equal( 4 );
+            });
+
+            it( 'should get news with filter and pagination', () => {
+                controller.loadOrPaginate();
+
+                expect( getNews.calledWith( controller.filter, controller.pagination ) ).to.be.true;
             });
         });
     });

@@ -1,6 +1,6 @@
 import { IHttpService, IPromise } from 'angular';
 import { ISettings } from '../../shared/settings/index';
-import { News, NewsDetail, Filter } from '../shared/models/index';
+import { News, NewsDetail, Filter, Pagination } from '../shared/models/index';
 
 export class NewsApiService {
 
@@ -21,8 +21,8 @@ export class NewsApiService {
      */
     public getNewsById( id: string ): IPromise<NewsDetail> {
         return this.$http
-                   .get( `${this.settings.api.news}/${id}` )
-                   .then( ( response: { data: NewsDetail } ) => response.data );
+            .get( `${this.settings.api.news}/${id}` )
+            .then(( response: { data: NewsDetail }) => response.data );
     }
 
     /**
@@ -31,8 +31,8 @@ export class NewsApiService {
      */
     public getHighlightNews(): IPromise<News[]> {
         return this.$http
-                   .get( `${this.settings.api.news}/highlights` )
-                   .then( ( response: { data: News[] } ) => response.data );
+            .get( `${this.settings.api.news}/highlights` )
+            .then(( response: { data: News[] }) => response.data );
     }
 
     /**
@@ -41,22 +41,19 @@ export class NewsApiService {
      * @param options
      * @returns {Array}
      */
-    public getNews( options: Filter = {} ): IPromise<News[]> {
-        let today = new Date();
+    public getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
         let defaults = {
             origins: [],
-            dateMin: new Date( today.getFullYear(), 0, 1, 0 ),   // começo do ano corrente
-            dateMax: new Date( today.getFullYear(), 11, 31, 0 ),  // final do ano corrente
             pageNumber: this.settings.pagination.pageNumber,
             pageSize: this.settings.pagination.pageSize
         };
 
-        let params = angular.extend( {}, defaults, options );
+        let params = angular.extend( {}, defaults, filter, pagination );
 
-        return this.$http.get( this.settings.api.news, { params: params } )
-                   .then(  ( response: { data: News[] } ) => {
-                       return response.data;
-                   } );
+        return this.$http.get( this.settings.api.news, { params: params })
+            .then(( response: { data: News[] }) => {
+                return response.data;
+            });
     }
 
     /**
@@ -65,7 +62,7 @@ export class NewsApiService {
      */
     public getAvailableOrigins(): IPromise<string[]> {
         return this.$http
-                   .get( `${this.settings.api.news}/origins` )
-                   .then(  ( response: { data: string[] } ) => response.data );
+            .get( `${this.settings.api.news}/origins` )
+            .then(( response: { data: string[] }) => response.data );
     }
 }

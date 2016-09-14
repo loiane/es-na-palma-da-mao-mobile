@@ -4,7 +4,7 @@ import sourcesFilterTemplate from './sources-filter/sources-filter.html';
 import datesFilterTemplate from './dates-filter/dates-filter.html';
 import { SourcesFilterController } from './sources-filter/sources-filter.controller';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
-import { News, NewsApiService, Filter } from '../shared/index';
+import { News, NewsApiService, Filter, Pagination } from '../shared/index';
 
 export class NewsListController {
 
@@ -14,17 +14,11 @@ export class NewsListController {
         '$mdDialog',
         'newsApiService'
     ];
-
-    public availableOrigins: string[] = [];
+    public availableOrigins: string[] | undefined;
     public news: News[] = [];
-    public activated = false;
-    public populated = false;
     public hasMoreNews = true;
-    public currentPage = 0;
-    public filter: Filter = {
-        origins: [],
-        dateMin: undefined,
-        dateMax: undefined,
+    public filter: Filter = {};
+    public pagination: Pagination = {
         pageNumber: 1,
         pageSize: 10
     };
@@ -39,9 +33,9 @@ export class NewsListController {
      * @param {NewsApiService} newsApiService
      */
     constructor( private $scope: IScope,
-                 private $state: angular.ui.IStateService,
-                 private $mdDialog: angular.material.IDialogService,
-                 private newsApiService: NewsApiService ) {
+        private $state: angular.ui.IStateService,
+        private $mdDialog: angular.material.IDialogService,
+        private newsApiService: NewsApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -49,10 +43,7 @@ export class NewsListController {
      * Ativa o controller
      */
     public activate(): void {
-        this.getAvailableOrigins()
-            .finally( () => {
-                this.activated = true;
-            } );
+        this.getAvailableOrigins();
     }
 
     /**
@@ -62,35 +53,52 @@ export class NewsListController {
      */
     public getAvailableOrigins(): IPromise<string[]> {
         return this.newsApiService.getAvailableOrigins()
-                   .then( origins => {
-                       this.availableOrigins = origins;
-                       this.filter.origins = angular.copy( this.availableOrigins );
-                       return origins;
-                   } );
+            .then( origins => {
+                this.availableOrigins = origins || [];
+                this.filter.origins = angular.copy( this.availableOrigins );
+                return origins;
+            });
     }
 
     /**
      * Obtém uma lista de notícias
      */
-    public getNews( options: Filter = {} ): IPromise<News[]> {
+    public getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
+        return this.newsApiService.getNews( filter, pagination )
+            .then( nextNews => {
+                this.news = this.isPaginating ? this.news.concat( nextNews ) : nextNews;
+                this.hasMoreNews = ( nextNews.length === pagination.pageSize );
+                return nextNews;
+            })
+            .finally(() => {
+                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+            });
+    }
 
-        angular.extend( this.filter, options ); // atualiza o filtro
-
-        if ( this.filter.pageNumber ) {
-            this.currentPage = this.filter.pageNumber;
+    /**
+     * 
+     * 
+     * @returns {IPromise<News[]>}
+     * 
+     * @memberOf NewsListController
+     */
+    public loadOrPaginate(): IPromise<News[]> {
+        // só página se já existe alguma notícia carregada
+        if ( this.news.length ) {
+            this.pagination.pageNumber += 1;
         }
+        return this.getNews( this.filter, this.pagination );
+    }
 
-        return this.newsApiService.getNews( this.filter )
-                                    .then( nextNews => {
-                                        this.news = this.news.concat( nextNews );
-                                        this.hasMoreNews = ( nextNews.length === this.filter.pageSize );
-                                        this.populated = true;
-
-                                        return nextNews;
-                                    } )
-                                    .finally( () => {
-                                        this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-                                    } );
+    /**
+     * 
+     * 
+     * @readonly
+     * 
+     * @memberOf NewsListController
+     */
+    public get isPaginating() {
+        return this.pagination.pageNumber > 1;
     }
 
     /**
@@ -106,8 +114,8 @@ export class NewsListController {
                 availableOrigins: this.availableOrigins,
                 selectedOrigins: this.filter.origins
             }
-        } )
-        .then( filter => this.reload( filter ) );
+        })
+            .then( filter => this.applyUserFilter( filter ) );
     }
 
     /**
@@ -123,30 +131,18 @@ export class NewsListController {
                 dateMin: this.filter.dateMin,
                 dateMax: this.filter.dateMax
             }
-        } )
-            .then( filter => {
-                this.reload( filter );
-            } );
+        })
+            .then( filter => this.applyUserFilter( filter ) );
     }
 
     /**
      * Recarrega a página
      */
-    public reload( filter ): void {
-        this.resetPagination();
-        filter.pageNumber = 1;
-        this.getNews( filter );
-    }
-
-
-    /**
-     * Reinicializa paginação
-     */
-    public resetPagination(): void {
-        this.news = [];
-        this.populated = false;
+    public applyUserFilter( filter ): void {
         this.hasMoreNews = true;
-        this.currentPage = 0;
+        this.pagination.pageNumber = 1;
+        angular.extend( this.filter, filter );
+        this.getNews( this.filter, this.pagination );
     }
 
 
@@ -156,6 +152,6 @@ export class NewsListController {
      * @param {string} id
      */
     public goToNews( id: string ): void {
-        this.$state.go( 'app.news/:id', { id: id } );
+        this.$state.go( 'app.news/:id', { id: id });
     }
 }
