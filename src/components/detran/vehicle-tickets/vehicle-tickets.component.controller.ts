@@ -48,24 +48,25 @@ export class VehicleTicketsController {
         this.getVehicleTickets( this.vehicle );
     }
 
-     /**
-     * 
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get ticketsPopulated(): boolean {
-        return angular.isDefined( this.tickets );
-    }
-
     /**
      * Indica se existem multas para o condutor autenticado no sistema.
      * 
      * @readonly
      * @type {boolean}
      */
-    public get hasTickets(): boolean {
-        return this.tickets!.length > 0;
+    public get ticketsFounded(): boolean {
+        return !!this.tickets && this.tickets.length > 0;
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     * @memberOf VehicleTicketsController
+     */
+    public get ticketsNotFounded(): boolean {
+        return !!this.tickets && this.tickets.length === 0;
     }
 
 
@@ -88,19 +89,18 @@ export class VehicleTicketsController {
     public getVehicleTickets( vehicle: Vehicle ): IPromise<Ticket[]> {
         return this.detranApiService.getVehicleTickets( vehicle )
             .then( tickets => {
-                this.tickets = tickets || [];
-                return this.tickets;
+                return this.tickets = tickets;
             })
             .catch(( error ) => this.handleError( error ) );
     }
 
-     /**
-      * 
-      * 
-      * @private
-      * @param {*} error
-      */
-     private handleError( error: any ): any {
+    /**
+     * 
+     * 
+     * @private
+     * @param {*} error
+     */
+    private handleError( error: any ): any {
         this.tickets = undefined;
         return error;
     }

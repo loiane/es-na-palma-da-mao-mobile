@@ -1,27 +1,152 @@
- /*
- eslint
- no-undef: 0,
- dot-notation: 0,
- angular/di: 0,
- no-unused-expressions: 0
- */
-
 import { VehicleTicketsController } from './vehicle-tickets.component.controller';
 import VehicleTicketsComponent from './vehicle-tickets.component';
 import VehicleTicketsTemplate from './vehicle-tickets.component.html';
+import { DetranApiService, TicketColorService, Ticket } from '../shared/index';
 
 let expect = chai.expect;
 
-/**
- *
- * Referência de unit-tests em angularjs:
- * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
- */
 describe( 'Detran/vehicle-tickets', () => {
 
     let sandbox: Sinon.SinonSandbox;
-    beforeEach( () => sandbox = sinon.sandbox.create() );
-    afterEach( () => sandbox.restore() );
+    beforeEach(() => sandbox = sinon.sandbox.create() );
+    afterEach(() => sandbox.restore() );
+
+    describe( 'Controller', () => {
+
+        let $scope;
+        let $stateParams: angular.ui.IStateParamsService;
+        let controller: VehicleTicketsController;
+        let onIonicBeforeEnterEvent;
+        let detranApiService: DetranApiService;
+        let ticketColorService: TicketColorService;
+
+        beforeEach(() => {
+            $scope = {
+                $on: ( event, callback ) => {
+                    if ( event === '$ionicView.beforeEnter' ) {
+                        onIonicBeforeEnterEvent = callback;
+                    }
+                }
+            };
+            $stateParams = <angular.ui.IStateParamsService>{
+                plate: 'OBL9090',
+                renavam: '123343545676'
+            };
+            detranApiService = <DetranApiService><any>{ getVehicleTickets() { } };
+            ticketColorService = new TicketColorService();
+
+            controller = new VehicleTicketsController( $scope, $stateParams, ticketColorService, detranApiService );
+        });
+
+        describe( 'on instantiation', () => {
+            it( 'should activate on $ionicView.beforeEnter event', () => {
+                let activate = sandbox.stub( controller, 'activate' ); // replace original activate
+
+                // simulates ionic before event trigger
+                onIonicBeforeEnterEvent();
+
+                expect( activate.calledOnce ).to.be.true;
+            });
+
+            it( 'tickets should be "undefined"', () => {
+                expect( controller.tickets ).to.be.undefined;
+            });
+
+            it( 'should fill vehicle with params data', () => {
+                expect( controller.vehicle ).to.be.deep.equal( $stateParams );
+            });
+        });
+
+        describe( 'activate()', () => {
+            it( 'should get vehicle tickets', () => {
+                let getVehicleTickets = sandbox.stub( controller, 'getVehicleTickets' );
+
+                controller.activate();
+
+                expect( getVehicleTickets.calledWithExactly( controller.vehicle ) ).to.be.true;
+            });
+        });
+
+
+        describe( 'getTicketLevelColor()', () => {
+            it( 'should call "ticketColorService.getTicketLevelColor()"', () => {
+                let getTicketLevelColor = sinon.stub( ticketColorService, 'getTicketLevelColor' );
+                let level = 'leve';
+
+                controller.getTicketLevelColor( level );
+
+                expect( getTicketLevelColor.calledWith( level ) ).to.be.true;
+            });
+        });
+
+        describe( 'getVehicleTickets()', () => {
+
+            let getVehicleTicketsApi: Sinon.SinonPromise;
+            let tickets: Ticket[] = [ {
+                classification: 'MÉDIA',
+                date: new Date(),
+                description: 'ESTACIONAR O VEÍCULO EM LOCAIS E HORÁRIOS PROIBIDOS ESPECIFICAMENTE PELA SINALIZAÇÃO (PLACA - PROIBIDO ESTACIONAR).',
+                district: 'VITORIA',
+                place: 'R. DR. MOACYR GONCALVES',
+                plate: 'MQH9400',
+                points: 4,
+                warning: false
+            }];
+
+            beforeEach(() => {
+                getVehicleTicketsApi = sandbox.stub( detranApiService, 'getVehicleTickets' ).returnsPromise();
+                getVehicleTicketsApi.resolves( tickets );
+            });
+
+
+            it( 'should populate tickets property', () => {
+                controller.getVehicleTickets( controller.vehicle );
+                expect( controller.tickets ).to.be.deep.equal( tickets );
+            });
+
+            it( 'should set tickets property to undefined on error', () => {
+                controller.tickets = tickets;
+                getVehicleTicketsApi.rejects();
+                controller.getVehicleTickets( controller.vehicle ).then(() => {
+                    expect( controller.tickets ).to.be.undefined;
+                });
+            });
+        });
+
+        describe( 'ticketsFounded', () => {
+            it( 'should return true if has tickets', () => {
+                controller.tickets = <Ticket[]>[ {}];
+                expect( controller.ticketsFounded ).to.be.true;
+            });
+
+            it( 'should return false if has no tickets', () => {
+                controller.tickets = [];
+                expect( controller.ticketsFounded ).to.be.false;
+            });
+
+            it( 'should return false if tickets is undefined', () => {
+                controller.tickets = undefined;
+                expect( controller.ticketsFounded ).to.be.false;
+            });
+        });
+
+        describe( 'ticketsNotFounded', () => {
+            it( 'should return false if has tickets', () => {
+                controller.tickets = <Ticket[]>[ {}];
+                expect( controller.ticketsNotFounded ).to.be.false;
+            });
+
+            it( 'should return true if has no tickets', () => {
+                controller.tickets = [];
+                expect( controller.ticketsNotFounded ).to.be.true;
+            });
+
+            it( 'should return false if tickets is undefined', () => {
+                controller.tickets = undefined;
+                expect( controller.ticketsFounded ).to.be.false;
+            });
+        });
+    });
 
     describe( 'Component', () => {
         // test the component/directive itself
@@ -29,23 +154,23 @@ describe( 'Detran/vehicle-tickets', () => {
 
         it( 'should use the right controller', () => {
             expect( component.controller ).to.equal( VehicleTicketsController );
-        } );
+        });
 
         it( 'should use the right template', () => {
             expect( component.template ).to.equal( VehicleTicketsTemplate );
-        } );
+        });
 
         it( 'should use controllerAs', () => {
             expect( component ).to.have.property( 'controllerAs' );
-        } );
+        });
 
         it( 'should use controllerAs "vm"', () => {
             expect( component.controllerAs ).to.equal( 'vm' );
-        } );
+        });
 
         it( 'should use bindToController: true', () => {
             expect( component ).to.have.property( 'bindToController' );
             expect( component.bindToController ).to.equal( true );
-        } );
-    } );
-} );
+        });
+    });
+});
