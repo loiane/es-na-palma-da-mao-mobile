@@ -14,7 +14,7 @@
 	<spinner ng-if="uiState.loading && vm.filter.pageNumber === 0"></spinner>
 	
 	<ion-content id="dio-search">
-		<md-list ng-if="!vm.pristine && vm.totalHits">
+		<md-list ng-if="vm.searched && vm.totalHits">
 			<md-subheader class="md-no-sticky">{{ ::vm.totalHits }} resultados encontrados para <span class="accent">"{{::vm.filter.query}}"</span></md-subheader>
 			<md-list-item class="md-2-line" ng-repeat="hit in vm.hits | orderBy:['-date','pageNumber']">
 				<div class="md-padding">
@@ -35,7 +35,7 @@
 			</md-list-item>
 		</md-list>
 		
-		<message ng-if="vm.pristine" text="Consulta ao Diário Oficial do ES ">
+		<message ng-if="!vm.searched" text="Consulta ao Diário Oficial do ES ">
 			<remark>
 				Para consultar, selecione um
 				<md-button class="md-accent md-raised" ng-click="vm.openFilter()">
@@ -44,7 +44,7 @@
 			</remark>
 		</message>
 
-		<message ng-if="!vm.pristine && !vm.totalHits" text="Nenhum resultado encontrado para">
+		<message ng-if="vm.searched && !vm.totalHits" text="Nenhum resultado encontrado para">
 			<highlight>"{{::vm.filter.query}}"</highlight>
 			<remark>Tente mudar o filtro da consulta</remark>
 		</message>
@@ -53,7 +53,7 @@
 			<remark ng-if="!uiState.error.handled">Não foi possível consultar o DIO/ES</remark>
 		</error-message>
 
-		<ion-infinite-scroll ng-if="!vm.pristine && vm.hasMoreHits"
+		<ion-infinite-scroll ng-if="!uiState.error && vm.searched && vm.hasMoreHits"
 							 on-infinite="vm.search( { pageNumber: vm.filter.pageNumber + 1  })"
 							 immediate-check="false"
 							 distance="20%">

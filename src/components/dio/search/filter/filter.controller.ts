@@ -38,8 +38,7 @@ export class FilterController {
         this.$mdDialog.hide( {
             query,
             dateMin,
-            dateMax,
-            pageNumber: 0
+            dateMax
         } );
     }
 }

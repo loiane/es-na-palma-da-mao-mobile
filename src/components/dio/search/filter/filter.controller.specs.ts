@@ -48,11 +48,10 @@ describe( 'Dio/search/filter', () => {
                 let query = 'prodest';
                 let dateMin = '2015-1-1';
                 let dateMax = '2016-1-1';
-                let pageNumber = 0;
 
                 controller.ok( query, dateMin, dateMax );
 
-                expect( hide.calledWith( { query, dateMin, dateMax, pageNumber } ) ).to.be.true;
+                expect( hide.calledWithExactly( { query, dateMin, dateMax } ) ).to.be.true;
             });
         });
     });

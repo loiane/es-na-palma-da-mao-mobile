@@ -19,11 +19,11 @@ export class SearchController {
         'dioApiService'
     ];
 
-    private hits: Hit[] = [];
-    private pristine = true;
-    private hasMoreHits = false;
-    private totalHits: number = 0;
-    private filter: SearchFilter = {
+    public hits: Hit[] = [];
+    public searched = false;
+    public hasMoreHits = false;
+    public totalHits: number = 0;
+    public filter: SearchFilter = {
         pageNumber: 0,
         sort: 'date'
     };
@@ -56,11 +56,10 @@ export class SearchController {
      * @param {SearchFilter} options
      * @returns {IPromise<SearchResult[]>}
      */
-    public search( options: SearchFilter ): IPromise<SearchResult> {
+    public search( filter: SearchFilter ): IPromise<SearchResult> {
+        angular.extend( this.filter, filter || {}); // atualiza o filtro
 
-        angular.extend( this.filter, options || {}); // atualiza o filtro
-
-        if ( this.filter.pageNumber === 0 ) {
+        if ( this.filter.pageNumber === 0  ) {
             this.hits = [];
             this.hasMoreHits = false;
             this.totalHits = 0;
@@ -74,7 +73,7 @@ export class SearchController {
                 return nextResults;
             })
             .finally(() => {
-                this.pristine = false;
+                this.searched = true;
                 this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
             });
     }
@@ -90,10 +89,13 @@ export class SearchController {
             controllerAs: 'vm',
             locals: this.filter
         })
-            .then(( newFilter: SearchFilter ) => {
-                this.search( newFilter );
-            });
+          .then( filter => {
+              filter.pageNumber = 0;
+              this.search( filter );
+          } );
     }
+
+
 
     /**
     * 
