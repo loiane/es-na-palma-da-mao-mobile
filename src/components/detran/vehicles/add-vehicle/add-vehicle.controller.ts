@@ -1,20 +1,19 @@
 import { ToastService } from '../../../shared/toast/index';
-import { VehicleStorage, DetranApiService, VehicleInfo, Vehicle } from '../../shared/index';
+import { Vehicle } from '../../shared/index';
 
 export class AddVehicleController {
 
-    public static $inject: string[] = [ '$mdDialog', 'detranStorage', 'detranApiService', 'toast' ];
+    public static $inject: string[] = [ '$mdDialog', 'toast' ];
 
     /**
      * Creates an instance of AddVehicleController.
      * 
      * @param {angular.material.IDialogService} $mdDialog
-     * @param {VehicleStorage} vehicleStorage
      * @param {ToastService} toast
+     * 
+     * @memberOf AddVehicleController
      */
     constructor( private $mdDialog: angular.material.IDialogService,
-        private vehicleStorage: VehicleStorage,
-        private detranApiService: DetranApiService,
         private toast: ToastService ) {
     }
 
@@ -35,11 +34,11 @@ export class AddVehicleController {
     public ok( plate: string, renavam: string ) {
 
         if ( !plate ) {
-            this.toast.info( { title: 'Placa é obrigatória' } ); return;
+            this.toast.info( { title: 'Placa é obrigatória' }); return;
         }
 
         if ( !renavam ) {
-            this.toast.info( { title: 'RENAVAM é obrigatório' } ); return;
+            this.toast.info( { title: 'RENAVAM é obrigatório' }); return;
         }
 
         let vehicle: Vehicle = {
@@ -47,24 +46,6 @@ export class AddVehicleController {
             renavam: renavam.toUpperCase()
         };
 
-        if ( this.vehicleStorage.existsVehicle( vehicle ) ) {
-            this.toast.error( { title: `Placa ou RENAVAM já cadastrado(s)` } ); return;
-        }
-
-        this.detranApiService
-            .getVehicle( vehicle )
-            .then(( data: VehicleInfo ) => {
-                vehicle.info = data;
-                this.$mdDialog.hide( vehicle );
-                return vehicle;
-            })
-            .catch(( error ) => {
-                // Caso o veículo não exista 404
-                if ( error.status === 404 ) {
-                    this.toast.error( { title: 'Veículo não encontrado' }); return;
-                } else {
-                    this.toast.error( { title: 'Erro ao salvar veículo' }); return;
-                }
-            });
+        this.$mdDialog.hide( vehicle );
     }
 }
