@@ -7,7 +7,7 @@ export class DatesFilterController {
      *
      * @param $mdDialog
      */
-    constructor( private $mdDialog ) {
+    constructor( private $mdDialog: angular.material.IDialogService ) {
 
     }
 
