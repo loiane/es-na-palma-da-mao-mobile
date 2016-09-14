@@ -4,20 +4,20 @@
 		<div class="cb-dialog-content-item select-all">
 			<md-checkbox aria-label="Selecionar todos"
 						 md-indeterminate="vm.isIndeterminate()"
-						 ng-checked="vm.isChecked()"
-						 ng-click="vm.toggleAll()">
-				<span ng-if="vm.isChecked()">Desmarcar</span>
-				<span ng-if="!vm.isChecked()">Marcar</span> todos
+						 ng-checked="vm.isAllChecked()"
+						 ng-click="vm.toggleAllChecked()">
+				<span ng-if="vm.isAllChecked()">Desmarcar</span>
+				<span ng-if="!vm.isAllChecked()">Marcar</span> todos
 			</md-checkbox>
 		</div>
 		<div class="cb-dialog-content">
 
 			<div ng-repeat="origin in vm.availableOrigins track by origin"
 				 class="cb-dialog-content-item">
-				<md-checkbox ng-checked="vm.exists(origin, vm.selectedOrigins)"
-							 ng-click="vm.toggle(origin, vm.selectedOrigins)"
+				<md-checkbox ng-checked="vm.isSelected(origin)"
+							 ng-click="vm.toggleChecked(origin)"
 							 aria-label="Selecionar">
-					{{ origin }}
+					{{ ::origin }}
 				</md-checkbox>
 			</div>
 		</div>

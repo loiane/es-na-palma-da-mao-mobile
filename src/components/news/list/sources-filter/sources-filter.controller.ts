@@ -2,15 +2,15 @@ export class SourcesFilterController {
 
     public static $inject: string[] = [ '$mdDialog' ];
 
-    private selectedOrigins: any[];
-    private availableOrigins: any[];
+    public selectedOrigins: any[];
+    public availableOrigins: any[];
 
     /**
      * @constructor
      *
      * @param $mdDialog
      */
-    constructor( private $mdDialog ) {
+    constructor( private $mdDialog: angular.material.IDialogService ) {
 
     }
 
@@ -25,7 +25,7 @@ export class SourcesFilterController {
      *
      */
     public ok( selectedOrigins ) {
-        this.$mdDialog.hide( {origins: selectedOrigins} );
+        this.$mdDialog.hide( { origins: selectedOrigins } );
     }
 
     /**
@@ -40,15 +40,15 @@ export class SourcesFilterController {
      *
      * @returns {boolean}
      */
-    public isChecked() {
-        return this.selectedOrigins.length === this.availableOrigins.length;
+    public isAllChecked() {
+        return this.selectedOrigins.length !== 0 && this.selectedOrigins.length === this.availableOrigins.length;
     }
 
     /**
      *
      */
-    public toggleAll() {
-        if ( this.isChecked() ) {
+    public toggleAllChecked() {
+        if ( this.isAllChecked() ) {
             this.selectedOrigins = [];
         } else if ( this.selectedOrigins.length === 0 || this.selectedOrigins.length > 0 ) {
             this.selectedOrigins = this.availableOrigins.slice( 0 );
@@ -59,12 +59,12 @@ export class SourcesFilterController {
      *
      * @param origin
      */
-    public toggle( origin, selectedOrigins ) {
-        let idx = selectedOrigins.indexOf( origin );
+    public toggleChecked( origin ) {
+        let idx = this.selectedOrigins.indexOf( origin );
         if ( idx > -1 ) {
-            selectedOrigins.splice( idx, 1 );
+            this.selectedOrigins.splice( idx, 1 );
         } else {
-            selectedOrigins.push( origin );
+            this.selectedOrigins.push( origin );
         }
     }
 
@@ -73,8 +73,8 @@ export class SourcesFilterController {
      * @param origin
      * @returns {boolean}
      */
-    public exists( origin, selectedOrigins ) {
-        return selectedOrigins.indexOf( origin ) > -1;
+    public isSelected( origin ) {
+        return this.selectedOrigins.indexOf( origin ) > -1;
     }
 }
 
