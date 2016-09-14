@@ -9,7 +9,7 @@ export class LatestController {
         'dioApiService'
     ];
 
-    private latestEditions: Edition[] = [];
+    public latestEditions: Edition[] = [];
 
     /**
      * Creates an instance of LatestController.
