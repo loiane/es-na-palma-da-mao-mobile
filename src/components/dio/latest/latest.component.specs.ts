@@ -74,7 +74,7 @@ describe( 'Dio/latest', () => {
 
         describe( 'openEdition()', () => {
             it( 'should open edition on Web', () => {
-                let $windowOpen = sinon.stub( $window, 'open' );
+                let $windowOpen = sandbox.stub( $window, 'open' );
 
                 controller.openEdition( 'edition-url' );
 

@@ -198,7 +198,7 @@ describe( 'Dio/search', () => {
 
             describe( 'open()', () => {
                 it( 'should open edition or page', () => {
-                    let $windowOpen = sinon.stub( $window, 'open' );
+                    let $windowOpen = sandbox.stub( $window, 'open' );
 
                     controller.open( 'edition-url' );
 

@@ -8,7 +8,7 @@ import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
 
 let expect = chai.expect;
 
-describe.only( 'Detran/vehicles', () => {
+describe( 'Detran/vehicles', () => {
 
     let sandbox: Sinon.SinonSandbox;
     beforeEach(() => sandbox = sinon.sandbox.create() );

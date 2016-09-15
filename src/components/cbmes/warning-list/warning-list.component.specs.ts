@@ -145,7 +145,7 @@ describe( 'cmbes/warning-list', () => {
                 lat = 2343434;
                 lng = 2342342;
                 label = 'Es';
-                $windowOpen = sinon.stub( $window, 'open' );
+                $windowOpen = sandbox.stub( $window, 'open' );
             });
 
             it( 'should open google maps on Web', () => {

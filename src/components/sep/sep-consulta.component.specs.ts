@@ -120,7 +120,7 @@ describe( 'SEP/sep-consulta', () => {
             let getProcessByNumber: Sinon.SinonStub;
 
             beforeEach(() => {
-                getProcessByNumber = sinon.stub( sepApiService, 'getProcessByNumber' );
+                getProcessByNumber = sandbox.stub( sepApiService, 'getProcessByNumber' );
                 getProcessByNumber.returnsPromise().resolves( process );
             });
 

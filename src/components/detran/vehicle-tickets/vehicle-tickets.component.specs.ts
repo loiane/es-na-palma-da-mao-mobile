@@ -70,7 +70,7 @@ describe( 'Detran/vehicle-tickets', () => {
 
         describe( 'getTicketLevelColor()', () => {
             it( 'should call "ticketColorService.getTicketLevelColor()"', () => {
-                let getTicketLevelColor = sinon.stub( ticketColorService, 'getTicketLevelColor' );
+                let getTicketLevelColor = sandbox.stub( ticketColorService, 'getTicketLevelColor' );
                 let level = 'leve';
 
                 controller.getTicketLevelColor( level );
