@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/prodest/es-na-palma-da-mao-mobile#readme",
   "devDependencies": {
-    "@uiuxengineering/karma-jspm": "^2.2.20",
+    "@uiuxengineering/karma-jspm": "^2.2.22",
     "angular-lazy-bundler": "^0.2.3",
     "babel": "^6.5.2",
     "babel-core": "^6.14.0",
