@@ -15,7 +15,6 @@ export class VehiclesController {
 
     public static $inject: string[] = [ '$scope', '$mdDialog', '$state', 'detranApiService', 'toast', 'dialog', 'detranStorage' ];
 
-    public vehicles: Vehicle[];
     public editing: boolean = false;
 
     /**
@@ -44,8 +43,18 @@ export class VehiclesController {
     /**
      * 
      */
-    public activate(): void {
-        this.vehicles = this.vehicleStorage.vehicles;
+    public activate(): void { }
+
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {Vehicle[]}
+     * @memberOf VehiclesController
+     */
+    public get vehicles(): Vehicle[] {
+        return this.vehicleStorage.vehicles;
     }
 
     /**
@@ -53,51 +62,74 @@ export class VehiclesController {
      * 
      * @param {Vehicle} vehicle
      */
-    public removeVehicle( vehicle: Vehicle ) {
+    public openRemoveVehicleModal( vehicle: Vehicle ) {
         this.dialog.confirm( { title: `Deseja remover o veículo com placa: ${vehicle.plate}?` })
-            .then(() => {
-                this.vehicles = this.vehicleStorage.removeVehicle( vehicle );
+            .then(() => this.removeVehicle( vehicle ) );
+    }
 
-                // sai do modo de edição se não resta nenhum veículo
-                if ( !this.vehicles.length ) {
-                    this.editing = false;
-                }
-            });
+    /**
+     * 
+     * 
+     * @param {Vehicle} vehicle
+     * 
+     * @memberOf VehiclesController
+     */
+    public removeVehicle( vehicle: Vehicle ) {
+        if ( !this.editing ) {
+            return;
+        }
+
+        let vehicles = this.vehicleStorage.removeVehicle( vehicle );
+
+        // sai do modo de edição se não resta nenhum veículo
+        if ( !vehicles.length ) {
+            this.editing = false;
+        }
     }
 
     /**
      * 
      */
-    public addVehicle(): void {
+    public openAddVehicleModal(): void {
         this.$mdDialog.show( {
             controller: AddVehicleController,
             template: addVehicleTemplate,
             bindToController: true,
             controllerAs: 'vm'
         })
-            .then(( vehicle: Vehicle ) => {
-                if ( this.vehicleStorage.existsVehicle( vehicle ) ) {
-                    this.toast.error( { title: 'Placa ou RENAVAM já cadastrado(s)' }); return;
-                }
-
-                this.detranApiService
-                    .getVehicle( vehicle )
-                    .then(( info: VehicleInfo ) => {
-                        vehicle.info = info;
-                        this.vehicles = this.vehicleStorage.addVehicle( vehicle );
-                        return vehicle;
-                    })
-                    .catch(( error ) => {
-                        // Caso o veículo não exista 404
-                        if ( error.status === 404 ) {
-                            this.toast.error( { title: 'Veículo não encontrado na base do DETRAN.' }); return;
-                        } else {
-                            this.toast.error( { title: 'Erro ao salvar veículo. Tente novamente' }); return;
-                        }
-                    });
-            });
+            .then(( vehicle: Vehicle ) => this.addVehicle( vehicle ) );
     }
 
+
+    /**
+     * 
+     * 
+     * @param {Vehicle} vehicle
+     * @returns
+     * 
+     * @memberOf VehiclesController
+     */
+    public addVehicle( vehicle: Vehicle ) {
+        if ( this.vehicleStorage.existsVehicle( vehicle ) ) {
+            this.toast.error( { title: 'Placa ou RENAVAM já cadastrado(s)' }); return;
+        }
+
+        this.detranApiService
+            .getVehicleInfo( vehicle )
+            .then(( info: VehicleInfo ) => {
+                vehicle.info = info;
+                this.vehicleStorage.addVehicle( vehicle );
+                return vehicle;
+            })
+            .catch(( error ) => {
+                // Caso o veículo não exista 404
+                if ( error.status === 404 ) {
+                    this.toast.error( { title: 'Veículo não encontrado na base do DETRAN.' }); return;
+                } else {
+                    this.toast.error( { title: 'Erro ao salvar veículo. Tente novamente' }); return;
+                }
+            });
+    }
 
     /**
      * 
