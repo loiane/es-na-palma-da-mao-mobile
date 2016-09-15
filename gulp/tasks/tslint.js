@@ -1,4 +1,5 @@
 ﻿import _isUndefined from 'lodash/isUndefined';
+import _merge from 'lodash/merge';
 import plumber from 'gulp-plumber';
 import debug from 'gulp-debug';
 import cached from 'gulp-cached';
@@ -16,6 +17,13 @@ let taskMetadata = {
     }
 };
 
+let defaultLintConfig = {
+    tslint: require( 'tslint' ),
+    configuration: 'tslint.json',
+    formatter: 'verbose'
+};
+
+
 /**
  * TSLint Task.
  *
@@ -32,17 +40,16 @@ class TSlintTask {
      *
      * @returns {TSLintTask} - A própria instância de TSLint
      */
-    setOptions( options = { lintConfig: {
-        tslint: require( 'tslint' ),
-        configuration: 'tslint.json',
-        formatter: 'verbose' }
-        } ) {
+    setOptions( options ) {
 
-        this.options = options;
+        this.options = options || {};
 
         if ( _isUndefined( this.options.src ) ) {
             throw new Error( 'TSlintTask: src é obrigatório!' );
         }
+
+        options.lintConfig = _merge( {}, defaultLintConfig, options );
+
         return this;
     }
 
@@ -62,9 +69,9 @@ class TSlintTask {
             let chain = this.options.base ? gulp.src( this.options.src, { base: this.options.base } ) : gulp.src( this.options.src );
 
             chain = chain.pipe( cached( this.options.taskName ) )
-                         .pipe( plumber() )
-                         .pipe( tslint( lintConfig ) )
-                         .pipe( tslint.report() );
+                .pipe( plumber() )
+                .pipe( tslint( lintConfig ) )
+                .pipe( tslint.report() );
 
             if ( this.options.debug.active ) {
                 chain = chain.pipe( debug( this.options.debug ) );
