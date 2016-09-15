@@ -32,7 +32,7 @@ describe( 'Dio/search', () => {
             };
             $mdDialog = { show() { } };
             $window = <any>{ open() { } };
-            dioApiService = <DioApiService>{
+            dioApiService = <DioApiService><any>{
                 search: () => { }
             };
             controller = new SearchController( $scope, $window, $mdDialog, dioApiService );
