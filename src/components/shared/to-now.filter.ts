@@ -3,7 +3,7 @@ import moment from 'moment';
 const toNowFilter = () => {
     return ( input, startOfDay ) => {
         let date = moment( input );
-        if ( date == null || !date.isValid() ) {
+        if ( !date || !date.isValid() ) {
             return input;
         }
         if ( startOfDay ) {

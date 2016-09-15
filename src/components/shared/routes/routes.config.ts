@@ -36,7 +36,7 @@ function routesConfig( $futureStateProvider ) {
                        } )
                        // this needs to be done so that the future state handler doesn't use the
                        // component name as state name
-                       .then( () => null )
+                       .then( () => undefined )
                        .catch( console.error.bind( console ) ); // eslint-disable-line angular/log
     }
 }

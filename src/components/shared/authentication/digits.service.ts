@@ -51,10 +51,10 @@ export class DigitsService {
          */
         this.$window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
             this.$localStorage.digitsAuthResponse = this.buildAccessToken( authResponse );
-            this.answersService.sendLogin( 'Digits', true, null );
+            this.answersService.sendLogin( 'Digits', true, undefined );
             onSuccess( authResponse );
         }, errorDigits => {
-            this.answersService.sendLogin( 'Digits', false, null );
+            this.answersService.sendLogin( 'Digits', false, undefined );
             onError( errorDigits );
         } );
     }

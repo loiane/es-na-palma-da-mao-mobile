@@ -32,7 +32,7 @@ let dependencies = [
     directives.name,
     pushModule.name,
     fabricModule.name,
-    permissionsModule.name,
+    permissionsModule.name
 ];
 
 export * from './toast/index';

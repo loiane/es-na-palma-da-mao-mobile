@@ -133,8 +133,7 @@ export class AcessoCidadaoService {
      * @returns {IPromise<AcessoCidadaoClaims>}
      */
     public refreshToken(): IPromise<AcessoCidadaoClaims> {
-        let token = this.token;
-        if ( token && !AcessoCidadaoService.refreshingToken ) {
+        if ( this.token && !AcessoCidadaoService.refreshingToken ) {
             AcessoCidadaoService.refreshingToken = true;
             try {
 
@@ -153,7 +152,7 @@ export class AcessoCidadaoService {
                     identity.client_secret = this.settings.identityServer.clients.espmExternalLoginAndroid.secret;
                 }
 
-                identity.refresh_token = token.refresh_token;
+                identity.refresh_token = this.token.refresh_token;
                 return this.getToken( identity )
                     .then( token => {
                         this.saveTokenOnLocaStorage( token );
@@ -317,7 +316,9 @@ export class AcessoCidadaoService {
             transformRequest: function ( obj ) {
                 let str: string[] = [];
                 for ( let p in obj ) {
-                    str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
+                    if ( obj.hasOwnProperty( p ) ) {
+                        str.push( encodeURIComponent( p ) + '=' + encodeURIComponent( obj[ p ] ) );
+                    }
                 }
                 return str.join( '&' );
             },

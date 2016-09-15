@@ -3,7 +3,7 @@ import moment from 'moment';
 const calendarFilter = () => {
     return ( input ) => {
         let date = moment( input );
-        if ( date == null || !date.isValid() ) {
+        if ( !date || !date.isValid() ) {
             return input;
         }
 

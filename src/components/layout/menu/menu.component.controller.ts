@@ -114,7 +114,7 @@ export default class MenuController {
             const dialogIsOpen = angular.element( document.querySelectorAll( '[id^=dialog]' ) ).length > 0;
             const menuContentIsOpen = angular.element( document.querySelectorAll( 'md-template-content' ) ).length > 0;
             const selectMenuIsOpen = angular.element( document.querySelectorAll( 'div._md-select-menu-container._md-active' ) ).length > 0;
-            const previousStateIsEmpty = this.$ionicHistory.backView() === null;
+            const previousStateIsEmpty = !this.$ionicHistory.backView();
 
             if ( sidenavIsOpen ) {
                 this.$mdSidenav( 'left' ).close();

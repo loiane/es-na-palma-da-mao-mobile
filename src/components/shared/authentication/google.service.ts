@@ -30,10 +30,10 @@ export class GoogleService {
 
         this.$window.plugins.googleplus.login( options, ( authResponse: GoogleAuthResponse ) => {
             this.$localStorage.googleAuthResponse = authResponse;
-            this.answersService.sendLogin( 'Google', true, null );
+            this.answersService.sendLogin( 'Google', true, undefined );
             onSuccess( authResponse );
         }, ( error ) => {
-            this.answersService.sendLogin( 'Google', false, null );
+            this.answersService.sendLogin( 'Google', false, undefined );
             onError( error );
         } );
     }

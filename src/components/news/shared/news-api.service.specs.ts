@@ -97,16 +97,6 @@ describe( 'NewsApiService', () => {
         });
 
         it( 'should call /news endpoint on news api passing all provided parameters', () => {
-            let filter: Filter = {
-                origins: [ 'SESA' ],
-                dateMin: new Date( 2015, 1, 1 ),
-                dateMax: new Date( 2016, 1, 1 )
-            };
-            let pagination: Pagination = {
-                pageNumber: 3,
-                pageSize: 15
-            };
-
             let params = angular.extend( {}, filter, pagination );
 
             newsApiService.getNews( filter, pagination );

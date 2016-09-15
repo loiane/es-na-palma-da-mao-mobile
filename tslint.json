@@ -1,6 +1,9 @@
 {
     "rules": {
-        "member-access": [true, "check-accessor"],
+        "member-access": [
+            true,
+            "check-accessor"
+        ],
         "class-name": true,
         "comment-format": [
             true,
@@ -14,7 +17,10 @@
         "no-duplicate-variable": true,
         "no-eval": true,
         "no-internal-module": true,
-        "no-namespace": [false, "allow-declarations"],
+        "no-namespace": [
+            false,
+            "allow-declarations"
+        ],
         "no-trailing-whitespace": true,
         "no-var-keyword": true,
         "no-var-requires": true,
@@ -23,7 +29,6 @@
             "check-open-brace",
             "check-whitespace"
         ],
-        
         "triple-equals": [
             true,
             "allow-null-check"
@@ -36,21 +41,27 @@
                 "parameter": "nospace",
                 "property-declaration": "nospace",
                 "variable-declaration": "nospace"
+            },
+            {
+                "call-signature": "onespace",
+                "index-signature": "onespace",
+                "parameter": "onespace",
+                "property-declaration": "onespace",
+                "variable-declaration": "onespace"
             }
         ],
-        
         "whitespace": [
             true,
             "check-branch",
             "check-decl",
             "check-operator",
             "check-separator",
-            "check-type"
+            "check-type",
+            "check-module"
         ],
-
         "new-parens": true,
         "one-variable-per-declaration": [
-            true, 
+            true,
             "ignore-for-loop"
         ],
         "quotemark": [
@@ -65,6 +76,30 @@
             true,
             "ban-keywords",
             "check-format"
-        ]
+        ],
+        "jsdoc-format": false, // revisar
+        "no-constructor-vars": false,
+        "object-literal-shorthand": false, // revisar
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        ],
+        "no-default-export": false, // revisar
+        "curly": true,
+        "forin": true,
+        "no-conditional-assignment": true,
+        "no-construct": true,
+        "no-duplicate-key": true,
+        "no-invalid-this": true,
+        "no-null-keyword": true,
+        "no-shadowed-variable": true,
+        "no-unreachable": true,
+        "no-unsafe-finally": true,
+        "no-unused-expression": true,
+        "no-unused-new": true,
+        "no-use-before-declare": true
     }
 }

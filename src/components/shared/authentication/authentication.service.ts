@@ -139,7 +139,7 @@ export class AuthenticationService {
                 provider: 'Celular',
                 accesstoken: 'token',
                 apiUrl: authResponse[ 'X-Auth-Service-Provider' ],
-                authHeader: authResponse[ 'X-Verify-Credentials-Authorization' ],
+                authHeader: authResponse[ 'X-Verify-Credentials-Authorization' ]
             };
 
             success( identity );

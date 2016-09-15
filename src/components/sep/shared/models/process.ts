@@ -5,7 +5,7 @@ export interface Process {
     parts: string[];
     subject: string;
     summary: string;
-    status:  string;
+    status: string;
     updates: ProcessUpdate[];
     district: string;
     extra: string;

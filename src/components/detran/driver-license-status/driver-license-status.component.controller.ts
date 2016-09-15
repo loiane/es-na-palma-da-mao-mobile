@@ -68,11 +68,11 @@ export class DriverLicenseStatusController {
     }
 
     /**
-    * Se o condutor autenticado no sistema está com a carteira de motorista vencida.
-    * 
-    * @readonly
-    * @type {boolean}
-    */
+     * Se o condutor autenticado no sistema está com a carteira de motorista vencida.
+     * 
+     * @readonly
+     * @type {boolean}
+     */
     public get licenseExpired(): boolean {
         return !!this.expirationDate && moment( this.expirationDate ).add( 30, 'days' ).isBefore( moment().startOf( 'day' ) );
     }
@@ -95,7 +95,7 @@ export class DriverLicenseStatusController {
      * @readonly
      * @type {Date}
      */
-    public get expirationDate(): Date | undefined{
+    public get expirationDate(): Date | undefined {
         if ( this.driverData ) {
             return this.driverData.expirationDate;
         }

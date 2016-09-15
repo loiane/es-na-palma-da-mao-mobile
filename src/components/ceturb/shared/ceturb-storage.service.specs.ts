@@ -21,7 +21,7 @@ describe( 'CeturbStorage', () => {
             user: {
                 cfp: '12345678912',
                 cnhNumero: '77777777777',
-                cnhCedula: '88888888888',
+                cnhCedula: '88888888888'
             }
         };
         ceturbStorage = new CeturbStorage( $localStorage, authenticationService );

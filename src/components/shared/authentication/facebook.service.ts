@@ -47,10 +47,10 @@ export class FacebookService {
          */
         this.$window.facebookConnectPlugin.login( scopes, ( response: FacebookResponse ) => {
             this.$localStorage.facebookAuthResponse = response.authResponse;
-            this.answersService.sendLogin( 'Facebook', true, null );
+            this.answersService.sendLogin( 'Facebook', true, undefined );
             onSuccess( response.authResponse );
         }, error => {
-            this.answersService.sendLogin( 'Facebook', false, null );
+            this.answersService.sendLogin( 'Facebook', false, undefined );
             onError( error );
         });
     }

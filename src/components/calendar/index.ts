@@ -27,7 +27,7 @@ export default angular.module( 'calendar.component', dependencies )
                                   .state( 'app.dashboard.calendar', {
                                       url: 'agenda',
                                       data: { title: 'AGENDA ES' },
-                                      nativeTransitions: null,
+                                      nativeTransitions: undefined,
                                       views: {
                                           'tab-calendar': {
                                               template: '<espm-calendar></espm-calendar>'

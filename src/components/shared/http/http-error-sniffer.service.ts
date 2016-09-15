@@ -1,6 +1,6 @@
- import { Error } from './models/index';
+import { Error } from './models/index';
 
- /**
+/**
  * 
  * @export
  * @class HttpErrorSnifferService

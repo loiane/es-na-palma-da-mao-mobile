@@ -33,7 +33,7 @@ export class PushService {
         let data: PushUser = {
             user: this.$localStorage.tokenClaims.sub,
             type: ionic.Platform.platform(),
-            token: token,
+            token: token
         };
 
         this.$http.post( `${this.settings.api.push}/subscribe`, data );
