@@ -24,7 +24,7 @@ export class CeturbStorage {
     /**
      * 
      */
-    private get favoriteLinesKey() {
+    public get favoriteLinesKey() {
         return `user-${this.authenticationService.user.cpf}-lines`;  // sub é o id do usuário logado
     }
 
@@ -66,8 +66,9 @@ export class CeturbStorage {
      * @param {BusLine} line
      * @returns {BusLine[]}
      */
-    public addToFavoriteLines( line: BusLine ): void {
+    public addToFavoriteLines( line: BusLine ): BusLine[] {
         this.favoriteLines.push( line );
+        return this.favoriteLines;
     }
 
     /**
@@ -76,7 +77,8 @@ export class CeturbStorage {
      * @param {BusLine} line
      * @returns {BusLine[]}
      */
-    public removeFromFavoriteLines( line: BusLine ): void {
+    public removeFromFavoriteLines( line: BusLine ): BusLine[] {
         this.favoriteLines = this.favoriteLines.filter( l => l.number !== line.number );
+        return this.favoriteLines;
     }
 }
