@@ -140,8 +140,6 @@ describe( 'Detran/vehicles', () => {
                 controller.removeVehicle( vehicle );
 
                 expect( storageRemoveVehicle.calledWithExactly( vehicle ) ).to.be.true;
-
-                expect( storageRemoveVehicle.calledWithExactly( vehicle ) ).to.be.true;
             });
 
             it( 'should not remove vehicle from local storage if not in edit mode', () => {
