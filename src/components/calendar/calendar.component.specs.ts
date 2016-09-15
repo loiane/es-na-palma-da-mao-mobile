@@ -1,23 +1,12 @@
-/*
- eslint
- no-undef: 0,
- dot-notation: 0,
- angular/di: 0,
- no-unused-expressions: 0
- */
 import moment from 'moment';
 import { CalendarController } from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
 import CalendarTemplate from './calendar.component.html';
 import { CalendarApiService } from './shared/calendar-api.service';
+import { environment } from '../shared/tests/index';
 
 let expect = chai.expect;
 
-/**
- *
- * Referência de unit-tests em angularjs:
- * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
- */
 describe( 'Calendar', () => {
 
     let sandbox: Sinon.SinonSandbox;
@@ -27,7 +16,6 @@ describe( 'Calendar', () => {
     describe( 'Controller', () => {
         let controller: CalendarController;
         let calendarApiService: CalendarApiService;
-        let onIonicBeforeEnterEvent;
 
         // mocka data
         let availableCalendars = [ { name: 'SEFAZ' }, { name: 'SEGER' }, { name: 'SEJUS' }];
@@ -40,18 +28,12 @@ describe( 'Calendar', () => {
         let getFullCalendarsApi: Sinon.SinonPromise;
 
         beforeEach(() => {
-            let $scope = <any>{
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
+            environment.refresh();
             calendarApiService = <CalendarApiService>{ getAvailableCalendars() { }, getFullCalendars() { } };
             getAvailableCalendarsApi = sandbox.stub( calendarApiService, 'getAvailableCalendars' ).returnsPromise();
             getFullCalendarsApi = sandbox.stub( calendarApiService, 'getFullCalendars' ).returnsPromise();
 
-            controller = new CalendarController( $scope, calendarApiService );
+            controller = new CalendarController( environment.$scope, calendarApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -72,7 +54,7 @@ describe( 'Calendar', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });

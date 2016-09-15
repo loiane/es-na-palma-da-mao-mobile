@@ -1,5 +1,5 @@
 import { SourcesFilterController } from './sources-filter.controller';
-
+import { $mdDialogMock } from '../../../shared/tests/index';
 let expect = chai.expect;
 
 describe( 'News/news-list/sources-filter', () => {
@@ -10,11 +10,8 @@ describe( 'News/news-list/sources-filter', () => {
 
     describe( 'Controller', () => {
         let controller: SourcesFilterController;
-        let $mdDialog;
-
         beforeEach(() => {
-            $mdDialog = { hide() { }, cancel() { } };
-            controller = new SourcesFilterController( $mdDialog );
+            controller = new SourcesFilterController( $mdDialogMock );
         });
 
         describe( 'on instantiation', () => {
@@ -29,7 +26,7 @@ describe( 'News/news-list/sources-filter', () => {
 
         describe( 'cancel()', () => {
             it( 'should cancel modal', () => {
-                let cancel = sandbox.stub( $mdDialog, 'cancel' );
+                let cancel = sandbox.stub( $mdDialogMock, 'cancel' );
 
                 controller.cancel();
 
@@ -40,7 +37,7 @@ describe( 'News/news-list/sources-filter', () => {
 
         describe( 'ok()', () => {
             it( 'should close modal passing filter data', () => {
-                let hide = sandbox.stub( $mdDialog, 'hide' );
+                let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let selectedOrigins = [ 'SESA', 'SEDU' ];
 
                 controller.ok( selectedOrigins );

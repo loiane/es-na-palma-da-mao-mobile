@@ -1,23 +1,11 @@
-/*
- eslint
- no-undef: 0,
- dot-notation: 0,
- angular/di: 0,
- no-unused-expressions: 0
- */
-
 import { WarningListController } from './warning-list.component.controller';
 import WarningListComponent from './warning-list.component';
 import WarningListTemplate from './warning-list.component.html';
 import { CbmesApiService, Warning } from '../shared/index';
+import { environment, $windowMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
-/**
- *
- * Referência de unit-tests em angularjs:
- * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
- */
 describe( 'cmbes/warning-list', () => {
 
     let sandbox: Sinon.SinonSandbox;
@@ -27,9 +15,6 @@ describe( 'cmbes/warning-list', () => {
     describe( 'Controller', () => {
         let controller: WarningListController;
         let cbmesApiService: CbmesApiService;
-        let onIonicBeforeEnterEvent;
-        let $window: any;
-        let $scope: any;
 
         // mocka data
         let warnings: Warning[] =
@@ -71,16 +56,9 @@ describe( 'cmbes/warning-list', () => {
             }];
 
         beforeEach(() => {
-            $window =  <any>{ open() {} };
-            $scope = <any>{
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
+            environment.refresh();
             cbmesApiService = <CbmesApiService>{ getLastWarnings() { } };
-            controller = new WarningListController( $scope, $window, cbmesApiService );
+            controller = new WarningListController( environment.$scope, $windowMock, cbmesApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -94,7 +72,7 @@ describe( 'cmbes/warning-list', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -145,11 +123,11 @@ describe( 'cmbes/warning-list', () => {
                 lat = 2343434;
                 lng = 2342342;
                 label = 'Es';
-                $windowOpen = sandbox.stub( $window, 'open' );
+                $windowOpen = sandbox.stub( $windowMock, 'open' );
             });
 
             it( 'should open google maps on Web', () => {
-                $scope.isAndroid = false;
+                environment.$scope.isAndroid = false;
 
                 controller.openLocation( lat, lng, label );
 
@@ -157,7 +135,15 @@ describe( 'cmbes/warning-list', () => {
             });
 
             it( 'should open google maps on Android device', () => {
-                $scope.isAndroid = true;
+                environment.$scope.isAndroid = true;
+
+                controller.openLocation( lat, lng, label );
+
+                expect( $windowOpen.calledWith( `geo:0,0?q=${lat},${lng}(${encodeURI( label )})`, '_system' ) ).to.be.true;
+            });
+
+            it( 'should ope345n google maps on Android device', () => {
+                environment.$scope.isAndroid = true;
 
                 controller.openLocation( lat, lng, label );
 

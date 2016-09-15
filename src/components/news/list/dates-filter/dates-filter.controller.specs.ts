@@ -1,4 +1,5 @@
 import { DatesFilterController } from './dates-filter.controller';
+import { $mdDialogMock } from '../../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -10,16 +11,13 @@ describe( 'News/news-list/dates-filter', () => {
 
     describe( 'Controller', () => {
         let controller: DatesFilterController;
-        let $mdDialog;
-
         beforeEach(() => {
-            $mdDialog = { hide() { }, cancel() { } };
-            controller = new DatesFilterController( $mdDialog );
+            controller = new DatesFilterController( $mdDialogMock );
         });
 
         describe( 'cancel()', () => {
             it( 'should cancel modal', () => {
-                let cancel = sandbox.stub( $mdDialog, 'cancel' );
+                let cancel = sandbox.stub( $mdDialogMock, 'cancel' );
 
                 controller.cancel();
 
@@ -27,16 +25,15 @@ describe( 'News/news-list/dates-filter', () => {
             });
         });
 
-
         describe( 'ok()', () => {
             it( 'should close modal passing filter data', () => {
-                let hide = sandbox.stub( $mdDialog, 'hide' );
+                let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let dateMin = new Date( '01-01-2016' );
                 let dateMax = new Date( '05-05-2016' );
 
                 controller.ok( dateMin, dateMax );
 
-                expect( hide.calledWith( { dateMin, dateMax } ) ).to.be.true;
+                expect( hide.calledWith( { dateMin, dateMax }) ).to.be.true;
             });
         });
     });

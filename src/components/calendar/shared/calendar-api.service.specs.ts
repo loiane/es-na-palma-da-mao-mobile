@@ -18,24 +18,24 @@ describe( 'CalendarApiService', () => {
     let settings: ISettings;
     let $httpGet: Sinon.SinonStub;
 
-    beforeEach( () => sandbox = sinon.sandbox.create() );
-    afterEach( () => sandbox.restore() );
+    beforeEach(() => sandbox = sinon.sandbox.create() );
+    afterEach(() => sandbox.restore() );
 
-    beforeEach( () => {
-        let $http: any = { get() {} };
+    beforeEach(() => {
+        let $http: any = { get() { } };
         $httpGet = sandbox.stub( $http, 'get' );
         $httpGet.returnsPromise();
 
         settings = Settings.getInstance();
         calendarApiService = new CalendarApiService( $http, settings );
-    } );
+    });
 
     describe( 'getAvailableCalendars()', () => {
         it( 'should call calendars api endpoint', () => {
             calendarApiService.getAvailableCalendars();
 
             expect( $httpGet.calledWith( settings.api.calendars ) ).to.be.true;
-        } );
+        });
 
         it( 'should normalize response to response.data property', () => {
             let response = {
@@ -45,11 +45,11 @@ describe( 'CalendarApiService', () => {
             };
             $httpGet.returnsPromise().resolves( response );
 
-            calendarApiService.getAvailableCalendars().then( ( calendars ) => {
+            calendarApiService.getAvailableCalendars().then(( calendars ) => {
                 expect( calendars ).to.deep.equal( response.data );
-            } );
-        } );
-    } );
+            });
+        });
+    });
 
     describe( 'getFullCalendars( calendars, options = {} )', () => {
 
@@ -59,8 +59,8 @@ describe( 'CalendarApiService', () => {
 
                 calendarApiService.getFullCalendars( [] );
 
-                expect( $httpGet.calledWith( `${settings.api.calendars}/events`) ).to.be.true;
-            } );
+                expect( $httpGet.calledWith( `${settings.api.calendars}/events` ) ).to.be.true;
+            });
 
             it( 'should normalize response to response.data property', () => {
                 let response = {
@@ -70,11 +70,11 @@ describe( 'CalendarApiService', () => {
                 };
                 $httpGet.returnsPromise().resolves( response );
 
-                calendarApiService.getFullCalendars( [], {} ).then( ( calendars ) => {
+                calendarApiService.getFullCalendars( [], {}).then(( calendars ) => {
                     expect( calendars ).to.deep.equal( response.data );
-                } );
-            } );
-        } );
+                });
+            });
+        });
 
         describe( 'with no provided calendars', () => {
 
@@ -85,8 +85,8 @@ describe( 'CalendarApiService', () => {
 
                 expect( $httpGet.getCall( 0 ).args[ 1 ].params.calendars ).to.deep.equal( [] );
                 expect( $httpGet.getCall( 1 ).args[ 1 ].params.calendars ).to.deep.equal( [] );
-            } );
-        } );
+            });
+        });
 
         describe( 'with provided options', () => {
 
@@ -105,16 +105,18 @@ describe( 'CalendarApiService', () => {
 
                 calendarApiService.getFullCalendars( selectedCalendars, options );
 
-                let spyCall = $httpGet.getCall( 0 );
-
-                expect( spyCall.args[ 1 ].params.calendars ).to.equal( options.calendars );
-                expect( spyCall.args[ 1 ].params.singleEvents ).to.equal( options.singleEvents );
-                expect( spyCall.args[ 1 ].params.orderBy ).to.equal( options.orderBy );
-                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( options.timeMin.getTime() );
-                expect( spyCall.args[ 1 ].params.timeMax.getTime() ).to.equal( options.timeMax.getTime() );
-                expect( spyCall.args[ 1 ].params.timeZone ).to.equal( options.timeZone );
-            } );
-        } );
+                expect( $httpGet.calledWithExactly( `${settings.api.calendars}/events`, {
+                    params: {
+                        calendars: options.calendars,
+                        singleEvents: options.singleEvents,
+                        orderBy: options.orderBy,
+                        timeMin: options.timeMin,   // começo do ano corrente
+                        timeMax: options.timeMax, // final do ano corrente
+                        timeZone: options.timeZone
+                    }
+                }) ).to.be.true;
+            });
+        });
 
         describe( 'with no options', () => {
 
@@ -131,17 +133,20 @@ describe( 'CalendarApiService', () => {
 
                 calendarApiService.getFullCalendars( [] );
 
-                let spyCall = $httpGet.getCall( 0 );
-
-                expect( spyCall.args[ 1 ].params.singleEvents ).to.equal( defaults.singleEvents );
-                expect( spyCall.args[ 1 ].params.orderBy ).to.equal( defaults.orderBy );
-                expect( spyCall.args[ 1 ].params.timeMin.getTime() ).to.equal( defaults.timeMin.getTime() );
-                expect( spyCall.args[ 1 ].params.timeMax.getTime() ).to.equal( defaults.timeMax.getTime() );
-                expect( spyCall.args[ 1 ].params.timeZone ).to.equal( defaults.timeZone );
-            } );
-        } );
-    } );
-} );
+                expect( $httpGet.calledWithExactly( `${settings.api.calendars}/events`, {
+                    params: {
+                        calendars: [],
+                        singleEvents: defaults.singleEvents,
+                        orderBy: defaults.orderBy,
+                        timeMin: defaults.timeMin,   // começo do ano corrente
+                        timeMax: defaults.timeMax, // final do ano corrente
+                        timeZone: defaults.timeZone
+                    }
+                }) ).to.be.true;
+            });
+        });
+    });
+});
 
 
 

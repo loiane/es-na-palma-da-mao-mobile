@@ -4,6 +4,7 @@ import SearchTemplate from './search.component.html';
 import { Hit, SearchResult, DioApiService, SearchFilter } from '../shared/index';
 import filterTemplate from './filter/filter.html';
 import { FilterController } from './filter/filter.controller';
+import { environment, $windowMock, $mdDialogMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -16,26 +17,11 @@ describe( 'Dio/search', () => {
     describe( 'Controller', () => {
         let controller: SearchController;
         let dioApiService: DioApiService;
-        let $mdDialog;
-        let onIonicBeforeEnterEvent;
-        let $window: any;
-        let $scope: any;
 
         beforeEach(() => {
-            $scope = <any>{
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                },
-                $broadcast: () => { }
-            };
-            $mdDialog = { show() { } };
-            $window = <any>{ open() { } };
-            dioApiService = <DioApiService><any>{
-                search: () => { }
-            };
-            controller = new SearchController( $scope, $window, $mdDialog, dioApiService );
+            environment.refresh();
+            dioApiService = <DioApiService><any>{ search: () => { } };
+            controller = new SearchController( environment.$scope, $windowMock, $mdDialogMock, dioApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -67,7 +53,7 @@ describe( 'Dio/search', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -136,7 +122,7 @@ describe( 'Dio/search', () => {
             });
 
             it( 'should broadcast scroll.infiniteScrollComplete event', () => {
-                let $broadcast = sandbox.spy( $scope, '$broadcast' );
+                let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
 
                 controller.search( controller.filter );
 
@@ -149,7 +135,7 @@ describe( 'Dio/search', () => {
             let $mdDialogShow: Sinon.SinonStub;
 
             beforeEach(() => {
-                $mdDialogShow = sandbox.stub( $mdDialog, 'show' );
+                $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
                 $mdDialogShow.returnsPromise();
             });
 
@@ -162,12 +148,13 @@ describe( 'Dio/search', () => {
 
                 controller.openFilter();
 
-                let spyCall = $mdDialogShow.getCall( 0 );
-                expect( spyCall.args[ 0 ].controller ).to.equal( FilterController );
-                expect( spyCall.args[ 0 ].template ).to.equal( filterTemplate );
-                expect( spyCall.args[ 0 ].bindToController ).to.equal( true );
-                expect( spyCall.args[ 0 ].controllerAs ).to.equal( 'vm' );
-                expect( spyCall.args[ 0 ].locals ).to.deep.equal( controller.filter );
+                expect( $mdDialogShow.calledWithExactly( {
+                    controller: FilterController,
+                    template: filterTemplate,
+                    bindToController: true,
+                    controllerAs: 'vm',
+                    locals: controller.filter
+                }) ).to.be.true;
             });
 
             describe( 'on filter edited:', () => {
@@ -175,7 +162,7 @@ describe( 'Dio/search', () => {
                 let userFilter: SearchFilter;
                 let search: Sinon.SinonStub;
 
-                beforeEach( () => {
+                beforeEach(() => {
                     userFilter = {
                         pageNumber: 100,
                         sort: 'date'
@@ -184,7 +171,7 @@ describe( 'Dio/search', () => {
                     $mdDialogShow.returnsPromise().resolves( userFilter );
 
                     controller.openFilter();
-                } );
+                });
 
                 it( 'should search DIO with the provided filter', () => {
                     expect( search.calledWith( userFilter ) ).to.be.true;
@@ -198,7 +185,7 @@ describe( 'Dio/search', () => {
 
             describe( 'open()', () => {
                 it( 'should open edition or page', () => {
-                    let $windowOpen = sandbox.stub( $window, 'open' );
+                    let $windowOpen = sandbox.stub( $windowMock, 'open' );
 
                     controller.open( 'edition-url' );
 

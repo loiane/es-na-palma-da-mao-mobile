@@ -1,24 +1,10 @@
-/*
- eslint
- no-undef: 0,
- dot-notation: 0,
- angular/di: 0,
- no-unused-expressions: 0
- */
-
 import SepConsultaComponent from './sep-consulta.component';
 import SepConsultaTemplate from './sep-consulta.component.html';
 import { SepApiService, Process } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
-import { } from './shared/index';
-import { ToastService } from '../shared/toast/index';
+import { environment, toastServiceMock } from '../shared/tests/index';
 let expect = chai.expect;
 
-/**
- *
- * Referência de unit-tests em angularjs:
- * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
- */
 describe( 'SEP/sep-consulta', () => {
 
     let sandbox: Sinon.SinonSandbox;
@@ -27,12 +13,8 @@ describe( 'SEP/sep-consulta', () => {
 
     describe( 'Controller', () => {
         let controller: SepConsultaController;
-        let $scope;
         let sepApiService: SepApiService;
-        let toastService: ToastService;
         let $ionicScrollDelegate;
-        let onIonicBeforeEnterEvent;
-
         let processNumber = '68985037';
 
         let process: Process = <Process>{
@@ -55,27 +37,16 @@ describe( 'SEP/sep-consulta', () => {
         };
 
         beforeEach(() => {
-            $scope = {
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
-
+            environment.refresh();
             $ionicScrollDelegate = {
                 scrollTo: sandbox.stub().returnsPromise().resolves()
-            };
-
-            toastService = <ToastService><any>{
-                info: () => { }
             };
 
             sepApiService = <SepApiService><any>{
                 getProcessByNumber: () => { }
             };
 
-            controller = new SepConsultaController( $scope, $ionicScrollDelegate, toastService, sepApiService );
+            controller = new SepConsultaController( environment.$scope, $ionicScrollDelegate, toastServiceMock, sepApiService );
         });
 
         describe( 'on instanciation', () => {
@@ -83,7 +54,7 @@ describe( 'SEP/sep-consulta', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -125,7 +96,7 @@ describe( 'SEP/sep-consulta', () => {
             });
 
             it( 'should show validation message if no process number is provided', () => {
-                let info = sandbox.stub( toastService, 'info' ); // replace original activate
+                let info = sandbox.stub( toastServiceMock, 'info' ); // replace original activate
 
                 controller.getProcess( '' );
                 expect( info.calledWith( { title: 'N° do processo é obrigatório' }) ).to.be.true;

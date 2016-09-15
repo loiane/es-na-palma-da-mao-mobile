@@ -7,6 +7,7 @@ import sourcesFilterTemplate from './sources-filter/sources-filter.html';
 import datesFilterTemplate from './dates-filter/dates-filter.html';
 import { SourcesFilterController } from './sources-filter/sources-filter.controller';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
+import { environment, $stateMock, $mdDialogMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -19,28 +20,15 @@ describe( 'News/news-list', () => {
     describe( 'Controller', () => {
         let controller: NewsListController;
         let newsApiService: NewsApiService;
-        let $mdDialog;
-        let onIonicBeforeEnterEvent;
         let availableOrigins = [ 'SESA', 'SEJUS', 'SEGER' ];
-        let $state: angular.ui.IStateService;
-        let $scope: any;
 
         beforeEach(() => {
-            $scope = <any>{
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                },
-                $broadcast: () => { }
-            };
-            $mdDialog = { show() { } };
-            $state = <angular.ui.IStateService><any>{ go: () => { } };
+            environment.refresh();
             newsApiService = <NewsApiService><any>{
                 getNews: () => { },
                 getAvailableOrigins: () => { }
             };
-            controller = new NewsListController( $scope, $state, $mdDialog, newsApiService );
+            controller = new NewsListController( environment.$scope, $stateMock, $mdDialogMock, newsApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -58,7 +46,7 @@ describe( 'News/news-list', () => {
             });
 
             it( 'should have a filter', () => {
-                expect( controller.filter ).to.be.deep.equal( {} );
+                expect( controller.filter ).to.be.deep.equal( {});
             });
 
             it( 'should have a default pagination', () => {
@@ -72,7 +60,7 @@ describe( 'News/news-list', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -168,7 +156,7 @@ describe( 'News/news-list', () => {
             });
 
             it( 'should broadcast scroll.infiniteScrollComplete event', () => {
-                let $broadcast = sandbox.spy( $scope, '$broadcast' );
+                let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
 
                 controller.getNews( controller.filter, controller.pagination );
 
@@ -180,7 +168,7 @@ describe( 'News/news-list', () => {
             let $mdDialogShow: Sinon.SinonStub;
 
             beforeEach(() => {
-                $mdDialogShow = sandbox.stub( $mdDialog, 'show' );
+                $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
                 $mdDialogShow.returnsPromise();
             });
 
@@ -192,15 +180,16 @@ describe( 'News/news-list', () => {
 
                     controller.openOriginsFilter();
 
-                    let spyCall = $mdDialogShow.getCall( 0 );
-                    expect( spyCall.args[ 0 ].controller ).to.equal( SourcesFilterController );
-                    expect( spyCall.args[ 0 ].template ).to.equal( sourcesFilterTemplate );
-                    expect( spyCall.args[ 0 ].bindToController ).to.equal( true );
-                    expect( spyCall.args[ 0 ].controllerAs ).to.equal( 'vm' );
-                    expect( spyCall.args[ 0 ].locals ).to.deep.equal( {
-                        availableOrigins: controller.availableOrigins,
-                        selectedOrigins: controller.filter.origins
-                    });
+                    expect( $mdDialogShow.calledWithExactly( {
+                        controller: SourcesFilterController,
+                        template: sourcesFilterTemplate,
+                        bindToController: true,
+                        controllerAs: 'vm',
+                        locals: {
+                            availableOrigins: controller.availableOrigins,
+                            selectedOrigins: controller.filter.origins
+                        }
+                    }) ).to.be.true;
                 });
 
                 describe( 'on sources filter edited:', () => {
@@ -228,15 +217,16 @@ describe( 'News/news-list', () => {
 
                     controller.openDateFilter();
 
-                    let spyCall = $mdDialogShow.getCall( 0 );
-                    expect( spyCall.args[ 0 ].controller ).to.equal( DatesFilterController );
-                    expect( spyCall.args[ 0 ].template ).to.equal( datesFilterTemplate );
-                    expect( spyCall.args[ 0 ].bindToController ).to.equal( true );
-                    expect( spyCall.args[ 0 ].controllerAs ).to.equal( 'vm' );
-                    expect( spyCall.args[ 0 ].locals ).to.deep.equal( {
-                        dateMin: controller.filter.dateMin,
-                        dateMax: controller.filter.dateMax
-                    });
+                    expect( $mdDialogShow.calledWithExactly( {
+                        controller: DatesFilterController,
+                        template: datesFilterTemplate,
+                        bindToController: true,
+                        controllerAs: 'vm',
+                        locals: {
+                            dateMin: controller.filter.dateMin,
+                            dateMax: controller.filter.dateMax
+                        }
+                    }) ).to.be.true;
                 });
 
                 describe( 'on dates filter edited:', () => {
@@ -258,7 +248,7 @@ describe( 'News/news-list', () => {
 
         describe( 'goToNews( id )', () => {
             it( 'should show selected news', () => {
-                let go = sandbox.stub( $state, 'go' );
+                let go = sandbox.stub( $stateMock, 'go' );
                 let id = '123456';
 
                 controller.goToNews( id );

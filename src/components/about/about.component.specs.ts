@@ -1,25 +1,14 @@
-/*
- eslint
- no-undef: 0,
- dot-notation: 0,
- angular/di: 0,
- no-unused-expressions: 0
- */
-
 import { AboutController } from './about.component.controller';
 import AboutComponent from './about.component';
 import AboutTemplate from './about.component.html';
 import { TeamsApiService, TeamMember } from './shared/index';
+import { $windowMock, environment } from '../shared/tests/index';
+
 import packageJson from '../../package.json!';
 import logoProdest from '../shared/img/prodest-logo.png!image';
 
 let expect = chai.expect;
 
-/**
- *
- * Referência de unit-tests em angularjs:
- * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
- */
 describe( 'About', () => {
 
     let sandbox: Sinon.SinonSandbox;
@@ -29,28 +18,17 @@ describe( 'About', () => {
     describe( 'Controller', () => {
         let controller: AboutController;
         let teamsApiService: TeamsApiService;
-        let onIonicBeforeEnterEvent;
-        let $window: Sinon.SinonStub;
         let teamMembers = <TeamMember[]>[
             { login: 'login1', avatar_url: 'avatar_url1' },
             { login: 'login2', avatar_url: 'avatar_url2' }
         ];
 
         beforeEach(() => {
-            $window = <any>{ open: () => { } };
-            let $scope = <any>{
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
-            teamsApiService = <TeamsApiService>{
-                getTeamMembers: () => { }
-            };
+            environment.refresh();
+            teamsApiService = <TeamsApiService>{ getTeamMembers: () => { } };
             sandbox.stub( teamsApiService, 'getTeamMembers' ).returnsPromise().resolves( teamMembers );
 
-            controller = new AboutController( $scope, <any>$window, teamsApiService );
+            controller = new AboutController( environment.$scope, $windowMock, teamsApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -63,7 +41,7 @@ describe( 'About', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -93,7 +71,7 @@ describe( 'About', () => {
 
         describe( 'openUrl( someUrl )', () => {
             it( 'should open "someUrl"', () => {
-                let $windowOpen = sandbox.stub( $window, 'open' ); // replace original activate
+                let $windowOpen = sandbox.stub( $windowMock, 'open' ); // replace original activate
                 let url = 'www.prodes.com.br';
 
                 controller.openUrl( url );

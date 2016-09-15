@@ -1,22 +1,10 @@
-﻿/*
-eslint
-no-undef: 0,
-dot-notation: 0,
-angular/di: 0,
-no-unused-expressions: 0
-*/
-
-import { DashBoardController } from './dashboard.component.controller';
+﻿import { DashBoardController } from './dashboard.component.controller';
 import DashBoardComponent from './dashboard.component';
 import DashBoardTemplate from './dashboard.component.html';
+import { environment, $stateMock } from '../shared/tests/index';
 
 let expect = chai.expect;
 
-/**
- *
- * Referência de unit-tests em angularjs:
- * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
- */
 describe( 'Dashboard', () => {
 
     let sandbox: Sinon.SinonSandbox;
@@ -25,21 +13,9 @@ describe( 'Dashboard', () => {
 
     describe( 'Controller', () => {
         let controller: DashBoardController;
-        let onIonicBeforeEnterEvent;
-        let $state: angular.ui.IStateService;
-
         beforeEach(() => {
-            let $scope = <any>{
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
-
-            $state = <angular.ui.IStateService><any>{ go: () => { } };
-
-            controller = new DashBoardController( $scope, $state );
+            environment.refresh();
+            controller = new DashBoardController( environment.$scope, $stateMock );
         });
 
         describe( 'on instantiation', () => {
@@ -47,7 +23,7 @@ describe( 'Dashboard', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -69,7 +45,7 @@ describe( 'Dashboard', () => {
 
         describe( 'navigateTo( newState )', () => {
             it( 'should redirect user to "newState"', () => {
-                let go = sandbox.stub( $state, 'go' );
+                let go = sandbox.stub( $stateMock, 'go' );
                 let newState = 'newState';
 
                 controller.navigateTo( newState );

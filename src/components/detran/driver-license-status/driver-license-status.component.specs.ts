@@ -1,10 +1,3 @@
-/*
- eslint
- no-undef: 0,
- dot-notation: 0,
- angular/di: 0,
- no-unused-expressions: 0
- */
 import moment from 'moment';
 import DriverLicenseStatusComponent from './driver-license-status.component';
 import DriverLicenseStatusTemplate from './driver-license-status.component.html';
@@ -12,14 +5,10 @@ import { DriverLicenseStatusController } from './driver-license-status.component
 import { DriverData, Ticket, DriverStatus, DriverLicense, DetranApiService, TicketColorService, DriverLicenseStorage } from '../shared/index';
 import registerLicenseTemplate from '../shared/add-license/add-license.html';
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
+import { environment, $qMock, $mdDialogMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
-/**
- *
- * Referência de unit-tests em angularjs:
- * http://www.bradoncode.com/tutorials/angularjs-unit-testing/
- */
 describe( 'Detran/driver-license-status', () => {
 
     let sandbox: Sinon.SinonSandbox;
@@ -107,35 +96,23 @@ describe( 'Detran/driver-license-status', () => {
 
     describe( 'Controller', () => {
 
-        let $scope;
-        let $mdDialog;
-        let $q;
         let controller: DriverLicenseStatusController;
-        let onIonicBeforeEnterEvent;
         let detranApiService: DetranApiService;
         let ticketColorService: TicketColorService;
         let driverLicenseStorage: DriverLicenseStorage;
 
         beforeEach(() => {
-            $scope = {
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
+            environment.refresh();
             driverLicenseStorage = <DriverLicenseStorage>{ driverLicense: {}, hasDriverLicense: false };
-            $mdDialog = { show() {} };
-            $q = { all: () => {} };
             detranApiService = <DetranApiService><any>{
-                getDriverData() {},
-                getDriverTickets() {},
-                saveLicense() {}
+                getDriverData() { },
+                getDriverTickets() { },
+                saveLicense() { }
             };
 
             ticketColorService = new TicketColorService();
 
-            controller = new DriverLicenseStatusController( $scope, $q, ticketColorService, detranApiService, driverLicenseStorage, $mdDialog );
+            controller = new DriverLicenseStatusController( environment.$scope, $qMock, ticketColorService, detranApiService, driverLicenseStorage, $mdDialogMock );
         });
 
         describe( 'on instantiation', () => {
@@ -143,7 +120,7 @@ describe( 'Detran/driver-license-status', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.calledOnce ).to.be.true;
             });
@@ -214,21 +191,22 @@ describe( 'Detran/driver-license-status', () => {
             let $mdDialogShow: Sinon.SinonStub;
 
             beforeEach(() => {
-                $mdDialogShow = sandbox.stub( $mdDialog, 'show' );
+                $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
                 $mdDialogShow.returnsPromise();
             });
 
             it( 'should open edit driver license modal', () => {
                 driverLicenseStorage.driverLicense = { registerNumber: '234234343', ballot: '45345455' };
+
                 controller.editDriverLicense();
 
-                let spyCall = $mdDialogShow.getCall( 0 );
-
-                expect( spyCall.args[ 0 ].controller ).to.equal( AddLicenseController );
-                expect( spyCall.args[ 0 ].template ).to.equal( registerLicenseTemplate );
-                expect( spyCall.args[ 0 ].bindToController ).to.equal( true );
-                expect( spyCall.args[ 0 ].controllerAs ).to.equal( 'vm' );
-                expect( spyCall.args[ 0 ].locals ).to.deep.equal( driverLicenseStorage.driverLicense );
+                expect( $mdDialogShow.calledWithExactly( {
+                    controller: AddLicenseController,
+                    template: registerLicenseTemplate,
+                    bindToController: true,
+                    controllerAs: 'vm',
+                    locals: driverLicenseStorage.driverLicense
+                }) ).to.be.true;
             });
 
             describe( 'on driver license edited', () => {

@@ -2,6 +2,7 @@ import { NewsHighlightsController } from './news-highlights.component.controller
 import { NewsApiService, News } from '../shared/index';
 import NewsHighlightsComponent from './news-highlights.component';
 import NewsHighlightsTemplate from './news-highlights.component.html';
+import { environment, $stateMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -14,25 +15,14 @@ describe( 'News/news-highlights', () => {
     describe( 'Controller', () => {
         let controller: NewsHighlightsController;
         let newsApiService: NewsApiService;
-        let onIonicBeforeEnterEvent;
         let highlights: News[] = <News[]>[ { title: 'Notícia A', id: '1111111' }, { title: 'Notícia B', id: '222222' }];
-        let $state: angular.ui.IStateService;
 
         beforeEach(() => {
-            let $scope = <any>{
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
-            $state = <angular.ui.IStateService><any>{ go: () => { } };
-            newsApiService = <NewsApiService><any>{
-                getHighlightNews: () => { }
-            };
+            environment.refresh();
+            newsApiService = <NewsApiService><any>{ getHighlightNews: () => { } };
             sandbox.stub( newsApiService, 'getHighlightNews' ).returnsPromise().resolves( highlights );
 
-            controller = new NewsHighlightsController( $scope, newsApiService, $state );
+            controller = new NewsHighlightsController( environment.$scope, newsApiService, $stateMock );
         });
 
         describe( 'on instantiation', () => {
@@ -46,7 +36,7 @@ describe( 'News/news-highlights', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -72,7 +62,7 @@ describe( 'News/news-highlights', () => {
 
         describe( 'goToNews( id )', () => {
             it( 'should show highlight news', () => {
-                let go = sandbox.stub( $state, 'go' );
+                let go = sandbox.stub( $stateMock, 'go' );
                 let id = '123456';
 
                 controller.goToNews( id );

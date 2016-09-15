@@ -2,6 +2,7 @@ import { LatestController } from './latest.component.controller';
 import LatestComponent from './latest.component';
 import LatestTemplate from './latest.component.html';
 import { Edition, DioApiService } from '../shared/index';
+import { environment, $windowMock } from '../../shared/tests/index';
 let expect = chai.expect;
 
 
@@ -15,21 +16,11 @@ describe( 'Dio/latest', () => {
     describe( 'Controller', () => {
         let controller: LatestController;
         let dioApiService: DioApiService;
-        let onIonicBeforeEnterEvent;
-        let $window: any;
-        let $scope: any;
 
         beforeEach(() => {
-            $window = <any>{ open() { } };
-            $scope = {
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
+            environment.refresh();
             dioApiService = <DioApiService>{ getLatestEditions() { } };
-            controller = new LatestController( $scope, $window, dioApiService );
+            controller = new LatestController( environment.$scope, $windowMock, dioApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -42,7 +33,7 @@ describe( 'Dio/latest', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.called ).to.be.true;
             });
@@ -74,7 +65,7 @@ describe( 'Dio/latest', () => {
 
         describe( 'openEdition()', () => {
             it( 'should open edition on Web', () => {
-                let $windowOpen = sandbox.stub( $window, 'open' );
+                let $windowOpen = sandbox.stub( $windowMock, 'open' );
 
                 controller.openEdition( 'edition-url' );
 

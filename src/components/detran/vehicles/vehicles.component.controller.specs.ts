@@ -2,10 +2,9 @@ import { VehiclesController } from './vehicles.component.controller';
 import VehiclesComponent from './vehicles.component';
 import VehiclesTemplate from './vehicles.component.html';
 import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo } from '../shared/index';
-import { DialogService, ToastService } from '../../shared/index';
 import addVehicleTemplate from './add-vehicle/add-vehicle.html';
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
-
+import { environment, $stateMock, $mdDialogMock, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
 let expect = chai.expect;
 
 describe( 'Detran/vehicles', () => {
@@ -15,8 +14,6 @@ describe( 'Detran/vehicles', () => {
     afterEach(() => sandbox.restore() );
 
     describe( 'Controller', () => {
-
-        let onIonicBeforeEnterEvent;
         let controller: VehiclesController;
 
         // dialogs
@@ -42,28 +39,15 @@ describe( 'Detran/vehicles', () => {
         let vehicleStorage: VehicleStorage;
 
         beforeEach(() => {
-            let $scope: any = {
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
-            let $mdDialog: any = { show() { } };
-            let $state = <angular.ui.IStateService><any>{ go: () => { } };
+            environment.refresh();
             vehicleStorage = <VehicleStorage><any>{
                 existsVehicle() { },
                 removeVehicle() { },
                 addVehicle() { }
             };
-            let toastService = <ToastService><any>{
-                error: () => { }
-            };
-            let dialog = <DialogService><any>{
-                confirm: () => { }
-            };
+
             let detranApiService = <DetranApiService><any>{ getVehicleInfo() { } };
-            controller = new VehiclesController( $scope, $mdDialog, $state, detranApiService, toastService, dialog, vehicleStorage );
+            controller = new VehiclesController( environment.$scope, $mdDialogMock, $stateMock, detranApiService, toastServiceMock, dialogServiceMock, vehicleStorage );
 
             // setup stubs
             storageExistsVehicle = sandbox.stub( vehicleStorage, 'existsVehicle' );
@@ -73,12 +57,12 @@ describe( 'Detran/vehicles', () => {
             vehicle = { plate: '123456', renavam: '333333' };
             vehicleInfo = { color: 'red', model: 'Idea' };
 
-            dialogConfirm = sandbox.stub( dialog, 'confirm' );
+            dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
             dialogConfirmPromise = dialogConfirm.returnsPromise();
-            $mdDialogShow = sandbox.stub( $mdDialog, 'show' );
+            $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
             $mdDialogShowPromise = $mdDialogShow.returnsPromise();
-            toastError = sandbox.stub( toastService, 'error' );
-            $stateGo = sandbox.stub( $state, 'go' );
+            toastError = sandbox.stub( toastServiceMock, 'error' );
+            $stateGo = sandbox.stub( $stateMock, 'go' );
 
             getVehicleInfoApi = sandbox.stub( detranApiService, 'getVehicleInfo' );
             getVehicleInfoApiPromise = getVehicleInfoApi.returnsPromise();
@@ -89,7 +73,7 @@ describe( 'Detran/vehicles', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.calledOnce ).to.be.true;
             });

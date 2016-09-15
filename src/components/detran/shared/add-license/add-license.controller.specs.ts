@@ -1,5 +1,5 @@
 import { AddLicenseController } from './add-license.controller';
-import { ToastService } from '../../../shared/toast/index';
+import { $mdDialogMock, toastServiceMock } from '../../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -11,18 +11,13 @@ describe( 'Detran/shared/add-license', () => {
 
     describe( 'Controller', () => {
         let controller: AddLicenseController;
-        let $mdDialog;
-        let toastService: ToastService;
-
         beforeEach(() => {
-            $mdDialog = { hide() { }, cancel() { } };
-            toastService = <ToastService><any>{ info: () => { } };
-            controller = new AddLicenseController( $mdDialog, toastService );
+            controller = new AddLicenseController( $mdDialogMock, toastServiceMock );
         });
 
         describe( 'cancel()', () => {
             it( 'should cancel modal', () => {
-                let cancel = sandbox.stub( $mdDialog, 'cancel' );
+                let cancel = sandbox.stub( $mdDialogMock, 'cancel' );
 
                 controller.cancel();
 
@@ -33,14 +28,14 @@ describe( 'Detran/shared/add-license', () => {
 
         describe( 'ok(plate,renavam)', () => {
             it( 'should show validation message if no register number is provided', () => {
-                let info = sandbox.stub( toastService, 'info' );
+                let info = sandbox.stub( toastServiceMock, 'info' );
 
                 controller.ok( '', '123234345' );
                 expect( info.calledWithExactly( { title: 'Nº do registro é obrigatório' }) ).to.be.true;
             });
 
             it( 'should show validation message if no ballot is provided', () => {
-                let info = sandbox.stub( toastService, 'info' );
+                let info = sandbox.stub( toastServiceMock, 'info' );
 
                 controller.ok( '123234345', '' );
 
@@ -48,7 +43,7 @@ describe( 'Detran/shared/add-license', () => {
             });
 
             it( 'should close modal passing added license', () => {
-                let hide = sandbox.stub( $mdDialog, 'hide' );
+                let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let registerNumber = '1111111111';
                 let ballot = '222222222';
 

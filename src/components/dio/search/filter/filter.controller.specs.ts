@@ -1,5 +1,5 @@
 import { FilterController } from './filter.controller';
-import { ToastService } from '../../../shared/toast/index';
+import { $mdDialogMock, toastServiceMock } from '../../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -11,21 +11,13 @@ describe( 'Dio/search/filter', () => {
 
     describe( 'Controller', () => {
         let controller: FilterController;
-        let $mdDialog;
-        let toastService: ToastService;
-
         beforeEach(() => {
-            $mdDialog = { hide() { }, cancel() { } };
-            toastService = <ToastService><any>{
-                info: () => { },
-                error: () => { }
-            };
-            controller = new FilterController( $mdDialog, toastService );
+            controller = new FilterController( $mdDialogMock, toastServiceMock );
         });
 
         describe( 'cancel()', () => {
             it( 'should cancel modal', () => {
-                let cancel = sandbox.stub( $mdDialog, 'cancel' );
+                let cancel = sandbox.stub( $mdDialogMock, 'cancel' );
 
                 controller.cancel();
 
@@ -33,10 +25,9 @@ describe( 'Dio/search/filter', () => {
             });
         });
 
-
         describe( 'ok(query,dateMin,dateMax)', () => {
             it( 'should show validation message if no query is provided', () => {
-                let info = sandbox.stub( toastService, 'info' );
+                let info = sandbox.stub( toastServiceMock, 'info' );
 
                 controller.ok( '', '2015-1-1', '2016-1-1' );
 
@@ -44,14 +35,14 @@ describe( 'Dio/search/filter', () => {
             });
 
             it( 'should close modal passing added filter', () => {
-                let hide = sandbox.stub( $mdDialog, 'hide' );
+                let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let query = 'prodest';
                 let dateMin = '2015-1-1';
                 let dateMax = '2016-1-1';
 
                 controller.ok( query, dateMin, dateMax );
 
-                expect( hide.calledWithExactly( { query, dateMin, dateMax } ) ).to.be.true;
+                expect( hide.calledWithExactly( { query, dateMin, dateMax }) ).to.be.true;
             });
         });
     });

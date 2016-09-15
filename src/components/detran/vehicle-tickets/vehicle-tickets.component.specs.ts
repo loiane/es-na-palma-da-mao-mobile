@@ -2,6 +2,7 @@ import { VehicleTicketsController } from './vehicle-tickets.component.controller
 import VehicleTicketsComponent from './vehicle-tickets.component';
 import VehicleTicketsTemplate from './vehicle-tickets.component.html';
 import { DetranApiService, TicketColorService, Ticket } from '../shared/index';
+import { environment, $stateParamsMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -13,29 +14,19 @@ describe( 'Detran/vehicle-tickets', () => {
 
     describe( 'Controller', () => {
 
-        let $scope;
-        let $stateParams: angular.ui.IStateParamsService;
         let controller: VehicleTicketsController;
-        let onIonicBeforeEnterEvent;
         let detranApiService: DetranApiService;
         let ticketColorService: TicketColorService;
 
         beforeEach(() => {
-            $scope = {
-                $on: ( event, callback ) => {
-                    if ( event === '$ionicView.beforeEnter' ) {
-                        onIonicBeforeEnterEvent = callback;
-                    }
-                }
-            };
-            $stateParams = <angular.ui.IStateParamsService>{
-                plate: 'OBL9090',
-                renavam: '123343545676'
-            };
+            environment.refresh();
+            $stateParamsMock[ 'plate' ] = 'OBL9090';
+            $stateParamsMock[ 'renavam' ] = '123343545676';
+
             detranApiService = <DetranApiService><any>{ getVehicleTickets() { } };
             ticketColorService = new TicketColorService();
 
-            controller = new VehicleTicketsController( $scope, $stateParams, ticketColorService, detranApiService );
+            controller = new VehicleTicketsController( environment.$scope, $stateParamsMock, ticketColorService, detranApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -43,7 +34,7 @@ describe( 'Detran/vehicle-tickets', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                onIonicBeforeEnterEvent();
+                environment.onIonicBeforeEnterEvent();
 
                 expect( activate.calledOnce ).to.be.true;
             });
@@ -53,7 +44,7 @@ describe( 'Detran/vehicle-tickets', () => {
             });
 
             it( 'should fill vehicle with params data', () => {
-                expect( controller.vehicle ).to.be.deep.equal( $stateParams );
+                expect( controller.vehicle ).to.be.deep.equal( $stateParamsMock );
             });
         });
 
@@ -97,7 +88,6 @@ describe( 'Detran/vehicle-tickets', () => {
                 getVehicleTicketsApi = sandbox.stub( detranApiService, 'getVehicleTickets' ).returnsPromise();
                 getVehicleTicketsApi.resolves( tickets );
             });
-
 
             it( 'should populate tickets property', () => {
                 controller.getVehicleTickets( controller.vehicle );

@@ -1,5 +1,5 @@
 import { AddVehicleController } from './add-vehicle.controller';
-import { ToastService } from '../../../shared/toast/index';
+import { $mdDialogMock, toastServiceMock } from '../../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -11,21 +11,13 @@ describe( 'Detran/vehicles/add-vehicle', () => {
 
     describe( 'Controller', () => {
         let controller: AddVehicleController;
-        let $mdDialog;
-        let toastService: ToastService;
-
         beforeEach(() => {
-            $mdDialog = { hide() { }, cancel() { } };
-            toastService = <ToastService><any>{
-                info: () => { },
-                error: () => { }
-            };
-            controller = new AddVehicleController( $mdDialog, toastService );
+            controller = new AddVehicleController( $mdDialogMock, toastServiceMock );
         });
 
         describe( 'cancel()', () => {
             it( 'should cancel modal', () => {
-                let cancel = sandbox.stub( $mdDialog, 'cancel' );
+                let cancel = sandbox.stub( $mdDialogMock, 'cancel' );
 
                 controller.cancel();
 
@@ -33,17 +25,16 @@ describe( 'Detran/vehicles/add-vehicle', () => {
             });
         });
 
-
         describe( 'ok(plate,renavam)', () => {
             it( 'should show validation message if no plate is provided', () => {
-                let info = sandbox.stub( toastService, 'info' );
+                let info = sandbox.stub( toastServiceMock, 'info' );
 
                 controller.ok( '', '123234345' );
                 expect( info.calledWith( { title: 'Placa é obrigatória' }) ).to.be.true;
             });
 
             it( 'should show validation message if no renavam is provided', () => {
-                let info = sandbox.stub( toastService, 'info' );
+                let info = sandbox.stub( toastServiceMock, 'info' );
 
                 controller.ok( '123234345', '' );
 
@@ -51,13 +42,13 @@ describe( 'Detran/vehicles/add-vehicle', () => {
             });
 
             it( 'should close modal passing addded vehicle', () => {
-                let hide = sandbox.stub( $mdDialog, 'hide' );
+                let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let plate = '1111111111';
                 let renavam = '222222222';
 
                 controller.ok( plate, renavam );
 
-                expect( hide.calledWith( { plate, renavam } ) ).to.be.true;
+                expect( hide.calledWith( { plate, renavam }) ).to.be.true;
             });
         });
     });
