@@ -56,7 +56,7 @@ export class DetranApiService {
      * @param {Vehicle} vehicle
      * @returns {IPromise<VehicleInfo>}
      */
-    public getVehicle( vehicle: Vehicle ): IPromise<VehicleInfo> {
+    public getVehicleInfo( vehicle: Vehicle ): IPromise<VehicleInfo> {
         return this.$http
             .get( `${this.settings.api.detran}/vehicle`, { params: vehicle } )
             .then( ( response: { data: VehicleInfo } ) => response.data );

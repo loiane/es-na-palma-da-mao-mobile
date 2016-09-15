@@ -91,19 +91,19 @@ describe( 'DetranApiService', () => {
     } );
 
 
-    describe( 'getVehicle()', () => {
+    describe( 'getVehicleInfo()', () => {
 
         it( 'should call /vehicle endpoint on detran api', () => {
             const vehicle = { plate: 'ovl-7878', renavam: '12344555' };
             const params = { params: vehicle };
 
-            detranApiService.getVehicle( vehicle );
+            detranApiService.getVehicleInfo( vehicle );
 
             expect( $httpGet.calledWith( `${settings.api.detran}/vehicle`, params ) ).to.be.true;
         } );
 
         it( 'should normalize response to response.data property', () => {
-            detranApiService.getVehicle( <Vehicle>{} ).then( ( data ) => {
+            detranApiService.getVehicleInfo( <Vehicle>{} ).then( ( data ) => {
                 expect( data ).to.deep.equal( fakeResponse.data );
             } );
         } );
