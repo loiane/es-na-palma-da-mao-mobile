@@ -11,9 +11,9 @@ export class BusLinesController {
         'ceturbStorage'
     ];
 
-    private filter: string;
-    private filteredLines: BusLine[];
-    private lines: BusLine[];
+    public filter: string;
+    public filteredLines: BusLine[];
+    public lines: BusLine[];
 
     /**
      * Creates an instance of BusLinesController.
@@ -31,11 +31,31 @@ export class BusLinesController {
     }
 
     /**
-     *
+     * 
+     * 
+     * 
+     * @memberOf BusLinesController
      */
     public activate(): void {
         this.filter = '';
         this.getLines();
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf BusLinesController
+     */
+    public getLines(): void {
+        this.ceturbApiService.getLines()
+            .then( lines => {
+                this.filteredLines = this.lines = lines.map( line => {
+                    line.isFavorite = this.ceturbStorage.isFavoriteLine( line );
+                    return line;
+                });
+                return this.lines;
+            });
     }
 
     /**
@@ -47,25 +67,6 @@ export class BusLinesController {
         this.$state.go( 'app.busInfo/:id', { id: id });
     }
 
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get foundLines(): boolean {
-        return this.linesPopuled && !!this.filteredLines.length;
-    }
-
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {boolean}
-     */
-    public get linesPopuled(): boolean {
-        return angular.isDefined( this.lines );
-    }
 
     /**
      * 
@@ -84,21 +85,6 @@ export class BusLinesController {
         }
     }
 
-    /**
-     * 
-     */
-    public getLines(): void {
-        this.ceturbApiService.getLines()
-            .then( lines => {
-                this.filteredLines = this.lines = lines.map( line => {
-                    line.name = this.accentFold( line.name );
-                    line.isFavorite = this.ceturbStorage.isFavoriteLine( line );
-                    return line;
-                });
-                return this.lines;
-            });
-    }
-
 
     /**
      * 
@@ -106,8 +92,11 @@ export class BusLinesController {
      * @param {string} filter
      */
     public filterLines( filter: string ): void {
-        let upperFilter = this.accentFold( filter.toUpperCase() );
-        this.filteredLines = this.lines.filter( line => line.name.includes( upperFilter ) || line.number.includes( upperFilter ) );
+        let upperFilter = this.stripAccents( filter.toUpperCase() );
+        this.filteredLines = this.lines.filter( line => {
+            let name = this.stripAccents( line.name.toUpperCase() );
+            return name.includes( upperFilter ) || line.number.includes( upperFilter );
+        } );
     }
 
 
@@ -132,7 +121,7 @@ export class BusLinesController {
      * @param {any} s
      * @returns
      */
-    private accentFold( s ) {
+    private stripAccents( s ) {
         if ( !s ) { return ''; }
         let ret = '';
         for ( let i = 0; i < s.length; i++ ) {

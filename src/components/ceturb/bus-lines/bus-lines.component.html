@@ -14,7 +14,7 @@
 				 scroll-watch scroll-class="fix-top" 
 				 class-target=".state-ceturb-subheader"
 				 offset="25">
-		<md-list ng-if="vm.linesPopuled">
+		<md-list ng-if="vm.lines">
 			<md-list-item class="md-2-line" collection-repeat="line in vm.filteredLines | orderBy:['-isFavorite', 'number']">
 				<div layout="row" class="md-list-item-text">
 					<i class="fa fa-star-o accent" aria-hidden="true" ng-if="!line.isFavorite" ng-click="vm.toggleFavorite(line)"></i> 
@@ -32,7 +32,7 @@
 			<remark ng-if="!uiState.error.handled">Não foi possível consultar linhas de ônibus</remark>
 		</error-message>
 		
-		<message ng-if="vm.linesPopuled && !vm.foundLines" text="Nenhum resultado encontrado para">
+		<message ng-if="vm.filteredLines && !vm.filteredLines.length" text="Nenhum resultado encontrado para">
 			<highlight>"{{vm.filter}}"</highlight>
 			<remark>Tente mudar o filtro da consulta</remark>
 		</message>
