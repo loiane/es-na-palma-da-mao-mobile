@@ -33,7 +33,7 @@ describe( 'Login', () => {
         // let googleLoginPromise: Sinon.SinonPromise;
         // let facebookLoginPromise: Sinon.SinonPromise;
         let signInAcessoCidadao: Sinon.SinonStub;
-
+        let signInAcessoCidadaoPromise: Sinon.SinonPromise;
         // models
         let identity: Identity;
 
@@ -41,6 +41,7 @@ describe( 'Login', () => {
             environment.refresh();
             authenticationService = <AuthenticationService><any>{
                 login() { },
+                signInAcessoCidadao() { },
                 facebookLogin() { },
                 googleLogin() { },
                 digitsLogin() { }
@@ -72,10 +73,12 @@ describe( 'Login', () => {
             };
 
             pushConfigInit = sandbox.stub( pushConfig, 'init' );
+            signInAcessoCidadao = sandbox.stub( authenticationService, 'signInAcessoCidadao' )
+            signInAcessoCidadaoPromise = signInAcessoCidadao.returnsPromise();
             // digitsLoginPromise = sandbox.stub( authenticationService, 'digitsLogin' ).returnsPromise();
             // googleLoginPromise = sandbox.stub( authenticationService, 'googleLogin' ).returnsPromise();
             // facebookLoginPromise = sandbox.stub( authenticationService, 'facebookLogin' ).returnsPromise();
-            signInAcessoCidadao = sandbox.stub( controller, 'signInAcessoCidadao' );
+
             authLogin = sandbox.stub( authenticationService, 'login' );
             authLoginPromise = authLogin.returnsPromise();
         });
@@ -216,6 +219,52 @@ describe( 'Login', () => {
                 controller.onAcessoCidadaoLoginSuccess();
 
                 expect( controller.user ).to.be.deep.equal( { username: '', password: '' });
+            });
+        });
+
+        describe( 'signInAcessoCidadao(identity)', () => {
+            it( 'authenticate user on acesso cidadão with provided identity', () => {
+                controller.signInAcessoCidadao( identity );
+
+                expect( signInAcessoCidadao.calledWithExactly( identity ) ).to.be.true;
+            });
+
+            it( 'should call success callback on acesso cidadão authentication success', () => {
+                let onAcessoCidadaoLoginSuccess = sandbox.stub( controller, 'onAcessoCidadaoLoginSuccess' );
+                signInAcessoCidadaoPromise.resolves();
+
+                controller.signInAcessoCidadao( identity );
+
+                expect( onAcessoCidadaoLoginSuccess.calledOnce ).to.be.true;
+            });
+
+            it( 'should call error callback on acesso cidadão authentication error', () => {
+                let onAcessoCidadaoLoginError = sandbox.stub( controller, 'onAcessoCidadaoLoginError' );
+                signInAcessoCidadaoPromise.rejects();
+
+                controller.signInAcessoCidadao( identity );
+
+                expect( onAcessoCidadaoLoginError.calledOnce ).to.be.true;
+            });
+        });
+
+        describe( 'onAcessoCidadaoLoginError()', () => {
+
+            it( 'should open modal to link account if account is not already linked', () => {
+                sandbox.stub( controller, 'isAccountNotLinked' ).returns( true );
+                let showDialogAccountNotLinked = sandbox.stub( controller, 'showDialogAccountNotLinked' );
+
+                controller.onAcessoCidadaoLoginError( { data: { error: 'Erro' } });
+
+                expect( showDialogAccountNotLinked.calledOnce ).to.be.true;
+            });
+
+            it( 'should show login error message is user account is linked', () => {
+                sandbox.stub( controller, 'isAccountNotLinked' ).returns( false );
+
+                controller.onAcessoCidadaoLoginError( { data: { error: 'Erro' } });
+
+                expect( toastError.calledWithExactly( { title: 'Falha no Login' }) ).to.be.true;
             });
         });
 
