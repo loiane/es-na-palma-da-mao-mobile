@@ -29,7 +29,7 @@
 						</md-list>
 						<md-list ng-cloak>
 							<md-subheader ng-if="vm.schedule.notes.length" class="md-no-sticky md-accent">Observações</md-subheader>
-							<md-list-item  ng-repeat="note in vm.schedule.notes">
+							<md-list-item ng-repeat="note in vm.schedule.notes">
 								<div layout="row" class="md-list-item-text">
 									<strong class="line-notes" flex="1">{{::note.type}}</strong> <span flex>{{::note.description}}</span>
 								</div>
@@ -47,7 +47,7 @@
 							<div ng-repeat="direction in vm.route.directions">
 								<md-subheader class="md-no-sticky md-accent">{{direction.type}}</md-subheader>
 								<md-list-item class="itinerario" ng-repeat="path in direction.paths track by $index" ng-click="vm.openMapLink( path )" layout="row">
-									<div flex> {{$index + 1}} - {{path}}</div> 
+									<div flex> {{$index + 1}} - {{path}}</div>
 									<i class="fa fa-map-marker" aria-hidden="true"></i>
 								</md-list-item>
 							</div>

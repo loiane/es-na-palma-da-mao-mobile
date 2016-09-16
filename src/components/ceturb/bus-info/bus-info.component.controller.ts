@@ -13,10 +13,9 @@ export class BusInfoController {
         'ceturbApiService'
     ];
 
-    private route: BusRoute | undefined = undefined;
-    private schedule: BusSchedule | undefined = undefined;
-    private currentDate: Date = new Date();
-    private strCurrentDate: string;
+    public route: BusRoute | undefined = undefined;
+    public schedule: BusSchedule | undefined = undefined;
+    public currentTime: string;
 
     /**
      * Creates an instance of BusInfoController.
@@ -28,10 +27,10 @@ export class BusInfoController {
      * @param {CeturbApiService} ceturbApiService
      */
     constructor( private $scope: IScope,
-                 private $stateParams: angular.ui.IStateParamsService,
-                 private $q: IQService,
-                 private $window: IWindowService,
-                 private ceturbApiService: CeturbApiService ) {
+        private $stateParams: angular.ui.IStateParamsService,
+        private $q: IQService,
+        private $window: IWindowService,
+        private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -39,10 +38,11 @@ export class BusInfoController {
      *
      */
     public activate(): void {
-
-        this.$q.all( [ this.getSchedule( this.$stateParams[ 'id' ] ), this.getRoute( this.$stateParams[ 'id' ]  ) ] );
-
-        this.strCurrentDate = this.currentDate.toTimeString().slice( 0, 5 );
+        this.currentTime = new Date().toTimeString().slice( 0, 5 );
+        this.$q.all( [
+            this.getSchedule( this.$stateParams[ 'id' ] ),
+            this.getRoute( this.$stateParams[ 'id' ] )
+        ] );
     }
 
     /**
@@ -53,7 +53,7 @@ export class BusInfoController {
      * @returns
      */
     public beforeNow( time: string ): boolean {
-        return time.localeCompare( this.strCurrentDate ) === -1;
+        return time.slice( 0, 5 ).localeCompare( this.currentTime ) === -1;
     }
 
 
@@ -75,8 +75,8 @@ export class BusInfoController {
      */
     public getRoute( id: string ): IPromise<BusRoute | undefined> {
         return this.ceturbApiService.getRoute( id )
-                   .then( routes => this.route = routes)
-                   .catch( () => this.route = undefined );
+            .then( route => this.route = route )
+            .catch(() => this.route = undefined );
     }
 
 
@@ -87,7 +87,7 @@ export class BusInfoController {
      */
     public getSchedule( id: string ): IPromise<BusSchedule | undefined> {
         return this.ceturbApiService.getSchedule( id )
-                   .then( schedule => this.schedule = schedule)
-                   .catch( () => this.schedule = undefined );
+            .then( schedule => this.schedule = schedule )
+            .catch(() => this.schedule = undefined );
     }
 }
