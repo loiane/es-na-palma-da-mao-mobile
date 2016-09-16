@@ -210,6 +210,24 @@ describe( 'Detran/vehicles', () => {
                 expect( vehicle.info ).to.be.deep.equal( vehicleInfo );
                 expect( storageAddVehicle.calledWithExactly( vehicle ) ).to.be.true;
             });
+
+            it( 'should show message on error', () => {
+                storageExistsVehicle.returns( false );
+                getVehicleInfoApiPromise.rejects( { status: 500 });
+
+                controller.addVehicle( vehicle );
+
+                expect( toastError.calledWithExactly( { title: 'Erro ao salvar veículo. Tente novamente' }) ).to.be.true;
+            });
+
+            it( 'should show error message if vehicle info not founded', () => {
+                storageExistsVehicle.returns( false );
+                getVehicleInfoApiPromise.rejects( { status: 404 });
+
+                controller.addVehicle( vehicle );
+
+                expect( toastError.calledWithExactly( { title: 'Veículo não encontrado na base do DETRAN.' }) ).to.be.true;
+            });
         });
 
         describe( 'Component', () => {
