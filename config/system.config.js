@@ -63,7 +63,7 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
-    "core-js": "npm:core-js@1.2.6",
+    "core-js": "npm:core-js@2.4.1",
     "css": "github:systemjs/plugin-css@0.1.27",
     "font-awesome": "npm:font-awesome@4.6.3",
     "image": "github:systemjs/plugin-image@0.1.0",
@@ -240,7 +240,7 @@ System.config({
     "npm:constants-browserify@0.0.1": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:core-js@1.2.6": {
+    "npm:core-js@2.4.1": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
