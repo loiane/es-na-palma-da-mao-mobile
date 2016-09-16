@@ -61,6 +61,10 @@ describe( 'Ceturb/bus-info', () => {
                 $stateParamsMock[ 'id' ] = 123;
             });
 
+            afterEach(() => {
+                delete $stateParamsMock[ 'id' ];
+            });
+
             it( 'should fetch line schedule', () => {
                 controller.activate();
 
@@ -143,7 +147,7 @@ describe( 'Ceturb/bus-info', () => {
                 let $windowOpen = sandbox.stub( $windowMock, 'open' );
                 let location = 'Guarapari';
 
-                controller.openMapLink( location);
+                controller.openMapLink( location );
 
                 expect( $windowOpen.calledWithExactly( `http://www.google.com.br/maps/place/${location}, ES`, '_system', 'location=yes' ) ).to.be.true;
             });

@@ -29,6 +29,11 @@ describe( 'Detran/vehicle-tickets', () => {
             controller = new VehicleTicketsController( environment.$scope, $stateParamsMock, ticketColorService, detranApiService );
         });
 
+        afterEach(() => {
+            delete $stateParamsMock[ 'plate' ];
+            delete $stateParamsMock[ 'renavam' ];
+        });
+
         describe( 'on instantiation', () => {
             it( 'should activate on $ionicView.beforeEnter event', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
