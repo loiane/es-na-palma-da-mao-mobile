@@ -36,6 +36,10 @@ declare namespace angular {
     interface IScope {
         isAndroid: boolean;
     }
+
+    interface IWindowService extends Window {
+        facebookConnectPlugin: any;
+    }
 }
 
 declare module '*.html' {

@@ -1,3 +1,5 @@
+import { IPromise, IWindowService, IQService } from 'angular';
+
 import { DigitsAccessToken, DigitsAuthResponse } from './models/index';
 import { AnswersService } from '../fabric/index';
 
@@ -6,27 +8,33 @@ import { AnswersService } from '../fabric/index';
  */
 export class DigitsService {
 
-    public static $inject: string[] = [ '$window', '$localStorage', 'answersService' ];
+    public static $inject: string[] = [ '$window', '$localStorage', '$q', 'answersService' ];
 
     /**
-     * Cria uma instância de DigitsService.
+     * Creates an instance of DigitsService.
      * 
-     * @param {*} $window
+     * @param {IWindowService} $window
      * @param {*} $localStorage
+     * @param {IQService} $q
+     * @param {AnswersService} answersService
+     * 
+     * @memberOf DigitsService
      */
-    constructor( private $window: any, private $localStorage: any, private answersService: AnswersService ) {
+    constructor( private $window: IWindowService,
+        private $localStorage: any,
+        private $q: IQService,
+        private answersService: AnswersService ) {
     }
 
     /**
      * 
      * 
      * @param {*} options
-     * @param {( digitsAccessToken: DigitsAccessToken ) => void} onSuccess
-     * @param {( error: any ) => void} onError
+     * @returns {IPromise<DigitsAuthResponse>}
+     * 
+     * @memberOf DigitsService
      */
-    public login( options: any,
-        onSuccess: ( authResponse: DigitsAuthResponse ) => void,
-        onError: ( error: any ) => void ): void {
+    public login( options: any ): IPromise<DigitsAuthResponse> {
 
         let defaultOptions = {
             accentColor: '#ff0000',
@@ -49,19 +57,23 @@ export class DigitsService {
                                                      oauth_version="1.0""
             }
          */
-        this.$window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
-            this.$localStorage.digitsAuthResponse = this.buildAccessToken( authResponse );
-            this.answersService.sendLogin( 'Digits', true, undefined );
-            onSuccess( authResponse );
-        }, errorDigits => {
-            this.answersService.sendLogin( 'Digits', false, undefined );
-            onError( errorDigits );
-        } );
+        return this.$q(( resolve, reject ) => {
+            this.$window.plugins.digits.authenticate( options, ( authResponse: DigitsAuthResponse ) => {
+                this.$localStorage.digitsAuthResponse = this.buildAccessToken( authResponse );
+                this.answersService.sendLogin( 'Digits', true, undefined );
+                resolve( authResponse );
+            }, errorDigits => {
+                this.answersService.sendLogin( 'Digits', false, undefined );
+                reject( errorDigits );
+            });
+        });
     }
-
 
     /**
      * 
+     * 
+     * 
+     * @memberOf DigitsService
      */
     public logout(): void {
         if ( this.$window.plugins && this.$window.plugins.digits ) {
@@ -70,20 +82,21 @@ export class DigitsService {
         }
     }
 
-
     /**
      * 
      * 
      * @protected
-     * @param {authResponse} authResponse
+     * @param {DigitsAuthResponse} authResponse
      * @returns {DigitsAccessToken}
+     * 
+     * @memberOf DigitsService
      */
     protected buildAccessToken( authResponse: DigitsAuthResponse ): DigitsAccessToken {
         let digitsAccessToken = {};
-        authResponse[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach( ( item ) => {
+        authResponse[ 'X-Verify-Credentials-Authorization' ].split( ',' ).forEach(( item ) => {
             let aux = item.split( '=' );
             digitsAccessToken[ aux[ 0 ] ] = aux[ 1 ].substring( 1, aux[ 1 ].length - 1 );
-        } );
+        });
         return digitsAccessToken as DigitsAccessToken;
     }
 }

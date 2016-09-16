@@ -1,3 +1,5 @@
+import { IPromise, IWindowService, IQService } from 'angular';
+
 import { FacebookResponse, FacebookAuthResponse } from './models/index';
 import { AnswersService } from '../fabric/index';
 
@@ -6,27 +8,33 @@ import { AnswersService } from '../fabric/index';
  */
 export class FacebookService {
 
-    public static $inject: string[] = [ '$window', '$localStorage', 'answersService' ];
+    public static $inject: string[] = [ '$window', '$localStorage', '$q', 'answersService' ];
 
     /**
-     * Cria uma instância de FacebookService.
+     * Creates an instance of FacebookService.
      * 
-     * @param {any} $window
-     * @param {any} $localStorage
+     * @param {IWindowService} $window
+     * @param {*} $localStorage
+     * @param {IQService} $q
+     * @param {AnswersService} answersService
+     * 
+     * @memberOf FacebookService
      */
-    constructor( private $window, private $localStorage, private answersService: AnswersService ) {
+    constructor( private $window: IWindowService,
+        private $localStorage: any,
+        private $q: IQService,
+        private answersService: AnswersService ) {
     }
 
     /**
      * 
      * 
      * @param {any} scopes
-     * @param {( authResponse: FacebookAuthResponse ) => void} onSuccess
-     * @param {( error: any ) => void} onError
+     * @returns {IPromise<FacebookAuthResponse>}
+     * 
+     * @memberOf FacebookService
      */
-    public login( scopes,
-        onSuccess: ( authResponse: FacebookAuthResponse ) => void,
-        onError: ( error: any ) => void ): void {
+    public login( scopes ): IPromise<FacebookAuthResponse> {
 
         /** Exemplo do objeto retornado pelo plugin de login nativo do facebook
          * {
@@ -40,53 +48,61 @@ export class FacebookService {
                     userID: "634565435"
                 }
             }
-
-         //Buscar Token
-         this.$window.facebookConnectPlugin.getAccessToken( function( token ) { } );
-         } );
          */
-        this.$window.facebookConnectPlugin.login( scopes, ( response: FacebookResponse ) => {
-            this.$localStorage.facebookAuthResponse = response.authResponse;
-            this.answersService.sendLogin( 'Facebook', true, undefined );
-            onSuccess( response.authResponse );
-        }, error => {
-            this.answersService.sendLogin( 'Facebook', false, undefined );
-            onError( error );
+
+        return this.$q(( resolve, reject ) => {
+            this.$window.facebookConnectPlugin.login( scopes, ( response: FacebookResponse ) => {
+                this.$localStorage.facebookAuthResponse = response.authResponse;
+                this.answersService.sendLogin( 'Facebook', true, undefined );
+                resolve( response.authResponse );
+            }, error => {
+                this.answersService.sendLogin( 'Facebook', false, undefined );
+                reject( error );
+            });
         });
     }
 
     /**
      * 
      * 
-     * @param {any} onSuccess
-     * @param {any} onError
+     * @returns {IPromise<any>}
+     * 
+     * @memberOf FacebookService
      */
-    public logout( onSuccess?, onError? ) {
-        if ( this.$window.facebookConnectPlugin ) {
-            delete this.$localStorage.facebookAuthResponse;
-            this.$window.facebookConnectPlugin.logout( onSuccess, onError );
-        }
+    public logout(): IPromise<any> {
+        return this.$q(( resolve, reject ) => {
+            if ( this.$window.facebookConnectPlugin ) {
+                delete this.$localStorage.facebookAuthResponse;
+                this.$window.facebookConnectPlugin.logout( resolve, reject );
+            }
+        });
     }
 
     /**
      * 
      * 
-     * @param {any} onSuccess
-     * @param {any} onError
+     * @returns {IPromise<any>}
+     * 
+     * @memberOf FacebookService
      */
-    public getLoginStatus( onSuccess, onError ) {
-        this.$window.facebookConnectPlugin.getLoginStatus( onSuccess, onError );
+    public getLoginStatus(): IPromise<any> {
+        return this.$q(( resolve, reject ) => {
+            this.$window.facebookConnectPlugin.getLoginStatus( resolve, reject );
+        });
     }
 
     /**
      * 
      * 
      * @param {any} options
-     * @param {any} onSuccess
-     * @param {any} onError
+     * @returns {IPromise<any>}
+     * 
+     * @memberOf FacebookService
      */
-    public showDialog( options, onSuccess, onError ) {
-        this.$window.facebookConnectPlugin.showDialog( options, onSuccess, onError );
+    public showDialog( options ): IPromise<any> {
+        return this.$q(( resolve, reject ) => {
+            this.$window.facebookConnectPlugin.showDialog( options, resolve, reject );
+        });
     }
 
     /**
@@ -94,11 +110,14 @@ export class FacebookService {
      * 
      * @param {any} requestPath
      * @param {any} permissions
-     * @param {any} onSuccess
-     * @param {any} onError
+     * @returns {IPromise<any>}
+     * 
+     * @memberOf FacebookService
      */
-    public api( requestPath, permissions, onSuccess, onError ) {
-        this.$window.facebookConnectPlugin.api( requestPath, permissions, onSuccess, onError );
+    public api( requestPath, permissions ): IPromise<any> {
+        return this.$q(( resolve, reject ) => {
+            this.$window.facebookConnectPlugin.api( requestPath, permissions, resolve, reject );
+        });
     }
 
     /**

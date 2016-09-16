@@ -41,6 +41,8 @@ export class AuthenticationService {
      * @param {FacebookService} facebookService
      * @param {GoogleService} googleService
      * @param {ISettings} settings
+     * 
+     * @memberOf AuthenticationService
      */
     constructor( private acessoCidadaoService: AcessoCidadaoService,
         private digitsService: DigitsService,
@@ -58,13 +60,14 @@ export class AuthenticationService {
         this.acessoCidadaoService.initialize( this.settings.identityServer.url );
     }
 
-
     /**
      * 
      * 
      * @param {string} username
      * @param {string} password
      * @returns {IPromise<AcessoCidadaoClaims>}
+     * 
+     * @memberOf AuthenticationService
      */
     public login( username: string, password: string ): IPromise<AcessoCidadaoClaims> {
 
@@ -83,9 +86,13 @@ export class AuthenticationService {
     /**
      * Realiza o login usando o facebook
      * https://github.com/jeduan/cordova-plugin-facebook4
+     * 
+     * @returns {IPromise<SocialNetworkIdentity>}
+     * 
+     * @memberOf AuthenticationService
      */
-    public facebookLogin( success, error ): void {
-        this.facebookService.login( [ 'email', 'public_profile' ], ( authResponse: FacebookAuthResponse ) => {
+    public facebookLogin(): IPromise<SocialNetworkIdentity> {
+        return this.facebookService.login( [ 'email', 'public_profile' ] ).then(( authResponse: FacebookAuthResponse ) => {
 
             let identity: SocialNetworkIdentity = {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
@@ -96,40 +103,49 @@ export class AuthenticationService {
                 accesstoken: authResponse.accessToken
             };
 
-            success( identity );
-        }, error );
+            return identity;
+        });
     }
 
     /**
      * Realiza o login usando conta do google
+     * 
+     * @returns {IPromise<SocialNetworkIdentity>}
+     * 
+     * @memberOf AuthenticationService
      */
-    public googleLogin( success, error ): void {
+    public googleLogin(): IPromise<SocialNetworkIdentity> {
         let options = {
             scopes: 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
             webClientId: this.settings.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
             offline: true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
         };
 
-        this.googleService.login( options, ( authResponse: GoogleAuthResponse ) => {
+        return this.googleService.login( options )
+            .then(( authResponse: GoogleAuthResponse ) => {
 
-            let identity: SocialNetworkIdentity = {
-                client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
-                client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
-                grant_type: 'customloginexterno',
-                scope: this.settings.identityServer.defaultScopes,
-                provider: 'Google',
-                accesstoken: authResponse.idToken
-            };
+                let identity: SocialNetworkIdentity = {
+                    client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
+                    client_secret: this.settings.identityServer.clients.espmExternalLoginAndroid.secret,
+                    grant_type: 'customloginexterno',
+                    scope: this.settings.identityServer.defaultScopes,
+                    provider: 'Google',
+                    accesstoken: authResponse.idToken
+                };
 
-            success( identity );
-        }, error );
+                return identity;
+            });
     }
 
     /**
      * Realiza login digits
+     * 
+     * @returns {IPromise<PhoneIdentity>}
+     * 
+     * @memberOf AuthenticationService
      */
-    public digitsLogin( success, error ): void {
-        this.digitsService.login( {}, ( authResponse: DigitsAuthResponse ) => {
+    public digitsLogin(): IPromise<PhoneIdentity> {
+        return this.digitsService.login( {}).then(( authResponse: DigitsAuthResponse ) => {
 
             let identity: PhoneIdentity = {
                 client_id: this.settings.identityServer.clients.espmExternalLoginAndroid.id,
@@ -142,8 +158,8 @@ export class AuthenticationService {
                 authHeader: authResponse[ 'X-Verify-Credentials-Authorization' ]
             };
 
-            success( identity );
-        }, error );
+            return identity;
+        });
     }
 
     /**

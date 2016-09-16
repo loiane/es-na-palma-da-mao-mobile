@@ -1,4 +1,4 @@
-import { IWindowService } from 'angular';
+import { IWindowService, IPromise } from 'angular';
 
 import { DialogService } from '../shared/dialog/dialog.service';
 import { ToastService } from '../shared/toast/index';
@@ -75,29 +75,28 @@ export class LoginController {
      * Realiza o login usando o facebook
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
-    public facebookLogin(): void {
-        this.authenticationService.facebookLogin(
-            ( identity ) => this.signInAcessoCidadao( identity ),
-            () => this.toast.error( { title: '[Facebook] Falha no login' })
-        );
+    public facebookLogin(): IPromise<void> {
+        return this.authenticationService.facebookLogin()
+            .then(( identity ) => this.signInAcessoCidadao( identity ) )
+            .catch(() => this.toast.error( { title: '[Facebook] Falha no login' }) );
     }
 
     /**
      * Realiza o login usando conta do google
      */
-    public googleLogin(): void {
-        this.authenticationService.googleLogin(
-            identity => this.signInAcessoCidadao( identity ),
-            () => this.toast.error( { title: '[Google] Falha no login' }) );
+    public googleLogin(): IPromise<void> {
+        return this.authenticationService.googleLogin()
+            .then( identity => this.signInAcessoCidadao( identity ) )
+            .catch(() => this.toast.error( { title: '[Google] Falha no login' }) );
     }
 
     /**
      * Realiza login digits
      */
-    public digitsLogin(): void {
-        this.authenticationService.digitsLogin(
-            ( identity ) => this.signInAcessoCidadao( identity ),
-            () => this.toast.error( { title: '[SMS] Falha no login' }) );
+    public digitsLogin(): IPromise<void> {
+        return this.authenticationService.digitsLogin()
+            .then(( identity ) => this.signInAcessoCidadao( identity ) )
+            .catch(() => this.toast.error( { title: '[SMS] Falha no login' }) );
     }
 
 
@@ -106,8 +105,8 @@ export class LoginController {
      * 
      * @param {Identity} identity
      */
-    public signInAcessoCidadao( identity: Identity ): void {
-        this.authenticationService.signInAcessoCidadao( identity )
+    public signInAcessoCidadao( identity: Identity ): IPromise<void> {
+        return this.authenticationService.signInAcessoCidadao( identity )
             .then(() => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }
