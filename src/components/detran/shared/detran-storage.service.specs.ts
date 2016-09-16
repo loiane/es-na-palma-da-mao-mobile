@@ -190,6 +190,38 @@ describe( 'DetranStorage', () => {
                 });
             });
         });
+
+        describe( 'hasDriverLicense', () => {
+
+            describe( 'get()', () => {
+                it( 'should return true if cnh register number and ballot have value', () => {
+                    authenticationService.user.cnhNumero = '111111111';
+                    authenticationService.user.cnhCedula = '222222222';
+                    expect( detranStorage.hasDriverLicense ).to.be.true;
+                });
+
+                it( 'should return false if cnh register number has not value', () => {
+                    authenticationService.user.cnhNumero = '';
+                    expect( detranStorage.hasDriverLicense ).to.be.false;
+                });
+
+                it( 'should return false if cnh ballot has no value', () => {
+                    authenticationService.user.cnhCedula = '';
+                    expect( detranStorage.hasDriverLicense ).to.be.false;
+                });
+            });
+
+            describe( 'set( vehicles )', () => {
+                it( 'should fill authenticationService.user with driverLicense data', () => {
+                    let driverLicense: DriverLicense = { registerNumber: '9090909090', ballot: '8080808080' };
+
+                    detranStorage.driverLicense = driverLicense;
+
+                    expect( authenticationService.user.cnhCedula ).to.be.equal( detranStorage.driverLicense.ballot );
+                    expect( authenticationService.user.cnhNumero ).to.be.equal( detranStorage.driverLicense.registerNumber );
+                });
+            });
+        });
     });
 });
 
