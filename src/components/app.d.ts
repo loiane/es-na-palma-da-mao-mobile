@@ -1,8 +1,6 @@
 // tslint:disable-next-line
 /// <reference path="../../typings/index.d.ts" />
 
-
-
 declare namespace ionic {
     namespace loading {
         interface IonicLoadingService {
@@ -48,11 +46,6 @@ declare module '*.html' {
 }
 
 declare module '*.json' {
-    const content: any;
-    export = content;
-}
-
-declare module '*.json!' {
     const content: any;
     export = content;
 }

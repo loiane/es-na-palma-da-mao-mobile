@@ -28,7 +28,8 @@ export class LoginController {
     ];
 
     public processingLogin: boolean = false;
-    public user: { username: string, password: string } = { username: '', password: '' };
+    public username: string | undefined;
+    public password: string | undefined;
     public errorMsgs = {
         accountNotLinked: 'User not found.' // Verification message with AcessoCidadao
     };
@@ -40,10 +41,11 @@ export class LoginController {
      * @param {AuthenticationService} authenticationService
      * @param {DialogService} dialog
      * @param {ToastService} toast
-     * @param {ISettings} settings
      * @param {IWindowService} $window
      * @param {ionic.navigation.IonicHistoryService} $ionicHistory
      * @param {PushConfig} pushConfig
+     * 
+     * @memberOf LoginController
      */
     constructor( private $state: angular.ui.IStateService,
         private authenticationService: AuthenticationService,
@@ -57,46 +59,18 @@ export class LoginController {
     /**
      * Executa login na aplicação de acordo com as configurações do settings, usuário e senha.
      */
-    public login(): void {
+    public loginWithCredentials( username: string, password: string ): void {
 
         this.processingLogin = true;
 
-        if ( !this.user.username || !this.user.password ) {
+        if ( !username || !password ) {
             this.toast.info( { title: 'Login e senha são obrigatórios' }); return;
         }
 
-        this.authenticationService.login( this.user.username, this.user.password )
+        this.authenticationService.signInWithCredentials( username, password )
             .then(() => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) )
             .finally(() => this.processingLogin = false );
-    }
-
-    /**
-     * Realiza o login usando o facebook
-     * https://github.com/jeduan/cordova-plugin-facebook4
-     */
-    public facebookLogin(): IPromise<void> {
-        return this.authenticationService.facebookLogin()
-            .then(( identity ) => this.signInAcessoCidadao( identity ) )
-            .catch(() => this.toast.error( { title: '[Facebook] Falha no login' }) );
-    }
-
-    /**
-     * Realiza o login usando conta do google
-     */
-    public googleLogin(): IPromise<void> {
-        return this.authenticationService.googleLogin()
-            .then( identity => this.signInAcessoCidadao( identity ) )
-            .catch(() => this.toast.error( { title: '[Google] Falha no login' }) );
-    }
-
-    /**
-     * Realiza login digits
-     */
-    public digitsLogin(): IPromise<void> {
-        return this.authenticationService.digitsLogin()
-            .then(( identity ) => this.signInAcessoCidadao( identity ) )
-            .catch(() => this.toast.error( { title: '[SMS] Falha no login' }) );
     }
 
 
@@ -105,18 +79,48 @@ export class LoginController {
      * 
      * @param {Identity} identity
      */
-    public signInAcessoCidadao( identity: Identity ): IPromise<void> {
-        return this.authenticationService.signInAcessoCidadao( identity )
+    public loginWithIdentity( identity: Identity ): IPromise<void> {
+        return this.authenticationService.signInWithIdentity( identity )
             .then(() => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) );
     }
+
+    /**
+     * Realiza o login usando o facebook
+     * https://github.com/jeduan/cordova-plugin-facebook4
+     */
+    public facebookLogin(): IPromise<void> {
+        return this.authenticationService.facebookLogin()
+            .then(( identity ) => this.loginWithIdentity( identity ) )
+            .catch(() => this.toast.error( { title: '[Facebook] Falha no login' }) );
+    }
+
+    /**
+     * Realiza o login usando conta do google
+     */
+    public googleLogin(): IPromise<void> {
+        return this.authenticationService.googleLogin()
+            .then( identity => this.loginWithIdentity( identity ) )
+            .catch(() => this.toast.error( { title: '[Google] Falha no login' }) );
+    }
+
+    /**
+     * Realiza login digits
+     */
+    public digitsLogin(): IPromise<void> {
+        return this.authenticationService.digitsLogin()
+            .then(( identity ) => this.loginWithIdentity( identity ) )
+            .catch(() => this.toast.error( { title: '[SMS] Falha no login' }) );
+    }
+
 
     /**
      * Callback de sucesso no login no acesso cidadão.
      */
     public onAcessoCidadaoLoginSuccess(): void {
         this.pushConfig.init();
-        this.user = { username: '', password: '' };
+        this.username = undefined;
+        this.password = undefined;
         this.goToDashboard();
     }
 

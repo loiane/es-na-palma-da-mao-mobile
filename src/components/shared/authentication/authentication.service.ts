@@ -69,7 +69,7 @@ export class AuthenticationService {
      * 
      * @memberOf AuthenticationService
      */
-    public login( username: string, password: string ): IPromise<AcessoCidadaoClaims> {
+    public signInWithCredentials( username: string, password: string ): IPromise<AcessoCidadaoClaims> {
 
         let identity: AcessoCidadaoIdentity = {
             client_id: this.settings.identityServer.clients.espm.id,
@@ -80,7 +80,31 @@ export class AuthenticationService {
             password: password
         };
 
-        return this.signInAcessoCidadao( identity );
+        return this.signInWithIdentity( identity );
+    }
+
+    /**
+     * Efetua login no acesso cidadão usando um identity.
+     * 
+     * @param {Identity} identity
+     */
+    public signInWithIdentity( identity: Identity ): IPromise<AcessoCidadaoClaims> {
+        return this.acessoCidadaoService.signIn( identity );
+    }
+
+
+    /**
+     * 
+     * 
+     * @param {*} success
+     * @returns {void}
+     */
+    public signOut( success: any ): void {
+        this.facebookService.logout();
+        this.googleService.logout();
+        this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
+
+        return this.acessoCidadaoService.signOut( success );
     }
 
     /**
@@ -161,31 +185,6 @@ export class AuthenticationService {
             return identity;
         });
     }
-
-    /**
-     * Efetua login no acesso cidadão usando um identity.
-     * 
-     * @param {Identity} identity
-     */
-    public signInAcessoCidadao( identity: Identity ): IPromise<AcessoCidadaoClaims> {
-        return this.acessoCidadaoService.signIn( identity );
-    }
-
-
-    /**
-     * 
-     * 
-     * @param {*} success
-     * @returns {void}
-     */
-    public signOut( success: any ): void {
-        this.facebookService.logout();
-        this.googleService.logout();
-        this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
-
-        return this.acessoCidadaoService.signOut( success );
-    }
-
 
     /**
      * 

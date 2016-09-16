@@ -26,22 +26,23 @@ describe( 'Login', () => {
 
         // api
         let authenticationService: AuthenticationService;
-        let authLoginPromise: Sinon.SinonPromise;
-        let authLogin: Sinon.SinonStub;
+        let signInWithCredentialsPromise: Sinon.SinonPromise;
+        let signInWithCredentials: Sinon.SinonStub;
         let pushConfigInit: Sinon.SinonStub;
-        // let digitsLoginPromise: Sinon.SinonPromise;
-        // let googleLoginPromise: Sinon.SinonPromise;
-        // let facebookLoginPromise: Sinon.SinonPromise;
-        let signInAcessoCidadao: Sinon.SinonStub;
-        let signInAcessoCidadaoPromise: Sinon.SinonPromise;
+        let digitsLoginPromise: Sinon.SinonPromise;
+        let googleLoginPromise: Sinon.SinonPromise;
+        let facebookLoginPromise: Sinon.SinonPromise;
+        let signInWithIdentity: Sinon.SinonStub;
+        let signInWithIdentityPromise: Sinon.SinonPromise;
+
         // models
         let identity: Identity;
 
         beforeEach(() => {
             environment.refresh();
             authenticationService = <AuthenticationService><any>{
-                login() { },
-                signInAcessoCidadao() { },
+                signInWithIdentity() { },
+                signInWithCredentials() { },
                 facebookLogin() { },
                 googleLogin() { },
                 digitsLogin() { }
@@ -73,34 +74,37 @@ describe( 'Login', () => {
             };
 
             pushConfigInit = sandbox.stub( pushConfig, 'init' );
-            signInAcessoCidadao = sandbox.stub( authenticationService, 'signInAcessoCidadao' )
-            signInAcessoCidadaoPromise = signInAcessoCidadao.returnsPromise();
-            // digitsLoginPromise = sandbox.stub( authenticationService, 'digitsLogin' ).returnsPromise();
-            // googleLoginPromise = sandbox.stub( authenticationService, 'googleLogin' ).returnsPromise();
-            // facebookLoginPromise = sandbox.stub( authenticationService, 'facebookLogin' ).returnsPromise();
-
-            authLogin = sandbox.stub( authenticationService, 'login' );
-            authLoginPromise = authLogin.returnsPromise();
+            signInWithIdentity = sandbox.stub( authenticationService, 'signInWithIdentity' );
+            signInWithIdentityPromise = signInWithIdentity.returnsPromise();
+            signInWithCredentials = sandbox.stub( authenticationService, 'signInWithCredentials' );
+            signInWithCredentialsPromise = signInWithCredentials.returnsPromise();
+            digitsLoginPromise = sandbox.stub( authenticationService, 'digitsLogin' ).returnsPromise();
+            googleLoginPromise = sandbox.stub( authenticationService, 'googleLogin' ).returnsPromise();
+            facebookLoginPromise = sandbox.stub( authenticationService, 'facebookLogin' ).returnsPromise();
         });
 
         describe( 'on instantiation', () => {
-            it( 'should have a blank user', () => {
-                expect( controller.user ).to.be.deep.equal( { username: '', password: '' });
+            it( 'should have a undefined username', () => {
+                expect( controller.username ).to.be.undefined;
             });
 
-            it( 'should not be processing login', () => {
+            it( 'should have a undefined password', () => {
+                expect( controller.password ).to.be.undefined;
+            });
+
+            it( 'should not be processing authentication', () => {
                 expect( controller.processingLogin ).to.be.false;
             });
 
             it( 'should have pre-defined error messages', () => {
                 expect( controller.errorMsgs ).to.be.deep.equal( {
-                    accountNotLinked: 'User not found.' // Verification message with AcessoCidadao
+                    accountNotLinked: 'User not found.'
                 });
             });
         });
 
         describe( 'isAccountNotLinked(data)', () => {
-            it( 'should return true if data.error message is "User not found."', () => {
+            it( 'should return true if authentication error is "User not found."', () => {
                 expect( controller.isAccountNotLinked( { error: 'User not found.' }) ).to.be.true;
             });
         });
@@ -133,71 +137,100 @@ describe( 'Login', () => {
             });
         });
 
-        describe( 'login()', () => {
+        describe( 'loginWithCredentials(username, password)', () => {
+
+            let username: string;
+            let password: string;
+
             beforeEach(() => {
                 controller.processingLogin = false;
-                controller.user = { username: 'joão', password: '123456' };
+                username = 'joão';
+                password = '123456';
             });
 
-            it( 'should put controller on processing mode', () => {
+            it( 'should put controller on processing authentication mode', () => {
                 controller.processingLogin = false;
 
-                controller.login();
+                controller.loginWithCredentials( username, password );
 
                 expect( controller.processingLogin ).to.be.true;
             });
 
-            it( 'should show validation message if login or password is not provided', () => {
-                controller.user = { username: '', password: '123456' };
-                controller.login();
-                controller.user = { username: '123456', password: '' };
-                controller.login();
+            it( 'should show validation message if username or password is not provided', () => {
+                controller.loginWithCredentials( username, '' );
+                controller.loginWithCredentials( '', password );
 
                 expect( toastInfo.calledTwice ).to.be.true;
                 expect( toastInfo.calledWithExactly( { title: 'Login e senha são obrigatórios' }) ).to.be.true;
-                expect( authLogin.notCalled ).to.be.true;
+                expect( signInWithCredentials.notCalled ).to.be.true;
             });
 
-            it( 'should authenticate user on acesso cidadão', () => {
-                controller.login();
+            it( 'should authenticate with username and password on acesso cidadão', () => {
+                controller.loginWithCredentials( username, password );
 
-                expect( authLogin.calledWithExactly( controller.user.username, controller.user.password ) ).to.be.true;
+                expect( signInWithCredentials.calledWithExactly( username, password ) ).to.be.true;
             });
 
 
             it( 'should call success callback on acesso cidadão authentication success', () => {
                 let onAcessoCidadaoLoginSuccess = sandbox.stub( controller, 'onAcessoCidadaoLoginSuccess' );
-                authLoginPromise.resolves();
+                signInWithCredentialsPromise.resolves();
 
-                controller.login();
+                controller.loginWithCredentials( username, password );
 
                 expect( onAcessoCidadaoLoginSuccess.calledOnce ).to.be.true;
             });
 
             it( 'should call error callback on acesso cidadão authentication error', () => {
                 let onAcessoCidadaoLoginError = sandbox.stub( controller, 'onAcessoCidadaoLoginError' );
-                authLoginPromise.rejects();
+                signInWithCredentialsPromise.rejects();
 
-                controller.login();
+                controller.loginWithCredentials( username, password );
 
                 expect( onAcessoCidadaoLoginError.calledOnce ).to.be.true;
             });
 
 
-            it( 'should exit processing mode if auth request successful', () => {
-                authLoginPromise.resolves();
+            it( 'should exit authentication processing mode if auth request successfull', () => {
+                signInWithCredentialsPromise.resolves();
 
-                controller.login();
+                controller.loginWithCredentials( username, password );
 
                 expect( controller.processingLogin ).to.be.false;
             });
 
-            it( 'should exit processing mode if auth request failed', () => {
-                authLoginPromise.rejects();
+            it( 'should exit authentication processing mode if auth request failed', () => {
+                signInWithCredentialsPromise.rejects();
 
-                controller.login();
+                controller.loginWithCredentials( username, password );
 
                 expect( controller.processingLogin ).to.be.false;
+            });
+        });
+
+        describe( 'loginWithIdentity(identity)', () => {
+            it( 'authenticate user on acesso cidadão with provided identity', () => {
+                controller.loginWithIdentity( identity );
+
+                expect( signInWithIdentity.calledWithExactly( identity ) ).to.be.true;
+            });
+
+            it( 'should call success callback on acesso cidadão authentication success', () => {
+                let onAcessoCidadaoLoginSuccess = sandbox.stub( controller, 'onAcessoCidadaoLoginSuccess' );
+                signInWithIdentityPromise.resolves();
+
+                controller.loginWithIdentity( identity );
+
+                expect( onAcessoCidadaoLoginSuccess.calledOnce ).to.be.true;
+            });
+
+            it( 'should call error callback on acesso cidadão authentication error', () => {
+                let onAcessoCidadaoLoginError = sandbox.stub( controller, 'onAcessoCidadaoLoginError' );
+                signInWithIdentityPromise.rejects();
+
+                controller.loginWithIdentity( identity );
+
+                expect( onAcessoCidadaoLoginError.calledOnce ).to.be.true;
             });
         });
 
@@ -209,44 +242,31 @@ describe( 'Login', () => {
                 expect( pushConfigInit.called ).to.be.true;
             });
 
-            it( 'should reset user data', () => {
+            it( 'should clear username', () => {
+                controller.username = 'vizeke';
+
                 controller.onAcessoCidadaoLoginSuccess();
 
-                expect( controller.user ).to.be.deep.equal( { username: '', password: '' });
+                expect( controller.username ).to.be.undefined;
+            });
+
+            it( 'should clear password', () => {
+                controller.password = 'vizeke';
+
+                controller.onAcessoCidadaoLoginSuccess();
+
+                expect( controller.password ).to.be.undefined;
             });
 
             it( 'should redirect user to dashboard', () => {
+                let goToDashboard = sandbox.stub( controller, 'goToDashboard' );
+
                 controller.onAcessoCidadaoLoginSuccess();
 
-                expect( controller.user ).to.be.deep.equal( { username: '', password: '' });
+                expect( goToDashboard.calledOnce ).to.be.true;
             });
         });
 
-        describe( 'signInAcessoCidadao(identity)', () => {
-            it( 'authenticate user on acesso cidadão with provided identity', () => {
-                controller.signInAcessoCidadao( identity );
-
-                expect( signInAcessoCidadao.calledWithExactly( identity ) ).to.be.true;
-            });
-
-            it( 'should call success callback on acesso cidadão authentication success', () => {
-                let onAcessoCidadaoLoginSuccess = sandbox.stub( controller, 'onAcessoCidadaoLoginSuccess' );
-                signInAcessoCidadaoPromise.resolves();
-
-                controller.signInAcessoCidadao( identity );
-
-                expect( onAcessoCidadaoLoginSuccess.calledOnce ).to.be.true;
-            });
-
-            it( 'should call error callback on acesso cidadão authentication error', () => {
-                let onAcessoCidadaoLoginError = sandbox.stub( controller, 'onAcessoCidadaoLoginError' );
-                signInAcessoCidadaoPromise.rejects();
-
-                controller.signInAcessoCidadao( identity );
-
-                expect( onAcessoCidadaoLoginError.calledOnce ).to.be.true;
-            });
-        });
 
         describe( 'onAcessoCidadaoLoginError()', () => {
 
@@ -303,59 +323,59 @@ describe( 'Login', () => {
             });
         });
 
-        // describe( 'facebookLogin()', () => {
-        //     it( 'should sign in acesso cidadão with the provided token', () => {
-        //         facebookLoginPromise.resolves( identity );
+        describe( 'facebookLogin()', () => {
+            it( 'should authenticate on acesso cidadão with the provided facebook identity', () => {
+                facebookLoginPromise.resolves( identity );
 
-        //         controller.facebookLogin();
+                controller.facebookLogin();
 
-        //         expect( signInAcessoCidadao.calledWith( identity ) ).to.be.true;
-        //     });
+                expect( signInWithIdentity.calledWith( identity ) ).to.be.true;
+            });
 
-        //     it( 'should show login error message for facebook', () => {
-        //         facebookLoginPromise.rejects();
+            it( 'should show login error message for facebook on error', () => {
+                facebookLoginPromise.rejects();
 
-        //         controller.facebookLogin();
+                controller.facebookLogin();
 
-        //         expect( toastInfo.calledWithExactly( { title: '[Facebook] Falha no login' }) ).to.be.true;
-        //     });
-        // });
+                expect( toastError.calledWithExactly( { title: '[Facebook] Falha no login' }) ).to.be.true;
+            });
+        });
 
-        // describe( 'googleLogin()', () => {
-        //     it( 'should sign in acesso cidadão with the provided token', () => {
-        //         facebookLoginPromise.resolves( identity );
+        describe( 'googleLogin()', () => {
+            it( 'should acesso cidadão with the provided google identity', () => {
+                googleLoginPromise.resolves( identity );
 
-        //         controller.googleLogin();
+                controller.googleLogin();
 
-        //         expect( signInAcessoCidadao.calledWithExactly( identity ) ).to.be.true;
-        //     });
+                expect( signInWithIdentity.calledWithExactly( identity ) ).to.be.true;
+            });
 
-        //     it( 'should show login error message for google', () => {
-        //         facebookLoginPromise.rejects();
+            it( 'should show login error message for google on error', () => {
+                googleLoginPromise.rejects();
 
-        //         controller.facebookLogin();
+                controller.googleLogin();
 
-        //         expect( toastInfo.calledWithExactly( { title: '[Google] Falha no login' }) ).to.be.true;
-        //     });
-        // });
+                expect( toastError.calledWithExactly( { title: '[Google] Falha no login' }) ).to.be.true;
+            });
+        });
 
 
-        // describe( 'digitsLogin()', () => {
-        //     it( 'should sign in acesso cidadão with the provided token', () => {
-        //         facebookLoginPromise.resolves( identity );
+        describe( 'digitsLogin()', () => {
+            it( 'should authenticate on acesso cidadão with the provided digits identity', () => {
+                digitsLoginPromise.resolves( identity );
 
-        //         controller.googleLogin();
+                controller.digitsLogin();
 
-        //         expect( signInAcessoCidadao.calledWithExactly( identity ) ).to.be.true;
-        //     });
+                expect( signInWithIdentity.calledWithExactly( identity ) ).to.be.true;
+            });
 
-        //     it( 'should show login error message for digits', () => {
-        //         facebookLoginPromise.rejects();
+            it( 'should show login error message for digits on error', () => {
+                digitsLoginPromise.rejects();
 
-        //         controller.digitsLogin();
+                controller.digitsLogin();
 
-        //         expect( toastInfo.calledWithExactly( { title: '[SMS] Falha no login' }) ).to.be.true;
-        //     });
-        // });
+                expect( toastError.calledWithExactly( { title: '[SMS] Falha no login' }) ).to.be.true;
+            });
+        });
     });
 });

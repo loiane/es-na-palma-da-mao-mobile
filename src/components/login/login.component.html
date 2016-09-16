@@ -19,18 +19,18 @@
 
 			<md-input-container md-no-float class="md-block">
 				<label>CPF ou E-mail</label>
-				<input type="email" ng-model="vm.user.username" remove-email-validation>
+				<input type="email" ng-model="vm.username" remove-email-validation>
 			</md-input-container>
 
 			<md-input-container md-no-float class="md-block">
 				<label>Senha</label>
-				<input type="password" ng-model="vm.user.password">
+				<input type="password" ng-model="vm.password">
 			</md-input-container>
 			<!--</div>-->
 
 			<a href="" ng-click="vm.openUrlForgotPassword()" class="espm-forgot-password">Esqueceu a Senha?</a>
 
-			<md-button ng-click="vm.login()"
+			<md-button ng-click="vm.loginWithCredentials(vm.username, vm.password)"
 					   ng-disabled="vm.processingLogin"
 					   class="espm-login-button md-raised"
 					   md-colors="::{color: 'primary'}"
