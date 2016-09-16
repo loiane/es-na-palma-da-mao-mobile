@@ -27,9 +27,9 @@ export class LoginController {
         'pushConfig'
     ];
 
-    private processingLogin: boolean = false;
-    private user: { username: string, password: string } = { username: '', password: '' };
-    private errorMsgs = {
+    public processingLogin: boolean = false;
+    public user: { username: string, password: string } = { username: '', password: '' };
+    public errorMsgs = {
         accountNotLinked: 'User not found.' // Verification message with AcessoCidadao
     };
 
@@ -54,10 +54,6 @@ export class LoginController {
         private pushConfig: PushConfig ) {
     }
 
-    public setUserName( e: any ) {
-        console.log( e );
-    }
-
     /**
      * Executa login na aplicação de acordo com as configurações do settings, usuário e senha.
      */
@@ -70,9 +66,9 @@ export class LoginController {
         }
 
         this.authenticationService.login( this.user.username, this.user.password )
-            .then( () => this.onAcessoCidadaoLoginSuccess() )
+            .then(() => this.onAcessoCidadaoLoginSuccess() )
             .catch( error => this.onAcessoCidadaoLoginError( error ) )
-            .finally( () => this.processingLogin = false );
+            .finally(() => this.processingLogin = false );
     }
 
     /**
