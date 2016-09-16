@@ -92,7 +92,7 @@ export class BusLinesController {
      * @param {string} filter
      */
     public filterLines( filter: string ): void {
-        let upperFilter = this.stripAccents( filter.toUpperCase() );
+        let upperFilter = this.stripAccents( filter.trim().toUpperCase() );
         this.filteredLines = this.lines.filter( line => {
             let name = this.stripAccents( line.name.toUpperCase() );
             return name.includes( upperFilter ) || line.number.includes( upperFilter );

@@ -56,12 +56,8 @@ describe( 'Ceturb/bus-lines', () => {
         });
 
         describe( 'activate()', () => {
-            beforeEach(() => {
-                sandbox.stub( ceturbApiService, 'getLines' ).returnsPromise().resolves( [] );
-            });
-
             it( 'should fetch all bus lines', () => {
-                let getLines = sandbox.spy( controller, 'getLines' );
+                let getLines = sandbox.stub( controller, 'getLines' );
 
                 controller.activate();
 
@@ -69,6 +65,7 @@ describe( 'Ceturb/bus-lines', () => {
             });
 
             it( 'should reset inputted filter', () => {
+                sandbox.stub( controller, 'getLines' );
                 controller.filter = '500';
 
                 controller.activate();
@@ -87,7 +84,6 @@ describe( 'Ceturb/bus-lines', () => {
             beforeEach(() => {
                 sandbox.stub( ceturbApiService, 'getLines' ).returnsPromise().resolves( lines );
                 sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
-                sandbox.stub( controller, 'stripAccents' ).returnsArg( 0 );
             });
 
             it( 'should fill bus lines', () => {
@@ -212,7 +208,7 @@ describe( 'Ceturb/bus-lines', () => {
 
             it( 'should not filter whitespace', () => {
 
-                controller.filterLines( '' );
+                controller.filterLines( ' ' );
 
                 expect( controller.filteredLines ).to.have.lengthOf( controller.lines.length );
             });
