@@ -27,7 +27,7 @@ export class DriverLicenseController {
     constructor( private $scope: IScope,
         private $state: angular.ui.IStateService,
         private $ionicHistory,
-        private $ionicNativeTransitions,
+        public $ionicNativeTransitions,
         private detranApiService: DetranApiService,
         private driverLicenseStorage: DriverLicenseStorage,
         private $mdDialog: angular.material.IDialogService ) {

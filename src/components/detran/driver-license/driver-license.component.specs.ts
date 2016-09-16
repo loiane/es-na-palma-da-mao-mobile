@@ -140,6 +140,41 @@ describe( 'Detran/driver-license', () => {
                     expect( navigateTo.calledWith( 'app.driverLicenseStatus' ) ).to.be.true;
                 });
             });
+
+            describe( 'navigateTo(state)', () => {
+                let nextViewOptions: Sinon.SinonStub;
+
+                beforeEach(() => {
+                    nextViewOptions = sandbox.stub( environment.$ionicHistory, 'nextViewOptions' );
+                });
+
+                it( 'should call $ionicHistory.nextViewOptions', () => {
+
+                    controller.navigateTo( 'someState' );
+
+                    expect( nextViewOptions.calledWithExactly( {
+                        disableBack: true,
+                        historyRoot: true
+                    }) ).to.be.true;
+                });
+
+                it( 'should navigate to state using ionic native transitions', () => {
+                    let go = sandbox.stub( $stateMock, 'go' );
+                    controller.$ionicNativeTransitions = undefined;
+
+                    controller.navigateTo( 'someState' );
+
+                    expect( go.calledWithExactly( 'someState' ) ).to.be.true;
+                });
+
+                it( 'should navigate to state using ionic native transitions ( on device )', () => {
+                    let stateGo = sandbox.stub( controller.$ionicNativeTransitions, 'stateGo' );
+
+                    controller.navigateTo( 'someState' );
+
+                    expect( stateGo.calledWithExactly( 'someState', {}, { type: 'slide', direction: 'up' }) ).to.be.true;
+                });
+            });
         });
     });
 
