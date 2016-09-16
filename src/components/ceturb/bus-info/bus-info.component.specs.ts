@@ -152,6 +152,32 @@ describe( 'Ceturb/bus-info', () => {
                 expect( $windowOpen.calledWithExactly( `http://www.google.com.br/maps/place/${location}, ES`, '_system', 'location=yes' ) ).to.be.true;
             });
         });
+
+        describe( 'beforeNow()', () => {
+            it( 'should return true if provided hour is before current time', () => {
+                controller.currentTime = '12:00';
+
+                [ '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01', '00' ].forEach( i => {
+                    expect( controller.beforeNow( `${i}:59` ) ).to.be.true;
+                });
+
+                [ '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23' ].forEach( i => {
+                    expect( controller.beforeNow( `${i}:01` ) ).to.be.false;
+                });
+            });
+
+            it( 'should ignore date notes', () => {
+                controller.currentTime = '12:00L';
+
+                [ '11', '10', '09', '08', '07', '06', '05', '04', '03', '02', '01', '00' ].forEach( i => {
+                    expect( controller.beforeNow( `${i}:59` ) ).to.be.true;
+                });
+
+                [ '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23' ].forEach( i => {
+                    expect( controller.beforeNow( `${i}:01` ) ).to.be.false;
+                });
+            });
+        });
     });
 
     describe( 'Component', () => {
