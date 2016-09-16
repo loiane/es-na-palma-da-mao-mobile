@@ -4,6 +4,9 @@ node_js:
   - "6.5"
 script: 
   /bin/sh .travis.sh
+branches:
+  only:
+  - develop
 # deploy:
 #   provider: script
 #   skip_cleanup: true
