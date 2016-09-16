@@ -197,9 +197,9 @@ Inicia um servidor [nodemon](http://nodemon.io/) para servir a aplicação com [
 
 Inicia um *watcher* que compila a aplicação sempre que o código muda.
 
-[travis-image]: https://travis-ci.org/prodest/es-na-palma-da-mao-mobile.svg
+[travis-image]: http://travis-ci.org/prodest/es-na-palma-da-mao-mobile.svg
 [travis-url]: https://travis-ci.org/prodest/es-na-palma-da-mao-mobile
-[daviddm-image]: https://david-dm.org/prodest/es-na-palma-da-mao-mobile/dev-status.svg
+[daviddm-image]: http://david-dm.org/prodest/es-na-palma-da-mao-mobile/dev-status.svg
 [daviddm-url]: https://david-dm.org/prodest/es-na-palma-da-mao-mobile?type=dev
-[coveralls-image]: https://coveralls.io/repos/github/prodest/es-na-palma-da-mao-mobile/badge.svg?branch=develop
+[coveralls-image]: http://coveralls.io/repos/github/prodest/es-na-palma-da-mao-mobile/badge.svg?branch=develop
 [coveralls-url]: https://coveralls.io/github/prodest/es-na-palma-da-mao-mobile?branch=develop
