@@ -3,11 +3,11 @@
 		<h4 class="text-center">Cadastro de CNH</h4>
 		<md-input-container md-no-float class="md-block">
 			<label>Nº de Registro</label>
-			<input type="tel" ng-model="vm.registerNumber" name="query">
+			<input type="number" ng-model="vm.registerNumber" name="query" input-return>
 		</md-input-container>
 		<md-input-container md-no-float class="md-block">
 			<label>Cédula (Nº Lateral)</label>
-			<input type="tel" ng-model="vm.ballot">
+			<input type="number" ng-model="vm.ballot" input-return>
 		</md-input-container>
 	</md-dialog-content>
 	<md-dialog-actions>

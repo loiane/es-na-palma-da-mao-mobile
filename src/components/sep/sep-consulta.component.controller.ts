@@ -1,4 +1,4 @@
-import { IScope } from 'angular';
+import { IScope, IWindowService } from 'angular';
 import { SepApiService, Process, ProcessUpdate } from './shared/index';
 import { ToastService, ToastOptions } from '../shared/toast/index';
 
@@ -7,6 +7,7 @@ export class SepConsultaController {
     public static $inject: string[] = [
         '$scope',
         '$ionicScrollDelegate',
+        '$window',
         'toast',
         'sepApiService'
     ];
@@ -28,6 +29,7 @@ export class SepConsultaController {
      */
     constructor( private $scope: IScope,
                  private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
+                 private $window: IWindowService,
                  private toast: ToastService,
                  private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
@@ -73,26 +75,29 @@ export class SepConsultaController {
     public getProcess( procNumber: string ): void {
 
         if ( !procNumber ) {
-             this.toast.info( { title: 'N° do processo é obrigatório' } as ToastOptions ); return;
+            this.toast.info( { title: 'N° do processo é obrigatório' } as ToastOptions ); return;
         }
 
         this.sepApiService.getProcessByNumber( procNumber )
-                          .then( process => {
-                              this.process = process;
-                              return process;
-                          } )
-                          .catch( () => {
-                              this.process = undefined;
-                          } )
-                          .finally( () => {
-                              this.searched = true;
+            .then( process => {
+                this.process = process;
+                return process;
+            } )
+            .catch( () => {
+                this.process = undefined;
+            } )
+            .finally( () => {
+                this.searched = true;
 
-                              if ( this.process ) {
-                                  this.lastProcessNumber = '';
-                              } else {
-                                  this.lastProcessNumber = procNumber;
-                              }
-                          } );
+                if ( this.process ) {
+                    this.lastProcessNumber = '';
+                } else {
+                    this.lastProcessNumber = procNumber;
+                }
+            } );
+    }
+
+    public keyboardReturn( procNumber: string ) {
+        this.getProcess( procNumber );
     }
 }
-

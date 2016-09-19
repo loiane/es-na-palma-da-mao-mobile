@@ -110,7 +110,7 @@ ion-header-bar {
    text-transform: capitalize;
 }
 
-md-input-container input[type=tel] {
+md-input-container input[type=tel], md-input-container input[type=number] {
     border: solid;
     border-width: 0 0 1px;
 }
