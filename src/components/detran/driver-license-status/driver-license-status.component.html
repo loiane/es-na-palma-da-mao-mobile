@@ -71,7 +71,7 @@
 				<md-divider></md-divider>
 			</md-list-item>
 		</md-list>
-		<message text="Nenhuma multa encontrada para a CNH" ng-if="vm.tickets && !vm.hasTickets"></message>
+		<message text="Nenhuma multa encontrada para a CNH" ng-if="vm.tickets && !vm.hasTickets" class="no-tickets"></message>
 
 		<error-message error="uiState.error">
 			<remark ng-if="uiState.error.status === 404">Verifique os se os dados da CNH estão corretos</remark>

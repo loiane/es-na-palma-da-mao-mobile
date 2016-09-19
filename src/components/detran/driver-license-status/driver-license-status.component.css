@@ -68,3 +68,7 @@
 #state-driver-license-status md-card {
     margin:0;
 }
+
+#state-driver-license-status .no-tickets .message-wrapper {
+    height: calc( 100% - 72px );
+}
