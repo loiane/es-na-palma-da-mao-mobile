@@ -18,3 +18,12 @@
     height: 50px;
 	min-height: 50px;
 }
+
+ #dio-latest .btn-download {
+     padding: 8px 8px 8px 0;
+ }
+
+ #dio-latest .text-padding {
+     padding: 8px 0 8px 8px;
+ }
+ 

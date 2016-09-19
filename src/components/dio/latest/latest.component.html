@@ -4,10 +4,10 @@
 		<md-list ng-if="vm.latestEditions.length">
 			<md-subheader class="md-no-sticky">Edições Recentes</md-subheader>
 			<md-list-item class="md-2-line" ng-repeat="edition in vm.latestEditions">
-				<div class="md-list-item-text" flex>
-					<h4 class="md-padding"><strong>{{ ::edition.date }}</strong> - Diário Oficial do ES</h4>
+				<div class="md-list-item-text">
+					<h4 class="text-padding"><strong>{{ ::edition.date }}</strong> - Diário Oficial do ES</h4>
 				</div>
-				<div class="md-padding" flex>
+				<div class="btn-download">
 					<md-button class="md-accent md-icon-button" ng-click="vm.openEdition( edition.url )">
 						BAIXAR <i class="fa fa-download" aria-hidden="true"></i>
 					</md-button>
