@@ -42,10 +42,23 @@ export class AddVehicleController {
         }
 
         let vehicle: Vehicle = {
-            plate: plate.toUpperCase(),
-            renavam: renavam.toUpperCase()
+            plate: this.normalize( plate ),
+            renavam: this.normalize( renavam )
         };
 
         this.$mdDialog.hide( vehicle );
+    }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {string} plateOrRenavam
+     * @returns
+     * 
+     * @memberOf AddVehicleController
+     */
+    private normalize( plateOrRenavam: string ) {
+        return plateOrRenavam.toUpperCase().trim().replace( / /g, '' ).replace( '-', '' );
     }
 }
