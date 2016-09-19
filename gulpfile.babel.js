@@ -521,7 +521,7 @@ gulp.task( 'ensures-release-branch', false, ( cb ) => {
 } );
 
 gulp.task( 'bump', false, ( cb ) => {
-    let bumpType = 'prerelease';
+    let bumpType = 'patch';
 
     if ( argv.patch ) {
         bumpType = 'patch';
