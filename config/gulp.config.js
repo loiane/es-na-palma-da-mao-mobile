@@ -116,7 +116,8 @@ let config = {
         plugins: [ 'transform-es2015-modules-systemjs' ]
     },
     debugOptions: { active: false },
-    masterBranch: 'master'
+    masterBranch: 'master',
+    developBranch: 'develop'
 };
 
 // sobrescreve configurações se estiver em produção

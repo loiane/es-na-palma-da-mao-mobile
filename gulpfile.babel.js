@@ -425,7 +425,8 @@ gulp.task( 'noop', ( cb ) => {
     cb();
 } );
 
-gulp.task( 'ensures-master', false, ( cb ) => {
+
+gulp.task( 'ensures-develop', false, ( cb ) => {
 
 /**
  * Loga o erro encontrado.
@@ -439,12 +440,43 @@ gulp.task( 'ensures-master', false, ( cb ) => {
     };
 
 /**
- * Dispara um erro se a branch atual não se chamar config.masterBranch
+ * Dispara um erro se a branch atual não se chamar config.developBranch
  *
  * @param {String} branch - o nome da branch atual
  *
  * @returns {void}
  */
+    const throwErrorIfNotInMaster = branch => {
+        if ( branch.trim() !== config.developBranch ) {
+            throw new Error( `Branch atual: "${branch.trim()}". Acão permtida somente na branch de desenvolvimento: "${config.developBranch}".` );
+        }
+        cb();
+    };
+
+    getCurrentBranchAsync().then( throwErrorIfNotInMaster )
+                           .catch( onError );
+} );
+
+gulp.task( 'ensures-master', false, ( cb ) => {
+
+    /**
+     * Loga o erro encontrado.
+     *
+     * @param {String} err - o erro disparado
+     *
+     * @returns {void}
+     */
+    const onError = err => {
+        gutil.log( gutil.colors.red( err ) );
+    };
+
+    /**
+     * Dispara um erro se a branch atual não se chamar config.masterBranch
+     *
+     * @param {String} branch - o nome da branch atual
+     *
+     * @returns {void}
+     */
     const throwErrorIfNotInMaster = branch => {
         if ( branch.trim() !== config.masterBranch ) {
             throw new Error( `Branch atual: "${branch.trim()}". Só é possível criar um release da branch "${config.masterBranch}".` );
@@ -458,24 +490,24 @@ gulp.task( 'ensures-master', false, ( cb ) => {
 
 gulp.task( 'ensures-release-branch', false, ( cb ) => {
 
-/**
- * Loga o erro encontrado.
- *
- * @param {String} err - o erro disparado
- *
- * @returns {void}
- */
+    /**
+     * Loga o erro encontrado.
+     *
+     * @param {String} err - o erro disparado
+     *
+     * @returns {void}
+     */
     const onError = err => {
         gutil.log( gutil.colors.red( err ) );
     };
 
-/**
- * Dispara um erro se a branch atual não se chamar config.masterBranch
- *
- * @param {String} branch - o nome da branch atual
- *
- * @returns {void}
- */
+    /**
+     * Dispara um erro se a branch atual não se chamar config.masterBranch
+     *
+     * @param {String} branch - o nome da branch atual
+     *
+     * @returns {void}
+     */
     const throwErrorIfNotInReleaseBranch = branch => {
         if ( !branch.trim().startsWith( 'release-' ) ) {
             throw new Error( `Branch atual: "${branch.trim()}". Só é possível preparar um release estando numa release branch (release-*).` );
@@ -487,7 +519,7 @@ gulp.task( 'ensures-release-branch', false, ( cb ) => {
                            .catch( onError );
 } );
 
-gulp.task( 'bump', false, [ 'ensures-release-branch' ], ( cb ) => {
+gulp.task( 'bump', false, ( cb ) => {
     let bumpType = 'prerelease';
 
     if ( argv.patch ) {
@@ -518,7 +550,7 @@ gulp.task( 'bump', false, [ 'ensures-release-branch' ], ( cb ) => {
         } );
 } );
 
-gulp.task( 'commit', false, [ 'ensures-release-branch' ], () => {
+gulp.task( 'commit', false, () => {
     const pkg = readJsonFile( config.paths.packageJson );
     const message = `refact(version): atualiza versão para ${pkg.version}`;
 
@@ -560,7 +592,20 @@ gulp.task( 'push-tags', false, [ 'ensures-master' ], ( cb ) => {
     } );
 } );
 
-gulp.task( 'changelog', false, [ 'ensures-master' ], ( cb ) => {
+gulp.task( 'create-release-branch', false, [ 'ensures-develop', 'bump' ], ( cb ) => {
+    const pkg = readJsonFile( config.paths.packageJson );
+    const branchName = `release-v${pkg.version}`;
+
+    git.checkout( branchName, { args: '-b' }, ( err ) => {
+        if ( err ) {
+            throw new Error( err );
+        }
+        runSequence( 'commit', cb );
+    } );
+} );
+
+
+gulp.task( 'changelog', false, ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const options = argv;
     const version = options.version || pkg.version;
@@ -628,11 +673,6 @@ gulp.task( 'transpile-app-ts', function() {
 
 gulp.task( 'delay', false, ( cb ) => {
     setTimeout( cb, 3000 );
-} );
-
-/* Prepare release */
-gulp.task( 'increment-version', 'Incrementa a versão da aplicação.', ( cb ) => {
-    return runSequence( 'ensures-release-branch', 'bump', 'commit', cb );
 } );
 
 gulp.task( 'create-release', 'Cria e publica uma nova release no Github e faz upload do changelog.', ( cb ) => {
