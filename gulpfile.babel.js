@@ -35,6 +35,7 @@ import semver from 'semver';
 import Bundler from 'angular-lazy-bundler';
 import typescript from 'gulp-typescript';
 import sourcemaps from 'gulp-sourcemaps';
+import xmlTransformer from 'gulp-xml-transformer';
 import karma from 'karma';
 
 //import 'gulp-cordova-build-android';
@@ -521,6 +522,23 @@ gulp.task( 'ensures-release-branch', false, ( cb ) => {
 } );
 
 gulp.task( 'bump', false, ( cb ) => {
+    runSequence( 'bump-npm', 'bump-cordova', cb );
+} );
+
+gulp.task( 'bump-cordova', false, ( cb ) => {
+    const pkg = readJsonFile( config.paths.packageJson );
+
+    gulp.src( config.paths.cordovaConfig )
+        .pipe( xmlTransformer( [
+             { path: '//xmlns:widget', attr: { 'version': pkg.version } }
+        ], 'http://www.w3.org/ns/widgets' ) )
+        .pipe( gulp.dest( './' ) )
+        .on( 'end', () => {
+            cb();
+        } );
+} );
+
+gulp.task( 'bump-npm', false, ( cb ) => {
     let bumpType = 'patch';
 
     if ( argv.patch ) {

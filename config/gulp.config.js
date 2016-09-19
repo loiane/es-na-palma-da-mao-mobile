@@ -7,6 +7,7 @@ let paths = {
     e2e: 'test-e2e/**/*.js',
     e2eOutput: 'test-e2e-compile/',
     packageJson: './package.json',
+    cordovaConfig: './config.xml',
     changelog: './CHANGELOG.md',
     ts: {
         src: './src/**/*.ts',
