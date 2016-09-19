@@ -35,6 +35,7 @@ import semver from 'semver';
 import Bundler from 'angular-lazy-bundler';
 import typescript from 'gulp-typescript';
 import sourcemaps from 'gulp-sourcemaps';
+import karma from 'karma';
 
 //import 'gulp-cordova-build-android';
 
@@ -676,7 +677,7 @@ gulp.task( 'delay', false, ( cb ) => {
 } );
 
 gulp.task( 'create-release', 'Cria e publica uma nova release no Github e faz upload do changelog.', ( cb ) => {
-    return runSequence( 'ensures-master', 'tag', 'push', 'push-tags', 'delay', 'changelog', 'github:create-release', cb );
+    return runSequence( 'ensures-master', 'test', 'tag', 'push', 'push-tags', 'delay', 'changelog', 'github:create-release', cb );
 } );
 
 gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
@@ -827,3 +828,16 @@ gulp.task( 'bundle', ( done ) => {
     .then( () => done() )
     .catch( ( err ) => done( err ) );
 } );
+
+
+
+/**
+ * Run test once and exit
+ */
+gulp.task( 'test', ( cb ) => {
+    new karma.Server( {
+        configFile: `${__dirname}/config/karma.conf.js`,
+        singleRun: true
+    }, cb ).start();
+} );
+
