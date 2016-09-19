@@ -262,7 +262,7 @@ var generate = function( version, from, file ) {
 
     getPreviousTag()
         .then( function( tag ) {
-            //console.log( 'Lendo o log desde a tag:', tag );
+            //console.log( 'Lendo o log desde a tag:', tag ); 
             if ( from ) {
                 tag = from;
             }
@@ -271,6 +271,9 @@ var generate = function( version, from, file ) {
             readGitLog( '^fix|^bugFix|^feat|^perf|^refact|BREAKING', tag ).then( function( commits ) {
                 writeChangelog( file ? fs.createWriteStream( file ) : process.stdout, commits, version );
             } );
+        } )
+        .catch( error => {
+            console.log('Error: ', error );
         } );
 };
 
