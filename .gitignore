@@ -14,7 +14,7 @@ logs
 npm-debug.log*
 
 # cordova config.xml
-config.xml
+config.xml.backup
 
 # Arquivo de configuração do portal com informações sensiveis
 src/components/shared/settings/settings.ts
