@@ -3,7 +3,7 @@ import dialog from './dialog/index';
 import cpfService from './cpf.service';
 import fromNowFilter from './from-now.filter';
 import toNowFilter from './to-now.filter';
-import calendarFilter from './date-calendar.filter';
+import calendarFilter from './calendar.filter';
 import capitalizeFilter from './capitalize.filter';
 import { Settings } from './settings/index';
 import ionicConfig from './ionic.config';
