@@ -5,7 +5,7 @@ var fs = require( 'fs' );
 var util = require( 'util' );
 var gutil = require( 'gulp-util' );
 
-var repository = 'https://github.com/prodest/es-na-palma-da-mao';
+var repository = 'https://github.com/prodest/es-na-palma-da-mao-mobile';
 var GIT_LOG_CMD = 'git log --grep="%s" -E --format=%s %s..HEAD';
 var GIT_TAG_CMD = 'git describe --tags --abbrev=0';
 var HEADER_TPL = '<a name="%s"></a>\n# %s (%s)\n\n';
@@ -42,7 +42,7 @@ var parseRawCommit = function( raw ) {
     msg.breaks = [];
 
     lines.forEach( function( line ) {
-        match = line.match( /(?:Closes|Fixes)\s#(\d+)/ );
+        match = line.match( /(?:[Cc]loses|[Ff]ixes)\s#(\d+)/ );
         if ( match ) {
             msg.closes.push( parseInt( match[ 1 ], 10 ) );
         }
