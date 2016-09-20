@@ -3,6 +3,7 @@ export class Enviroment {
     public $scope: any;
     public $ionicHistory: any;
     public $ionicNativeTransitions: any;
+    public $ionicTabsDelegateMock: any;
 
     /**
      * 
@@ -34,10 +35,11 @@ export class Enviroment {
                     this.onIonicBeforeEnterEvent = callback;
                 }
             },
-            $broadcast() {}
+            $broadcast() { }
         };
         this.$ionicHistory = { nextViewOptions() { } };
         this.$ionicNativeTransitions = { stateGo() { } };
+        this.$ionicTabsDelegateMock = { selectedIndex() { }, select() { } };
     }
 
     /**

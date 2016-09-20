@@ -23,7 +23,7 @@ describe( 'Ceturb/bus-info', () => {
                 getRoute: () => { },
                 getSchedule: () => { }
             };
-            controller = new BusInfoController( environment.$scope, $stateParamsMock, $qMock, $windowMock, ceturbApiService );
+            controller = new BusInfoController( environment.$scope, $stateParamsMock, $qMock, $windowMock, environment.$ionicTabsDelegateMock, ceturbApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -81,6 +81,30 @@ describe( 'Ceturb/bus-info', () => {
                 controller.activate();
 
                 expect( controller.currentTime ).to.be.equal( new Date().toTimeString().slice( 0, 5 ) );
+            });
+        });
+
+        describe( 'gotoTab(tabIndex)', () => {
+            it( 'should do nothing if tabIndex === tabs.SelectedIndex', () => {
+                sandbox.stub( environment.$ionicTabsDelegateMock, 'selectedIndex' ).returns( 1 );
+                let selected = sandbox.stub( environment.$ionicTabsDelegateMock, 'select' );
+                controller.gotoTab( 1 );
+
+                expect( selected.notCalled ).to.be.true;
+            });
+
+            it( 'should change tabs if tabIndex != tabs.SelectedIndex', () => {
+                let oldTab = 0;
+                let newTab = 1;
+                let otherTab = 15;
+                sandbox.stub( environment.$ionicTabsDelegateMock, 'selectedIndex' ).returns( oldTab );
+                let select = sandbox.stub( environment.$ionicTabsDelegateMock, 'select' );
+
+                controller.gotoTab( newTab );
+                expect( select.called ).to.be.true;
+
+                controller.gotoTab( otherTab );
+                expect( select.calledWithExactly( otherTab ) ).to.be.true;
             });
         });
 
