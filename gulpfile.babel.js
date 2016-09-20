@@ -35,8 +35,8 @@ import semver from 'semver';
 import Bundler from 'angular-lazy-bundler';
 import typescript from 'gulp-typescript';
 import sourcemaps from 'gulp-sourcemaps';
-import xmlTransformer from 'gulp-xml-transformer';
 import karma from 'karma';
+import cheerio from 'gulp-cheerio';
 
 //import 'gulp-cordova-build-android';
 
@@ -430,24 +430,24 @@ gulp.task( 'noop', ( cb ) => {
 
 gulp.task( 'ensures-develop', false, ( cb ) => {
 
-/**
- * Loga o erro encontrado.
- *
- * @param {String} err - o erro disparado
- *
- * @returns {void}
- */
-    const onError = err => {
-        gutil.log( gutil.colors.red( err ) );
-    };
+    /**
+     * Loga o erro encontrado.
+     *
+     * @param {String} err - o erro disparado
+     *
+     * @returns {void}
+     */
+        const onError = err => {
+            gutil.log( gutil.colors.red( err ) );
+        };
 
-/**
- * Dispara um erro se a branch atual não se chamar config.developBranch
- *
- * @param {String} branch - o nome da branch atual
- *
- * @returns {void}
- */
+    /**
+     * Dispara um erro se a branch atual não se chamar config.developBranch
+     *
+     * @param {String} branch - o nome da branch atual
+     *
+     * @returns {void}
+     */
     const throwErrorIfNotInMaster = branch => {
         if ( branch.trim() !== config.developBranch ) {
             throw new Error( `Branch atual: "${branch.trim()}". Acão permtida somente na branch de desenvolvimento: "${config.developBranch}".` );
@@ -529,13 +529,16 @@ gulp.task( 'bump-cordova', false, ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
 
     gulp.src( config.paths.cordovaConfig )
-        .pipe( xmlTransformer( [
-             { path: '//xmlns:widget', attr: { 'version': pkg.version } }
-        ], 'http://www.w3.org/ns/widgets' ) )
+        .pipe( cheerio( {
+            parserOptions: {
+                xmlMode: true
+            },
+            run: ( $ ) => {
+                $( 'widget' ).attr( 'version', pkg.version );
+            }
+        } ) )
         .pipe( gulp.dest( './' ) )
-        .on( 'end', () => {
-            cb();
-        } );
+        .on( 'end', cb );
 } );
 
 gulp.task( 'bump-npm', false, ( cb ) => {
@@ -564,9 +567,7 @@ gulp.task( 'bump-npm', false, ( cb ) => {
             type: bumpType
         } ) ) )
         .pipe( gulp.dest( './' ) )
-        .on( 'end', () => {
-            cb();
-        } );
+        .on( 'end', cb );
 } );
 
 gulp.task( 'commit', false, () => {
@@ -628,7 +629,7 @@ gulp.task( 'changelog', false, ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const options = argv;
     const version = options.version || pkg.version;
-    const from = options.from || '';
+    const from = options.from || 'start';
 
     gulp.src( '' )
         .pipe( gulpExec( `node ./gulp/helpers/changelog-script.js ${version} ${from}`, {
