@@ -166,6 +166,16 @@ describe( 'SEP/sep-consulta', () => {
                 expect( controller.lastUpdate ).to.be.undefined;
             });
         });
+
+        describe( 'on enter pressed (keyboardReturn)', () => {
+            it( 'should get process', () => {
+                const getProcess = sandbox.stub( controller, 'getProcess' );
+
+                controller.keyboardReturn( processNumber );
+
+                expect( getProcess.calledWithExactly( processNumber ) ).to.be.true;
+            });
+        });
     });
 
     describe( 'Component', () => {
