@@ -6,8 +6,8 @@
 		</a>
 	</ion-nav-buttons>
 	<spinner ng-if="uiState.loading"></spinner>
-	<ion-content id="state-ceturb-bus-info" class="espm-has-tabs-top">
-		<ion-tabs class="tabs-text-top espm-tabs-color-active-material">
+	<ion-content id="state-ceturb-bus-info" class="espm-has-tabs-top" on-swipe-left="vm.gotoTab(1)" on-swipe-right="vm.gotoTab(0)">
+		<ion-tabs class="tabs-text-top espm-tabs-color-active-material" animation="slide-left-right">
 			<ion-tab title="HORÁRIOS" class="md-primary-color-bg">
 				<ion-view>
 					<ion-content>

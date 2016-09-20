@@ -10,6 +10,7 @@ export class BusInfoController {
         '$stateParams',
         '$q',
         '$window',
+        '$ionicTabsDelegate',
         'ceturbApiService'
     ];
 
@@ -30,6 +31,7 @@ export class BusInfoController {
         private $stateParams: angular.ui.IStateParamsService,
         private $q: IQService,
         private $window: IWindowService,
+        private $ionicTabsDelegate: any,
         private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -67,6 +69,18 @@ export class BusInfoController {
         this.$window.open( `http://www.google.com.br/maps/place/${text}, ES`, '_system', 'location=yes' );
     }
 
+    /**
+     * 
+     * 
+     * @param {string} tabIndex
+     * 
+     * @memberOf BusInfoController
+     */
+    public gotoTab( tabIndex: string ) {
+        if ( tabIndex !== this.$ionicTabsDelegate.selectedIndex() ) {
+            this.$ionicTabsDelegate.select( tabIndex );
+        }
+    }
 
     /**
      * 
