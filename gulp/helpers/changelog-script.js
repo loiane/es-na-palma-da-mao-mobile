@@ -225,10 +225,10 @@ let writeChangelog = ( stream, commits, version ) => {
     } );
 
     stream.write( util.format( HEADER_TPL, version, version, currentDate() ) );
-    printSection( stream, 'Bug Fixes', sections.fix );
     printSection( stream, 'Features', sections.feat );
-    printSection( stream, 'Performance Improvements', sections.perf );
+    printSection( stream, 'Bug Fixes', sections.fix );
     printSection( stream, 'Refactoring', sections.refact );
+    printSection( stream, 'Performance Improvements', sections.perf );
     printSection( stream, 'Breaking Changes', sections.breaks, false );
 };
 
