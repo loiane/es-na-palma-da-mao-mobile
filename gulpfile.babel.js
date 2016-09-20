@@ -574,11 +574,8 @@ gulp.task( 'commit', false, () => {
     const pkg = readJsonFile( config.paths.packageJson );
     const message = `refact(version): atualiza versão para ${pkg.version}`;
 
-    return gulp.src( config.paths.packageJson )
-               .pipe( git.add( {
-                   args: '.'
-               } ) )
-               .pipe( git.commit( message ) );
+    return gulp.src( [ config.paths.packageJson, config.paths.cordovaConfig ] )
+        .pipe( git.commit( message ) );
 } );
 
 gulp.task( 'tag', false, [ 'ensures-master' ], ( cb ) => {
@@ -859,4 +856,3 @@ gulp.task( 'test', ( cb ) => {
         singleRun: true
     }, cb ).start();
 } );
-
