@@ -65,6 +65,50 @@ let parseRawCommit = ( raw ) => {
     msg.component = match[ 2 ];
     msg.subject = match[ 3 ];
 
+    // normaliza components
+    msg.component = msg.component.toLowerCase()
+        .replace( /^espm$/, 'geral' )
+        .replace( /^app$/, 'geral' )
+        .replace( 'app-core-tools', 'geral' )
+        .replace( 'app.d.ts', 'typings' )
+        .replace( 'changelog-script', 'gulp' )
+        .replace( 'gulpfile', 'gulp' )
+        .replace( 'cbme ', 'cmbes' )
+        .replace( 'ceturb ', 'ceturb' )
+        .replace( 'diretiva', 'shared/directives' )
+        .replace( /^new$/, 'news' )
+        .replace( 'notícia', 'news' )
+        .replace( 'news-details', 'news' )
+        .replace( 'error-message', 'layout/messages' )
+        .replace( 'menu', 'layout/menu' )
+        .replace( 'shared/layout/menu', 'layout/menu' )
+        .replace( 'spinner', 'layout/spinner' )
+        .replace( 'cbme/warning-list', 'cbmes' )
+        .replace( 'calendars', 'calendar' )
+        .replace( 'calendar-news', 'news' )
+        .replace( 'driver-license-status', 'detran' )
+        .replace( /^vehicle$/, 'vehicles' )
+        .replace( 'karma', 'tests' )
+        .replace( 'unit-tests', 'tests' )
+        .replace( 'readme', 'README' )
+        .replace( /component-(.+)/, '$1' )
+        .replace( /state-(.+)/, '$1' )
+        .replace( /^(about)$/, 'components/$1' )
+        .replace( /^(detran)$/, 'components/$1' )
+        .replace( /^(dio)$/, 'components/$1' )
+        .replace( /^(cbmes)$/, 'components/$1' )
+        .replace( /^(sep)$/, 'components/$1' )
+        .replace( /^(home)$/, 'components/$1' )
+        .replace( /^(calendar)$/, 'components/$1' )
+        .replace( /^(shared)/, 'components/$1' )
+        .replace( /^(layout)/, 'components/$1' )
+        .replace( /^(login)$/, 'components/$1' )
+        .replace( /^(news)$/, 'components/$1' )
+        .replace( /^(calendar)$/, 'components/$1' )
+        .replace( /^(ceturb)$/, 'components/$1' )
+        .replace( /^(dashboard)$/, 'components/$1' )
+        .replace( /^(vehicles)$/, 'components/$1' );
+
     // normalização
     if ( msg.type === 'bugFix' ) {
         msg.type = 'fix';
@@ -270,7 +314,7 @@ let generate = ( version, from, file ) => {
             } );
         } )
         .catch( error => {
-            console.log('Error: ', error );
+            console.log( 'Error: ', error );
         } );
 };
 
