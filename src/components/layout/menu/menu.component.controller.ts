@@ -3,7 +3,7 @@ import { IScope, ITimeoutService, IRootScopeService } from 'angular';
 import { GoogleService, FacebookService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
 import defaultAvatar from './img/user.png!image';
 import { ToastService } from '../../shared/toast/index';
-
+import { Route } from '../../shared/routes/index';
 import { DriverLicenseStorage } from '../../detran/shared/index';
 
 /**
@@ -215,7 +215,11 @@ export default class MenuController {
      *
      * @returns {void}
      */
-    public navigateTo( stateName: string ): void {
+    public navigateTo( route: Route ): void {
+        let stateName = route.name;
+        if ( route.menuName === 'Situação CNH' ) {
+            stateName = this.hasDriverLicense ? 'app.driverLicenseStatus' : 'app.driverLicense';
+        }
         this.$timeout(() => {
             this.closeSideNav();
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
@@ -242,7 +246,7 @@ export default class MenuController {
      */
     public signOut(): void {
         this.authenticationService.signOut(() => {
-            this.navigateTo( 'home' );
+            this.$state.go( 'home' );
         });
     }
 }

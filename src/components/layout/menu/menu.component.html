@@ -12,10 +12,10 @@
 		<div class="material-background" id="toggle-menu-left-header">
 			<!--template header section-->
 			<div class="menu-left-header" ng-if="vm.authenticated">
-				<img class="user-img" ng-src="{{vm.avatarUrl}}">
+				<img class="user-img" ng-src="{{::vm.avatarUrl}}">
 
 				<p>
-					<span class="title">{{vm.user.nome}}</span>
+					<span class="title">{{::vm.user.nome}}</span>
 					<!--<br/>
 					<span class="sub-title">{{vm.perfil}}</span>-->
 				</p>
@@ -30,60 +30,13 @@
 					<span>Login</span>
 				</md-list-item>
 				<div ng-if="vm.authenticated">
-					<md-subheader class="md-accent">Principal</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dashboard.newsHighlights')">
-						<i class="ion-android-apps"></i>
-						<span>Dashboard</span>
-					</md-list-item>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.calendar')">
-						<i class="ion-android-calendar"></i>
-						<span>Agenda ES</span>
-					</md-list-item>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.news')">
-						<i class="fa fa-newspaper-o"></i>
-						<span>Notícias</span>
-					</md-list-item>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.sepConsulta')">
-						<i class="fa fa-search"></i>
-						<span>Consulta Processo</span>
-					</md-list-item>
-					<md-subheader class="md-accent">Ceturb</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.busLines')">
-						<i class="fa fa-bus"></i>
-						<span>Consulta Ônibus</span>
-					</md-list-item>
-					<md-subheader class="md-accent">Detran</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.driverLicenseStatus')" ng-if="vm.driverLicenseStorage.hasDriverLicense">
-						<i class="fa fa-car"></i>
-						<span>Situação CNH</span>
-					</md-list-item>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.driverLicense')" ng-if="!vm.driverLicenseStorage.hasDriverLicense">
-						<i class="fa fa-car"></i>
-						<span>Situação CNH</span>
-					</md-list-item>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.vehicles')">
-						<i class="fa fa-car"></i>
-						<span>Multas por Veículos</span>
-					</md-list-item>
-					<md-subheader class="md-accent">Bombeiros</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.warningList')">
-						<i class="fa fa-fire-extinguisher"></i>
-						<span>Alertas</span>
-					</md-list-item>
-					<md-subheader class="md-accent">Diário Oficial ES</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dioSearch')">
-						<i class="fa fa-search"></i>
-						<span>Consulta</span>
-					</md-list-item>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.dioLatest')">
-						<i class="fa fa-clock-o"></i>
-						<span>Edições Recentes</span>
-					</md-list-item>
-					<md-subheader class="md-accent">Outros</md-subheader>
-					<md-list-item class="menu-list-item" ng-click="vm.navigateTo('app.about')">
-						<i class="ion-information-circled"></i>
-						<span>Sobre</span>
-					</md-list-item>
+					<div ng-repeat="group in menu.groups">
+						<md-subheader class="md-accent">{{::group[0].group}}</md-subheader>
+						<md-list-item class="menu-list-item" ng-repeat="route in group" ng-click="::vm.navigateTo(route)">
+							<i class="{{::route.icon}}"></i>
+							<span>{{::route.menuName}}</span>
+						</md-list-item>
+					</div>
 					<md-divider></md-divider>
 					<md-list-item class="menu-list-item" ng-click="vm.signOut()">
 						<i class="ion-android-exit"></i>

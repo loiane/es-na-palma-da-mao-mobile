@@ -3,58 +3,69 @@
     "name": "app",
     "url": "/app/",
     "type": "load",
-    "src": "components/layout/menu/index"
-  },
-  {
-    "name": "app.about",
-    "url": "about",
-    "type": "load",
-    "src": "components/about/index"
+    "src": "components/layout/menu/index",
+    "menu": false,
+    "editable": false
   },
   {
     "name": "app.dashboard",
     "url": "dashboard/",
     "type": "load",
-    "src": "components/dashboard/index"
+    "src": "components/dashboard/index",
+    "menu": false,
+    "editable": false
   },
-  {
-    "name": "app.calendar",
-    "url": "agenda",
-    "type": "load",
-    "src": "components/calendar/index"
-  },
-  {
-    "name": "app.dashboard.calendar",
-    "url": "agenda",
-    "type": "load",
-    "src": "components/calendar/index"
-  },
-  {
-    "name": "app.news",
-    "url": "news",
-    "type": "load",
-    "src": "components/news/list/index"
-  },
-  {
+   {
     "name": "app.dashboard.newsHighlights",
     "url": "news/highlights",
     "type": "load",
     "src": "components/news/highlights/index",
     "prefetch": [
       "components/calendar/index"
-    ]
+    ],
+    "menu": true,
+    "editable": false,
+    "menuName": "Dashboard",
+    "group": "Principal",
+    "icon": "ion-android-apps"
   },
   {
-    "name": "app.news/:id",
-    "url": "news/:id",
+    "name": "app.calendar",
+    "url": "agenda",
     "type": "load",
-    "src": "components/news/detail/index"
+    "src": "components/calendar/index",
+    "menu": true,
+    "editable": true,
+    "menuName": "Agenda ES",
+    "group": "Principal",
+    "icon": "ion-android-calendar"
   },
   {
     "name": "app.dashboard.calendar",
     "url": "agenda",
     "type": "load",
-    "src": "components/calendar/index"
+    "src": "components/calendar/index",
+    "menu": false,
+    "editable": false
+  },
+  {
+    "name": "app.news",
+    "url": "news",
+    "type": "load",
+    "src": "components/news/list/index",
+    "menu": true,
+    "editable": true,
+    "menuName": "Notícias",
+    "group": "Principal",
+    "icon": "fa fa-newspaper-o"
+  },
+  {
+    "name": "app.news/:id",
+    "url": "news/:id",
+    "type": "load",
+    "src": "components/news/detail/index",
+    "menu": false,
+    "editable": false
   },
   {
     "name": "home",
@@ -63,72 +74,130 @@
     "src": "components/home/index",
     "prefetch": [
       "components/login/index"
-    ]
+    ],
+    "menu": false,
+    "editable": false
   },
   {
     "name": "login",
     "url": "login",
     "type": "load",
-    "src": "components/login/index"
+    "src": "components/login/index",
+    "menu": false,
+    "editable": false
   },
   {
     "name": "app.sepConsulta",
     "url": "sepConsulta",
     "type": "load",
-    "src": "components/sep/index"
+    "src": "components/sep/index",
+    "menu": true,
+    "editable": true,
+    "menuName": "Consulta Processo",
+    "group": "Principal",
+    "icon": "fa fa-search"
   },
   {
     "name": "app.driverLicenseStatus",
     "url": "driverLicenseStatus",
     "type": "load",
-    "src": "components/detran/driver-license-status/index"
+    "src": "components/detran/driver-license-status/index",
+    "menu": true,
+    "editable": true,
+    "menuName": "Situação CNH",
+    "group": "Detran",
+    "icon": "fa fa-car"
   },
   {
     "name": "app.driverLicense",
     "url": "driverLicense",
     "type": "load",
-    "src": "components/detran/driver-license/index"
+    "src": "components/detran/driver-license/index",
+    "menu": false,
+    "menuName": "Situação CNH",
+    "editable": false,
+    "group": "Detran",
+    "icon": "fa fa-car"
   },
   {
     "name": "app.vehicles",
     "url": "detran/vehicles",
     "type": "load",
-    "src": "components/detran/vehicles/index"
+    "src": "components/detran/vehicles/index",
+    "group": "Detran",
+    "menuName": "Multas por veículo",
+    "menu": true,
+    "editable": true,
+    "icon": "fa fa-car"
   },
   {
     "name": "app.vehicleTickets/:plate/:renavam",
     "url": "detran/vehicle/tickets/:plate/:renavam",
     "type": "load",
-    "src": "components/detran/vehicle-tickets/index"
+    "src": "components/detran/vehicle-tickets/index",
+    "menu": false
   },
   {
     "name": "app.busLines",
     "url": "busLines",
     "type": "load",
-    "src": "components/ceturb/bus-lines/index"
+    "src": "components/ceturb/bus-lines/index",
+    "group": "Ceturb",
+    "menuName": "Consulta Ônibus",
+    "menu": true,
+    "editable": true,
+    "icon": "fa fa-bus"
   },
   {
     "name": "app.busInfo/:id",
     "url": "busInfo/:id",
     "type": "load",
-    "src": "components/ceturb/bus-info/index"
+    "src": "components/ceturb/bus-info/index",
+    "menu": false,
+    "editable": false
   },
   {
     "name": "app.dioSearch",
     "url": "dio",
     "type": "load",
-    "src": "components/dio/search/index"
+    "src": "components/dio/search/index",
+    "menu": true,
+    "editable": true,
+    "menuName": "Consulta",
+    "group": "Diaŕio Oficial ES",
+    "icon": "fa fa-search"
   },
   {
     "name": "app.dioLatest",
     "url": "dio",
     "type": "load",
-    "src": "components/dio/latest/index"
+    "src": "components/dio/latest/index",
+    "menu": true,
+    "editable": true,
+    "menuName": "Edições Recentes",
+    "group": "Diaŕio Oficial ES",
+    "icon": "fa fa-clock-o"
   },
   {
     "name": "app.warningList",
     "url": "warningList",
     "type": "load",
-    "src": "components/cbmes/warning-list/index"
+    "src": "components/cbmes/warning-list/index",
+    "group": "Bombeiros",
+    "menuName": "Alertas",
+    "menu": false,
+    "editable": true,
+    "icon": "fa fa-fire-extinguisher"
+  },
+  {
+    "name": "app.about",
+    "url": "about",
+    "type": "load",
+    "src": "components/about/index",
+    "menu": true,
+    "editable": true,
+    "menuName": "Sobre",
+    "group": "Outros",
+    "icon": "ion-information-circled"
   }
 ]

@@ -5,6 +5,7 @@ import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import { IWindowService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
+import { Route, statesJson } from './routes/index';
 
 /**
  * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
@@ -34,12 +35,29 @@ function run( $rootScope: any,
     moment.locale( settings.locale );
 
     /**
+     * 
+     */
+    function buildMenuFromRoutes() {
+        const menu: { items: Route[], groups: any } = {
+            items: statesJson.filter(( s: Route ) => s.menu ),
+            groups: {}
+        };
+        menu.items.forEach( item => {
+            let groupName = item.group || 'Principal';
+            menu.groups[ groupName ] = menu.groups[ groupName ] || [];
+            menu.groups[ groupName ].push( item );
+        });
+
+        return menu;
+    }
+
+    /**
      * Preenche o $rootScope
      *
      * @returns {void}
      */
     function initialRootScope() {
-
+        $rootScope.menu = buildMenuFromRoutes();
         $rootScope.moment = moment;
         $rootScope.$state = $state;
         $rootScope.isAndroid = ionic.Platform.isAndroid();  // Check platform of running device is android or not.
