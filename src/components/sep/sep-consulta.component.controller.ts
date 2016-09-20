@@ -27,9 +27,9 @@ export class SepConsultaController {
      * @param {SepApiService} sepApiService
      */
     constructor( private $scope: IScope,
-                 private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
-                 private toast: ToastService,
-                 private sepApiService: SepApiService ) {
+        private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
+        private toast: ToastService,
+        private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -103,7 +103,7 @@ export class SepConsultaController {
      * 
      * @memberOf SepConsultaController
      */
-    public keyboardReturn( procNumber: string ) {
+    public onEnterPressed( procNumber: string ) {
         this.getProcess( procNumber );
     }
 }

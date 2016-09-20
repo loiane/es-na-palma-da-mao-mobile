@@ -56,6 +56,13 @@ export class LoginController {
         private pushConfig: PushConfig ) {
     }
 
+    public onEnterPressed() {
+        if ( !this.username || !this.password ) {
+            return;
+        }
+        this.loginWithCredentials( this.username, this.password );
+    }
+
     /**
      * Executa login na aplicação de acordo com as configurações do settings, usuário e senha.
      */

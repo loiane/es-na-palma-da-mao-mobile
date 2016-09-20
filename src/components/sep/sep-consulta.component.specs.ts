@@ -167,11 +167,11 @@ describe( 'SEP/sep-consulta', () => {
             });
         });
 
-        describe( 'on enter pressed (keyboardReturn)', () => {
+        describe( 'on enter pressed (onEnterPressed)', () => {
             it( 'should get process', () => {
                 const getProcess = sandbox.stub( controller, 'getProcess' );
 
-                controller.keyboardReturn( processNumber );
+                controller.onEnterPressed( processNumber );
 
                 expect( getProcess.calledWithExactly( processNumber ) ).to.be.true;
             });
