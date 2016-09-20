@@ -31,7 +31,7 @@ export class BusInfoController {
         private $stateParams: angular.ui.IStateParamsService,
         private $q: IQService,
         private $window: IWindowService,
-        private $ionicTabsDelegate: any,
+        private $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate,
         private ceturbApiService: CeturbApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -76,7 +76,7 @@ export class BusInfoController {
      * 
      * @memberOf BusInfoController
      */
-    public gotoTab( tabIndex: string ) {
+    public gotoTab( tabIndex: number ) {
         if ( tabIndex !== this.$ionicTabsDelegate.selectedIndex() ) {
             this.$ionicTabsDelegate.select( tabIndex );
         }
