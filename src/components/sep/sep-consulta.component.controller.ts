@@ -7,7 +7,6 @@ export class SepConsultaController {
     public static $inject: string[] = [
         '$scope',
         '$ionicScrollDelegate',
-        '$window',
         'toast',
         'sepApiService'
     ];
