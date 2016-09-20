@@ -80,8 +80,8 @@ let parseRawCommit = ( raw ) => {
         .replace( 'notícia', 'news' )
         .replace( 'news-details', 'news' )
         .replace( 'error-message', 'layout/messages' )
-        .replace( 'menu', 'layout/menu' )
         .replace( 'shared/layout/menu', 'layout/menu' )
+        .replace( /^menu$/, 'layout/menu' )
         .replace( 'spinner', 'layout/spinner' )
         .replace( 'cbme/warning-list', 'cbmes' )
         .replace( 'calendars', 'calendar' )
@@ -109,7 +109,7 @@ let parseRawCommit = ( raw ) => {
         .replace( /^(dashboard)$/, 'components/$1' )
         .replace( /^(vehicles)$/, 'components/$1' );
 
-    // normalização
+    //  normalização
     if ( msg.type === 'bugFix' ) {
         msg.type = 'fix';
     }
