@@ -13,3 +13,7 @@
 	height: auto !important;
 	max-height: 112px;
 }
+
+#news-highlights-component md-card {
+	display: block;
+}
