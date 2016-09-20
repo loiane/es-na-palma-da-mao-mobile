@@ -1,4 +1,4 @@
-import { IScope, IWindowService } from 'angular';
+import { IScope } from 'angular';
 import { SepApiService, Process, ProcessUpdate } from './shared/index';
 import { ToastService, ToastOptions } from '../shared/toast/index';
 
@@ -29,7 +29,6 @@ export class SepConsultaController {
      */
     constructor( private $scope: IScope,
                  private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
-                 private $window: IWindowService,
                  private toast: ToastService,
                  private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
@@ -97,6 +96,14 @@ export class SepConsultaController {
             } );
     }
 
+    /**
+     * Evento disparado quando o enter(return) é pressionado.
+     * Disparado pela diretiva input-return. 
+     * 
+     * @param {string} procNumber
+     * 
+     * @memberOf SepConsultaController
+     */
     public keyboardReturn( procNumber: string ) {
         this.getProcess( procNumber );
     }
