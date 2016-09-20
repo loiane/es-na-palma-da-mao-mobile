@@ -56,6 +56,13 @@ export class LoginController {
         private pushConfig: PushConfig ) {
     }
 
+    /**
+     * 
+     * 
+     * @returns
+     * 
+     * @memberOf LoginController
+     */
     public onEnterPressed() {
         if ( !this.username || !this.password ) {
             return;

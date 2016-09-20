@@ -297,6 +297,29 @@ describe( 'Login', () => {
         });
 
 
+        describe( 'onEnterPressed()', () => {
+            it( 'should signin with provided credentials', () => {
+                let loginWithCredentials = sandbox.stub( controller, 'loginWithCredentials' );
+                controller.username = 'hoisel';
+                controller.password = '123456';
+
+                controller.onEnterPressed();
+
+                expect( loginWithCredentials.calledWithExactly( controller.username, controller.password) ).to.be.true;
+            });
+
+            it( 'should not signin if no credentials provided', () => {
+                let loginWithCredentials = sandbox.stub( controller, 'loginWithCredentials' );
+                controller.username = '';
+                controller.password = '';
+
+                controller.onEnterPressed();
+
+                expect( loginWithCredentials.notCalled ).to.be.true;
+            });
+        });
+
+
         describe( 'goToDashboard()', () => {
             let nextViewOptions: Sinon.SinonStub;
 
