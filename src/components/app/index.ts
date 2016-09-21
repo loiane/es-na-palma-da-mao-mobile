@@ -1,5 +1,4 @@
 // 3th party
-// import 'jquery';
 import 'ionic'; // carrega angular e ui-router junto
 import 'angular-i18n/pt-br';   // on pt-br you can use your locale
 import 'angular-material';
@@ -9,7 +8,6 @@ import 'angular-ui-router';
 import 'ui-router-extras';
 import 'oclazyload';
 
-import 'angular-material/angular-material.min.css!';
 import 'font-awesome';
 import 'roboto/css/roboto/roboto-fontface.css!';
 
