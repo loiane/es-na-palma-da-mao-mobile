@@ -572,7 +572,7 @@ gulp.task( 'bump-npm', false, ( cb ) => {
 
 gulp.task( 'commit', false, () => {
     const pkg = readJsonFile( config.paths.packageJson );
-    const message = `refact(version): atualiza versão para ${pkg.version}`;
+    const message = `feat(bump): Atualiza versão para ${pkg.version}`;
 
     return gulp.src( [ config.paths.packageJson, config.paths.cordovaConfig ] )
         .pipe( git.commit( message ) );
