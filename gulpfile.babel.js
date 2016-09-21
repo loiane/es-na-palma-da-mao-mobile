@@ -657,7 +657,6 @@ gulp.task( 'github:authenticate', false, [ 'ensures-master' ], () => {
 gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authenticate' ], () => {
     const pkg = readJsonFile( config.paths.packageJson );
     const v = `v${pkg.version}`;
-    const message = pkg.version;
     const isPrerelease = !!semver.parse( pkg.version ).prerelease.length;
 
     return gulp.src( config.paths.changelog )
@@ -665,12 +664,12 @@ gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authentic
                    let releaseBody = file.contents.toString();
                    const release = {
                        'tag_name': v,
-                       'name': `${v}: version ${message}`,
+                       'name': v,
                        'target_commitish': config.masterBranch,
                        'body': releaseBody.slice( releaseBody.indexOf( '###' ) ),
                        'prerelease': isPrerelease
                    };
-                   client.post( '/repos/prodest/es-na-palma-da-mao/releases', release, ( err, res, body ) => { // eslint-disable-line no-unused-vars
+                   client.post( '/repos/prodest/es-na-palma-da-mao-mobile/releases', release, ( err, res, body ) => { // eslint-disable-line no-unused-vars
                        if ( err ) {
                            gutil.log( gutil.colors.red( `Error: ${err}` ) );
                        } else {
