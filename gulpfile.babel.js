@@ -626,7 +626,7 @@ gulp.task( 'changelog', false, ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const options = argv;
     const version = options.version || pkg.version;
-    const from = options.from || 'start';
+    const from = options.from || '';
 
     gulp.src( '' )
         .pipe( gulpExec( `node ./gulp/helpers/changelog-script.js ${version} ${from}`, {
