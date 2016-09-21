@@ -29,14 +29,14 @@ describe( 'Detran/vehicles/add-vehicle', () => {
             it( 'should show validation message if no plate is provided', () => {
                 let info = sandbox.stub( toastServiceMock, 'info' );
 
-                controller.ok( '', '123234345' );
+                controller.ok( undefined, 123234345 );
                 expect( info.calledWith( { title: 'Placa é obrigatória' }) ).to.be.true;
             });
 
             it( 'should show validation message if no renavam is provided', () => {
                 let info = sandbox.stub( toastServiceMock, 'info' );
 
-                controller.ok( '123234345', '' );
+                controller.ok( '123234345', undefined );
 
                 expect( info.calledWith( { title: 'RENAVAM é obrigatório' }) ).to.be.true;
             });
@@ -44,29 +44,28 @@ describe( 'Detran/vehicles/add-vehicle', () => {
             it( 'should close modal passing added vehicle', () => {
                 let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let plate = '1111111111';
-                let renavam = '222222222';
+                let renavam = 222222222;
 
                 controller.ok( plate, renavam );
 
                 expect( hide.calledWithExactly( { plate, renavam }) ).to.be.true;
             });
 
-            it( 'should remove all whitespaces from plate and renavam', () => {
+            it( 'should remove all whitespaces from plate', () => {
                 let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let plate = '111111 1111  ';
-                let renavam = ' 22    2222222';
+                let renavam = 222222222;
                 let normalizedPlate = '1111111111';
-                let normalizedRenavam = '222222222';
 
                 controller.ok( plate, renavam );
 
-                expect( hide.calledWithExactly( { plate: normalizedPlate, renavam: normalizedRenavam }) ).to.be.true;
+                expect( hide.calledWithExactly( { plate: normalizedPlate, renavam: renavam }) ).to.be.true;
             });
 
             it( 'should convert plate to uppercase', () => {
                 let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let plate = 'ovl5008';
-                let renavam = '33333333333';
+                let renavam = 33333333333;
                 let normalizedPlate = 'OVL5008';
 
                 controller.ok( plate, renavam );
@@ -77,7 +76,7 @@ describe( 'Detran/vehicles/add-vehicle', () => {
             it( 'should remove dashes from plate', () => {
                 let hide = sandbox.stub( $mdDialogMock, 'hide' );
                 let plate = 'ovl-5905';
-                let renavam = '222222222';
+                let renavam = 222222222;
                 let normalizedPlate = 'OVL5905';
 
                 controller.ok( plate, renavam );

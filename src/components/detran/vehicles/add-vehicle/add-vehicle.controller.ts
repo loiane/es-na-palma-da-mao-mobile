@@ -31,7 +31,7 @@ export class AddVehicleController {
      * @param {string} renavam
      * @returns
      */
-    public ok( plate: string, renavam: string ) {
+    public ok( plate?: string, renavam?: number ) {
 
         if ( !plate ) {
             this.toast.info( { title: 'Placa é obrigatória' }); return;
@@ -43,7 +43,7 @@ export class AddVehicleController {
 
         let vehicle: Vehicle = {
             plate: this.normalize( plate ),
-            renavam: this.normalize( renavam )
+            renavam: renavam
         };
 
         this.$mdDialog.hide( vehicle );
@@ -58,7 +58,7 @@ export class AddVehicleController {
      * 
      * @memberOf AddVehicleController
      */
-    private normalize( plateOrRenavam: string ) {
-        return plateOrRenavam.toUpperCase().trim().replace( / /g, '' ).replace( '-', '' );
+    private normalize( value: string ) {
+        return value.toUpperCase().trim().replace( / /g, '' ).replace( '-', '' );
     }
 }
