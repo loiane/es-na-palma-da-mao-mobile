@@ -774,29 +774,6 @@ gulp.task( 'analyze', 'Analiza o código', ( cb ) => {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// Android Specific tasks
-gulp.task( 'build-android', () => {
-    return gulp.src( 'dist' )
-               .pipe( cordovaCreate() )
-               //.pipe(plugin('org.apache.cordova.dialogs'))
-               //.pipe(plugin('org.apache.cordova.camera'))
-               .pipe( android() )
-               .pipe( gulp.dest( 'apk' ) );
-} );
-
-gulp.task( 'build-android-release', () => {
-    return gulp.src( 'dist' )
-               .pipe( cordovaCreate() )
-                //.pipe(plugin('org.apache.cordova.dialogs'))
-                //.pipe(plugin('org.apache.cordova.camera'))
-               .pipe( android( {
-                   release: true,
-                   storeFile: '../../espm.keystore',
-                   keyAlias: 'espm'
-               } ) )
-              .pipe( gulp.dest( 'apk' ) );
-} );
-
 
 gulp.task( 'bundle', ( done ) => {
     const bundler = new Bundler( {
