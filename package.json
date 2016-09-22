@@ -172,6 +172,7 @@
       "font-awesome": "npm:font-awesome@^4.6.3",
       "image": "github:systemjs/plugin-image@^0.1.0",
       "ionic": "github:driftyco/ionic-bower@^1.3.1",
+      "ionic-native": "npm:ionic-native@^1.3.24",
       "ionic-native-transitions": "npm:ionic-native-transitions@^1.0.0-rc10",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "jwt-simple": "npm:jwt-simple@^0.5.0",

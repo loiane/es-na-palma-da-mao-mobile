@@ -68,6 +68,7 @@ System.config({
     "font-awesome": "npm:font-awesome@4.6.3",
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic": "github:driftyco/ionic-bower@1.3.1",
+    "ionic-native": "npm:ionic-native@1.3.24",
     "ionic-native-transitions": "npm:ionic-native-transitions@1.0.0-rc9",
     "json": "github:systemjs/plugin-json@0.1.2",
     "jwt-simple": "npm:jwt-simple@0.5.0",
@@ -322,6 +323,11 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
+    "npm:ionic-native@1.3.24": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "rxjs": "npm:rxjs@5.0.0-beta.12"
+    },
     "npm:jwt-simple@0.5.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
@@ -387,6 +393,11 @@ System.config({
     "npm:ripemd160@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:rxjs@5.0.0-beta.12": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "symbol-observable": "npm:symbol-observable@1.0.2"
     },
     "npm:sha.js@2.4.5": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",

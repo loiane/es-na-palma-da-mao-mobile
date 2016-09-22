@@ -1,5 +1,6 @@
 // 3th party
 import 'ionic'; // carrega angular e ui-router junto
+import 'ionic-native';
 import 'angular-i18n/pt-br';   // on pt-br you can use your locale
 import 'angular-material';
 import 'ionic-native-transitions';
@@ -20,6 +21,7 @@ import appComponent from './app.component';
 
 let dependencies = [
     'ionic',
+    'ionic.native',
     'ngMaterial',
     'ngStorage',
     'ngAnimate',
