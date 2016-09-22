@@ -34,10 +34,6 @@ declare namespace angular {
     interface IScope {
         isAndroid: boolean;
     }
-
-    interface IWindowService extends Window {
-        facebookConnectPlugin: any;
-    }
 }
 
 declare module '*.html' {
@@ -53,17 +49,6 @@ declare module '*.json' {
 declare module '*!image' {
     const content: any;
     export = content;
-}
-
-declare namespace PhonegapPluginPush {
-    interface PushNotificationStatic {
-        /**
-         * 
-         * 
-         * @param {() => any} [successHandler]
-         */
-        hasPermission( successHandler?: ( data: any ) => any );
-    }
 }
 
 interface CordovaPlugins {

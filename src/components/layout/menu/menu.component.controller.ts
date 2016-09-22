@@ -1,6 +1,6 @@
 import { IScope, ITimeoutService, IRootScopeService } from 'angular';
 
-import { GoogleService, FacebookService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
+import { AuthenticationStorageService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
 import defaultAvatar from './img/user.png!image';
 import { ToastService } from '../../shared/toast/index';
 import { Route } from '../../shared/routes/index';
@@ -24,9 +24,8 @@ export default class MenuController {
         '$mdBottomSheet',
         '$mdMenu',
         '$mdSelect',
-        'googleService',
-        'facebookService',
         'authenticationService',
+        'authenticationStorageService',
         'toast',
         'detranStorage'
     ];
@@ -63,9 +62,8 @@ export default class MenuController {
         private $mdBottomSheet: angular.material.IBottomSheetService,
         private $mdMenu: angular.material.IMenuService,
         private $mdSelect: any,
-        private googleService: GoogleService,
-        private facebookService: FacebookService,
         private authenticationService: AuthenticationService,
+        private authenticationStorageService: AuthenticationStorageService,
         private toast: ToastService,
         private driverLicenseStorage: DriverLicenseStorage ) {
         this.activate();
@@ -165,7 +163,7 @@ export default class MenuController {
      * @type {string}
      */
     public get avatarUrl(): string {
-        return this.googleService.avatarUrl || this.facebookService.avatarUrl || defaultAvatar.src;
+        return this.authenticationStorageService.googleAvatarUrl || this.authenticationStorageService.facebookAvatarUrl || defaultAvatar.src;
     }
 
     /**

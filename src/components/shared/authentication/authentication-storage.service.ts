@@ -1,0 +1,59 @@
+import { GoogleAuthResponse } from './models/index';
+import { FacebookLoginResponse } from 'ionic-native';
+
+/**
+ * Serviço que trata local storage no contexto do detran
+ * 
+ * @export
+ * @class DetranStorage
+ * @implements {DriverLicenseStorage}
+ * @implements {VehicleStorage}
+ */
+export class AuthenticationStorageService {
+
+    public static $inject: string[] = [ '$localStorage' ];
+
+    constructor( private $localStorage: any ) {
+    }
+
+    /** Acesso Cidadão */
+
+    public get tokenSub(): number | undefined {
+        if ( !angular.isDefined( this.$localStorage.token ) ) {
+            return undefined;
+        }
+        return this.$localStorage.token.sub;
+    }
+
+    /** Google */
+
+    public get googleAuthResponse(): GoogleAuthResponse {
+        return this.$localStorage.googleAuthResponse;
+    }
+
+    public set googleAuthResponse( googleAuthResponse: GoogleAuthResponse ) {
+        this.$localStorage.googleAuthResponse = googleAuthResponse;
+    }
+
+    public get googleAvatarUrl() {
+        if ( angular.isDefined( this.$localStorage.googleAuthResponse ) ) {
+            return this.$localStorage.googleAuthResponse.imageUrl;
+        }
+    }
+
+    /** Facebook */
+
+    public get facebookAuthResponse(): FacebookLoginResponse {
+        return this.$localStorage.facebookAuthResponse;
+    }
+
+    public set facebookAuthResponse( facebookAuthResponse: FacebookLoginResponse ) {
+        this.$localStorage.facebookAuthResponse = facebookAuthResponse;
+    }
+
+    public get facebookAvatarUrl() {
+        if ( angular.isDefined( this.$localStorage.facebookAuthResponse ) ) {
+            return `https://graph.facebook.com/v2.7/${this.$localStorage.facebookAuthResponse.userID}/picture?type=normal`;
+        }
+    }
+}
