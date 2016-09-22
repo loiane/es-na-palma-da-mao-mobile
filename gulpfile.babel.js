@@ -32,11 +32,12 @@ import config from './config/gulp.config';
 import del from 'del';
 import spawn from 'win-spawn';
 import semver from 'semver';
-import Bundler from 'angular-lazy-bundler';
+import Bundler from '@prodest/angular-lazy-bundler';
 import typescript from 'gulp-typescript';
-import sourcemaps from 'gulp-sourcemaps';
+// import sourcemaps from 'gulp-sourcemaps';
 import karma from 'karma';
 import cheerio from 'gulp-cheerio';
+
 
 //import 'gulp-cordova-build-android';
 
@@ -681,9 +682,9 @@ gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authentic
 
 gulp.task( 'transpile-app-ts', function() {
     return gulp.src( config.paths.ts.app )
-               .pipe( sourcemaps.init() )
+               // .pipe( sourcemaps.init() )
                .pipe( typescript( tsProject ) )
-               .pipe( sourcemaps.write() )
+               // .pipe( sourcemaps.write() )
                .pipe( gulp.dest( config.paths.output.app ) );
 } );
 
@@ -780,26 +781,33 @@ gulp.task( 'bundle', ( done ) => {
         baseUrl: 'www',
         source: 'www',
         dest: 'www/bundles',
+        sourceMaps: false,
         cssOptimize: true,
         systemJsConfig: 'www/system.config.js'
     } );
-
     bundler.bundle( {
         components: [
             'app',
             'home',
-            'news/highlights',
+            'layout',
+            'layout/menu',
+            'layout/messages/message',
+            'layout/messages/highlight',
+            'layout/messages/remark',
+            'layout/messages/error-message',
+            'layout/spinner',
             'shared',
             'shared/authentication',
-            'shared/dialog',
             'shared/toast',
             'shared/loader',
-            'layout/menu',
-            'shared/routes'
+            'shared/routes',
+            'shared/http',
+            'shared/settings',
+            'news/highlights'
         ],
         packages: [
             'ionic', // carrega angular e ui-router junto
-            'angular-i18n/pt-br',   // on pt-br you can use your locale
+            'angular-i18n/pt-br',
             'angular-material',
             'ionic-native-transitions',
             'ngstorage',
@@ -808,14 +816,16 @@ gulp.task( 'bundle', ( done ) => {
             'oclazyload',
             'moment',
             'moment/locale/pt-br.js',
+            'roboto',
             'font-awesome',
+            'calendar',
+            'text',
             'css',
-            'json',
-            'text'
+            'image',
+            'json'
         ]
-    }, 'main' )
+    }, 'principal' )
     .then( () => bundler.bundleRemainingComponents() )
-    .then( () => bundler.bundleRemainingPackages() )
     .then( () => bundler.saveConfig() )
     .then( () => done() )
     .catch( ( err ) => done( err ) );
