@@ -10,7 +10,7 @@ import 'ui-router-extras';
 import 'oclazyload';
 
 import 'font-awesome';
-import 'roboto/css/roboto/roboto-fontface.css!';
+import 'roboto/css/roboto/roboto-fontface.css';
 
 // shared
 import shared from '../shared/index';

@@ -1,10 +1,10 @@
 System.config({
   baseURL: "./",
   defaultJSExtensions: true,
-  transpiler: "plugin-babel",
+  transpiler: "ts",
   typescriptOptions: {
-    "target": "es6",
-    "module": "es6",
+    "target": "es5",
+    "module": "system",
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -50,7 +50,20 @@ System.config({
           "loader": "css"
         }
       }
+    },
+    "jspm_packages": {
+      "meta": {
+        "*.html": {
+          "loader": "text"
+        },
+        "*.json": {
+          "loader": "json"
+        },
+        "*.css": {
+          "loader": "css"
         }
+      }
+    }
   },
   buildCSS: true,
 
@@ -66,7 +79,6 @@ System.config({
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic": "github:driftyco/ionic-bower@1.3.1",
     "ionic-native": "npm:ionic-native@1.3.24",
-    "ionic-native-transitions": "npm:ionic-native-transitions@1.0.0-rc9",
     "ionic-native-transitions": "npm:ionic-native-transitions@1.0.2",
     "json": "github:systemjs/plugin-json@0.1.2",
     "moment": "npm:moment@2.15.1",
