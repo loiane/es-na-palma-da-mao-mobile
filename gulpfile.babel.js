@@ -807,6 +807,7 @@ gulp.task( 'bundle', ( done ) => {
         ],
         packages: [
             'ionic', // carrega angular e ui-router junto
+            'ionic-native',
             'angular-i18n/pt-br',
             'angular-material',
             'ionic-native-transitions',
