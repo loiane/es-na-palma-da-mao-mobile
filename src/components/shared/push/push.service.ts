@@ -42,19 +42,22 @@ export class PushService {
             badge: this.settings.push.badge,
             sound: this.settings.push.sound
         };
+
         let push: PushNotification = this.$cordovaPush.init( { android: androidPushConfig, ios: iosPushConfig });
 
-        push.on( 'registration', ( data ) => {
-            console.log( data );
-            this.registerUser( data.registrationId );
-        });
+        if ( !push.error ) {
+            push.on( 'registration', ( data ) => {
+                console.log( data );
+                this.registerUser( data.registrationId );
+            });
 
-        push.on( 'notification', ( data ) => {
-            console.log( data );
-            this.notify( data.additionalData );
-        });
+            push.on( 'notification', ( data ) => {
+                console.log( data );
+                this.notify( data.additionalData );
+            });
 
-        push.on( 'error', ( e ) => console.log( e ) );
+            push.on( 'error', ( e ) => console.log( e ) );
+        }
     }
 
     /**
