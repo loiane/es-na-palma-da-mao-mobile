@@ -1,7 +1,9 @@
 import { IHttpService } from 'angular';
+import { Push, AndroidPushOptions, IOSPushOptions, PushNotification } from 'ionic-native';
 
 import { ISettings } from '../settings/index';
 import { PushUser } from './models/index';
+import { AuthenticationStorageService } from '../authentication/index';
 
 export class PushService {
 
@@ -12,7 +14,8 @@ export class PushService {
         '$http',
         '$mdSidenav',
         'settings',
-        '$localStorage'
+        'authenticationStorageService',
+        '$cordovaPush'
     ];
 
     constructor( private $state: angular.ui.IStateService,
@@ -21,7 +24,37 @@ export class PushService {
         private $http: IHttpService,
         private $mdSidenav: angular.material.ISidenavService,
         private settings: ISettings,
-        private $localStorage ) {
+        private authenticationStorageService: AuthenticationStorageService,
+        private $cordovaPush: Push ) {
+    }
+
+    public init() {
+        let androidPushConfig: AndroidPushOptions = {
+            senderID: this.settings.push.senderId,
+            forceShow: this.settings.push.forceShow,
+            icon: 'notification',
+            iconColor: '#549db2'
+        };
+
+        let iosPushConfig: IOSPushOptions = {
+            senderID: this.settings.push.senderId,
+            alert: this.settings.push.alert,
+            badge: this.settings.push.badge,
+            sound: this.settings.push.sound
+        };
+        let push: PushNotification = this.$cordovaPush.init( { android: androidPushConfig, ios: iosPushConfig });
+
+        push.on( 'registration', ( data ) => {
+            console.log( data );
+            this.registerUser( data.registrationId );
+        });
+
+        push.on( 'notification', ( data ) => {
+            console.log( data );
+            this.notify( data.additionalData );
+        });
+
+        push.on( 'error', ( e ) => console.log( e ) );
     }
 
     /**
@@ -31,7 +64,7 @@ export class PushService {
      */
     public registerUser( token: string ) {
         let data: PushUser = {
-            user: this.$localStorage.tokenClaims.sub,
+            user: this.authenticationStorageService.tokenSub,
             type: ionic.Platform.platform(),
             token: token
         };

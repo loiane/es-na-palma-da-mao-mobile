@@ -3,7 +3,7 @@ import { IWindowService, IPromise } from 'angular';
 import { DialogService } from '../shared/dialog/dialog.service';
 import { ToastService } from '../shared/toast/index';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
-import { PushConfig } from '../shared/push/index';
+import { PushService } from '../shared/push/index';
 
 /**
  * 
@@ -24,7 +24,7 @@ export class LoginController {
         'toast',
         '$window',
         '$ionicHistory',
-        'pushConfig'
+        'pushService'
     ];
 
     public processingLogin: boolean = false;
@@ -53,7 +53,7 @@ export class LoginController {
         private toast: ToastService,
         private $window: IWindowService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private pushConfig: PushConfig ) {
+        private pushService: PushService ) {
     }
 
     /**
@@ -132,7 +132,7 @@ export class LoginController {
      * Callback de sucesso no login no acesso cidadão.
      */
     public onAcessoCidadaoLoginSuccess(): void {
-        this.pushConfig.init();
+        this.pushService.init();
         this.username = undefined;
         this.password = undefined;
         this.goToDashboard();
