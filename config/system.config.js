@@ -84,7 +84,6 @@ System.config({
     "moment": "npm:moment@2.15.1",
     "ngstorage": "npm:ngstorage@0.3.11",
     "oclazyload": "github:ocombe/oclazyload@1.0.9",
-    "oidc-token-manager": "github:IdentityModel/oidc-token-manager@1.2.0",
     "roboto": "github:choffmeister/roboto-fontface-bower@0.5.0",
     "text": "github:systemjs/plugin-text@0.0.7",
     "ts": "github:frankwallis/plugin-typescript@5.1.2",
