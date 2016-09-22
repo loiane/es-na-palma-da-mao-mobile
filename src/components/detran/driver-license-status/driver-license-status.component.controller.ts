@@ -135,7 +135,7 @@ export class DriverLicenseStatusController {
                 return driverData;
             })
             .catch(( error ) => {
-                this.handleError( error );
+                this.eraseData();
                 return error;
             });
     }
@@ -152,7 +152,7 @@ export class DriverLicenseStatusController {
                 return this.tickets;
             })
             .catch(( error ) => {
-                this.handleError( error );
+                this.eraseData();
                 return error;
             });
     }
@@ -184,7 +184,7 @@ export class DriverLicenseStatusController {
      * @private
      * @param {number} status
      */
-    private handleError( error: any ) {
+    private eraseData() {
         this.tickets = undefined;
         this.driverData = undefined;
     }

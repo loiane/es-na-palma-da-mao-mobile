@@ -41,8 +41,8 @@ describe( 'DetranStorage', () => {
             describe( 'get()', () => {
                 it( 'should return vehicles from local storage', () => {
                     let userVehicles: Vehicle[] = [
-                        { plate: 'ovl-1111', renavam: '111111111' },
-                        { plate: 'ovl-2222', renavam: '222222222' }
+                        { plate: 'ovl-1111', renavam: 111111111 },
+                        { plate: 'ovl-2222', renavam: 222222222 }
                     ];
 
                     $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
@@ -59,7 +59,7 @@ describe( 'DetranStorage', () => {
 
             describe( 'set( vehicles )', () => {
                 it( 'should save vehicles on local storage', () => {
-                    let userVehicles: Vehicle[] = [ { plate: 'ovl-1111', renavam: '111111111' }];
+                    let userVehicles: Vehicle[] = [ { plate: 'ovl-1111', renavam: 111111111 }];
 
                     detranStorage.vehicles = userVehicles;
                     expect( $localStorage[ detranStorage.vehiclesStorageKey ] ).to.be.deep.equal( userVehicles );
@@ -70,29 +70,29 @@ describe( 'DetranStorage', () => {
         describe( 'existsVehicle(vehicle)', () => {
             beforeEach(() => {
                 let userVehicles: Vehicle[] = [
-                    { plate: 'ovl-1111', renavam: '111111111' },
-                    { plate: 'ovl-2222', renavam: '222222222' }
+                    { plate: 'ovl-1111', renavam: 111111111 },
+                    { plate: 'ovl-2222', renavam: 222222222 }
                 ];
 
                 $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
             });
 
             it( 'should ignore case on search for plate', () => {
-                expect( detranStorage.existsVehicle( { plate: 'ovl-1111', renavam: '00000000' }) ).to.be.true;
-                expect( detranStorage.existsVehicle( { plate: 'OVL-1111', renavam: '00000000' }) ).to.be.true;
+                expect( detranStorage.existsVehicle( { plate: 'ovl-1111', renavam: 0 }) ).to.be.true;
+                expect( detranStorage.existsVehicle( { plate: 'OVL-1111', renavam: 0 }) ).to.be.true;
             });
 
             it( 'should return true if only plate matches any stored vehicle', () => {
-                expect( detranStorage.existsVehicle( { plate: 'ovl-1111', renavam: '0000000' }) ).to.be.true;
+                expect( detranStorage.existsVehicle( { plate: 'ovl-1111', renavam: 0 }) ).to.be.true;
             });
 
             it( 'should return true if only renavam matches any stored vehicle', () => {
-                expect( detranStorage.existsVehicle( { plate: 'ovl-0000', renavam: '111111111' }) ).to.be.true;
+                expect( detranStorage.existsVehicle( { plate: 'ovl-0000', renavam: 111111111 }) ).to.be.true;
             });
 
             it( 'should return false if plate and renavam doesn\'t match any stored vehicle', () => {
-                expect( detranStorage.existsVehicle( { plate: 'ovl-0000', renavam: '000000000' }) ).to.be.false;
-                expect( detranStorage.existsVehicle( { plate: 'ovl-3333', renavam: '333333333' }) ).to.be.false;
+                expect( detranStorage.existsVehicle( { plate: 'ovl-0000', renavam: 0 }) ).to.be.false;
+                expect( detranStorage.existsVehicle( { plate: 'ovl-3333', renavam: 333333333 }) ).to.be.false;
             });
         });
 
@@ -101,33 +101,33 @@ describe( 'DetranStorage', () => {
 
             beforeEach(() => {
                 userVehicles = [
-                    { plate: 'ovl-1111', renavam: '111111111' },
-                    { plate: 'ovl-2222', renavam: '222222222' }
+                    { plate: 'ovl-1111', renavam: 111111111 },
+                    { plate: 'ovl-2222', renavam: 222222222 }
                 ];
 
                 $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
             });
 
             it( 'should remove vehicle if only plate matches any stored vehicle', () => {
-                let vehicleToRemove = { plate: 'ovl-1111', renavam: '000000000' };
+                let vehicleToRemove = { plate: 'ovl-1111', renavam: 0 };
                 let vehicles = detranStorage.removeVehicle( vehicleToRemove );
                 expect( vehicles ).to.not.contain( vehicleToRemove );
             });
 
             it( 'should remove vehicle if only renavam matches any stored vehicle', () => {
-                let vehicleToRemove = { plate: 'ovl-0000', renavam: '111111111' };
+                let vehicleToRemove = { plate: 'ovl-0000', renavam: 111111111 };
                 let vehicles = detranStorage.removeVehicle( vehicleToRemove );
                 expect( vehicles ).to.not.contain( vehicleToRemove );
             });
 
             it( 'should remove vehicle if both plate and renavam matches any stored vehicle', () => {
-                let vehicleToRemove = { plate: 'ovl-1111', renavam: '111111111' };
+                let vehicleToRemove = { plate: 'ovl-1111', renavam: 111111111 };
                 let vehicles = detranStorage.removeVehicle( vehicleToRemove );
                 expect( vehicles ).to.not.contain( vehicleToRemove );
             });
 
             it( 'should not remove vehicle if nor plate nor renavam matches any stored vehicle', () => {
-                let vehicleToRemove = { plate: 'ovl-0000', renavam: '00000' };
+                let vehicleToRemove = { plate: 'ovl-0000', renavam: 0 };
                 let vehicles = detranStorage.removeVehicle( vehicleToRemove );
                 expect( vehicles ).to.be.deep.equal( userVehicles );
             });
@@ -140,15 +140,15 @@ describe( 'DetranStorage', () => {
 
             beforeEach(() => {
                 userVehicles = [
-                    { plate: 'ovl-1111', renavam: '111111111' },
-                    { plate: 'ovl-2222', renavam: '222222222' }
+                    { plate: 'ovl-1111', renavam: 111111111 },
+                    { plate: 'ovl-2222', renavam: 222222222 }
                 ];
 
                 $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
             });
 
             it( 'should add vehicle if it is not already stored', () => {
-                let newVehicle = { plate: 'ovl-0000', renavam: '00000000' };
+                let newVehicle = { plate: 'ovl-0000', renavam: 0 };
                 let vehicles = detranStorage.addVehicle( newVehicle );
                 expect( vehicles ).to.contain( newVehicle );
             });
@@ -161,7 +161,7 @@ describe( 'DetranStorage', () => {
             });
 
             it( 'should always store plate in uppercase', () => {
-                let newVehicle = { plate: 'ovl-0000', renavam: '00000000' };
+                let newVehicle = { plate: 'ovl-0000', renavam: 0 };
                 let vehicles = detranStorage.addVehicle( newVehicle );
 
                 expect( vehicles[ vehicles.length - 1 ].plate ).to.be.equal( newVehicle.plate.toUpperCase() );

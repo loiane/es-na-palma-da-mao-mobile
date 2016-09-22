@@ -75,7 +75,7 @@ describe( 'DetranApiService', () => {
     describe( 'getVehicleTickets()', () => {
 
         it( 'should call /vehicle/tickets endpoint on detran api', () => {
-            const vehicle = { plate: 'ovl-7878', renavam: '12344555' };
+            const vehicle = { plate: 'ovl-7878', renavam: 12344555 };
             const params = { params: vehicle };
 
             detranApiService.getVehicleTickets( vehicle );
@@ -94,7 +94,7 @@ describe( 'DetranApiService', () => {
     describe( 'getVehicleInfo()', () => {
 
         it( 'should call /vehicle endpoint on detran api', () => {
-            const vehicle = { plate: 'ovl-7878', renavam: '12344555' };
+            const vehicle = { plate: 'ovl-7878', renavam: 12344555 };
             const params = { params: vehicle };
 
             detranApiService.getVehicleInfo( vehicle );

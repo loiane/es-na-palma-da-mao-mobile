@@ -62,12 +62,11 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
             .indexOf( vehicle.plate.toUpperCase() );
 
         const existsRENAVAM = this.vehicles
-            .map( v => v.renavam.toUpperCase() )
+            .map( v => v.renavam )
             .indexOf( vehicle.renavam );
 
         return existsPlaca !== -1 || existsRENAVAM !== -1;
     }
-
 
     /**
      * 
@@ -91,7 +90,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
     public addVehicle( vehicle: Vehicle ): Vehicle[] {
         if ( !this.existsVehicle( vehicle ) ) {
             vehicle.plate = vehicle.plate.toUpperCase();
-            vehicle.renavam = vehicle.renavam.toUpperCase();
+            vehicle.renavam = vehicle.renavam;
 
             this.vehicles.push( vehicle );
         }

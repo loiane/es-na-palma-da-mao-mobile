@@ -54,7 +54,7 @@ describe( 'Detran/vehicles', () => {
             storageAddVehicle = sandbox.stub( vehicleStorage, 'addVehicle' );
             storageRemoveVehicle = sandbox.stub( vehicleStorage, 'removeVehicle' ).returns( [ vehicle, vehicle ] );
 
-            vehicle = { plate: '123456', renavam: '333333' };
+            vehicle = { plate: '123456', renavam: 333333 };
             vehicleInfo = { color: 'red', model: 'Idea' };
 
             dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
