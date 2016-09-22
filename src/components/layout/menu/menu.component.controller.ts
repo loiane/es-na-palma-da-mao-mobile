@@ -2,7 +2,7 @@ import { IScope, ITimeoutService, IRootScopeService } from 'angular';
 
 import { AuthenticationStorageService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
 import defaultAvatar from './img/user.png!image';
-import { ToastService } from '../../shared/toast/index';
+import { ToastService } from '../../shared/index';
 import { Route } from '../../shared/routes/index';
 import { DriverLicenseStorage } from '../../detran/shared/index';
 

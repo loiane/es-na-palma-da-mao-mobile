@@ -1,4 +1,4 @@
-import { ToastService } from '../../../shared/toast/index';
+import { ToastService } from '../../../shared/index';
 
 export class FilterController {
 

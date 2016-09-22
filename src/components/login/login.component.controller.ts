@@ -1,7 +1,5 @@
 import { IWindowService, IPromise } from 'angular';
-
-import { DialogService } from '../shared/dialog/dialog.service';
-import { ToastService } from '../shared/toast/index';
+import { ToastService, DialogService } from '../shared/index';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
 import { PushService } from '../shared/push/index';
 

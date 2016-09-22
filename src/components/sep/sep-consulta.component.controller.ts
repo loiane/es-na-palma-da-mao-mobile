@@ -1,6 +1,6 @@
 import { IScope } from 'angular';
 import { SepApiService, Process, ProcessUpdate } from './shared/index';
-import { ToastService, ToastOptions } from '../shared/toast/index';
+import { ToastService, ToastOptions } from '../shared/index';
 
 export class SepConsultaController {
 
