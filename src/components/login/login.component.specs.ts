@@ -1,6 +1,6 @@
 import { LoginController } from './login.component.controller';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
-import { PushConfig } from '../shared/push/index';
+import { PushService } from '../shared/push/index';
 import { environment, $stateMock, $windowMock, dialogServiceMock, toastServiceMock } from '../shared/tests/index';
 
 let expect = chai.expect;
@@ -13,7 +13,7 @@ describe( 'Login', () => {
 
     describe( 'Controller', () => {
         let controller: LoginController;
-        let pushConfig: PushConfig;
+        let pushService: PushService;
 
         // dialogs
         let dialogConfirm: Sinon.SinonStub;
@@ -47,7 +47,7 @@ describe( 'Login', () => {
                 googleLogin() { },
                 digitsLogin() { }
             };
-            pushConfig = <PushConfig>{ init() { } };
+            pushService = <PushService>{ init() { } };
 
             controller = new LoginController(
                 $stateMock,
@@ -56,7 +56,7 @@ describe( 'Login', () => {
                 toastServiceMock,
                 $windowMock,
                 environment.$ionicHistory,
-                pushConfig );
+                pushService );
 
             // setup stubs
             dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
@@ -73,7 +73,7 @@ describe( 'Login', () => {
                 refresh_token: '234jhj546hjhdjfgh'
             };
 
-            pushConfigInit = sandbox.stub( pushConfig, 'init' );
+            pushConfigInit = sandbox.stub( pushService, 'init' );
             signInWithIdentity = sandbox.stub( authenticationService, 'signInWithIdentity' );
             signInWithIdentityPromise = signInWithIdentity.returnsPromise();
             signInWithCredentials = sandbox.stub( authenticationService, 'signInWithCredentials' );
