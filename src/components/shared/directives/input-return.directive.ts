@@ -1,4 +1,4 @@
-export function inputReturn( $window ) {
+export function inputReturn( $window, $cordovaKeyboard ) {
   const ENTER = 13;
   const TAB = 9;
 
@@ -7,9 +7,7 @@ export function inputReturn( $window ) {
     if ( $scope.vm.onEnterPressed ) {
       $scope.vm.onEnterPressed( value );
     }
-    if ( $window.cordova && $window.cordova.plugins.Keyboard && $window.cordova.plugins.Keyboard.isVisible ) {
-      $window.cordova.plugins.Keyboard.close();
-    }
+    $cordovaKeyboard.close();
   };
 
   return {
@@ -30,4 +28,4 @@ export function inputReturn( $window ) {
   };
 }
 
-inputReturn.$inject = [ '$window' ];
+inputReturn.$inject = [ '$window', '$cordovaKeyboard' ];

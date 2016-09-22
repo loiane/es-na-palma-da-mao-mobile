@@ -1,5 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import { Keyboard } from 'ionic-native';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import { IWindowService } from 'angular';
@@ -29,7 +30,8 @@ function run( $rootScope: any,
     httpSnifferService: HttpSnifferService,
     httpErrorSnifferService: HttpErrorSnifferService,
     settings: ISettings,
-    cordovaPermissions: CordovaPermissions ) {
+    cordovaPermissions: CordovaPermissions,
+    $cordovaKeyboard: Keyboard ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -95,10 +97,8 @@ function run( $rootScope: any,
     $ionicPlatform.ready(() => {
         ionic.Platform.isFullScreen = true;
 
-        if ( $window.cordova && $window.cordova.plugins.Keyboard ) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
-            cordova.plugins.Keyboard.disableScroll( true );
-        }
+        $cordovaKeyboard.hideKeyboardAccessoryBar( true );
+        $cordovaKeyboard.disableScroll( true );
 
         initialRootScope();
 
@@ -146,7 +146,8 @@ run.$inject = [
     'httpSnifferService',
     'httpErrorSnifferService',
     'settings',
-    'cordovaPermissions'
+    'cordovaPermissions',
+    '$cordovaKeyboard'
 ];
 
 export default run;
