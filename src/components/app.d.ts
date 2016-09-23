@@ -51,6 +51,11 @@ declare module '*!image' {
     export = content;
 }
 
+declare module 'calendar' {
+    const content: any;
+    export = content;
+}
+
 interface CordovaPlugins {
     permissions: any;
 }
