@@ -229,7 +229,7 @@ export default class MenuController {
                     historyRoot: true
                 });
                 if ( this.$ionicNativeTransitions ) {
-                    this.$ionicNativeTransitions.stateGo( stateName, {}, {
+                    this.$ionicNativeTransitions.stateGo( stateName, {}, {}, {
                         'type': 'fade'
                     });
                 } else {
