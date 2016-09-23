@@ -1,4 +1,3 @@
-import { BusLine } from './models/index';
 import { AuthenticationService } from '../../shared/authentication/index';
 
 /**
@@ -35,18 +34,17 @@ export class CeturbStorage {
      * @readonly
      * @type {BusLine[]}
      */
-    private get favoriteLines(): BusLine[] {
+    private get favoriteLines(): string[] {
         this.$localStorage[ this.favoriteLinesKey ] = this.$localStorage[ this.favoriteLinesKey ] || [];
-        return this.$localStorage[ this.favoriteLinesKey ] as BusLine[];
+        return this.$localStorage[ this.favoriteLinesKey ] as string[];
     }
 
     /**
      * 
      */
-    private set favoriteLines( lines: BusLine[] ) {
+    private set favoriteLines( lines: string[] ) {
         this.$localStorage[ this.favoriteLinesKey ] = lines;
     }
-
 
     /**
      * 
@@ -54,10 +52,8 @@ export class CeturbStorage {
      * @param {BusLine} line
      * @returns {boolean}
      */
-    public isFavoriteLine( line: BusLine ): boolean {
-        return this.favoriteLines
-            .map( v => v.number )
-            .indexOf( line.number ) !== -1;
+    public isFavoriteLine( lineNumber: string ): boolean {
+        return this.favoriteLines.indexOf(lineNumber) !== -1;
     }
 
     /**
@@ -66,8 +62,8 @@ export class CeturbStorage {
      * @param {BusLine} line
      * @returns {BusLine[]}
      */
-    public addToFavoriteLines( line: BusLine ): BusLine[] {
-        this.favoriteLines.push( line );
+    public addToFavoriteLines( lineNumber: string ): string[] {
+        this.favoriteLines.push( lineNumber );
         return this.favoriteLines;
     }
 
@@ -77,8 +73,8 @@ export class CeturbStorage {
      * @param {BusLine} line
      * @returns {BusLine[]}
      */
-    public removeFromFavoriteLines( line: BusLine ): BusLine[] {
-        this.favoriteLines = this.favoriteLines.filter( l => l.number !== line.number );
+    public removeFromFavoriteLines( lineNumber: string ): string[] {
+        this.favoriteLines = this.favoriteLines.filter( l => l !== lineNumber );
         return this.favoriteLines;
     }
 }

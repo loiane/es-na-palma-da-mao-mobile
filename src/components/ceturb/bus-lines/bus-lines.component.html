@@ -15,14 +15,13 @@
 				 class-target=".state-ceturb-subheader"
 				 offset="25">
 		<md-list ng-if="vm.lines">
-			<md-list-item class="md-2-line" collection-repeat="line in vm.filteredLines | orderBy:['-isFavorite', 'number']">
+			<md-list-item class="md-2-line line-item" item-height="73px" item-width="100%" collection-repeat="line in vm.filteredLines | orderBy:['-isFavorite', 'number']">
 				<div layout="row" class="md-list-item-text">
-					<i class="fa fa-star-o accent" aria-hidden="true" ng-if="!line.isFavorite" ng-click="vm.toggleFavorite(line)"></i> 
-					<i class="fa fa-star accent" aria-hidden="true" ng-if="line.isFavorite" ng-click="vm.toggleFavorite(line)"></i>
 					<strong class="line-number" flex="1" ng-click="::vm.goToLine( line.number )">
 						{{line.number}}
 					</strong> 
 					<span ng-click="::vm.goToLine( line.number )" class="line-description" flex> {{line.name}}</span>
+					<i class="fa fa-star accent" aria-hidden="true" ng-if="line.isFavorite" ng-click="vm.toggleFavorite(line)"></i>
 				</div>
 				<md-divider></md-divider>
 			</md-list-item>

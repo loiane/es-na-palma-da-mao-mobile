@@ -1,10 +1,22 @@
 <ion-view>
-	<ion-nav-title>Informações - Linha {{::vm.route.line.number}}</ion-nav-title>
+	<ion-nav-title class="bus-info-title">Linha {{::vm.route.line.number}}</ion-nav-title>
 	<ion-nav-buttons side="left">
 		<a ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item nav-back-btn">
 			<i class="ion-android-arrow-back"></i>
 		</a>
 	</ion-nav-buttons>
+
+	<ion-nav-buttons side="right">
+		<div id="bus-info-buttons">
+			<md-button class="md-icon-button" ng-click="vm.toggleFavorite()" aria-label="Filtrar">
+				<md-icon md-font-icon="ion-android-star" ng-if="vm.isFavorite">
+				</md-icon>
+				<md-icon md-font-icon="ion-android-star-outline" ng-if="!vm.isFavorite">
+				</md-icon>
+			</md-button>
+		</div>
+	</ion-nav-buttons>
+
 	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content id="state-ceturb-bus-info" class="espm-has-tabs-top" on-swipe-left="vm.gotoTab(1)" on-swipe-right="vm.gotoTab(0)">
 		<ion-tabs class="tabs-text-top espm-tabs-color-active-material" animation="slide-left-right">

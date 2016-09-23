@@ -51,7 +51,7 @@ export class BusLinesController {
         this.ceturbApiService.getLines()
             .then( lines => {
                 this.filteredLines = this.lines = lines.map( line => {
-                    line.isFavorite = this.ceturbStorage.isFavoriteLine( line );
+                    line.isFavorite = this.ceturbStorage.isFavoriteLine( line.number );
                     return line;
                 });
                 return this.lines;
@@ -67,25 +67,6 @@ export class BusLinesController {
         this.$state.go( 'app.busInfo/:id', { id: id });
     }
 
-
-    /**
-     * 
-     * 
-     * @param {BusLine} line
-     */
-    public toggleFavorite( line: BusLine ): void {
-
-        line.isFavorite = !line.isFavorite;
-
-        if ( line.isFavorite ) {
-            this.ceturbStorage.addToFavoriteLines( line );
-        }
-        else {
-            this.ceturbStorage.removeFromFavoriteLines( line );
-        }
-    }
-
-
     /**
      * 
      * 
@@ -96,9 +77,8 @@ export class BusLinesController {
         this.filteredLines = this.lines.filter( line => {
             let name = this.stripAccents( line.name.toUpperCase() );
             return name.includes( upperFilter ) || line.number.includes( upperFilter );
-        } );
+        });
     }
-
 
     /**
      * 
@@ -112,7 +92,6 @@ export class BusLinesController {
         'Ã': 'A', 'Õ': 'O',
         'Ç': 'C'
     };
-
 
     /**
      * 

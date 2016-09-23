@@ -1,6 +1,7 @@
 import { IScope, IPromise, IWindowService, IQService } from 'angular';
 
-import { CeturbApiService } from '../shared/ceturb-api.service';
+import { ToastService } from '../../shared/index';
+import { CeturbApiService, CeturbStorage } from '../shared/index';
 import { BusRoute, BusSchedule } from '../shared/models/index';
 
 export class BusInfoController {
@@ -11,9 +12,12 @@ export class BusInfoController {
         '$q',
         '$window',
         '$ionicTabsDelegate',
-        'ceturbApiService'
+        'toast',
+        'ceturbApiService',
+        'ceturbStorage'
     ];
 
+    public lineId: string;
     public route: BusRoute | undefined = undefined;
     public schedule: BusSchedule | undefined = undefined;
     public currentTime: string;
@@ -32,7 +36,9 @@ export class BusInfoController {
         private $q: IQService,
         private $window: IWindowService,
         private $ionicTabsDelegate: ionic.tabs.IonicTabsDelegate,
-        private ceturbApiService: CeturbApiService ) {
+        private toast: ToastService,
+        private ceturbApiService: CeturbApiService,
+        private ceturbStorage: CeturbStorage ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -40,10 +46,11 @@ export class BusInfoController {
      *
      */
     public activate(): void {
+        this.lineId = this.$stateParams[ 'id' ];
         this.currentTime = new Date().toTimeString().slice( 0, 5 );
         this.$q.all( [
-            this.getSchedule( this.$stateParams[ 'id' ] ),
-            this.getRoute( this.$stateParams[ 'id' ] )
+            this.getSchedule( this.lineId ),
+            this.getRoute( this.lineId )
         ] );
     }
 
@@ -103,5 +110,27 @@ export class BusInfoController {
         return this.ceturbApiService.getSchedule( id )
             .then( schedule => this.schedule = schedule )
             .catch(() => this.schedule = undefined );
+    }
+
+    /**
+     * 
+     * 
+     * @param {BusLine} line
+     * 
+     * @memberOf BusInfoController
+     */
+    public toggleFavorite(): void {
+        if ( this.isFavorite ) {
+            this.ceturbStorage.removeFromFavoriteLines( this.lineId );
+            this.toast.info( { title: `Favorito removido` });
+        }
+        else {
+            this.ceturbStorage.addToFavoriteLines( this.lineId );
+            this.toast.info( { title: `Linha ${this.lineId} favoritada` });
+        }
+    }
+
+    public get isFavorite() {
+        return this.ceturbStorage.isFavoriteLine( this.lineId );
     }
 }
