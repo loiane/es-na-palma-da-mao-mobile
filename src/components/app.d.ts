@@ -33,6 +33,7 @@ declare namespace angular {
 
     interface IScope {
         isAndroid: boolean;
+        isIOS: boolean;
     }
 }
 
