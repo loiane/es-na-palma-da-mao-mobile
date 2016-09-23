@@ -15,6 +15,7 @@ import { Route, statesJson } from './routes/index';
  * @param {IWindowService} $window
  * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
+ * @param {ionic.navigation.IonicHistoryService} $ionicHistory
  * @param {angular.material.IDialogService} $mdDialog
  * @param {any} $mdBottomSheet
  * @param {HttpSnifferService} httpSnifferService
@@ -24,6 +25,8 @@ function run( $rootScope: any,
     $window: IWindowService,
     $state: angular.ui.IStateService,
     $ionicPlatform: ionic.platform.IonicPlatformService,
+    $ionicHistory: ionic.navigation.IonicHistoryService,
+    $ionicNativeTransitions: any,
     $mdDialog: angular.material.IDialogService,
     $mdBottomSheet,
     authenticationService: AuthenticationService,
@@ -53,6 +56,24 @@ function run( $rootScope: any,
         return menu;
     }
 
+    function navigateToTab( stateName: string, direction: string ): void {
+        if ( $ionicHistory.currentStateName() !== stateName ) {
+            if ( $ionicNativeTransitions ) {
+                let options: any = { type: 'slide', direction: direction };
+
+                if ( $rootScope.isAndroid.isAndroid ) {
+                    options.fixedPixelsTop = 93;
+                } else if ( $rootScope.isAndroid.isIOS ) {
+                    options.fixedPixelsBottom = 44;
+                }
+
+                $ionicNativeTransitions.stateGo( stateName, {}, {}, options );
+            } else {
+                $state.go( stateName );
+            }
+        }
+    }
+
     /**
      * Preenche o $rootScope
      *
@@ -72,6 +93,8 @@ function run( $rootScope: any,
             pendingRequests: 0,
             error: undefined
         };
+
+        $rootScope.navigateToTab = navigateToTab;
 
         // We can now watch the trafficCop service to see when there are pending
         // HTTP requests that we're waiting for.
@@ -140,6 +163,8 @@ run.$inject = [
     '$window',
     '$state',
     '$ionicPlatform',
+    '$ionicHistory',
+    '$ionicNativeTransitions',
     '$mdDialog',
     '$mdBottomSheet',
     'authenticationService',
