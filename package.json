@@ -52,7 +52,6 @@
     "@types/chai": "^3.4.33",
     "@types/cordova": "0.0.34",
     "@types/cordova-ionic": "0.0.29",
-    "@types/es6-shim": "^0.31.32",
     "@types/ionic": "0.0.32",
     "@types/mocha": "^2.2.32",
     "@types/moment": "^2.13.0",
