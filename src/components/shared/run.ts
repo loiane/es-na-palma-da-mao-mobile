@@ -60,10 +60,10 @@ function run( $rootScope: any,
             if ( $ionicNativeTransitions ) {
                 let options: any = { type: 'slide', direction: direction };
 
-                if ( $rootScope.isAndroid.isAndroid ) {
+                if ( $rootScope.isAndroid ) {
                     options.fixedPixelsTop = 93;
-                } else if ( $rootScope.isAndroid.isIOS ) {
-                    options.fixedPixelsBottom = 44;
+                } else if ( $rootScope.isIOS ) {
+                    options.fixedPixelsBottom = 48;
                 }
 
                 $ionicNativeTransitions.stateGo( stateName, {}, {}, options );
