@@ -20,13 +20,13 @@ export class CordovaPermissions {
      * 
      */
     constructor(private $window: Window) {
-        if ( this.isCordovaApp && this.$window.cordova.plugins.permissions ) {
+        if ( this.isCordovaAppWithPermissions ) {
             this.permissions = cordova.plugins.permissions;
         }
     }
 
-    private get isCordovaApp() {
-        return !!this.$window.cordova;
+    private get isCordovaAppWithPermissions() {
+        return !!this.$window.cordova && !!this.$window.cordova.plugins && !!this.$window.cordova.plugins.permissions;
     }
 
     /**
