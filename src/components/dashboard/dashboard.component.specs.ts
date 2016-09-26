@@ -1,7 +1,7 @@
 ﻿import { DashBoardController } from './dashboard.component.controller';
 import DashBoardComponent from './dashboard.component';
 import DashBoardTemplate from './dashboard.component.html';
-import { environment, $stateMock } from '../shared/tests/index';
+import { environment } from '../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -15,7 +15,7 @@ describe( 'Dashboard', () => {
         let controller: DashBoardController;
         beforeEach(() => {
             environment.refresh();
-            controller = new DashBoardController( environment.$scope, $stateMock );
+            controller = new DashBoardController( environment.$scope );
         });
 
         describe( 'on instantiation', () => {
@@ -39,18 +39,6 @@ describe( 'Dashboard', () => {
 
                 expect( querySelectorAll.calledWith( 'ion-header-bar' ) ).to.be.true;
                 expect( domElement.addClass.calledWith( 'espm-header-tabs' ) ).to.be.true;
-            });
-        });
-
-
-        describe( 'navigateTo( newState )', () => {
-            it( 'should redirect user to "newState"', () => {
-                let go = sandbox.stub( $stateMock, 'go' );
-                let newState = 'newState';
-
-                controller.navigateTo( newState );
-
-                expect( go.calledWith( newState ) ).to.be.true;
             });
         });
     });
