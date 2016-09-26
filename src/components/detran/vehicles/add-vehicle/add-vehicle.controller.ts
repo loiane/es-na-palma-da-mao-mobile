@@ -34,7 +34,7 @@ export class AddVehicleController {
     public ok( plate?: string, renavam?: number ) {
 
         if ( !plate ) {
-            this.toast.info( { title: 'Placa é obrigatória' }); return;
+            this.toast.info( { title: "Placa é obrigatória" }); return;
         }
 
         if ( !renavam ) {
