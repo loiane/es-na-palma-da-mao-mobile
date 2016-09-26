@@ -7,7 +7,7 @@
     <author email="presidente@prodest.es.gov.com" href="http://www.prodest.es.gov.br/">		
       Prodest
     </author>
-    <content src="index.html"/>
+    <content src="http://localhost:3000"/>
     <access origin="*"/>
     <preference name="webviewbounce" value="false"/>
     <preference name="UIWebViewBounce" value="false"/>
@@ -18,6 +18,13 @@
     <preference name="ShowSplashScreenSpinner" value="false"/>
     <preference name="Orientation" value="portrait"/>
     <preference name="FullScreen" value="false"/>
+    <preference name="xwalkVersion" value="17+"/>
+    <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect"/>
+    <preference name="xwalkMode" value="embedded"/>
+    <preference name="xwalkMultipleApk" value="true"/>
+    <preference name="CrosswalkAnimatable" value="true"/>
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="AlternateContentSrc" value="index.html" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar"/>
     </feature>
@@ -45,9 +52,4 @@
             </intent-filter>
         </config-file>-->
     </platform>
-    <preference name="xwalkVersion" value="17+"/>
-    <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect"/>
-    <preference name="xwalkMode" value="embedded"/>
-    <preference name="xwalkMultipleApk" value="true"/>
-    <preference name="CrosswalkAnimatable" value="true"/>
 </widget>
