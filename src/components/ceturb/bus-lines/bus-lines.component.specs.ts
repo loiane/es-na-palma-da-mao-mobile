@@ -99,46 +99,6 @@ describe( 'Ceturb/bus-lines', () => {
             });
         });
 
-        describe( 'toggleFavorite(line)', () => {
-
-            let addToFavoriteLines: Sinon.SinonStub;
-            let removeFromFavoriteLines: Sinon.SinonStub;
-
-            beforeEach(() => {
-                addToFavoriteLines = sandbox.stub( ceturbStorage, 'addToFavoriteLines' );
-                removeFromFavoriteLines = sandbox.stub( ceturbStorage, 'removeFromFavoriteLines' );
-            });
-
-            it( 'should toggle line isFavorite prop value', () => {
-                let line: BusLine = <BusLine>{ isFavorite: true };
-
-                controller.toggleFavorite( line );
-
-                expect( line.isFavorite ).to.be.false;
-
-                controller.toggleFavorite( line );
-
-                expect( line.isFavorite ).to.be.true;
-            });
-
-
-            it( 'should add favorited line to local storage', () => {
-                let line: BusLine = <BusLine>{ isFavorite: false };
-
-                controller.toggleFavorite( line ); // make line favorite
-
-                expect( addToFavoriteLines.calledWithExactly( line ) ).to.be.true;
-            });
-
-            it( 'should remove unfavorited line from local storage', () => {
-                let line: BusLine = <BusLine>{ isFavorite: true };
-
-                controller.toggleFavorite( line );
-
-                expect( removeFromFavoriteLines.calledWithExactly( line ) ).to.be.true;
-            });
-        });
-
         describe( 'goToLine( id )', () => {
             it( 'should redirect user to line screen', () => {
                 let go = sandbox.stub( $stateMock, 'go' );

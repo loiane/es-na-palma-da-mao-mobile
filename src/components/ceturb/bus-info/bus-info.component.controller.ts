@@ -29,7 +29,12 @@ export class BusInfoController {
      * @param {angular.ui.IStateParamsService} $stateParams
      * @param {IQService} $q
      * @param {IWindowService} $window
+     * @param {ionic.tabs.IonicTabsDelegate} $ionicTabsDelegate
+     * @param {ToastService} toast
      * @param {CeturbApiService} ceturbApiService
+     * @param {CeturbStorage} ceturbStorage
+     * 
+     * @memberOf BusInfoController
      */
     constructor( private $scope: IScope,
         private $stateParams: angular.ui.IStateParamsService,
@@ -130,6 +135,13 @@ export class BusInfoController {
         }
     }
 
+    /**
+     * 
+     * 
+     * @readonly
+     * 
+     * @memberOf BusInfoController
+     */
     public get isFavorite() {
         return this.ceturbStorage.isFavoriteLine( this.lineId );
     }

@@ -1,9 +1,9 @@
 import { BusInfoController } from './bus-info.component.controller';
 import BusInfoComponent from './bus-info.component';
 import BusInfoTemplate from './bus-info.component.html';
-import { CeturbApiService } from '../shared/ceturb-api.service';
+import { CeturbApiService, CeturbStorage } from '../shared/index';
 import { BusRoute, BusSchedule } from '../shared/index';
-import { environment, $stateParamsMock, $qMock, $windowMock } from '../../shared/tests/index';
+import { environment, $stateParamsMock, $qMock, $windowMock, toastServiceMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -16,6 +16,7 @@ describe( 'Ceturb/bus-info', () => {
     describe( 'Controller', () => {
         let controller: BusInfoController;
         let ceturbApiService: CeturbApiService;
+        let ceturbStorage: CeturbStorage;
 
         beforeEach(() => {
             environment.refresh();
@@ -23,7 +24,20 @@ describe( 'Ceturb/bus-info', () => {
                 getRoute: () => { },
                 getSchedule: () => { }
             };
-            controller = new BusInfoController( environment.$scope, $stateParamsMock, $qMock, $windowMock, environment.$ionicTabsDelegateMock, ceturbApiService );
+
+            ceturbStorage = <CeturbStorage><any>{
+                removeFromFavoriteLines: () => { },
+                addToFavoriteLines: () => { },
+                isFavoriteLine: () => { }
+            };
+            controller = new BusInfoController( environment.$scope,
+                $stateParamsMock,
+                $qMock,
+                $windowMock,
+                environment.$ionicTabsDelegateMock,
+                toastServiceMock,
+                ceturbApiService,
+                ceturbStorage );
         });
 
         describe( 'on instantiation', () => {
@@ -200,6 +214,33 @@ describe( 'Ceturb/bus-info', () => {
                 [ '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23' ].forEach( i => {
                     expect( controller.beforeNow( `${i}:01` ) ).to.be.false;
                 });
+            });
+        });
+
+        describe( 'toggleFavorite()', () => {
+
+            let addToFavoriteLines: Sinon.SinonStub;
+            let removeFromFavoriteLines: Sinon.SinonStub;
+
+            beforeEach(() => {
+                addToFavoriteLines = sandbox.stub( ceturbStorage, 'addToFavoriteLines' );
+                removeFromFavoriteLines = sandbox.stub( ceturbStorage, 'removeFromFavoriteLines' );
+            });
+
+            it( 'should add favorited line to local storage', () => {
+                sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( false );
+
+                controller.toggleFavorite(); // make line favorite
+
+                expect( addToFavoriteLines.calledWithExactly( controller.lineId ) ).to.be.true;
+            });
+
+            it( 'should remove unfavorited line from local storage', () => {
+                  sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
+
+                controller.toggleFavorite();
+
+                expect( removeFromFavoriteLines.calledWithExactly( controller.lineId ) ).to.be.true;
             });
         });
     });
