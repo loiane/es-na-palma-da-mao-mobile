@@ -1,6 +1,8 @@
 // tslint:disable-next-line
-/// <reference path="./app.d.ts" /> 
+/// <reference path="./module.augmentation.d.ts" /> 
+/// <reference path="./module.declaration.d.ts" /> 
 
+import angular from 'angular';
 import app from './app/index';
 
 /*

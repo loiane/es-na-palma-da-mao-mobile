@@ -14,8 +14,7 @@ export class PushService {
         '$http',
         '$mdSidenav',
         'settings',
-        'authenticationStorageService',
-        '$cordovaPush'
+        'authenticationStorageService'
     ];
 
     constructor( private $state: angular.ui.IStateService,
@@ -24,8 +23,7 @@ export class PushService {
         private $http: IHttpService,
         private $mdSidenav: angular.material.ISidenavService,
         private settings: ISettings,
-        private authenticationStorageService: AuthenticationStorageService,
-        private $cordovaPush: Push ) {
+        private authenticationStorageService: AuthenticationStorageService ) {
     }
 
     public init() {
@@ -43,9 +41,9 @@ export class PushService {
             sound: this.settings.push.sound
         };
 
-        let push: PushNotification = this.$cordovaPush.init( { android: androidPushConfig, ios: iosPushConfig });
+        let push: PushNotification = Push.init( { android: androidPushConfig, ios: iosPushConfig });
 
-        if ( !push.error ) {
+        if ( push.on ) {
             push.on( 'registration', ( data ) => {
                 console.log( data );
                 this.registerUser( data.registrationId );

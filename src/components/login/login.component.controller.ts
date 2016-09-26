@@ -101,7 +101,7 @@ export class LoginController {
      * Realiza o login usando o facebook
      * https://github.com/jeduan/cordova-plugin-facebook4
      */
-    public facebookLogin(): IPromise<void> {
+    public facebookLogin(): Promise<void> {
         return this.authenticationService.facebookLogin()
             .then(( identity ) => this.loginWithIdentity( identity ) )
             .catch(() => this.toast.error( { title: '[Facebook] Falha no login' }) );
@@ -110,7 +110,7 @@ export class LoginController {
     /**
      * Realiza o login usando conta do google
      */
-    public googleLogin(): IPromise<void> {
+    public googleLogin(): Promise<void> {
         return this.authenticationService.googleLogin()
             .then( identity => this.loginWithIdentity( identity ) )
             .catch(() => this.toast.error( { title: '[Google] Falha no login' }) );

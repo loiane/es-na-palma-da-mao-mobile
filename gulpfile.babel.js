@@ -33,8 +33,8 @@ import del from 'del';
 import spawn from 'win-spawn';
 import semver from 'semver';
 import Bundler from '@prodest/angular-lazy-bundler';
-import typescript from 'gulp-typescript';
-import sourcemaps from 'gulp-sourcemaps';
+import ts from 'gulp-typescript';
+// import sourcemaps from 'gulp-sourcemaps';
 import karma from 'karma';
 import cheerio from 'gulp-cheerio';
 
@@ -70,9 +70,6 @@ let argv = yargs.alias( 't', 'transpile' )
                 .default( 'serve', false )
                 .default( 'transpile', false ).argv;
 
-let tsProject = typescript.createProject( 'tsconfig.json', {
-    typescript: require( 'typescript' )
-} );
 
 ////////////////////////////////////////// HELPERS /////////////////////////////////////////////////
 
@@ -681,10 +678,15 @@ gulp.task( 'github:create-release', false, [ 'ensures-master', 'github:authentic
 } );
 
 gulp.task( 'transpile-app-ts', function() {
-    return gulp.src( config.paths.ts.app )
-               .pipe( sourcemaps.init() )
-               .pipe( typescript( tsProject ) )
-               .pipe( sourcemaps.write() )
+
+    let tsProject = ts.createProject( 'tsconfig.json', {
+        typescript: require( 'typescript' )
+    } );
+
+    return gulp.src( [ 'node_modules/@types/**/*.d.ts', config.paths.ts.app ] )
+               // .pipe( sourcemaps.init() )
+               .pipe( tsProject( ts.reporter.defaultReporter() ) )
+               // .pipe( sourcemaps.write() )
                .pipe( gulp.dest( config.paths.output.app ) );
 } );
 

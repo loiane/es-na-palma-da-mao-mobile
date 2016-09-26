@@ -33,8 +33,7 @@ function run( $rootScope: any,
     httpSnifferService: HttpSnifferService,
     httpErrorSnifferService: HttpErrorSnifferService,
     settings: ISettings,
-    cordovaPermissions: CordovaPermissions,
-    $cordovaKeyboard: Keyboard ) {
+    cordovaPermissions: CordovaPermissions ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -120,8 +119,8 @@ function run( $rootScope: any,
     $ionicPlatform.ready(() => {
         ionic.Platform.isFullScreen = true;
 
-        $cordovaKeyboard.hideKeyboardAccessoryBar( true );
-        $cordovaKeyboard.disableScroll( true );
+        Keyboard.hideKeyboardAccessoryBar( true );
+        Keyboard.disableScroll( true );
 
         initialRootScope();
 
@@ -171,8 +170,7 @@ run.$inject = [
     'httpSnifferService',
     'httpErrorSnifferService',
     'settings',
-    'cordovaPermissions',
-    '$cordovaKeyboard'
+    'cordovaPermissions'
 ];
 
 export default run;

@@ -1,4 +1,6 @@
-export function inputReturn( $window, $cordovaKeyboard ) {
+import { Keyboard } from 'ionic-native';
+
+export function inputReturn() {
   const ENTER = 13;
   const TAB = 9;
 
@@ -7,7 +9,7 @@ export function inputReturn( $window, $cordovaKeyboard ) {
     if ( $scope.vm.onEnterPressed ) {
       $scope.vm.onEnterPressed( value );
     }
-    $cordovaKeyboard.close();
+    Keyboard.close();
   };
 
   return {
@@ -27,5 +29,3 @@ export function inputReturn( $window, $cordovaKeyboard ) {
     }
   };
 }
-
-inputReturn.$inject = [ '$window', '$cordovaKeyboard' ];

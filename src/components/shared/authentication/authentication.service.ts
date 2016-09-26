@@ -14,7 +14,7 @@ import {
     GoogleAuthResponse,
     AcessoCidadaoClaims,
     Token
-} from 'index';
+} from './index';
 import { ISettings } from '../settings/index';
 
 /**
@@ -30,18 +30,25 @@ export class AuthenticationService {
         'answersService',
         'acessoCidadaoService',
         'digitsService',
-        '$cordovaFacebook',
-        '$cordovaGooglePlus',
         'settings'
     ];
 
 
+    /**
+     * Creates an instance of AuthenticationService.
+     * 
+     * @param {AuthenticationStorageService} authenticationStorageService
+     * @param {AnswersService} answersService
+     * @param {AcessoCidadaoService} acessoCidadaoService
+     * @param {DigitsService} digitsService
+     * @param {ISettings} settings
+     * 
+     * @memberOf AuthenticationService
+     */
     constructor( private authenticationStorageService: AuthenticationStorageService,
         private answersService: AnswersService,
         private acessoCidadaoService: AcessoCidadaoService,
         private digitsService: DigitsService,
-        private facebook: Facebook,
-        private googlePlus: GooglePlus,
         private settings: ISettings ) {
         this.activate();
     }
@@ -94,8 +101,8 @@ export class AuthenticationService {
      * @returns {void}
      */
     public signOut( success: any ): void {
-        this.facebook.logout().then( () => delete this.authenticationStorageService.facebookAuthResponse );
-        this.googlePlus.logout().then(() => delete this.authenticationStorageService.googleAuthResponse );
+        Facebook.logout().then(() => delete this.authenticationStorageService.facebookAuthResponse );
+        GooglePlus.logout().then(() => delete this.authenticationStorageService.googleAuthResponse );
         this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
 
         return this.acessoCidadaoService.signOut( success );
@@ -109,10 +116,10 @@ export class AuthenticationService {
      * 
      * @memberOf AuthenticationService
      */
-    public facebookLogin(): IPromise<SocialNetworkIdentity> {
-        return this.facebook.login( [ 'email', 'public_profile' ] )
+    public facebookLogin(): Promise<SocialNetworkIdentity> {
+        return Facebook.login( [ 'email', 'public_profile' ] )
             .then(( loginResponse: FacebookLoginResponse ) => {
-                this.authenticationStorageService.facebookAuthResponse = loginResponse.authResponse;
+                this.authenticationStorageService.facebookAuthResponse = loginResponse;
                 this.answersService.sendLogin( 'Facebook', true, undefined );
 
                 let identity: SocialNetworkIdentity = {
@@ -138,14 +145,14 @@ export class AuthenticationService {
      * 
      * @memberOf AuthenticationService
      */
-    public googleLogin(): IPromise<SocialNetworkIdentity> {
+    public googleLogin(): Promise<SocialNetworkIdentity> {
         let options = {
             scopes: 'profile email', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
             webClientId: this.settings.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
             offline: true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
         };
 
-        return this.googlePlus.login( options )
+        return GooglePlus.login( options )
             .then(( authResponse: GoogleAuthResponse ) => {
                 this.authenticationStorageService.googleAuthResponse = authResponse;
                 this.answersService.sendLogin( 'Google', true, undefined );
