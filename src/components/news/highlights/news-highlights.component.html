@@ -12,9 +12,10 @@
 			</md-card-title>
 			<md-card-content>
 				<p ng-bind-html="news.summary"></p>
-				<span class="noticia-info-origem">{{::news.origin}} | {{ ::news.date | fromNow }}</span>
+				
 			</md-card-content>
-			<md-card-actions layout="row" layout-align="start left">
+			<md-card-actions layout="row" layout-align="space-between left" class="md-padding">
+				<span class="noticia-info-origem">{{::news.origin}} | {{ ::news.date | fromNow }}</span>
 				<md-button ng-click="vm.goToNews(news.id)" class="md-accent">LEIA MAIS</md-button>
 			</md-card-actions>
 		</md-card>

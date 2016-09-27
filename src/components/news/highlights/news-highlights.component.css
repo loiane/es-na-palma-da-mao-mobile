@@ -17,3 +17,11 @@
 #news-highlights-component md-card {
 	display: block;
 }
+
+#news-highlights-component md-card md-card-content {
+    padding-bottom: 0px;
+}
+
+#news-highlights-component md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):last-of-type {
+    margin-bottom: 10px;
+}
