@@ -7,6 +7,7 @@
     <author email="presidente@prodest.es.gov.com" href="http://www.prodest.es.gov.br/">		
       Prodest
     </author>
+    <content src="index.html" />
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />

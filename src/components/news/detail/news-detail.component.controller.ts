@@ -1,5 +1,5 @@
 import { IScope } from 'angular';
-
+import { SocialSharing } from 'ionic-native';
 import { NewsDetail, NewsApiService } from '../shared/index';
 
 export class NewsDetailController {
@@ -16,8 +16,8 @@ export class NewsDetailController {
      * @param {angular.ui.IStateParamsService} $stateParams
      */
     constructor( private $scope: IScope,
-                 private newsApiService: NewsApiService,
-                 private $stateParams: angular.ui.IStateParamsService ) {
+        private newsApiService: NewsApiService,
+        private $stateParams: angular.ui.IStateParamsService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -31,6 +31,21 @@ export class NewsDetailController {
         this.getNewsById( this.$stateParams[ 'id' ] );
     }
 
+    /**
+     * 
+     * 
+     * @param {string} link
+     * 
+     * @memberOf NewsDetailController
+     */
+    public share( news: NewsDetail ): void {
+        SocialSharing.shareWithOptions( {
+            message: news.title,
+            subject: news.title,
+            files: [ news.image ],
+            url: news.url
+        });
+    }
 
     /**
      * Carrega um notícia

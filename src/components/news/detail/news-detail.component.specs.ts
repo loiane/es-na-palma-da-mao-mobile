@@ -1,8 +1,9 @@
 import { NewsDetailController } from './news-detail.component.controller';
-import { NewsApiService, News } from '../shared/index';
+import { NewsApiService, News, NewsDetail } from '../shared/index';
 import NewsDetailComponent from './news-detail.component';
 import NewsDetailTemplate from './news-detail.component.html';
 import { environment, $stateMock } from '../../shared/tests/index';
+import { SocialSharing } from 'ionic-native';
 
 let expect = chai.expect;
 
@@ -56,6 +57,28 @@ describe( 'News/news-detail', () => {
                 controller.getNewsById( 'any string' );
 
                 expect( controller.news ).to.deep.equal( news );
+            });
+        });
+
+
+        describe( 'share( news )', () => {
+            it( 'should share news title, img and url', () => {
+                let shareWithOptions = sandbox.stub( SocialSharing, 'shareWithOptions' );
+                let newsDetail = <NewsDetail><any>{
+                    title: 'News title',
+                    subject: 'News title',
+                    image: 'image',
+                    url: 'url'
+                };
+
+                controller.share( newsDetail );
+
+                expect( shareWithOptions.calledWithExactly( {
+                    message: newsDetail.title,
+                    subject: newsDetail.title,
+                    files: [ newsDetail.image ],
+                    url: newsDetail.url
+                }) ).to.be.true;
             });
         });
     });
