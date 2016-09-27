@@ -181,13 +181,24 @@ describe( 'Ceturb/bus-info', () => {
         });
 
         describe( 'openMapLink()', () => {
-            it( 'should open map on gmaps', () => {
+            it( 'should open map on gmaps if on android', () => {
+                environment.$scope.isAndroid = true;
                 let $windowOpen = sandbox.stub( $windowMock, 'open' );
-                let location = 'Guarapari';
+                let location = 'Guarapari, minha arte';
 
                 controller.openMapLink( location );
 
                 expect( $windowOpen.calledWithExactly( `http://www.google.com.br/maps/place/${location}, ES`, '_system', 'location=yes' ) ).to.be.true;
+            });
+
+            it( 'should open map on ios maps app if on iOS', () => {
+                environment.$scope.isIOS = true;
+                let $windowOpen = sandbox.stub( $windowMock, 'open' );
+                let location = 'Guarapari, minha arte';
+
+                controller.openMapLink( location );
+
+                expect( $windowOpen.calledWithExactly( `maps://?q=${location}, ES`, '_system', 'location=yes' ) ).to.be.true;
             });
         });
 

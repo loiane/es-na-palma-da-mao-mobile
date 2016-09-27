@@ -78,7 +78,11 @@ export class BusInfoController {
      * @param {string} text
      */
     public openMapLink( text: string ): void {
-        this.$window.open( `http://www.google.com.br/maps/place/${text}, ES`, '_system', 'location=yes' );
+        if ( this.$scope.isIOS ) {
+            this.$window.open( `maps://?q=${text}, ES`, '_system', 'location=yes' );
+        } else {
+            this.$window.open( `http://www.google.com.br/maps/place/${text}, ES`, '_system', 'location=yes' );
+        }
     }
 
     /**

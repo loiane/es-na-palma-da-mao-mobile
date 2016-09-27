@@ -35,6 +35,8 @@ export class Enviroment {
                     this.onIonicBeforeEnterEvent = callback;
                 }
             },
+            isAndroid: undefined,
+            isIOS: undefined,
             $broadcast() { }
         };
         this.$ionicHistory = { nextViewOptions() { } };
