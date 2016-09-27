@@ -1,3 +1,5 @@
+import { IPromise } from 'angular';
+
 /**
  * Serviço que centraliza configurações e chamadas a janelas de diálogo
  */
@@ -14,7 +16,7 @@ export class DialogService {
      *
      * @returns {void}
      */
-    constructor( private $mdDialog ) {
+    constructor( private $mdDialog: angular.material.IDialogService ) {
         this.defaultOptions = {
             confirm: {
                 ok: 'Confirmar',
@@ -34,7 +36,7 @@ export class DialogService {
      *
      * @returns {Promise} - uma promise
      */
-    public alert( contextualOptions ) {
+    public alert( contextualOptions ): IPromise<any> {
         let opts = this.buildOptionsTo( 'alert', contextualOptions );
 
         let alert = this.$mdDialog.alert()
@@ -54,7 +56,7 @@ export class DialogService {
      *
      * @returns {Promise} - uma promise
      */
-    public confirm( contextualOptions ) {
+    public confirm( contextualOptions ): IPromise<any>  {
         let opts = this.buildOptionsTo( 'confirm', contextualOptions );
 
         let confirm = this.$mdDialog.confirm()
@@ -81,8 +83,8 @@ export class DialogService {
      *
      * @returns {void}
      */
-    public ok() {
-        this.$mdDialog.hide();
+    public ok(): IPromise<any>  {
+        return this.$mdDialog.hide();
     }
 
     /**
@@ -99,5 +101,4 @@ export class DialogService {
     private buildOptionsTo( dialogTypeName, contextualOptions ) {
         return angular.merge( {}, this.defaultOptions[ dialogTypeName ], contextualOptions );
     }
-
 }
