@@ -3,6 +3,7 @@ import 'moment/locale/pt-br';
 import { Keyboard } from 'ionic-native';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
+import { NetworkService } from './network/index';
 import { IWindowService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
@@ -29,6 +30,7 @@ function run( $rootScope: any,
     $ionicNativeTransitions: any,
     $mdDialog: angular.material.IDialogService,
     $mdBottomSheet,
+    networkService: NetworkService,
     authenticationService: AuthenticationService,
     httpSnifferService: HttpSnifferService,
     httpErrorSnifferService: HttpErrorSnifferService,
@@ -102,6 +104,10 @@ function run( $rootScope: any,
             $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
             $rootScope.uiState.error = httpErrorSnifferService.error;
         });
+
+        $rootScope.$on( 'noConnection', () => {
+            networkService.showNetworkAlert();
+        });
     }
 
     /**
@@ -166,6 +172,7 @@ run.$inject = [
     '$ionicNativeTransitions',
     '$mdDialog',
     '$mdBottomSheet',
+    'networkService',
     'authenticationService',
     'httpSnifferService',
     'httpErrorSnifferService',

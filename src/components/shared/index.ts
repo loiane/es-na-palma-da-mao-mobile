@@ -12,6 +12,7 @@ import httpAuthInterceptorConfig from './http/http-auth-interceptor.config';
 // import httpDelayInterceptorConfig from './http/http-delay-interceptor.config';
 import httpErrorInterceptorConfig from './http/http-error-interceptor.config';
 import httpSnifferInterceptorConfig from './http/http-sniffer-interceptor.config';
+import httpNetworkInterceptorConfig from './http/http-network-interceptor.config';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import appRun from './run';
 import loader from './loader/index';
@@ -22,6 +23,7 @@ import { ionicLoadingConfig } from './ionic-loading.config';
 import pushModule from './push/index';
 import fabricModule from './fabric/index';
 import permissionsModule from './permissions/index';
+import network from './network/index';
 
 let dependencies = [
     toast.name,
@@ -32,7 +34,8 @@ let dependencies = [
     directives.name,
     pushModule.name,
     fabricModule.name,
-    permissionsModule.name
+    permissionsModule.name,
+    network.name
 ];
 
 export * from './toast/index';
@@ -46,6 +49,7 @@ export default angular.module( 'shared', dependencies )
                       .config( themeConfig )
                       .config( httpSnifferInterceptorConfig )
                       .config( httpErrorInterceptorConfig )
+                      .config( httpNetworkInterceptorConfig )
                       // .config( httpDelayInterceptorConfig )
                       .config( httpAuthInterceptorConfig )
                       .constant( '$ionicLoadingConfig', ionicLoadingConfig )
