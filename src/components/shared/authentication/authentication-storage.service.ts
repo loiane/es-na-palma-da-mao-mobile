@@ -19,10 +19,10 @@ export class AuthenticationStorageService {
     /** Acesso Cidadão */
 
     public get tokenSub(): number | undefined {
-        if ( !angular.isDefined( this.$localStorage.token ) ) {
+        if ( !angular.isDefined( this.$localStorage.tokenClaims ) ) {
             return undefined;
         }
-        return this.$localStorage.token.sub;
+        return this.$localStorage.tokenClaims.sub;
     }
 
     /** Google */
