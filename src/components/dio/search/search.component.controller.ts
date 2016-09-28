@@ -1,4 +1,5 @@
 import { IScope, IPromise, IWindowService } from 'angular';
+import { SocialSharing } from 'ionic-native';
 
 import filterTemplate from './filter/filter.html';
 import { FilterController } from './filter/filter.controller';
@@ -49,6 +50,21 @@ export class SearchController {
      * Ativa o controller
      */
     public activate(): void { }
+
+    /**
+    * 
+    * 
+    * @param {string} link
+    * 
+    * @memberOf NewsDetailController
+    */
+    public share( hit: Hit ): void {
+        SocialSharing.shareWithOptions( {
+            message: `DIO ES - ${hit.date} - Pág. ${hit.pageNumber}`,
+            subject: `DIO ES - ${hit.date} - Pág. ${hit.pageNumber}`,
+            url: hit.pageUrl
+        });
+    }
 
     /**
      * 

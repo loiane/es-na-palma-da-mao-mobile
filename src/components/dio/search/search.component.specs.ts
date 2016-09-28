@@ -5,6 +5,7 @@ import { Hit, SearchResult, DioApiService, SearchFilter } from '../shared/index'
 import filterTemplate from './filter/filter.html';
 import { FilterController } from './filter/filter.controller';
 import { environment, $windowMock, $mdDialogMock } from '../../shared/tests/index';
+import { SocialSharing } from 'ionic-native';
 
 let expect = chai.expect;
 
@@ -59,6 +60,24 @@ describe( 'Dio/search', () => {
             });
         });
 
+        describe( 'share( news )', () => {
+            it( 'should share hit', () => {
+                let shareWithOptions = sandbox.stub( SocialSharing, 'shareWithOptions' );
+                let hit = <Hit><any>{
+                    date: '10/02/1922',
+                    pageNumber: '12',
+                    pageUrl: 'www.pageurl.com'
+                };
+
+                controller.share( hit );
+
+                expect( shareWithOptions.calledWithExactly( {
+                    message: `DIO ES - ${hit.date} - Pág. ${hit.pageNumber}`,
+                    subject: `DIO ES - ${hit.date} - Pág. ${hit.pageNumber}`,
+                    url: hit.pageUrl
+                }) ).to.be.true;
+            });
+        });
 
         describe( 'search(filter)', () => {
 
