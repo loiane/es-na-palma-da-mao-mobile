@@ -31,7 +31,6 @@
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
     <platform name="android">
-        <content src="index.html" />
         <hook src="hook_scripts/after_prepare/010_add_platform_class.js" type="after_prepare" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
@@ -47,7 +46,6 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.9.png" />
     </platform>
     <platform name="ios">
-        <content src="http://localhost:3000" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
         <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
         <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
