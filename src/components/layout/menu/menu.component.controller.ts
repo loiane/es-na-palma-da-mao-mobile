@@ -244,6 +244,11 @@ export default class MenuController {
      */
     public signOut(): void {
         this.authenticationService.signOut(() => {
+            this.closeSideNav();
+            this.$ionicHistory.nextViewOptions( {
+                disableBack: true,
+                historyRoot: true
+            });
             this.$state.go( 'home' );
         });
     }
