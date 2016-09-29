@@ -38,7 +38,8 @@ export class PushService {
             senderID: this.settings.push.senderId,
             alert: this.settings.push.alert,
             badge: this.settings.push.badge,
-            sound: this.settings.push.sound
+            sound: this.settings.push.sound,
+            gcmSandbox: this.settings.push.gcmSandbox
         };
 
         let push: PushNotification = Push.init( { android: androidPushConfig, ios: iosPushConfig });
@@ -66,7 +67,7 @@ export class PushService {
     public registerUser( token: string ) {
         let data: PushUser = {
             user: this.authenticationStorageService.tokenSub,
-            type: ionic.Platform.platform(),
+            type: 'android',
             token: token
         };
 
