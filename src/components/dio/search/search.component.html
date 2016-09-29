@@ -38,13 +38,13 @@
 		<message ng-if="!vm.searched" text="Consulta ao Diário Oficial do ES ">
 			<remark>
 				Para consultar, selecione um
-				<md-button class="md-accent md-raised" ng-click="vm.openFilter()">
+				<md-button class="md-accent md-raised" ng-click="::vm.openFilter()">
 					FILTRO
 				</md-button>
 			</remark>
 		</message>
 
-		<message ng-if="vm.searched && !vm.totalHits" text="Nenhum resultado encontrado para">
+		<message ng-if="!uiState.error && (vm.searched && !vm.totalHits)" text="Nenhum resultado encontrado para">
 			<highlight>"{{::vm.filter.query}}"</highlight>
 			<remark>Tente mudar o filtro da consulta</remark>
 		</message>

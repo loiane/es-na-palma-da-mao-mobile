@@ -59,7 +59,7 @@ export class SearchController {
     public search( filter: SearchFilter ): IPromise<SearchResult> {
         angular.extend( this.filter, filter || {}); // atualiza o filtro
 
-        if ( this.filter.pageNumber === 0  ) {
+        if ( this.filter.pageNumber === 0 ) {
             this.hits = [];
             this.hasMoreHits = false;
             this.totalHits = 0;
@@ -89,10 +89,10 @@ export class SearchController {
             controllerAs: 'vm',
             locals: this.filter
         })
-          .then( filter => {
-              filter.pageNumber = 0;
-              this.search( filter );
-          } );
+            .then( filter => {
+                filter.pageNumber = 0;
+                this.search( filter );
+            });
     }
 
 
