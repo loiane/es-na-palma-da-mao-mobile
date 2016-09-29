@@ -164,7 +164,7 @@
     "menu": true,
     "editable": true,
     "menuName": "Consulta",
-    "group": "Diaŕio Oficial ES",
+    "group": "Diário Oficial ES",
     "icon": "fa fa-search"
   },
   {
@@ -175,7 +175,7 @@
     "menu": true,
     "editable": true,
     "menuName": "Edições Recentes",
-    "group": "Diaŕio Oficial ES",
+    "group": "Diário Oficial ES",
     "icon": "fa fa-clock-o"
   },
   {
