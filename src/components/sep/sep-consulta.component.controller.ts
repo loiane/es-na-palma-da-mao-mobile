@@ -1,6 +1,7 @@
 import { IScope } from 'angular';
 import { SepApiService, Process, ProcessUpdate } from './shared/index';
 import { ToastService, ToastOptions } from '../shared/index';
+import { SocialSharing } from 'ionic-native';
 
 export class SepConsultaController {
 
@@ -63,6 +64,22 @@ export class SepConsultaController {
     public toggleUpdates(): void {
         this.showAllUpdates = !this.showAllUpdates;
         this.$ionicScrollDelegate.scrollTo( 0, 300, true ); // TODO: try to search the element to scroll: anchorScroll
+    }
+
+
+    /**
+    * 
+    * 
+    * @param {string} link
+    * 
+    * @memberOf NewsDetailController
+    */
+    public share( process: Process ): void {
+        SocialSharing.shareWithOptions( {
+            message: `SEP - Processo ${process.number}`,
+            subject: `SEP - Processo ${process.number}`,
+            url: process.pageUrl
+        });
     }
 
     /**

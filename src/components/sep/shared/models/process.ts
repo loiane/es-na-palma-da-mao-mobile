@@ -9,4 +9,5 @@ export interface Process {
     updates: ProcessUpdate[];
     district: string;
     extra: string;
+    pageUrl: string;
 }

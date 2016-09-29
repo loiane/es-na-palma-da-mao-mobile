@@ -3,6 +3,8 @@ import SepConsultaTemplate from './sep-consulta.component.html';
 import { SepApiService, Process } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
 import { environment, toastServiceMock } from '../shared/tests/index';
+import { SocialSharing } from 'ionic-native';
+
 let expect = chai.expect;
 
 describe( 'SEP/sep-consulta', () => {
@@ -144,6 +146,21 @@ describe( 'SEP/sep-consulta', () => {
 
                     expect( controller.lastProcessNumber ).to.be.equal( processNumber );
                 });
+            });
+        });
+
+
+        describe( 'share( process )', () => {
+            it( 'should share process', () => {
+                let shareWithOptions = sandbox.stub( SocialSharing, 'shareWithOptions' );
+
+                controller.share( process );
+
+                expect( shareWithOptions.calledWithExactly( {
+                    message: `SEP - Processo ${process.number}`,
+                    subject: `SEP - Processo ${process.number}`,
+                    url: process.pageUrl
+                }) ).to.be.true;
             });
         });
 

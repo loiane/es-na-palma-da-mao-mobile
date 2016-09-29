@@ -1,13 +1,21 @@
-<ion-view title="Consulta Processo">
-
+<ion-view>
+	<ion-nav-title>
+		Consulta Processo
+	</ion-nav-title>
+	<ion-nav-buttons side="right">
+		<a id="btn-share" ng-if="vm.process" ng-click="vm.share(vm.process)" class="button buttons button-clear header-item">
+			<i class="ion-android-share-alt"></i>
+		</a>
+	</ion-nav-buttons>
+	
+	<spinner ng-if="uiState.loading"></spinner>
+	
 	<div class="bar bar-subheader state-sep-subheader">
 		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
 			<input class="input-search" ng-model="vm.processNumber" type="number" placeholder="Número do Processo" input-return>
 			<md-icon style="display:inline-block;" ng-click="vm.getProcess(vm.processNumber)"><i class="fa fa-search" aria-hidden="true"></i></md-icon>
 		</md-input-container>
 	</div>
-
-	<spinner ng-if="uiState.loading"></spinner>
 
 	<ion-content id="state-sep-consulta" class="has-subheader" scroll-watch scroll-class="fix-top" class-target=".state-sep-subheader"
 		offset="25">
