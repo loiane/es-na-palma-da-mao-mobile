@@ -1,7 +1,7 @@
 <div ng-if="!uiState.loading && vm.error" class="error-wrapper" layout="column" layout-align="center center">
 
     <div class="img s{{vm.error.status}}" flex>
-        <i ng-if="::vm.error.status === -1" class="fa fa-exclamation-circle"></i>
+        <i ng-if="::vm.error.status === -1" class="fa fa-wifi"></i>
         <i ng-if="::vm.error.status === 400" class="fa fa-exclamation-circle"></i>
         <i ng-if="::vm.error.status === 401" class="fa fa-lock"></i>
         <i ng-if="::vm.error.status === 404" class="fa fa-times"></i>
@@ -13,6 +13,7 @@
     <div ng-if="!vm.error.handled" class="error unexpected" layout="column" layout-align="center center">
         <div class="head" flex>{{vm.unhandledErrorMessage}}</div>
         <small class="accent" flex>{{vm.error.guid}}</small>
+        <remark ng-if="vm.error.status === -1">Sem conectividade com a internet</remark>
         <ng-transclude></ng-transclude>
     </div>
     <div ng-if="vm.error.handled" class="error" layout="column" layout-align="center center">

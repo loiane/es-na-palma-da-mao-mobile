@@ -37,6 +37,7 @@ import ts from 'gulp-typescript';
 // import sourcemaps from 'gulp-sourcemaps';
 import karma from 'karma';
 import cheerio from 'gulp-cheerio';
+import * as swPrecache from 'sw-precache';
 
 
 //import 'gulp-cordova-build-android';
@@ -89,6 +90,7 @@ const readJsonFile = ( file ) => {
     return JSON.parse( fs.readFileSync( file ) );
 };
 
+const packageJson = readJsonFile( config.paths.packageJson );
 /**
  * Adiciona novos 'src' ao pipeline do gulp
  *
@@ -524,15 +526,13 @@ gulp.task( 'bump', false, ( cb ) => {
 } );
 
 gulp.task( 'bump-cordova', false, ( cb ) => {
-    const pkg = readJsonFile( config.paths.packageJson );
-
     gulp.src( config.paths.cordovaConfig )
         .pipe( cheerio( {
             parserOptions: {
                 xmlMode: true
             },
             run: ( $ ) => {
-                $( 'widget' ).attr( 'version', pkg.version );
+                $( 'widget' ).attr( 'version', packageJson.version );
             }
         } ) )
         .pipe( gulp.dest( './' ) )
@@ -569,8 +569,7 @@ gulp.task( 'bump-npm', false, ( cb ) => {
 } );
 
 gulp.task( 'commit', false, () => {
-    const pkg = readJsonFile( config.paths.packageJson );
-    const message = `feat(bump): Atualiza versão para ${pkg.version}`;
+    const message = `feat(bump): Atualiza versão para ${packageJson.version}`;
 
     return gulp.src( [ config.paths.packageJson, config.paths.cordovaConfig ] )
         .pipe( git.commit( message ) );
@@ -608,8 +607,7 @@ gulp.task( 'push-tags', false, [ 'ensures-master' ], ( cb ) => {
 } );
 
 gulp.task( 'create-release-branch', false, [ 'ensures-develop', 'bump' ], ( cb ) => {
-    const pkg = readJsonFile( config.paths.packageJson );
-    const branchName = `release-v${pkg.version}`;
+    const branchName = `release-v${packageJson.version}`;
 
     git.checkout( branchName, { args: '-b' }, ( err ) => {
         if ( err ) {
@@ -621,9 +619,8 @@ gulp.task( 'create-release-branch', false, [ 'ensures-develop', 'bump' ], ( cb )
 
 
 gulp.task( 'changelog', false, ( cb ) => {
-    const pkg = readJsonFile( config.paths.packageJson );
     const options = argv;
-    const version = options.version || pkg.version;
+    const version = options.version || packageJson.version;
     const from = options.from || '';
 
     gulp.src( '' )
@@ -723,7 +720,8 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'index.html',
         transpile ? 'transpile-app-ts' : 'app-ts',
         transpile ? 'transpile-app-js' : 'app-js',
-        htmlmin ? 'htmlmin' : 'html'
+        htmlmin ? 'htmlmin' : 'html',
+        'make-service-worker'
     ];
 
 	// tasks executadas nos arquivos copiados na pasta de distribuição.
@@ -859,4 +857,83 @@ gulp.task( 'test', ( cb ) => {
         configFile: `${__dirname}/config/karma.conf.js`,
         singleRun: true
     }, cb ).start();
+} );
+
+
+gulp.task( 'make-service-worker', cb => {
+    let cacheConfig = {
+        cacheId: packageJson.name,
+        logger: gutil.log,
+        staticFileGlobs: [
+            `${config.paths.output.root}/components/**/*.{html,css,png,jpg,gif,js,json}`
+        ],
+        // Various runtime caching strategies: sets up sw-toolbox handlers.
+        runtimeCaching: [
+             // calendar
+            {
+                urlPattern: /api\.es\.gov.br\/calendars$/,
+                handler: 'fastest',
+                options: { cache: { name: 'calendars', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
+            },
+            {
+                urlPattern: /api\.es\.gov.br\/calendars\/events\?.+/,
+                handler: 'fastest',
+                options: { cache: { name: 'calendars-events', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 }, debug: true }
+            },
+            // ceturb
+            {
+                urlPattern: /api\.es\.gov.br\/ceturb\/lines/,
+                handler: 'fastest',
+                options: { cache: { name: 'ceturb-lines', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
+            },
+            {
+                urlPattern: /api\.es\.gov.br\/ceturb\/(schedule|route)\/\d+/,
+                handler: 'fastest',
+                options: { cache: { name: 'ceturb-schedule-or-info', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 }, debug: true }
+            },
+            // news
+            {
+                urlPattern: /api\.es\.gov.br\/news\/origins/,
+                handler: 'fastest',
+                options: { cache: { name: 'news-origins', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
+            },
+            {
+                urlPattern: /api\.es\.gov.br\/news\/[A-Za-z]+_\d+/,
+                handler: 'fastest',
+                options: { cache: { name: 'news-detail', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 }, debug: true }
+            },
+            {
+                urlPattern: /^https?:\/\/.*\.(png|jpg|jpeg|gif|JPG|PNG|JPEG|GIF)/,
+                handler: 'cacheFirst',
+                options: { cache: { name: 'img', maxEntries: 100 }, debug: true }
+            },
+            // about
+            {
+                urlPattern: /api\.es\.gov.br\/espm\/about\/team/,
+                handler: 'fastest',
+                options: { debug: true }
+            },
+            // app
+            {
+                urlPattern: /browser-sync\//,
+                handler: 'networkOnly',
+                options: { debug: true }
+            },
+
+            {
+                urlPattern: /^https:\/\/acessocidadao\.es\.gov\.br/,
+                handler: 'networkOnly',
+                options: { debug: true }
+            },
+            // fallback
+            {
+                urlPattern: /.+/,
+                handler: 'networkFirst',
+                options: { cache: { name: 'default' }, networkTimeoutSeconds: 10, debug: true }
+            }
+        ],
+        stripPrefix: config.paths.output.root,
+        verbose: true
+    };
+    swPrecache.write( path.join( config.paths.output.root, 'serviceworker.js' ), cacheConfig, cb );
 } );

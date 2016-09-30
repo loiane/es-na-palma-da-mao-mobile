@@ -156,6 +156,7 @@
     "serveur": "^2.1.0",
     "sinon": "^1.17.6",
     "sinon-stub-promise": "^3.0.1",
+    "sw-precache": "^4.1.0",
     "tslint": "^3.15.1",
     "typescript": "^2.0.3",
     "ui-router-extras": "^0.1.2",
