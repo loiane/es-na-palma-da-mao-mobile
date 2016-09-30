@@ -695,7 +695,7 @@ gulp.task( 'delay', false, ( cb ) => {
 } );
 
 gulp.task( 'create-release', 'Cria e publica uma nova release no Github e faz upload do changelog.', ( cb ) => {
-    return runSequence( 'ensures-master', 'test', 'tag', 'push', 'push-tags', 'delay', 'changelog', 'github:create-release', cb );
+    return runSequence( 'ensures-master', 'test', 'changelog', 'tag', 'push', 'push-tags', 'delay', 'github:create-release', cb );
 } );
 
 gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
