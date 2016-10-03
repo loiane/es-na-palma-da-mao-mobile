@@ -22,7 +22,8 @@ describe( 'Ceturb/bus-info', () => {
             environment.refresh();
             ceturbApiService = <CeturbApiService>{
                 getRoute: () => { },
-                getSchedule: () => { }
+                getSchedule: () => { },
+                syncFavoriteLinesData: () => { }
             };
 
             ceturbStorage = <CeturbStorage><any>{
@@ -232,10 +233,12 @@ describe( 'Ceturb/bus-info', () => {
 
             let addToFavoriteLines: Sinon.SinonStub;
             let removeFromFavoriteLines: Sinon.SinonStub;
+            let syncFavoriteLinesData: Sinon.SinonStub;
 
             beforeEach(() => {
                 addToFavoriteLines = sandbox.stub( ceturbStorage, 'addToFavoriteLines' );
                 removeFromFavoriteLines = sandbox.stub( ceturbStorage, 'removeFromFavoriteLines' );
+                syncFavoriteLinesData = sandbox.stub( ceturbApiService, 'syncFavoriteLinesData' );
             });
 
             it( 'should add favorited line to local storage', () => {
@@ -244,6 +247,7 @@ describe( 'Ceturb/bus-info', () => {
                 controller.toggleFavorite(); // make line favorite
 
                 expect( addToFavoriteLines.calledWithExactly( controller.lineId ) ).to.be.true;
+                expect( syncFavoriteLinesData.calledWithExactly( true ) ).to.be.true;
             });
 
             it( 'should remove unfavorited line from local storage', () => {
@@ -252,6 +256,7 @@ describe( 'Ceturb/bus-info', () => {
                 controller.toggleFavorite();
 
                 expect( removeFromFavoriteLines.calledWithExactly( controller.lineId ) ).to.be.true;
+                expect( syncFavoriteLinesData.calledWithExactly( true ) ).to.be.true;
             });
         });
     });

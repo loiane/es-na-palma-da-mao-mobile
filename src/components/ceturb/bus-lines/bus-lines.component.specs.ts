@@ -2,7 +2,7 @@ import 'core-js/modules/es6.string.includes';
 import { BusLinesController } from './bus-lines.component.controller';
 import BusLinesComponent from './bus-lines.component';
 import BusLinesTemplate from './bus-lines.component.html';
-import { BusLine, CeturbApiService, CeturbStorage } from '../shared/index';
+import { BusLine, CeturbApiService, CeturbStorage, FavoriteLinesData } from '../shared/index';
 import { environment, $stateMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
@@ -21,7 +21,8 @@ describe( 'Ceturb/bus-lines', () => {
         beforeEach(() => {
             environment.refresh();
             ceturbApiService = <CeturbApiService>{
-                getLines: () => { }
+                getLines: () => { },
+                syncFavoriteLinesData: () => { }
             };
             ceturbStorage = <CeturbStorage><any>{
                 isFavoriteLine() { },
@@ -81,13 +82,28 @@ describe( 'Ceturb/bus-lines', () => {
                 { number: '501', name: 'Linha 501' }
             ];
 
+            let favoriteLinesData = <FavoriteLinesData>{
+                id: 9232,
+                favoriteLines: [],
+                date: new Date()
+            };
+
             beforeEach(() => {
                 sandbox.stub( ceturbApiService, 'getLines' ).returnsPromise().resolves( lines );
+                sandbox.stub( ceturbApiService, 'syncFavoriteLinesData' ).returnsPromise().resolves( favoriteLinesData );
                 sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
             });
 
-            it( 'should fill bus lines', () => {
+            it( 'should call mapLines on getLines', () => {
+                let mapLinesStub = sandbox.stub( controller, 'mapLines' );
+
                 controller.getLines();
+
+                expect( mapLinesStub.calledWithExactly( lines ) ).to.be.true;
+            });
+
+            it( 'should fill lines after mapLines', () => {
+                controller.mapLines( lines );
 
                 expect( controller.lines ).to.deep.equal( lines );
             });

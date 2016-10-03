@@ -137,6 +137,7 @@ export class BusInfoController {
             this.ceturbStorage.addToFavoriteLines( this.lineId );
             this.toast.info( { title: `Linha ${this.lineId} favoritada` });
         }
+        this.ceturbApiService.syncFavoriteLinesData( true );
     }
 
     /**

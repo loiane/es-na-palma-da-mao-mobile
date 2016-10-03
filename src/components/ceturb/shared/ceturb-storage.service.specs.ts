@@ -25,14 +25,7 @@ describe( 'CeturbStorage', () => {
         };
         ceturbStorage = new CeturbStorage( $localStorage, authenticationService );
 
-        $localStorage[ ceturbStorage.favoriteLinesKey ] = [ '678', '400' ];
-    });
-
-
-    describe( 'favoriteLinesKey', () => {
-        it( 'should be composed using user\'s CPF', () => {
-            expect( ceturbStorage.favoriteLinesKey ).to.be.equal( `user-${authenticationService.user.cpf}-lines` );
-        });
+        ceturbStorage.favoriteLines = { id: 9232, favoriteLines: [ '678', '400' ], date: new Date() };
     });
 
     describe( 'isFavoriteLine(line)', () => {
@@ -46,13 +39,13 @@ describe( 'CeturbStorage', () => {
         it( 'should remove line if line number matches any stored line', () => {
             let lineNumber = '678';
             let favoriteLines = ceturbStorage.removeFromFavoriteLines( lineNumber );
-            expect( favoriteLines ).to.not.contain( lineNumber );
+            expect( favoriteLines.favoriteLines ).to.not.contain( lineNumber );
         });
 
         it( 'should not remove line if line number does not match any stored line', () => {
             let lineNumber = '999';
             let favoriteLines = ceturbStorage.removeFromFavoriteLines( lineNumber );
-            expect( favoriteLines ).to.not.contain( lineNumber );
+            expect( favoriteLines.favoriteLines ).to.not.contain( lineNumber );
         });
     });
 
@@ -61,7 +54,7 @@ describe( 'CeturbStorage', () => {
         it( 'should add line to favorite lines', () => {
             let newLine = '777';
             let favoriteLines = ceturbStorage.addToFavoriteLines( newLine );
-            expect( favoriteLines ).to.contain( newLine );
+            expect( favoriteLines.favoriteLines ).to.contain( newLine );
         });
     });
 });

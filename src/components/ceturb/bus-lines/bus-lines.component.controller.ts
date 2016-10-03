@@ -1,4 +1,4 @@
-import { IScope } from 'angular';
+import { IScope, IPromise } from 'angular';
 
 import { BusLine, CeturbApiService, CeturbStorage } from '../shared/index';
 
@@ -48,8 +48,12 @@ export class BusLinesController {
      * @memberOf BusLinesController
      */
     public getLines(): void {
-        this.ceturbApiService.getLines()
-            .then( lines => {
+        this.ceturbApiService.getLines().then( this.mapLines );
+    }
+
+    public mapLines( lines: BusLine[] ): IPromise<BusLine[]> {
+        return this.ceturbApiService.syncFavoriteLinesData()
+            .then(() => {
                 this.filteredLines = this.lines = lines.map( line => {
                     line.isFavorite = this.ceturbStorage.isFavoriteLine( line.number );
                     return line;

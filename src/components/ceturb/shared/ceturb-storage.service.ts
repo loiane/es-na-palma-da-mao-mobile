@@ -1,4 +1,5 @@
 import { AuthenticationService } from '../../shared/authentication/index';
+import { FavoriteLinesData } from './models/index';
 
 /**
  * 
@@ -9,6 +10,8 @@ import { AuthenticationService } from '../../shared/authentication/index';
 export class CeturbStorage {
 
     public static $inject: string[] = [ '$localStorage', 'authenticationService' ];
+
+    private favoriteLinesKey: string = 'Favoritelines';
 
     /**
      * Creates an instance of CeturbStorage.
@@ -22,59 +25,76 @@ export class CeturbStorage {
 
     /**
      * 
-     */
-    public get favoriteLinesKey() {
-        return `user-${this.authenticationService.user.cpf}-lines`;  // sub é o id do usuário logado
-    }
-
-
-    /**
      * 
-     * 
-     * @readonly
-     * @type {BusLine[]}
+     * @type {FavoriteLinesData}
+     * @memberOf CeturbStorage
      */
-    private get favoriteLines(): string[] {
-        this.$localStorage[ this.favoriteLinesKey ] = this.$localStorage[ this.favoriteLinesKey ] || [];
-        return this.$localStorage[ this.favoriteLinesKey ] as string[];
+    public get favoriteLines(): FavoriteLinesData {
+        this.$localStorage[ this.favoriteLinesKey ] = this.$localStorage[ this.favoriteLinesKey ] || { favoriteLines: [] };
+        return this.$localStorage[ this.favoriteLinesKey ] as FavoriteLinesData;
     }
 
     /**
      * 
+     * 
+     * 
+     * @memberOf CeturbStorage
      */
-    private set favoriteLines( lines: string[] ) {
+    public set favoriteLines( lines: FavoriteLinesData ) {
         this.$localStorage[ this.favoriteLinesKey ] = lines;
     }
 
     /**
      * 
      * 
-     * @param {BusLine} line
-     * @returns {boolean}
+     * @readonly
+     * @type {boolean}
+     * @memberOf CeturbStorage
      */
-    public isFavoriteLine( lineNumber: string ): boolean {
-        return this.favoriteLines.indexOf(lineNumber) !== -1;
+    public get hasFavoriteLines(): boolean {
+        let favoriteLines: FavoriteLinesData = this.$localStorage[ this.favoriteLinesKey ];
+        if ( !!favoriteLines ) {
+            return favoriteLines.id === this.authenticationService.user.sub;
+        } else {
+            return false;
+        }
     }
 
     /**
      * 
      * 
-     * @param {BusLine} line
-     * @returns {BusLine[]}
+     * @param {string} lineNumber
+     * @returns {boolean}
+     * 
+     * @memberOf CeturbStorage
      */
-    public addToFavoriteLines( lineNumber: string ): string[] {
-        this.favoriteLines.push( lineNumber );
+    public isFavoriteLine( lineNumber: string ): boolean {
+        return this.favoriteLines.favoriteLines.indexOf( lineNumber ) !== -1;
+    }
+
+    /**
+     * 
+     * 
+     * @param {string} lineNumber
+     * @returns {FavoriteLinesData}
+     * 
+     * @memberOf CeturbStorage
+     */
+    public addToFavoriteLines( lineNumber: string ): FavoriteLinesData {
+        this.favoriteLines.favoriteLines.push( lineNumber );
         return this.favoriteLines;
     }
 
     /**
      * 
      * 
-     * @param {BusLine} line
-     * @returns {BusLine[]}
+     * @param {string} lineNumber
+     * @returns {FavoriteLinesData}
+     * 
+     * @memberOf CeturbStorage
      */
-    public removeFromFavoriteLines( lineNumber: string ): string[] {
-        this.favoriteLines = this.favoriteLines.filter( l => l !== lineNumber );
+    public removeFromFavoriteLines( lineNumber: string ): FavoriteLinesData {
+        this.favoriteLines.favoriteLines = this.favoriteLines.favoriteLines.filter( l => l !== lineNumber );
         return this.favoriteLines;
     }
 }
