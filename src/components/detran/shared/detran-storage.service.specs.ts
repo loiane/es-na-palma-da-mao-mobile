@@ -1,6 +1,6 @@
 import 'angular';
 import { DetranStorage } from './detran-storage.service';
-import { Vehicle, DriverLicense } from './models/index';
+import { Vehicle, DriverLicense, VehicleData } from './models/index';
 import { AuthenticationService } from '../../shared/authentication/index';
 
 let expect = chai.expect;
@@ -11,6 +11,7 @@ describe( 'DetranStorage', () => {
     beforeEach(() => sandbox = sinon.sandbox.create() );
     afterEach(() => sandbox.restore() );
 
+    let vehiclesStorageKey = 'detranVehicles';
     let detranStorage: DetranStorage;
     let $localStorage: any;
     let authenticationService: AuthenticationService;
@@ -25,16 +26,10 @@ describe( 'DetranStorage', () => {
             }
         };
         detranStorage = new DetranStorage( $localStorage, authenticationService );
-        $localStorage[ detranStorage.vehiclesStorageKey ] = undefined;
+        $localStorage[ vehiclesStorageKey ] = undefined;
     });
 
     describe( 'VehicleStorage', () => {
-        describe( 'vehiclesStorageKey', () => {
-            it( 'should be composed using user\'s CPF', () => {
-                expect( detranStorage.vehiclesStorageKey ).to.be.equal( `user-${authenticationService.user.cpf}-vehicles` );
-            });
-        });
-
 
         describe( 'vehicles', () => {
 
@@ -45,15 +40,15 @@ describe( 'DetranStorage', () => {
                         { plate: 'ovl-2222', renavam: 222222222 }
                     ];
 
-                    $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+                    $localStorage[ vehiclesStorageKey ] = { id: 3292, vehicles: userVehicles, date: new Date() };
 
-                    expect( detranStorage.vehicles ).to.be.deep.equal( userVehicles );
+                    expect( detranStorage.vehiclesData.vehicles ).to.be.deep.equal( userVehicles );
                 });
 
                 it( 'should be empty if no vehicles exists on local storage', () => {
-                    $localStorage[ detranStorage.vehiclesStorageKey ] = undefined;
+                    $localStorage[ vehiclesStorageKey ] = undefined;
 
-                    expect( detranStorage.vehicles ).to.be.deep.equal( [] );
+                    expect( detranStorage.vehiclesData.vehicles ).to.be.deep.equal( [] );
                 });
             });
 
@@ -61,20 +56,24 @@ describe( 'DetranStorage', () => {
                 it( 'should save vehicles on local storage', () => {
                     let userVehicles: Vehicle[] = [ { plate: 'ovl-1111', renavam: 111111111 }];
 
-                    detranStorage.vehicles = userVehicles;
-                    expect( $localStorage[ detranStorage.vehiclesStorageKey ] ).to.be.deep.equal( userVehicles );
+                    detranStorage.vehiclesData.vehicles = userVehicles;
+                    expect( $localStorage[ vehiclesStorageKey ].vehicles ).to.be.deep.equal( userVehicles );
                 });
             });
         });
 
         describe( 'existsVehicle(vehicle)', () => {
             beforeEach(() => {
-                let userVehicles: Vehicle[] = [
-                    { plate: 'ovl-1111', renavam: 111111111 },
-                    { plate: 'ovl-2222', renavam: 222222222 }
-                ];
+                let userVehicles: VehicleData = {
+                    id: 9232,
+                    vehicles: [
+                        { plate: 'ovl-1111', renavam: 111111111 },
+                        { plate: 'ovl-2222', renavam: 222222222 }
+                    ],
+                    date: new Date()
+                };
 
-                $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+                $localStorage[ vehiclesStorageKey ] = userVehicles;
             });
 
             it( 'should ignore case on search for plate', () => {
@@ -97,15 +96,19 @@ describe( 'DetranStorage', () => {
         });
 
         describe( 'removeVehicle(vehicle)', () => {
-            let userVehicles: Vehicle[];
+            let userVehicles: VehicleData;
 
             beforeEach(() => {
-                userVehicles = [
-                    { plate: 'ovl-1111', renavam: 111111111 },
-                    { plate: 'ovl-2222', renavam: 222222222 }
-                ];
+                userVehicles = {
+                    id: 9232,
+                    vehicles: [
+                        { plate: 'ovl-1111', renavam: 111111111 },
+                        { plate: 'ovl-2222', renavam: 222222222 }
+                    ],
+                    date: new Date()
+                };
 
-                $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+                $localStorage[ vehiclesStorageKey ] = userVehicles;
             });
 
             it( 'should remove vehicle if only plate matches any stored vehicle', () => {
@@ -136,25 +139,29 @@ describe( 'DetranStorage', () => {
 
 
         describe( 'addVehicle(vehicle)', () => {
-            let userVehicles: Vehicle[];
+            let userVehicles: VehicleData;
 
             beforeEach(() => {
-                userVehicles = [
-                    { plate: 'ovl-1111', renavam: 111111111 },
-                    { plate: 'ovl-2222', renavam: 222222222 }
-                ];
+                userVehicles = {
+                    id: 9232,
+                    vehicles: [
+                        { plate: 'ovl-1111', renavam: 111111111 },
+                        { plate: 'ovl-2222', renavam: 222222222 }
+                    ],
+                    date: new Date()
+                };
 
-                $localStorage[ detranStorage.vehiclesStorageKey ] = userVehicles;
+                $localStorage[ vehiclesStorageKey ] = userVehicles;
             });
 
             it( 'should add vehicle if it is not already stored', () => {
                 let newVehicle = { plate: 'ovl-0000', renavam: 0 };
                 let vehicles = detranStorage.addVehicle( newVehicle );
-                expect( vehicles ).to.contain( newVehicle );
+                expect( vehicles.vehicles ).to.contain( newVehicle );
             });
 
             it( 'should not add vehicle if it is already stored', () => {
-                userVehicles.forEach( vehicle => {
+                userVehicles.vehicles.forEach( vehicle => {
                     let vehicles = detranStorage.addVehicle( vehicle );
                     expect( vehicles ).to.be.deep.equal( userVehicles );
                 });
@@ -162,7 +169,7 @@ describe( 'DetranStorage', () => {
 
             it( 'should always store plate in uppercase', () => {
                 let newVehicle = { plate: 'ovl-0000', renavam: 0 };
-                let vehicles = detranStorage.addVehicle( newVehicle );
+                let vehicles = detranStorage.addVehicle( newVehicle ).vehicles;
 
                 expect( vehicles[ vehicles.length - 1 ].plate ).to.be.equal( newVehicle.plate.toUpperCase() );
             });

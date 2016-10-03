@@ -1,7 +1,7 @@
 import { VehiclesController } from './vehicles.component.controller';
 import VehiclesComponent from './vehicles.component';
 import VehiclesTemplate from './vehicles.component.html';
-import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo } from '../shared/index';
+import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo, VehicleData } from '../shared/index';
 import addVehicleTemplate from './add-vehicle/add-vehicle.html';
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
 import { environment, $stateMock, $mdDialogMock, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
@@ -30,12 +30,15 @@ describe( 'Detran/vehicles', () => {
         let storageAddVehicle: Sinon.SinonStub;
 
         // api
-        let getVehicleInfoApiPromise: Sinon.SinonPromise;
         let getVehicleInfoApi: Sinon.SinonStub;
+        let getVehicleInfoApiPromise: Sinon.SinonPromise;
+        let syncVehicleDataApi: Sinon.SinonStub;
+        let syncVehicleDataApiPromise: Sinon.SinonPromise;
 
         // models
         let vehicle: Vehicle;
         let vehicleInfo: VehicleInfo;
+        let vehicleData = VehicleData;
         let vehicleStorage: VehicleStorage;
 
         beforeEach(() => {
@@ -46,16 +49,22 @@ describe( 'Detran/vehicles', () => {
                 addVehicle() { }
             };
 
-            let detranApiService = <DetranApiService><any>{ getVehicleInfo() { } };
+            let detranApiService = <DetranApiService><any>{
+                getVehicleInfo() { },
+                syncVehicleData() { }
+            };
+
             controller = new VehiclesController( environment.$scope, $mdDialogMock, $stateMock, detranApiService, toastServiceMock, dialogServiceMock, vehicleStorage );
 
             // setup stubs
-            storageExistsVehicle = sandbox.stub( vehicleStorage, 'existsVehicle' );
-            storageAddVehicle = sandbox.stub( vehicleStorage, 'addVehicle' );
-            storageRemoveVehicle = sandbox.stub( vehicleStorage, 'removeVehicle' ).returns( [ vehicle, vehicle ] );
-
             vehicle = { plate: '123456', renavam: 333333 };
             vehicleInfo = { color: 'red', model: 'Idea' };
+            vehicleData = { id: 9232, vehicles: [ vehicle, vehicle ], date: new Date() };
+            vehicleStorage.vehiclesData = vehicleData;
+
+            storageExistsVehicle = sandbox.stub( vehicleStorage, 'existsVehicle' );
+            storageAddVehicle = sandbox.stub( vehicleStorage, 'addVehicle' );
+            storageRemoveVehicle = sandbox.stub( vehicleStorage, 'removeVehicle' ).returns( vehicleData );
 
             dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
             dialogConfirmPromise = dialogConfirm.returnsPromise();
@@ -66,6 +75,9 @@ describe( 'Detran/vehicles', () => {
 
             getVehicleInfoApi = sandbox.stub( detranApiService, 'getVehicleInfo' );
             getVehicleInfoApiPromise = getVehicleInfoApi.returnsPromise();
+
+            syncVehicleDataApi = sandbox.stub( detranApiService, 'syncVehicleData' );
+            syncVehicleDataApiPromise = syncVehicleDataApi.returnsPromise();
         });
 
         describe( 'on instantiation', () => {
@@ -83,9 +95,17 @@ describe( 'Detran/vehicles', () => {
             });
         });
 
+        describe( 'on activate()', () => {
+            it( 'should call syncVehicleData', () => {
+                controller.activate();
+
+                expect( syncVehicleDataApi.calledOnce ).to.be.true;
+            });
+        });
+
         describe( 'vehicles', () => {
             it( 'should return vehicles from local storage', () => {
-                expect( controller.vehicles ).to.be.deep.equal( vehicleStorage.vehicles );
+                expect( controller.vehicles ).to.be.deep.equal( vehicleStorage.vehiclesData.vehicles );
             });
         });
 
@@ -126,6 +146,12 @@ describe( 'Detran/vehicles', () => {
                 expect( storageRemoveVehicle.calledWithExactly( vehicle ) ).to.be.true;
             });
 
+            it( 'should sync with backend after remove', () => {
+                controller.removeVehicle( vehicle );
+
+                expect( syncVehicleDataApi.calledWithExactly( true ) ).to.be.true;
+            });
+
             it( 'should not remove vehicle from local storage if not in edit mode', () => {
                 controller.editing = false;
 
@@ -135,7 +161,10 @@ describe( 'Detran/vehicles', () => {
             });
 
             it( 'should exit edit mode if no vehicles remains stored', () => {
-                storageRemoveVehicle.returns( [] );
+                let vehicleDataEmpty = vehicleData;
+                vehicleDataEmpty.vehicles = [];
+
+                storageRemoveVehicle.returns( vehicleDataEmpty );
 
                 controller.removeVehicle( vehicle );
 
@@ -143,7 +172,7 @@ describe( 'Detran/vehicles', () => {
             });
 
             it( 'should not exit edit mode if some vehicles remains stored', () => {
-                storageRemoveVehicle.returns( [ vehicle ] );
+                storageRemoveVehicle.returns( vehicleData );
 
                 controller.removeVehicle( vehicle );
 
@@ -199,6 +228,15 @@ describe( 'Detran/vehicles', () => {
                 expect( toastError.calledWithExactly( { title: 'Placa ou RENAVAM já cadastrado(s)' }) ).to.be.true;
                 expect( getVehicleInfoApi.notCalled ).to.be.true;
 
+            });
+
+            it( 'should sync with backend after add', () => {
+                storageExistsVehicle.returns( false );
+                getVehicleInfoApiPromise.resolves( vehicleInfo );
+
+                controller.addVehicle( vehicle );
+
+                expect( syncVehicleDataApi.calledWithExactly( true ) ).to.be.true;
             });
 
             it( 'should fill vehicle info and add it to local storage if not stored', () => {

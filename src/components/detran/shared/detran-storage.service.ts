@@ -1,4 +1,4 @@
-import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage } from './models/index';
+import { Vehicle, DriverLicense, DriverLicenseStorage, VehicleStorage, VehicleData } from './models/index';
 import { AuthenticationService } from '../../shared/authentication/index';
 
 /**
@@ -13,6 +13,8 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
     public static $inject: string[] = [ '$localStorage', 'authenticationService' ];
 
+    private vehiclesStorageKey: string = 'detranVehicles';
+
     /**
      * Creates an instance of DetranStorage.
      * 
@@ -25,28 +27,19 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
                  private authenticationService: AuthenticationService ) {
     }
 
+
     /**
      * 
+     * 
+     * @type {VehicleData}
+     * @memberOf DetranStorage
      */
-    public get vehiclesStorageKey() {
-        return `user-${this.authenticationService.user.cpf}-vehicles`;  // sub é o id do usuário logado
+    public get vehiclesData(): VehicleData {
+        this.$localStorage[ this.vehiclesStorageKey ] = this.$localStorage[ this.vehiclesStorageKey ] || { vehicles: [] };
+        return this.$localStorage[ this.vehiclesStorageKey ] as VehicleData;
     }
 
-
-    /**
-     * 
-     * 
-     * @returns {Vehicle[]}
-     */
-    public get vehicles(): Vehicle[] {
-        this.$localStorage[ this.vehiclesStorageKey ] = this.$localStorage[ this.vehiclesStorageKey ] || [];
-        return this.$localStorage[ this.vehiclesStorageKey ] as Vehicle[];
-    }
-
-    /**
-     * 
-     */
-    public set vehicles( vehicles: Vehicle[] ) {
+    public set vehiclesData( vehicles: VehicleData ) {
         this.$localStorage[ this.vehiclesStorageKey ] = vehicles;
     }
 
@@ -57,11 +50,11 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @returns {boolean}
      */
     public existsVehicle( vehicle: Vehicle ): boolean {
-        const existsPlaca = this.vehicles
+        const existsPlaca = this.vehiclesData.vehicles
             .map( v => v.plate.toUpperCase() )
             .indexOf( vehicle.plate.toUpperCase() );
 
-        const existsRENAVAM = this.vehicles
+        const existsRENAVAM = this.vehiclesData.vehicles
             .map( v => v.renavam )
             .indexOf( vehicle.renavam );
 
@@ -72,39 +65,42 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * 
      * 
      * @param {Vehicle} vehicle
+     * @returns {VehicleData}
+     * 
+     * @memberOf DetranStorage
      */
-    public removeVehicle( vehicle: Vehicle ): Vehicle[] {
-        this.vehicles = this.vehicles.filter(( v1: Vehicle ) => {
+    public removeVehicle( vehicle: Vehicle ): VehicleData {
+        this.vehiclesData.vehicles = this.vehiclesData.vehicles.filter(( v1: Vehicle ) => {
             return v1.plate !== vehicle.plate && v1.renavam !== vehicle.renavam;
         });
 
-        return this.vehicles;
+        return this.vehiclesData;
     }
 
     /**
      * 
      * 
      * @param {Vehicle} vehicle
-     * @returns {Vehicle[]}
+     * @returns {VehicleData}
+     * 
+     * @memberOf DetranStorage
      */
-    public addVehicle( vehicle: Vehicle ): Vehicle[] {
+    public addVehicle( vehicle: Vehicle ): VehicleData {
         if ( !this.existsVehicle( vehicle ) ) {
             vehicle.plate = vehicle.plate.toUpperCase();
             vehicle.renavam = vehicle.renavam;
 
-            this.vehicles.push( vehicle );
+            this.vehiclesData.vehicles.push( vehicle );
         }
-        return this.vehicles;
+        return this.vehiclesData;
     }
-
-
 
     /******** DriverLicense *******************/
     /**
      * 
      * 
-     * @readonly
      * @type {DriverLicense}
+     * @memberOf DetranStorage
      */
     public get driverLicense(): DriverLicense {
         return {
@@ -115,18 +111,21 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
 
     /**
      * 
+     * 
+     * 
+     * @memberOf DetranStorage
      */
     public set driverLicense( driverLicense: DriverLicense ) {
         this.authenticationService.user.cnhNumero = driverLicense.registerNumber;
         this.authenticationService.user.cnhCedula = driverLicense.ballot;
     }
 
-
     /**
      * 
      * 
      * @readonly
      * @type {boolean}
+     * @memberOf DetranStorage
      */
     public get hasDriverLicense(): boolean {
         return !!this.driverLicense.registerNumber && !!this.driverLicense.ballot;

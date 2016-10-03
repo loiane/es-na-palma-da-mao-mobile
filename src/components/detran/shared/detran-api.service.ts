@@ -1,21 +1,26 @@
 import { IHttpService, IPromise } from 'angular';
 
 import { ISettings } from '../../shared/settings/index';
-import { DriverData, Ticket, Vehicle, DriverLicense, VehicleInfo } from './models/index';
+import { DetranStorage } from './index';
+import { DriverData, Ticket, Vehicle, DriverLicense, VehicleInfo, VehicleData } from './models/index';
 
 
 export class DetranApiService {
 
-    public static $inject: string[] = [ '$http', 'settings' ];
+    public static $inject: string[] = [ '$http', 'settings', 'detranStorage' ];
 
     /**
      * Creates an instance of DetranApiService.
      * 
      * @param {IHttpService} $http
      * @param {ISettings} settings
+     * @param {DetranStorage} detranStorage
+     * 
+     * @memberOf DetranApiService
      */
     constructor( private $http: IHttpService,
-        private settings: ISettings ) {
+        private settings: ISettings,
+        private detranStorage: DetranStorage ) {
     }
 
 
@@ -60,6 +65,32 @@ export class DetranApiService {
         return this.$http
             .get( `${this.settings.api.detran}/vehicle`, { params: vehicle } )
             .then( ( response: { data: VehicleInfo } ) => response.data );
+    }
+
+    /**
+     * 
+     * 
+     * @param {boolean} [hasNewData=false]
+     * @returns
+     * 
+     * @memberOf DetranApiService
+     */
+    public syncVehicleData( hasNewData: boolean = false ) {
+        if (hasNewData) {
+            this.detranStorage.vehiclesData.date = new Date();
+        }
+        return this.$http
+            .post( `${this.settings.api.espm}/data/vehicles`, this.detranStorage.vehiclesData)
+            .then(( response: { data: VehicleData }) => {
+                this.detranStorage.vehiclesData = response.data;
+                return response.data;
+            })
+            .catch(( error ) => {
+                if ( this.detranStorage.existsVehicle ) {
+                    return this.detranStorage.vehiclesData;
+                }
+                throw error;
+            });
     }
 
     /**

@@ -8,3 +8,4 @@ export * from './vehicleInfo';
 export * from './driverLicense';
 export * from './vehicle-storage';
 export * from './driver-license-storage';
+export * from './vehicle-data';

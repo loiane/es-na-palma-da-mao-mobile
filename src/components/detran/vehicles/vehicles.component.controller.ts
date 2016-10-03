@@ -43,8 +43,9 @@ export class VehiclesController {
     /**
      * 
      */
-    public activate(): void { }
-
+    public activate(): void {
+        this.detranApiService.syncVehicleData();
+    }
 
     /**
      * 
@@ -54,7 +55,7 @@ export class VehiclesController {
      * @memberOf VehiclesController
      */
     public get vehicles(): Vehicle[] {
-        return this.vehicleStorage.vehicles;
+        return this.vehicleStorage.vehiclesData.vehicles;
     }
 
     /**
@@ -80,9 +81,10 @@ export class VehiclesController {
         }
 
         let vehicles = this.vehicleStorage.removeVehicle( vehicle );
+        this.detranApiService.syncVehicleData( true );
 
         // sai do modo de edição se não resta nenhum veículo
-        if ( !vehicles.length ) {
+        if ( !vehicles.vehicles.length ) {
             this.editing = false;
         }
     }
@@ -119,6 +121,7 @@ export class VehiclesController {
             .then(( info: VehicleInfo ) => {
                 vehicle.info = info;
                 this.vehicleStorage.addVehicle( vehicle );
+                this.detranApiService.syncVehicleData( true );
                 return vehicle;
             })
             .catch(( error ) => {
