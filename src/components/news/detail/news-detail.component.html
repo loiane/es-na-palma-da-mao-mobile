@@ -15,7 +15,7 @@
 	</ion-nav-buttons>
 	<spinner ng-if="uiState.loading"></spinner>
 	<ion-content id="news-detail-component">
-		<img ng-src="{{::vm.news.image}}" class="md-card-image img-noticia-detalhe" alt="">
+		<img ng-src="{{::vm.news.image}}" class="md-card-image img-noticia-detalhe" alt="" onerror="this.style.display='none'">
 		<div layout-padding layout="column" ng-if="::vm.news">
 			<div>
 				<span md-colors="::{color: 'accent'}">
