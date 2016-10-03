@@ -46,10 +46,6 @@ const taskMaker = gulpHelpers.taskMaker( gulp );
 const environment = gulpHelpers.environment();
 const Promise = bluebird;
 
-//Android specific
-const cordovaCreate = require( 'gulp-cordova-create' );
-const android = require( 'gulp-cordova-build-android' );
-
 /**
  * Realiza o parse dos argumentos da linha de comando
  */
@@ -435,9 +431,9 @@ gulp.task( 'ensures-develop', false, ( cb ) => {
      *
      * @returns {void}
      */
-        const onError = err => {
-            gutil.log( gutil.colors.red( err ) );
-        };
+    const onError = err => {
+        gutil.log( gutil.colors.red( err ) );
+    };
 
     /**
      * Dispara um erro se a branch atual não se chamar config.developBranch
