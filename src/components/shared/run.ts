@@ -156,10 +156,8 @@ function run( $rootScope: any,
     });
 
     $ionicPlatform.on( 'resume', () => {
-        if ( authenticationService.isAuthenticated ) {
-            authenticationService.refreshTokenIfNeeded()
-                .catch(() => authenticationService.signOut(() => $state.go( 'home' ) ) );
-        }
+        authenticationService.refreshTokenIfNeeded()
+            .catch(() => authenticationService.signOut(() => $state.go( 'home' ) ) );
     });
 }
 
