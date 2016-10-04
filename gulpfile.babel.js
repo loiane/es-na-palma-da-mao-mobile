@@ -34,7 +34,7 @@ import spawn from 'win-spawn';
 import semver from 'semver';
 import Bundler from '@prodest/angular-lazy-bundler';
 import ts from 'gulp-typescript';
-// import sourcemaps from 'gulp-sourcemaps';
+import sourcemaps from 'gulp-sourcemaps';
 import karma from 'karma';
 import cheerio from 'gulp-cheerio';
 
@@ -680,9 +680,9 @@ gulp.task( 'transpile-app-ts', function() {
     } );
 
     return gulp.src( [ 'node_modules/@types/**/*.d.ts', config.paths.ts.app ] )
-               // .pipe( sourcemaps.init() )
+               .pipe( sourcemaps.init() )
                .pipe( tsProject( ts.reporter.defaultReporter() ) )
-               // .pipe( sourcemaps.write() )
+               .pipe( sourcemaps.write() )
                .pipe( gulp.dest( config.paths.output.app ) );
 } );
 
