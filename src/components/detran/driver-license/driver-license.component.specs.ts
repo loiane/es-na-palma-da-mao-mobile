@@ -107,7 +107,10 @@ describe( 'Detran/driver-license', () => {
                     template: registerLicenseTemplate,
                     bindToController: true,
                     controllerAs: 'vm',
-                    locals: driverLicenseStorage.driverLicense
+                    locals: {
+                        registerNumber: Number( driverLicenseStorage.driverLicense.registerNumber ),
+                        ballot: Number( driverLicenseStorage.driverLicense.ballot )
+                    }
                 }) ).to.be.true;
             });
 
