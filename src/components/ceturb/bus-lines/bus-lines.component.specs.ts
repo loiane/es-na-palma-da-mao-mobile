@@ -94,16 +94,8 @@ describe( 'Ceturb/bus-lines', () => {
                 sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
             });
 
-            it( 'should call mapLines on getLines', () => {
-                let mapLinesStub = sandbox.stub( controller, 'mapLines' );
-
+            it( 'should fill lines on getLines', () => {
                 controller.getLines();
-
-                expect( mapLinesStub.calledWithExactly( lines ) ).to.be.true;
-            });
-
-            it( 'should fill lines after mapLines', () => {
-                controller.mapLines( lines );
 
                 expect( controller.lines ).to.deep.equal( lines );
             });

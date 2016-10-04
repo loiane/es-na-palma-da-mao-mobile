@@ -48,10 +48,10 @@ export class BusLinesController {
      * @memberOf BusLinesController
      */
     public getLines(): void {
-        this.ceturbApiService.getLines().then( this.mapLines );
+        this.ceturbApiService.getLines().then(( lines ) => this.mapLines( lines ) );
     }
 
-    public mapLines( lines: BusLine[] ): IPromise<BusLine[]> {
+    private mapLines( lines: BusLine[] ): IPromise<BusLine[]> {
         return this.ceturbApiService.syncFavoriteLinesData()
             .then(() => {
                 this.filteredLines = this.lines = lines.map( line => {
