@@ -25,7 +25,7 @@ export class DetranApiService {
      */
     public getDriverData(): IPromise<DriverData> {
         return this.$http
-            .get( `${this.settings.api.detran}/driver` )
+            .get( `${this.settings.api.detran}/driver`, { headers: { 'notify-cache-update': 'detran-driver' } } )
             .then( ( response: { data: DriverData } ) => response.data );
     }
 
@@ -35,7 +35,7 @@ export class DetranApiService {
      */
     public getDriverTickets(): IPromise<Ticket[]> {
         return this.$http
-            .get( `${this.settings.api.detran}/driver/tickets` )
+            .get( `${this.settings.api.detran}/driver/tickets`,  { headers: { 'notify-cache-update': 'detran-driver-tickets' } } )
             .then( ( response: { data: Ticket[] } ) => response.data );
     }
 

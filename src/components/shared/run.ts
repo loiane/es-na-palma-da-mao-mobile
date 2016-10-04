@@ -8,19 +8,26 @@ import { IWindowService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
 import { Route, statesJson } from './routes/index';
+import { CacheListenerService } from './offline/index';
 
 /**
- * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
+ * 
  * 
  * @param {*} $rootScope
  * @param {IWindowService} $window
  * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
  * @param {ionic.navigation.IonicHistoryService} $ionicHistory
+ * @param {*} $ionicNativeTransitions
  * @param {angular.material.IDialogService} $mdDialog
  * @param {any} $mdBottomSheet
+ * @param {NetworkService} networkService
+ * @param {AuthenticationService} authenticationService
  * @param {HttpSnifferService} httpSnifferService
+ * @param {HttpErrorSnifferService} httpErrorSnifferService
  * @param {ISettings} settings
+ * @param {CacheListenerService} cacheListenerService
+ * @param {CordovaPermissions} cordovaPermissions
  */
 function run( $rootScope: any,
     $window: IWindowService,
@@ -35,6 +42,7 @@ function run( $rootScope: any,
     httpSnifferService: HttpSnifferService,
     httpErrorSnifferService: HttpErrorSnifferService,
     settings: ISettings,
+    cacheListenerService: CacheListenerService,
     cordovaPermissions: CordovaPermissions ) {
 
     // configura locale do moment
@@ -131,6 +139,7 @@ function run( $rootScope: any,
         initialRootScope();
 
         $rootScope.$on( '$ionicView.beforeEnter', () => {
+            // cacheListenerService.removeAllListeners();
             hideActionControl();
             httpErrorSnifferService.error = undefined; // limpa errors quando muda de tela
         });
@@ -177,6 +186,7 @@ run.$inject = [
     'httpSnifferService',
     'httpErrorSnifferService',
     'settings',
+    'cacheListenerService',
     'cordovaPermissions'
 ];
 

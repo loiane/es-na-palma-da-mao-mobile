@@ -24,6 +24,7 @@ import pushModule from './push/index';
 import fabricModule from './fabric/index';
 import permissionsModule from './permissions/index';
 import network from './network/index';
+import offline from './offline/index';
 
 let dependencies = [
     toast.name,
@@ -35,11 +36,13 @@ let dependencies = [
     pushModule.name,
     fabricModule.name,
     permissionsModule.name,
-    network.name
+    network.name,
+    offline.name
 ];
 
 export * from './toast/index';
 export * from './dialog/index';
+export * from './offline/index';
 
 export default angular.module( 'shared', dependencies )
                       .constant( 'settings', Settings.getInstance() )

@@ -361,6 +361,14 @@ taskMaker.defineTask( 'copy', {
     debug: config.debugOptions
 } );
 
+taskMaker.defineTask( 'copy', {
+    taskName: 'templates',
+    src: config.paths.templates,
+    dest: config.paths.output.app,
+    changed: { extension: '.tmpl' },
+    debug: config.debugOptions
+} );
+
 taskMaker.defineTask( 'htmlMinify', {
     taskName: 'htmlmin',
     src: config.paths.html,
@@ -714,6 +722,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
         'css',
         'json',
         'assets',
+        'templates',
         'system.yuml',
         'packageJson',
         'systemConfig',
@@ -867,7 +876,9 @@ gulp.task( 'make-service-worker', cb => {
         staticFileGlobs: [
             `${config.paths.output.root}/components/**/!(models|tests)/!(*specs).{html,css,png,jpg,gif,js,json}`
         ],
-        // importScripts: [ `strategy.js` ],
+        templateFilePath: `${config.paths.output.root}/components/shared/offline/service-worker.tmpl`,
+        importScripts: [ 'components/shared/offline/cache-strategies/fastest-notify.js' ],
+
         // Various runtime caching strategies: sets up sw-toolbox handlers.
         runtimeCaching: [
              // calendar
@@ -892,10 +903,21 @@ gulp.task( 'make-service-worker', cb => {
                 handler: 'fastest',
                 options: { cache: { name: 'ceturb-schedule-or-info', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 } }
             },
+            // detran
+            {
+                urlPattern: /api\.es\.gov\.br\/detran\/driver$/,
+                handler: 'fastestNotify',
+                options: { cache: { name: 'detran-driver', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
+            },
+            {
+                urlPattern: /api\.es\.gov\.br\/detran\/driver\/tickets$/,
+                handler: 'fastestNotify',
+                options: { cache: { name: 'detran-driver-tickets', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
+            },
             // news
             {
                 urlPattern: /api\.es\.gov\.br\/news\/origins/,
-                handler: 'fastest',
+                handler: 'fastestNotify',
                 options: { cache: { name: 'news-origins', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
             },
             {

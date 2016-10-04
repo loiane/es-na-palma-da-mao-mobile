@@ -31,7 +31,7 @@ let paths = {
         'src/components/**/*.html', '!src/index.html'
     ],
     templates: [
-        'src/components/**/*.tpl.html', '!src/index.html'
+        'src/components/**/*.tmpl'
     ],
     css: [ 'src/components/**/*.css' ],
     assets: [

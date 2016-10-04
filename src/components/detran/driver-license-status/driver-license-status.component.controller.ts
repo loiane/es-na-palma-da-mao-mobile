@@ -3,13 +3,13 @@ import { IScope, IPromise, IQService } from 'angular';
 import { DriverData, Ticket, DriverStatus, DetranApiService, TicketColorService, DriverLicenseStorage, DriverLicense } from '../shared/index';
 import registerLicenseTemplate from '../shared/add-license/add-license.html';
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
-
+import { CacheListenerService } from '../../shared/index';
 /**
  * @class DriverLicenseStatusController
  */
 export class DriverLicenseStatusController {
 
-    public static $inject: string[] = [ '$scope', '$q', 'ticketColorService', 'detranApiService', 'detranStorage', '$mdDialog' ];
+    public static $inject: string[] = [ '$scope', '$q', 'cacheListenerService', 'ticketColorService', 'detranApiService', 'detranStorage', '$mdDialog' ];
 
     /**
      * Informações sobre a carteira de motorista do condutor
@@ -24,13 +24,17 @@ export class DriverLicenseStatusController {
      * 
      * @param {IScope} $scope
      * @param {IQService} $q
+     * @param {CacheListenerService} cacheListenerService
      * @param {TicketColorService} ticketColorService
      * @param {DetranApiService} detranApiService
      * @param {DriverLicenseStorage} driverLicenseStorage
      * @param {angular.material.IDialogService} $mdDialog
+     * 
+     * @memberOf DriverLicenseStatusController
      */
     constructor( private $scope: IScope,
         private $q: IQService,
+        private cacheListenerService: CacheListenerService,
         private ticketColorService: TicketColorService,
         private detranApiService: DetranApiService,
         private driverLicenseStorage: DriverLicenseStorage,
@@ -43,8 +47,19 @@ export class DriverLicenseStatusController {
      * Preenche a página com dados do condutor, bem como de suas eventuais multas.
      */
     public activate(): IPromise<any>[] {
+        this.cacheListenerService.listenToCache( 'detran-driver',
+            cacheData => !!this.driverData && !angular.equals( this.driverData, cacheData ),
+            cacheData => this.driverData = cacheData,
+            { message: 'Situação da CNH desatualizada', action: 'Atualizar' });
+
+        this.cacheListenerService.listenToCache( 'detran-driver-tickets',
+            cacheData => !!this.tickets && !angular.equals( this.tickets, cacheData ),
+            cacheData => this.tickets = cacheData,
+            { message: 'Situação da CNH desatualizada', action: 'Atualizar' });
+
         return [ this.getDriverData(), this.getDriverTickets() ];
     }
+
 
     /**
      * Se o condutor autenticado no sistema está com a carteira de motorista 'ok'.

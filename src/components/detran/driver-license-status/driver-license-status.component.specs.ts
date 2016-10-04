@@ -6,6 +6,7 @@ import { DriverData, Ticket, DriverStatus, DriverLicense, DetranApiService, Tick
 import registerLicenseTemplate from '../shared/add-license/add-license.html';
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
 import { environment, $qMock, $mdDialogMock } from '../../shared/tests/index';
+import { CacheListenerService } from '../../shared/index';
 
 let expect = chai.expect;
 
@@ -100,6 +101,7 @@ describe( 'Detran/driver-license-status', () => {
         let detranApiService: DetranApiService;
         let ticketColorService: TicketColorService;
         let driverLicenseStorage: DriverLicenseStorage;
+        let cacheListenerService: CacheListenerService;
 
         beforeEach(() => {
             environment.refresh();
@@ -109,10 +111,13 @@ describe( 'Detran/driver-license-status', () => {
                 getDriverTickets() { },
                 saveLicense() { }
             };
-
+            cacheListenerService = <CacheListenerService><any>{
+                listenToCache() {},
+                removeAllListeners() {}
+            };
             ticketColorService = new TicketColorService();
 
-            controller = new DriverLicenseStatusController( environment.$scope, $qMock, ticketColorService, detranApiService, driverLicenseStorage, $mdDialogMock );
+            controller = new DriverLicenseStatusController( environment.$scope, $qMock, cacheListenerService, ticketColorService, detranApiService, driverLicenseStorage, $mdDialogMock );
         });
 
         describe( 'on instantiation', () => {

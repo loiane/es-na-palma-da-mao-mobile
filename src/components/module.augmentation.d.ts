@@ -19,6 +19,8 @@ declare global {
 
     interface Navigator {
         splashscreen: { hide: Function };
+        serviceWorker: { onmessage: Function, addEventListener: Function, removeEventListener: Function };
+
     }
 
 

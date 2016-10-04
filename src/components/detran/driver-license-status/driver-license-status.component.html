@@ -19,7 +19,7 @@
 				</md-card-avatar>
 				<md-card-header-text>
 					<span class="md-title">CNH Ok - Dirija com segurança</span>
-					<span class="md-subhead">CNH válida até {{::vm.expirationDate | calendar}}</span>
+					<span class="md-subhead">CNH válida até {{vm.expirationDate | calendar}}</span>
 				</md-card-header-text>
 			</md-card-header>
 			<md-card-header ng-if="vm.licenseRenew && !vm.licenseBlocked">
@@ -28,7 +28,7 @@
 				</md-card-avatar>
 				<md-card-header-text>
 					<span class="md-title">Está na hora de renovar</span>
-					<span class="md-subhead">Expira {{::vm.expirationDate | fromNow: true}}</span>
+					<span class="md-subhead">Expira {{ vm.expirationDate | fromNow: true}}</span>
 				</md-card-header-text>
 			</md-card-header>
 			<md-card-header ng-if="vm.licenseExpired && !vm.licenseBlocked">
@@ -37,7 +37,7 @@
 				</md-card-avatar>
 				<md-card-header-text>
 					<span class="md-title">Renove sua CNH</span>
-					<span class="md-subhead">Expirou há {{::vm.expirationDate | fromNow: true}}</span>
+					<span class="md-subhead">Expirou há {{vm.expirationDate | fromNow: true}}</span>
 				</md-card-header-text>
 			</md-card-header>
 			<md-card-header ng-if="vm.licenseBlocked">
@@ -46,26 +46,26 @@
 				</md-card-avatar>
 				<md-card-header-text>
 					<span class="md-title">CNH Bloqueada</span>
-					<span class="md-subhead">{{::vm.driverData.blockMotive}}</span>
+					<span class="md-subhead">{{vm.driverData.blockMotive}}</span>
 				</md-card-header-text>
 			</md-card-header>
 		</md-card>
 		<md-list ng-if="vm.tickets && vm.hasTickets" >
 			<md-subheader class="md-no-sticky">
-				{{::vm.tickets.length}} multas encontradas
+				{{vm.tickets.length}} multas encontradas
 			</md-subheader>
 			<md-list-item class="md-3-line ticket" ng-repeat="ticket in vm.tickets track by $index">
 				<div class="md-list-item-text md-padding" layout="row">
 					<div flex="20">
-						<div class="avatar-points bg-{{::vm.getTicketLevelColor( ticket.classification ) }}">{{::ticket.points}}</div>
+						<div class="avatar-points bg-{{::vm.getTicketLevelColor( ticket.classification ) }}">{{ticket.points}}</div>
 					</div>
 					<div flex="80">
-						<h4 flex>{{::ticket.classification | capitalize}} - {{::ticket.date | calendar}}</h4>
+						<h4 flex>{{ticket.classification | capitalize}} - {{ticket.date | calendar}}</h4>
 						<p>
-							{{::ticket.place | capitalize}}, {{::ticket.district | capitalize}}
+							{{ticket.place | capitalize}}, {{ticket.district | capitalize}}
 						</p>
-						<small style="margin-bottom:10px;"><span class="accent"> Placa: {{::ticket.plate}}</span></small>
-						<small>{{::ticket.description}}</small>
+						<small style="margin-bottom:10px;"><span class="accent"> Placa: {{ticket.plate}}</span></small>
+						<small>{{ticket.description}}</small>
 					</div>
 				</div>
 				<md-divider></md-divider>
