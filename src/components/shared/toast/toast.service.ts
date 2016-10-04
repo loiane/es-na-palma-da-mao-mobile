@@ -1,3 +1,4 @@
+import { IPromise } from 'angular';
 import template from './toast.html';
 import { ToastOptions } from './models/index';
 
@@ -24,7 +25,7 @@ export class ToastService {
      *
      * @returns {void}
      */
-    constructor( private $mdToast ) {
+    constructor( private $mdToast: angular.material.IToastService ) {
     }
 
     /**
@@ -34,7 +35,7 @@ export class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public show( displayOption: ToastOptions ) {
+    public show( displayOption: ToastOptions ): IPromise<any> {
         return this.$mdToast.show( {
             controller: 'toastController',
             controllerAs: 'vm',
@@ -53,15 +54,13 @@ export class ToastService {
      * @param {any} displayOption
      * @returns
      */
-    public showActionToast( displayOption: ToastOptions ) {
-        if ( !displayOption ) {
-            return;
-        }
-
+    public showActionToast( config: { message: string, action: string, hideDelay?: number } ): IPromise<any> {
         let toast = this.$mdToast.simple()
-                        .textContent( displayOption.title )
-                        .action( 'X' )
-                        .highlightAction( false )
+                        .textContent( config.message )
+                        .action( config.action )
+                        .hideDelay( config.hideDelay || 10000 )
+                        .highlightAction( true )
+                        .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
                         .position( 'bottom right' );
 
         return this.$mdToast.show( toast );
@@ -83,7 +82,7 @@ export class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public success( displayOption: ToastOptions ) {
+    public success( displayOption: ToastOptions ): IPromise<any> {
         return this.show( angular.merge( displayOption, { type: 'success' } ) );
     }
 
@@ -94,7 +93,7 @@ export class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public error( displayOption: ToastOptions ) {
+    public error( displayOption: ToastOptions ): IPromise<any> {
         return this.show( angular.merge( displayOption, { type: 'error' } ) );
     }
 
@@ -104,7 +103,7 @@ export class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public info( displayOption: ToastOptions) {
+    public info( displayOption: ToastOptions): IPromise<any> {
         return this.show( angular.merge( displayOption, { type: 'info' } ) );
     }
 
@@ -114,7 +113,7 @@ export class ToastService {
      *
      * @returns {Promise} - retorna uma promise
      */
-    public warn( displayOption: ToastOptions ) {
+    public warn( displayOption: ToastOptions ): IPromise<any> {
         return this.show( angular.merge( displayOption, { type: 'warn' } ) );
     }
 }
