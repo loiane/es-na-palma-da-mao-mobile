@@ -865,51 +865,52 @@ gulp.task( 'make-service-worker', cb => {
         cacheId: packageJson.name,
         logger: gutil.log,
         staticFileGlobs: [
-            `${config.paths.output.root}/components/**/*.{html,css,png,jpg,gif,js,json}`
+            `${config.paths.output.root}/components/**/!(models|tests)/!(*specs).{html,css,png,jpg,gif,js,json}`
         ],
+        // importScripts: [ `strategy.js` ],
         // Various runtime caching strategies: sets up sw-toolbox handlers.
         runtimeCaching: [
              // calendar
             {
-                urlPattern: /api\.es\.gov.br\/calendars$/,
+                urlPattern: /api\.es\.gov\.br\/calendars$/,
                 handler: 'fastest',
-                options: { cache: { name: 'calendars', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
+                options: { cache: { name: 'calendars', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 } }
             },
             {
-                urlPattern: /api\.es\.gov.br\/calendars\/events\?.+/,
+                urlPattern: /api\.es\.gov\.br\/calendars\/events\?.+/,
                 handler: 'fastest',
-                options: { cache: { name: 'calendars-events', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 }, debug: true }
+                options: { cache: { name: 'calendars-events', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 } }
             },
             // ceturb
             {
-                urlPattern: /api\.es\.gov.br\/ceturb\/lines/,
+                urlPattern: /api\.es\.gov\.br\/ceturb\/lines/,
                 handler: 'fastest',
-                options: { cache: { name: 'ceturb-lines', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
+                options: { cache: { name: 'ceturb-lines', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 } }
             },
             {
-                urlPattern: /api\.es\.gov.br\/ceturb\/(schedule|route)\/\d+/,
+                urlPattern: /api\.es\.gov\.br\/ceturb\/(schedule|route)\/\d+/,
                 handler: 'fastest',
-                options: { cache: { name: 'ceturb-schedule-or-info', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 }, debug: true }
+                options: { cache: { name: 'ceturb-schedule-or-info', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 } }
             },
             // news
             {
-                urlPattern: /api\.es\.gov.br\/news\/origins/,
+                urlPattern: /api\.es\.gov\.br\/news\/origins/,
                 handler: 'fastest',
                 options: { cache: { name: 'news-origins', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 7 }, debug: true }
             },
             {
-                urlPattern: /api\.es\.gov.br\/news\/[A-Za-z]+_\d+/,
+                urlPattern: /api\.es\.gov\.br\/news\/[A-Za-z]+_\d+/,
                 handler: 'fastest',
                 options: { cache: { name: 'news-detail', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 }, debug: true }
             },
             {
                 urlPattern: /^https?:\/\/.*\.(png|jpg|jpeg|gif|JPG|PNG|JPEG|GIF)/,
                 handler: 'cacheFirst',
-                options: { cache: { name: 'img', maxEntries: 100 }, debug: true }
+                options: { cache: { name: 'img', maxEntries: 100 } }
             },
             // about
             {
-                urlPattern: /api\.es\.gov.br\/espm\/about\/team/,
+                urlPattern: /api\.es\.gov\.br\/espm\/about\/team/,
                 handler: 'fastest',
                 options: { debug: true }
             },
@@ -929,7 +930,7 @@ gulp.task( 'make-service-worker', cb => {
             {
                 urlPattern: /.+/,
                 handler: 'networkFirst',
-                options: { cache: { name: 'default' }, networkTimeoutSeconds: 10, debug: true }
+                options: { cache: { name: 'default' }, networkTimeoutSeconds: 10 }
             }
         ],
         stripPrefix: config.paths.output.root,
