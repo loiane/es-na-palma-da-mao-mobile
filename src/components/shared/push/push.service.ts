@@ -67,7 +67,7 @@ export class PushService {
     public registerUser( token: string ) {
         let data: PushUser = {
             user: this.authenticationStorageService.tokenSub,
-            type: 'android',
+            type: ionic.Platform.platform(),
             token: token
         };
 
