@@ -244,4 +244,15 @@ export class AuthenticationService {
     public get token(): Token {
         return this.acessoCidadaoService.token;
     }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     * @memberOf AuthenticationService
+     */
+    public get hasToken(): boolean {
+        return !!this.acessoCidadaoService.token && !!this.acessoCidadaoService.tokenClaims;
+    }
 }
