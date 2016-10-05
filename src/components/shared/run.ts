@@ -138,8 +138,11 @@ function run( $rootScope: any,
 
         initialRootScope();
 
+        $rootScope.$on( '$stateChangeSuccess', () => {
+            cacheListenerService.removeAllListeners();
+        });
+
         $rootScope.$on( '$ionicView.beforeEnter', () => {
-            // cacheListenerService.removeAllListeners();
             hideActionControl();
             httpErrorSnifferService.error = undefined; // limpa errors quando muda de tela
         });

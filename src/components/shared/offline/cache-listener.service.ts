@@ -36,8 +36,8 @@ export class CacheListenerService {
      * 
      * 
      * @param {string} cacheName
-     * @param {( cacheData: any ) => boolean} updateIf
-     * @param {( cacheData: any ) => void} updateWith
+     * @param {( cacheData: any ) => boolean} executeIf
+     * @param {( cacheData: any ) => void} action
      * @param {{ message: string, action: string, hideDelay?: number }} [toastOptions={ message: 'Novos dados disponíveis', action: 'Atualizar' }]
      * @returns
      * 
@@ -50,12 +50,9 @@ export class CacheListenerService {
 
         if ( !( 'serviceWorker' in navigator ) ) { return; }
 
-        const cacheListener = ( event: { data: { message: any, cacheName: string, client: string } }) => {
-
+        const cacheListener = ( event: { data: { message: any, cacheName: string, client: string, origin: string } }) => {
             if ( event.data.cacheName === cacheName && executeIf( event.data.message ) ) {
-
                 this.scheduledActions.push( { action: action, cacheData: event.data.message });
-
                 if ( this.scheduledActions.length === 1 ) {
                     this.toast.showActionToast( toastOptions ).then( response => {
                         if ( response === 'ok' ) {

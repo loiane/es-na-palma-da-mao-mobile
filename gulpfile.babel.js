@@ -952,7 +952,7 @@ gulp.task( 'make-service-worker', cb => {
             {
                 urlPattern: /.+/,
                 handler: 'networkFirst',
-                options: { cache: { name: 'default' }, networkTimeoutSeconds: 10 }
+                options: { cache: { name: 'default' }, networkTimeoutSeconds: 10, debug: true }
             }
         ],
         stripPrefix: config.paths.output.root,
