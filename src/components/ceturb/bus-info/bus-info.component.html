@@ -68,5 +68,9 @@
 				</ion-view>
 			</ion-tab>
 		</ion-tabs>
+
+		<error-message error="uiState.error">
+			<remark ng-if="!uiState.error.handled">Não foi possível consultar informações da linha {{vm.route.line.name}}</remark>
+		</error-message>
 	</ion-content>
 </ion-view>
