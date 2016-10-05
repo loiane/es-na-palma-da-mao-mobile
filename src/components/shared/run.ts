@@ -139,6 +139,10 @@ function run( $rootScope: any,
         initialRootScope();
 
         $rootScope.$on( '$stateChangeSuccess', () => {
+            // Remove os listeners a cada troca de state. Não usa o evento
+            // $ionicView.beforeEnter por que este evento ( também assinado em cada controller ) 
+            // executa primeiro nos controller do que aqui, o que gera o bug de remover
+            // todos os listeners adicionados pelo próprio controller no método activate.  
             cacheListenerService.removeAllListeners();
         });
 
