@@ -47,15 +47,17 @@ export class DriverLicenseStatusController {
      * Preenche a página com dados do condutor, bem como de suas eventuais multas.
      */
     public activate(): IPromise<any>[] {
+        let toastOptions = { message: 'Situação da CNH desatualizada', action: 'Atualizar' };
+
         this.cacheListenerService.listenToCache( 'detran-driver',
             cacheData => !!this.driverData && !angular.equals( this.driverData, cacheData ),
             cacheData => this.driverData = cacheData,
-            { message: 'Situação da CNH desatualizada', action: 'Atualizar' });
+            toastOptions );
 
         this.cacheListenerService.listenToCache( 'detran-driver-tickets',
             cacheData => !!this.tickets && !angular.equals( this.tickets, cacheData ),
             cacheData => this.tickets = cacheData,
-            { message: 'Situação da CNH desatualizada', action: 'Atualizar' });
+            toastOptions );
 
         return [ this.getDriverData(), this.getDriverTickets() ];
     }
