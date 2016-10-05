@@ -830,6 +830,10 @@ gulp.task( 'bundle', ( done ) => {
             'app'
         ],
         packages: [
+            'text',
+            'css',
+            'image',
+            'json',
             'ionic', // carrega angular e ui-router junto
             'ionic-native',
             'angular-i18n/pt-br',
@@ -843,11 +847,7 @@ gulp.task( 'bundle', ( done ) => {
             'moment/locale/pt-br.js',
             'roboto',
             'font-awesome',
-            'calendar',
-            'text',
-            'css',
-            'image',
-            'json'
+            'calendar'
         ]
     }, 'principal' )
     .then( () => bundler.bundleRemainingComponents() )
@@ -876,6 +876,7 @@ gulp.task( 'make-service-worker', cb => {
         staticFileGlobs: [
             `${config.paths.output.root}/components/**/!(models|tests)/!(*specs).{html,css,png,jpg,gif,js,json}`
         ],
+        handleFetch: true,
         templateFilePath: `${config.paths.output.root}/components/shared/offline/service-worker.tmpl`,
         importScripts: [ 'components/shared/offline/cache-strategies/fastest-notify.js' ],
 
