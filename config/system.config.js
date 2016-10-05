@@ -75,7 +75,7 @@ System.config({
     "calendar": "github:hoisel/ionic-calendar@1.0.0-pre",
     "core-js": "npm:core-js@2.4.1",
     "css": "github:systemjs/plugin-css@0.1.27",
-    "font-awesome": "npm:font-awesome@4.6.3",
+    "font-awesome": "github:FortAwesome/Font-Awesome@4.6.3",
     "image": "github:systemjs/plugin-image@0.1.0",
     "ionic": "github:driftyco/ionic-bower@1.3.1",
     "ionic-native": "npm:ionic-native@1.3.24",
@@ -308,9 +308,6 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.2",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0"
-    },
-    "npm:font-awesome@4.6.3": {
-      "css": "github:systemjs/plugin-css@0.1.27"
     },
     "npm:hash.js@1.0.3": {
       "inherits": "npm:inherits@2.0.1"
