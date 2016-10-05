@@ -185,7 +185,7 @@
     "src": "components/cbmes/warning-list/index",
     "group": "Bombeiros",
     "menuName": "Alertas",
-    "menu": false,
+    "menu": true,
     "editable": true,
     "icon": "fa fa-fire-extinguisher"
   },

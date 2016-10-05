@@ -1,13 +1,14 @@
 import { IScope, IWindowService } from 'angular';
 
-import { CbmesApiService, Warning } from '../shared/index';
+import { CbmesApiService, Warning, WarningLevelService } from '../shared/index';
 
 export class WarningListController {
 
     public static $inject: string[] = [
         '$scope',
         '$window',
-        'cbmesApiService'
+        'cbmesApiService',
+        'warningLevelService'
     ];
 
     public warnings: Warning[];
@@ -23,7 +24,8 @@ export class WarningListController {
      */
     constructor( private $scope: IScope,
         private $window: IWindowService,
-        private cbmesApiService: CbmesApiService ) {
+        private cbmesApiService: CbmesApiService,
+        private warningLevelService: WarningLevelService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -40,11 +42,19 @@ export class WarningListController {
      * @returns {IPromise<Warning[]>}
      */
     public getWarnings(): void {
-         this.cbmesApiService.getLastWarnings()
+        this.cbmesApiService.getLastWarnings()
             .then( warnings => {
                 this.warnings = warnings || [];
                 return this.warnings;
             });
+    }
+
+    public getLevelName( levelId: number ) {
+        return this.warningLevelService.getLevelName( levelId );
+    }
+
+    public getLevelDescription( levelId: number ) {
+        return this.warningLevelService.getLevelDescription( levelId );
     }
 
     /**

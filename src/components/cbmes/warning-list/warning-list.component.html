@@ -10,14 +10,15 @@
 				</md-icon>
 				{{ ::vm.warnings.length }} Alertas
 			</md-subheader>
-			<md-list-item class="md-2-line" ng-repeat="warning in vm.warnings" ng-class="warning.level">
+			<md-list-item class="md-2-line" ng-repeat="warning in vm.warnings" ng-class="vm.getLevelName(warning.level)">
 				<div class="md-padding" flex>
 					<div>
 						<div class="md-list-item-text">
-							<h3 ng-class="warning.level">{{::warning.title}}</h3>
+							<h3 ng-class="vm.getLevelName(warning.level)">{{::warning.title}}</h3>
 							<strong><span class="warning-date">{{ ::warning.beginDate | date: 'dd/MM/yyyy HH:mm' }}</span></strong>
 						</div>
-						<a class="maps-link" ng-click="vm.openLocation(warning.region.center.latitude, warning.region.center.longitude, warning.title)"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+						<span><strong>Gravidade:</strong> {{vm.getLevelDescription(warning.level)}}</span>
+						<a class="maps-link" ng-click="vm.openLocation(warning.region.center.lat, warning.region.center.lon, warning.title)"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
 					</div>
 					<p class="message">{{::warning.message}}</p>
 				</div>

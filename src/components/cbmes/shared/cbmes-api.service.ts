@@ -22,60 +22,7 @@ export class CbmesApiService {
      * @returns {IPromise<Warning[]>}
      */
     public getLastWarnings(): IPromise<Warning[]> {
-        let today = new Date();
-        today.setDate( today.getDate() - 7 );
-
-        // TODO: Remover mock assim que a api estiver pronta
-        // return this.mockLastWarnings();
-
-        return this.$http.get( this.settings.api.cbmes, today )
-            .then(( response: { data: Warning[] }) => {
-                return response.data;
-            });
-    }
-
-    public mockLastWarnings() {
-        return this.$q(( resolve ) => {
-            resolve( this.objMock );
-        });
-    }
-
-    private get objMock(): Warning[] {
-        return [ {
-            level: 'alto',
-            title: 'Incêndio',
-            message: 'Princípio de incendio no centro',
-            beginDate: new Date(),
-            endDate: new Date(),
-            region: {
-                type: 'circle',
-                center: { latitude: -20, longitude: -40 },
-                radius: 2000
-            }
-        },
-        {
-            level: 'medio',
-            title: 'Incêndio',
-            message: 'Princípio de incendio no centro',
-            beginDate: new Date(),
-            endDate: new Date(),
-            region: {
-                type: 'circle',
-                center: { latitude: -20, longitude: -40 },
-                radius: 2000
-            }
-        },
-        {
-            level: 'baixo',
-            title: 'Incêndio',
-            message: 'Princípio de incendio no centro',
-            beginDate: new Date(),
-            endDate: new Date(),
-            region: {
-                type: 'circle',
-                center: { latitude: -20, longitude: -40 },
-                radius: 2000
-            }
-        }];
+        return this.$http.get( `${this.settings.api.cbmes}/alerts` )
+            .then(( response: { data: Warning[] }) => response.data );
     }
 }

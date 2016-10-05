@@ -1,20 +1,23 @@
 export interface Warning {
-    level: string;
+    id: string;
+    insertedAt: Date;
+    level: number;
     title: string;
     message: string;
     beginDate: Date;
     endDate: Date;
     region: Region;
+    userId?: number;
 }
 
 export interface Region {
-    type: string;
+    type: number;
     radius?: number;
     center?: LatLng;
     polygon?: LatLng[];
 }
 
 export interface LatLng {
-    latitude: number;
-    longitude: number;
+    lat: number;
+    lon: number;
 }
