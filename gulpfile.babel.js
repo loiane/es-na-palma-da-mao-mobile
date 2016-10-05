@@ -936,6 +936,12 @@ gulp.task( 'make-service-worker', cb => {
                 handler: 'fastest',
                 options: { debug: true, cache: { name: 'about-team', maxEntries: 1 } }
             },
+            // news
+            {
+                urlPattern: /api\.es\.gov\.br\/dio\/latest/,
+                handler: 'fastest',
+                options: { cache: { name: 'dio-latest', maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 }, debug: true }
+            },
             // app
             {
                 urlPattern: /browser-sync\//,
