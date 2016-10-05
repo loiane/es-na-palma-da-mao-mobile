@@ -926,15 +926,15 @@ gulp.task( 'make-service-worker', cb => {
                 options: { cache: { name: 'news-detail', maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 3 }, debug: true }
             },
             {
-                urlPattern: /^https?:\/\/.*\.(png|jpg|jpeg|gif|JPG|PNG|JPEG|GIF)/,
+                urlPattern: /^(https?:\/\/.*\.(png|jpg|jpeg|gif|JPG|PNG|JPEG|GIF))|(https:\/\/avatars\.githubusercontent\.com)/,
                 handler: 'cacheFirst',
-                options: { cache: { name: 'img', maxEntries: 100 } }
+                options: { cache: { name: 'img', maxEntries: 150 } }
             },
             // about
             {
                 urlPattern: /api\.es\.gov\.br\/espm\/about\/team/,
                 handler: 'fastest',
-                options: { debug: true }
+                options: { debug: true, cache: { name: 'about-team', maxEntries: 1 } }
             },
             // app
             {
