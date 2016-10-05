@@ -9,7 +9,7 @@ import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
 import { Route, statesJson } from './routes/index';
 import { CacheListenerService } from './offline/index';
-
+import { ToastService } from './toast/index';
 /**
  * 
  * 
@@ -37,6 +37,7 @@ function run( $rootScope: any,
     $ionicNativeTransitions: any,
     $mdDialog: angular.material.IDialogService,
     $mdBottomSheet,
+    toast: ToastService,
     networkService: NetworkService,
     authenticationService: AuthenticationService,
     httpSnifferService: HttpSnifferService,
@@ -127,6 +128,7 @@ function run( $rootScope: any,
     function hideActionControl() {
         $mdBottomSheet.cancel();
         $mdDialog.cancel();
+        toast.hide();
     }
 
 
@@ -188,6 +190,7 @@ run.$inject = [
     '$ionicNativeTransitions',
     '$mdDialog',
     '$mdBottomSheet',
+    'toast',
     'networkService',
     'authenticationService',
     'httpSnifferService',
