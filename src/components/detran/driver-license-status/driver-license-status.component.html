@@ -22,7 +22,7 @@
 					<span class="md-subhead">CNH válida até {{vm.expirationDate | calendar}}</span>
 				</md-card-header-text>
 			</md-card-header>
-			<md-card-header ng-if="vm.licenseRenew && !vm.licenseBlocked">
+			<md-card-header ng-show="vm.licenseRenew && !vm.licenseBlocked">
 				<md-card-avatar>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 				</md-card-avatar>
@@ -31,7 +31,7 @@
 					<span class="md-subhead">Expira {{ vm.expirationDate | fromNow: true}}</span>
 				</md-card-header-text>
 			</md-card-header>
-			<md-card-header ng-if="vm.licenseExpired && !vm.licenseBlocked">
+			<md-card-header ng-show="vm.licenseExpired && !vm.licenseBlocked">
 				<md-card-avatar>
 					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 				</md-card-avatar>
@@ -40,7 +40,7 @@
 					<span class="md-subhead">Expirou há {{vm.expirationDate | fromNow: true}}</span>
 				</md-card-header-text>
 			</md-card-header>
-			<md-card-header ng-if="vm.licenseBlocked">
+			<md-card-header ng-show="vm.licenseBlocked">
 				<md-card-avatar>
 					<i class="fa fa-ban" aria-hidden="true"></i>
 				</md-card-avatar>
