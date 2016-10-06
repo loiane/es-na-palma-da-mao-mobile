@@ -32,6 +32,7 @@
     </feature>
     <platform name="android">
         <hook src="hook_scripts/after_prepare/010_add_platform_class.js" type="after_prepare"/>
+        <hook src="hook_scripts/after_platform_add/030_update_platform_config.js" type="after_platform_add"/>
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png"/>
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png"/>
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png"/>
@@ -44,6 +45,14 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.9.png"/>
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.9.png"/>
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.9.png"/>
+        <config-file target="AndroidManifest.xml" parent="application/activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="espm" android:host="acessocidadao" android:path="/" />
+            </intent-filter>
+        </config-file>
     </platform>
     <platform name="ios">
         <icon height="57" src="resources/ios/icon/icon.png" width="57"/>

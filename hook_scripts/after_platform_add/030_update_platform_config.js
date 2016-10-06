@@ -84,7 +84,7 @@ var et = require('elementtree');
 var plist = require('plist');
  
 var rootdir = path.resolve(__dirname, '../../');
- 
+
 var platformConfig = (function(){
     /*  Global object that defines the available custom preferences for each platform.
      Maps a config.xml preference to a specific target file, parent element, and destination attribute or element
@@ -110,7 +110,7 @@ var platformConfig = (function(){
     };
  
     var configXmlData, preferencesData;
- 
+
     return {
         // Parses a given file into an elementtree object
         parseElementtreeSync: function (filename) {
@@ -178,8 +178,8 @@ var platformConfig = (function(){
          */
         getConfigFilesByTargetAndParent: function (platform) {
             var configFileData = this.getConfigXml().findall('platform[@name=\'' + platform + '\']/config-file');
- 
-            return  _.indexBy(configFileData, function(item) {
+
+            return  _.keyBy(configFileData, function(item) {
                 var parent = item.attrib.parent;
                 //if parent attribute is undefined /* or */, set parent to top level elementree selector
                 if(!parent || parent === '/*' || parent === '*/') {
@@ -264,9 +264,9 @@ var platformConfig = (function(){
  
         // Parses config.xml data, and update each target file for a specified platform
         updatePlatformConfig: function (platform) {
-            var configData = this.parseConfigXml(platform),
-                platformPath = path.join(rootdir, 'platforms', platform);
- 
+            var configData = this.parseConfigXml(platform);
+            var platformPath = path.join(rootdir, 'platforms', platform);
+
             _.each(configData, function (configItems, targetFileName) {
                 var projectName, targetFile;
  
