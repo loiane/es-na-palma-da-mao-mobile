@@ -47,19 +47,31 @@ export class BusLinesController {
      * 
      * @memberOf BusLinesController
      */
-    public getLines(): void {
-        this.ceturbApiService.getLines().then(( lines ) => this.mapLines( lines ) );
+    public getLines(): Promise<BusLine[]> {
+        return Promise.all( [
+            this.ceturbApiService.syncFavoriteLinesData(),
+            this.ceturbApiService.getLines()
+        ] )
+        .then(( [ , lines ] ) => this.mapLines( lines ) )
+        .then( lines => {
+            this.filteredLines = this.lines = lines;
+        } );
     }
 
-    private mapLines( lines: BusLine[] ): IPromise<BusLine[]> {
-        return this.ceturbApiService.syncFavoriteLinesData()
-            .then(() => {
-                this.filteredLines = this.lines = lines.map( line => {
-                    line.isFavorite = this.ceturbStorage.isFavoriteLine( line.number );
-                    return line;
-                });
-                return this.lines;
-            });
+    /**
+     * 
+     * 
+     * @private
+     * @param {BusLine[]} lines
+     * @returns {BusLine[]}
+     * 
+     * @memberOf BusLinesController
+     */
+    private mapLines( lines: BusLine[] ): BusLine[] {
+        return lines.map( line => {
+            line.isFavorite = this.ceturbStorage.isFavoriteLine( line.number );
+            return line;
+        });
     }
 
     /**

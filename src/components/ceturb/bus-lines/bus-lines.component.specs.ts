@@ -77,33 +77,36 @@ describe( 'Ceturb/bus-lines', () => {
 
         describe( 'getLines()', () => {
 
-            let lines = <BusLine[]>[
+            const lines = <BusLine[]>[
                 { number: '500', name: 'Linha 500' },
                 { number: '501', name: 'Linha 501' }
             ];
 
-            let favoriteLinesData = <FavoriteLinesData>{
+            const favoriteLinesData = <FavoriteLinesData>{
                 id: 9232,
                 favoriteLines: [],
                 date: new Date()
             };
 
             beforeEach(() => {
+                controller.lines = [];
                 sandbox.stub( ceturbApiService, 'getLines' ).returnsPromise().resolves( lines );
                 sandbox.stub( ceturbApiService, 'syncFavoriteLinesData' ).returnsPromise().resolves( favoriteLinesData );
                 sandbox.stub( ceturbStorage, 'isFavoriteLine' ).returns( true );
             });
 
-            it( 'should fill lines on getLines', () => {
-                controller.getLines();
-
-                expect( controller.lines ).to.deep.equal( lines );
+            it( 'should fill lines', ( done ) => {
+                controller.getLines().then(() => {
+                    done();
+                    expect( controller.lines ).to.deep.equal( lines );
+                });
             });
 
-            it( 'should fill filtered lines with all lines', () => {
-                controller.getLines();
-
-                expect( controller.lines ).to.deep.equal( controller.filteredLines );
+            it( 'should fill filtered lines with all lines', ( done ) => {
+                controller.getLines().then(() => {
+                    done();
+                    expect( controller.lines ).to.deep.equal( controller.filteredLines );
+                });
             });
         });
 
