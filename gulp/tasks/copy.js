@@ -1,5 +1,5 @@
 ﻿import plumber from 'gulp-plumber';
-import cache from 'gulp-cached';
+import cached from 'gulp-cached';
 import changed from 'gulp-changed';
 import rename from 'gulp-rename';
 import replace from 'gulp-replace-task';
@@ -60,7 +60,7 @@ class CopyTask {
 
         gulp.task( options.taskName, taskMetadata.description, options.taskDeps, () => {
             let chain = gulp.src( options.src )
-                            .pipe( cache( options.taskName ) )
+                            .pipe( cached( options.taskName ) )
                             .pipe( plumber() );
 
             if ( options.changed ) {
