@@ -59,7 +59,7 @@ let paths = {
         jspm_packages: 'www/jspm_packages',
         app: 'www/components',
         html: [ 'www/components/**/*.html', 'www/*.html' ],
-        temp: [ 'www/components', 'www/bundles', 'www/*.*', 'coverage' ]
+        temp: [ 'www/!(jspm_packages)**' ]
     },
     gulp: [ './config/gulp.js', './gulpfile.babel.js', './gulp/tasks/*.js' ]
 };

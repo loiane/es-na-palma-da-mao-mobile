@@ -37,6 +37,7 @@ import ts from 'gulp-typescript';
 import sourcemaps from 'gulp-sourcemaps';
 import karma from 'karma';
 import cheerio from 'gulp-cheerio';
+import shell from 'gulp-shell';
 
 
 //import 'gulp-cordova-build-android';
@@ -615,7 +616,6 @@ gulp.task( 'create-release-branch', false, [ 'ensures-develop', 'bump' ], ( cb )
     } );
 } );
 
-
 gulp.task( 'changelog', false, ( cb ) => {
     const pkg = readJsonFile( config.paths.packageJson );
     const options = argv;
@@ -694,6 +694,10 @@ gulp.task( 'create-release', 'Cria e publica uma nova release no Github e faz up
     return runSequence( 'ensures-master', 'test', 'changelog', 'tag', 'push', 'push-tags', 'delay', 'github:create-release', cb );
 } );
 
+gulp.task( 'tree-shaking', false, shell.task( [
+    'find ./www/jspm_packages -type f -not -regex ".*\\.css$" -not -regex ".*\\.woff$" -not -regex ".*\\.woff2$" -not -regex ".*\\/system.js$" -delete -or -type f -regex ".*/angular.*/.*" -delete'
+] ) );
+
 gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de distribuição.', ( cb ) => {
 
     // Se flag argv.transpile seja informado, realiza o transpile do js e copia o resultado para
@@ -729,6 +733,7 @@ gulp.task( 'compile', 'Compila a aplicação e copia o resultado para a pasta de
 
     if ( bundle ) {
         compileTasks.push( 'bundle' );
+        compileTasks.push( 'tree-shaking' );
     }
 
     compileTasks.push( cb );   // adiciona callback no fim de copy tasks
