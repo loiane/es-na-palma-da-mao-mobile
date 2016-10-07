@@ -4,7 +4,7 @@
 	
 	<ion-content id="news-highlights-component">
 		<md-card ng-repeat="news in vm.highlights">
-			<img ng-src="{{::news.imageHighlight}}" class="md-card-image" alt="">
+			<img ng-src="{{::news.imageHighlight}}" class="md-card-image" alt="" onerror="this.style.display='none'">
 			<md-card-title>
 				<md-card-title-text>
 					<span class="md-headline">{{::news.title}}</span>
