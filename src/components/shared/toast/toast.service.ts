@@ -54,11 +54,11 @@ export class ToastService {
      * @param {any} displayOption
      * @returns
      */
-    public showActionToast( config: { message: string, action: string, hideDelay?: number } ): IPromise<any> {
+    public showActionToast( config: { message: string, action: string, hideDelay: number } ): IPromise<any> {
         let toast = this.$mdToast.simple()
                         .textContent( config.message )
                         .action( config.action )
-                        .hideDelay( config.hideDelay || 10000 )
+                        .hideDelay( config.hideDelay )
                         .highlightAction( true )
                         .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
                         .position( 'bottom right' );

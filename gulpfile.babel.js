@@ -795,7 +795,6 @@ gulp.task( 'bundle', ( done ) => {
             'shared/loader',
             'shared/routes',
             'shared/http',
-            'shared/network',
             'shared/dialog',
             'shared/fabric',
             'shared/permissions',

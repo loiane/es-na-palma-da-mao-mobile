@@ -3,24 +3,27 @@ import 'moment/locale/pt-br';
 import { Keyboard } from 'ionic-native';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
-import { NetworkService } from './network/index';
 import { IWindowService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
 import { Route, statesJson } from './routes/index';
 
 /**
- * Executado quando aplicação inicia para configurar execução da app, como navegação, etc
+ * 
  * 
  * @param {*} $rootScope
  * @param {IWindowService} $window
  * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
  * @param {ionic.navigation.IonicHistoryService} $ionicHistory
+ * @param {*} $ionicNativeTransitions
  * @param {angular.material.IDialogService} $mdDialog
  * @param {any} $mdBottomSheet
+ * @param {AuthenticationService} authenticationService
  * @param {HttpSnifferService} httpSnifferService
+ * @param {HttpErrorSnifferService} httpErrorSnifferService
  * @param {ISettings} settings
+ * @param {CordovaPermissions} cordovaPermissions
  */
 function run( $rootScope: any,
     $window: IWindowService,
@@ -30,7 +33,6 @@ function run( $rootScope: any,
     $ionicNativeTransitions: any,
     $mdDialog: angular.material.IDialogService,
     $mdBottomSheet,
-    networkService: NetworkService,
     authenticationService: AuthenticationService,
     httpSnifferService: HttpSnifferService,
     httpErrorSnifferService: HttpErrorSnifferService,
@@ -104,10 +106,6 @@ function run( $rootScope: any,
             $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
             $rootScope.uiState.error = httpErrorSnifferService.error;
         });
-
-        $rootScope.$on( 'noConnection', () => {
-            networkService.showNetworkAlert();
-        });
     }
 
     /**
@@ -156,7 +154,7 @@ function run( $rootScope: any,
     });
 
     $ionicPlatform.on( 'resume', () => {
-        if (authenticationService.hasToken) {
+        if ( authenticationService.hasToken ) {
             authenticationService.refreshTokenIfNeeded()
                 .catch(() => authenticationService.signOut(() => $state.go( 'home' ) ) );
         }
@@ -172,7 +170,6 @@ run.$inject = [
     '$ionicNativeTransitions',
     '$mdDialog',
     '$mdBottomSheet',
-    'networkService',
     'authenticationService',
     'httpSnifferService',
     'httpErrorSnifferService',
