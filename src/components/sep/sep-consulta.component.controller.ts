@@ -1,7 +1,7 @@
 import { IScope } from 'angular';
 import { SepApiService, Process, ProcessUpdate } from './shared/index';
 import { ToastService, ToastOptions } from '../shared/index';
-import { SocialSharing } from 'ionic-native';
+import { SocialSharing, BarcodeScanner } from 'ionic-native';
 
 export class SepConsultaController {
 
@@ -12,7 +12,7 @@ export class SepConsultaController {
         'sepApiService'
     ];
 
-    public processNumber: string;
+    public processNumber: number | undefined;
     public lastProcessNumber: string;
     public process: Process | undefined;
     public searched: boolean;
@@ -38,7 +38,7 @@ export class SepConsultaController {
      *
      */
     public activate(): void {
-        this.processNumber = '';
+        this.processNumber = undefined;
         this.lastProcessNumber = '';
         this.process = undefined;
         this.searched = false;
@@ -82,6 +82,27 @@ export class SepConsultaController {
         });
     }
 
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf SepConsultaController
+     */
+    public scanBarcode() {
+        const scanOptions = {
+            'preferFrontCamera': false, // iOS and Android
+            'prompt': 'Posicione o código dentro da área de leitura', // supported on Android only
+            'format': 'CODE_39'
+        };
+
+        BarcodeScanner.scan( scanOptions ).then(( barcodeData ) => {
+            this.getProcess( barcodeData.text );
+        }, () => {
+            this.toast.error( { title: 'Não foi possível ler o código do processo' } );
+        });
+    }
+
     /**
      * Obtém um processo eletrônico pelo número do processo.
      * @param {Number} number: Process number
@@ -97,11 +118,11 @@ export class SepConsultaController {
             .then( process => {
                 this.process = process;
                 return process;
-            } )
-            .catch( () => {
+            })
+            .catch(() => {
                 this.process = undefined;
-            } )
-            .finally( () => {
+            })
+            .finally(() => {
                 this.searched = true;
 
                 if ( this.process ) {
@@ -109,7 +130,7 @@ export class SepConsultaController {
                 } else {
                     this.lastProcessNumber = procNumber;
                 }
-            } );
+            });
     }
 
     /**

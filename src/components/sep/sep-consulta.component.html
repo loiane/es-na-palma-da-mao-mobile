@@ -13,6 +13,7 @@
 	<div class="bar bar-subheader state-sep-subheader">
 		<md-input-container md-no-float class="md-block md-whiteframe-2dp">
 			<input class="input-search" ng-model="vm.processNumber" type="number" placeholder="Número do Processo" input-return>
+			<md-icon id="btn-scanbarcode" style="display:inline-block;" ng-click="vm.scanBarcode()"><i class="fa fa-barcode" aria-hidden="true"></i></md-icon>
 			<md-icon style="display:inline-block;" ng-click="vm.getProcess(vm.processNumber)"><i class="fa fa-search" aria-hidden="true"></i></md-icon>
 		</md-input-container>
 	</div>

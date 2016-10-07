@@ -23,6 +23,12 @@
 }
 
 
+#btn-scanbarcode {
+    right: 38px;
+    left: auto;
+    top: 10px;
+}
+
 .state-sep-subheader input.input-search {
     border: none !important;
 }
@@ -43,7 +49,7 @@
 }
 
 .state-sep-subheader md-input-container md-icon {
-    font-size: 1.4em;
+    font-size: 1.6em;
 }
 
 .state-sep-subheader md-input-container.md-icon-right {

@@ -3,7 +3,7 @@ import SepConsultaTemplate from './sep-consulta.component.html';
 import { SepApiService, Process } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
 import { environment, toastServiceMock } from '../shared/tests/index';
-import { SocialSharing } from 'ionic-native';
+import { SocialSharing, BarcodeScanner } from 'ionic-native';
 
 let expect = chai.expect;
 
@@ -85,6 +85,44 @@ describe( 'SEP/sep-consulta', () => {
 
             it( 'should hide all updates', () => {
                 expect( controller.showAllUpdates ).to.be.false;
+            });
+        });
+
+        describe( 'scanBarcode()', () => {
+
+            it( 'should get process with readed code', () => {
+                let objCode = { text: '984651981' };
+                let getProcess = sandbox.stub( controller, 'getProcess' );
+                let scan = sandbox.stub( BarcodeScanner, 'scan' ).returnsPromise();
+                scan.resolves( objCode );
+
+                controller.scanBarcode();
+
+                expect( getProcess.calledWithExactly( objCode.text ) ).to.be.true;
+            });
+
+
+            it( 'should open scan with provided options', () => {
+                let scan = sandbox.stub( BarcodeScanner, 'scan' );
+                scan.returnsPromise();
+
+                controller.scanBarcode();
+
+                expect( scan.calledWithExactly( {
+                    'preferFrontCamera': false, // iOS and Android
+                    'prompt': 'Posicione o código dentro da área de leitura', // supported on Android only
+                    'format': 'CODE_39'
+                }) ).to.be.true;
+            });
+
+            it( 'should show error message on error', () => {
+                let error = sandbox.stub( toastServiceMock, 'error' ); // replace original activate
+                let scan = sandbox.stub( BarcodeScanner, 'scan' ).returnsPromise();
+                scan.rejects();
+
+                controller.scanBarcode();
+
+                expect( error.calledWithExactly( { title: 'Não foi possível ler o código do processo' }) ).to.be.true;
             });
         });
 
