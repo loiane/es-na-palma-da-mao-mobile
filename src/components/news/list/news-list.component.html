@@ -36,7 +36,7 @@
 				<md-divider></md-divider>
 			</div>
 		</md-list>
-		<message ng-if="vm.news && !vm.news.length" text="Nenhuma notícia encontrada">
+		<message ng-if="!uiState.error && vm.news && !vm.news.length" text="Nenhuma notícia encontrada">
 			<remark>Tente mudar o filtro da consulta</remark>
 		</message>
 		<error-message error="uiState.error"></error-message>
