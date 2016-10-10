@@ -3,7 +3,7 @@ import { Push, AndroidPushOptions, IOSPushOptions, PushNotification } from 'ioni
 
 import { ISettings } from '../settings/index';
 import { PushUser } from './models/index';
-import { AuthenticationStorageService } from '../authentication/index';
+import { AuthenticationStorageService, AuthenticationService } from '../authentication/index';
 
 export class PushService {
 
@@ -14,7 +14,8 @@ export class PushService {
         '$http',
         '$mdSidenav',
         'settings',
-        'authenticationStorageService'
+        'authenticationStorageService',
+        'authenticationService'
     ];
 
     constructor( private $state: angular.ui.IStateService,
@@ -23,7 +24,8 @@ export class PushService {
         private $http: IHttpService,
         private $mdSidenav: angular.material.ISidenavService,
         private settings: ISettings,
-        private authenticationStorageService: AuthenticationStorageService ) {
+        private authenticationStorageService: AuthenticationStorageService,
+        private authenticationService: AuthenticationService ) {
     }
 
     public init() {
@@ -52,7 +54,9 @@ export class PushService {
 
             push.on( 'notification', ( data ) => {
                 console.log( data );
-                this.notify( data.additionalData );
+                this.authenticationService.refreshTokenIfNeeded().then(() => {
+                    this.notify( data.additionalData );
+                });
             });
 
             push.on( 'error', ( e ) => console.log( e ) );
@@ -106,15 +110,15 @@ export class PushService {
     public navigateTo( stateName: string, routeParameters: any ): void {
         this.closeSideNav();
 
-            this.$ionicHistory.nextViewOptions( {
-                disableAnimate: true,
-                disableBack: true,
-                historyRoot: true
-            });
+        this.$ionicHistory.nextViewOptions( {
+            disableAnimate: true,
+            disableBack: true,
+            historyRoot: true
+        });
 
-            if ( this.$ionicNativeTransitions ) {
+        if ( this.$ionicNativeTransitions ) {
             this.$ionicNativeTransitions.stateGo( stateName, routeParameters, { reload: true }, { 'type': 'fade' });
-            } else {
+        } else {
             if ( this.$ionicHistory.currentStateName() !== stateName ) {
                 this.$state.go( stateName, routeParameters );
             }

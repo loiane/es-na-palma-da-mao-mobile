@@ -7,6 +7,7 @@ import { IWindowService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
 import { Route, statesJson } from './routes/index';
+import { PushService } from './push/index';
 
 /**
  * 
@@ -37,7 +38,8 @@ function run( $rootScope: any,
     httpSnifferService: HttpSnifferService,
     httpErrorSnifferService: HttpErrorSnifferService,
     settings: ISettings,
-    cordovaPermissions: CordovaPermissions ) {
+    cordovaPermissions: CordovaPermissions,
+    pushService: PushService ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -142,6 +144,7 @@ function run( $rootScope: any,
 
         authenticationService.refreshTokenIfNeeded()
             .then(() => {
+                pushService.init();
                 $state.go( 'app.dashboard.newsHighlights' );
             })
             .catch(() => {
@@ -174,7 +177,8 @@ run.$inject = [
     'httpSnifferService',
     'httpErrorSnifferService',
     'settings',
-    'cordovaPermissions'
+    'cordovaPermissions',
+    'pushService'
 ];
 
 export default run;
