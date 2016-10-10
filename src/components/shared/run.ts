@@ -3,7 +3,6 @@ import 'moment/locale/pt-br';
 import { Keyboard, Splashscreen } from 'ionic-native';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
-import { IWindowService } from 'angular';
 import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
 import { Route, statesJson } from './routes/index';
@@ -13,7 +12,6 @@ import { PushService } from './push/index';
  * 
  * 
  * @param {*} $rootScope
- * @param {IWindowService} $window
  * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
  * @param {ionic.navigation.IonicHistoryService} $ionicHistory
@@ -27,7 +25,6 @@ import { PushService } from './push/index';
  * @param {CordovaPermissions} cordovaPermissions
  */
 function run( $rootScope: any,
-    $window: IWindowService,
     $state: angular.ui.IStateService,
     $ionicPlatform: ionic.platform.IonicPlatformService,
     $ionicHistory: ionic.navigation.IonicHistoryService,
@@ -161,7 +158,6 @@ function run( $rootScope: any,
 
 run.$inject = [
     '$rootScope',
-    '$window',
     '$state',
     '$ionicPlatform',
     '$ionicHistory',
@@ -177,4 +173,3 @@ run.$inject = [
 ];
 
 export default run;
-
