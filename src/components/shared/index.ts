@@ -5,6 +5,7 @@ import fromNowFilter from './from-now.filter';
 import toNowFilter from './to-now.filter';
 import calendarFilter from './calendar.filter';
 import capitalizeFilter from './capitalize.filter';
+import hrefToJsFilter from './hrefToJs.filter';
 import { Settings } from './settings/index';
 import ionicConfig from './ionic.config';
 import themeConfig from './theme.config';
@@ -55,5 +56,6 @@ export default angular.module( 'shared', dependencies )
     .filter( 'toNow', toNowFilter )
     .filter( 'calendar', calendarFilter )
     .filter( 'capitalize', capitalizeFilter )
+    .filter( 'hrefToJs', hrefToJsFilter )
     .run( run )
     .run( runNetwork );

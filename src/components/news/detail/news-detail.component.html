@@ -29,7 +29,7 @@
 				</small>
 			</div>
 			<h3>{{::vm.news.title}}</h3>
-			<p ng-bind-html="::vm.news.body" class="news-body"></p>
+			<p ng-bind-html="::vm.news.body | hrefToJs" class="news-body"></p>
 		</div>
 		<error-message error="uiState.error"></error-message>
 	</ion-content>
