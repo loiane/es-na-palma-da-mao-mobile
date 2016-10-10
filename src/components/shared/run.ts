@@ -1,6 +1,6 @@
 import moment from 'moment';
 import 'moment/locale/pt-br';
-import { Keyboard } from 'ionic-native';
+import { Keyboard, Splashscreen } from 'ionic-native';
 import { AuthenticationService } from './authentication/index';
 import { HttpSnifferService, HttpErrorSnifferService } from './http/index';
 import { IWindowService } from 'angular';
@@ -135,10 +135,6 @@ function run( $rootScope: any,
             httpErrorSnifferService.error = undefined; // limpa errors quando muda de tela
         });
 
-        if ( $window.navigator.splashscreen ) {
-            $window.navigator.splashscreen.hide();
-        }
-
         // Check coarse location permissions
         cordovaPermissions.RequestCoarseLocationPermission();
 
@@ -149,11 +145,10 @@ function run( $rootScope: any,
             })
             .catch(() => {
                 authenticationService.signOut(() => $state.go( 'home' ) );
+            })
+            .finally(() => {
+                Splashscreen.hide();
             });
-
-        if ( $window.navigator.splashscreen ) {
-            $window.navigator.splashscreen.hide();
-        }
     });
 
     $ionicPlatform.on( 'resume', () => {
