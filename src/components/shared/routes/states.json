@@ -87,8 +87,8 @@
     "editable": false
   },
   {
-    "name": "app.sepConsulta",
-    "url": "sepConsulta",
+    "name": "app.sepConsulta/:processNumber",
+    "url": "sepConsulta/:processNumber",
     "type": "load",
     "src": "components/sep/index",
     "menu": true,

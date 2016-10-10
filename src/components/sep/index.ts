@@ -13,8 +13,8 @@ export default angular.module( 'sep-consulta.component', dependencies )
                       .config( [
                           '$stateProvider', ( $stateProvider ) => {
                               $stateProvider
-                                  .state( 'app.sepConsulta', {
-                                      url: 'sepConsulta',
+                                  .state( 'app.sepConsulta/:processNumber', {
+                                      url: 'sepConsulta/:processNumber',
                                       data: {title: 'Consulta SEP'},
                                       views: {
                                           content: {

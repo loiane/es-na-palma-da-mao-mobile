@@ -8,6 +8,7 @@ export class SepConsultaController {
     public static $inject: string[] = [
         '$scope',
         '$ionicScrollDelegate',
+        '$stateParams',
         'toast',
         'sepApiService'
     ];
@@ -29,6 +30,7 @@ export class SepConsultaController {
      */
     constructor( private $scope: IScope,
         private $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
+        private $stateParams: angular.ui.IStateParamsService,
         private toast: ToastService,
         private sepApiService: SepApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
@@ -43,8 +45,13 @@ export class SepConsultaController {
         this.process = undefined;
         this.searched = false;
         this.showAllUpdates = false;
-    }
 
+        const procNumber = this.$stateParams[ 'processNumber' ];
+        if ( procNumber ) {
+            this.getProcess( procNumber );
+            this.processNumber = Number( procNumber );
+        }
+    }
 
     /**
      * Obtém a última atualização do processo
