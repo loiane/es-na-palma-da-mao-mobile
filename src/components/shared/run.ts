@@ -101,10 +101,15 @@ function run( $rootScope: any,
 
         // We can now watch the trafficCop service to see when there are pending
         // HTTP requests that we're waiting for.
-        $rootScope.$watch(() => {
+        let rootWatch = $rootScope.$watch(() => {
             $rootScope.uiState.pendingRequests = httpSnifferService.pending.all;
             $rootScope.uiState.loading = $rootScope.uiState.pendingRequests > 0;
             $rootScope.uiState.error = httpErrorSnifferService.error;
+        });
+
+        // here is where the cleanup happens
+        $rootScope.$on( '$destroy', function () {
+            rootWatch();
         });
     }
 
