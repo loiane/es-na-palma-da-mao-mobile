@@ -1,6 +1,6 @@
 <ion-view title="Notícias">
 	
-	<spinner ng-if="uiState.loading"></spinner>
+	<spinner ng-if="uiState.loading && vm.pagination.pageNumber === 1"></spinner>
 	
 	<ion-content id="state-news-list">
 		<md-toolbar class="md-hue-1 md-whiteframe-1dp">
