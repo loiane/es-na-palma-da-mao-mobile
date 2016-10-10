@@ -103,11 +103,15 @@ export class SepConsultaController {
             'format': 'CODE_39'
         };
 
-        BarcodeScanner.scan( scanOptions ).then(( barcodeData ) => {
-            this.getProcess( barcodeData.text );
-        }, () => {
-            this.toast.error( { title: 'Não foi possível ler o código do processo' } );
-        });
+        BarcodeScanner.scan( scanOptions )
+            .then(( barcodeData ) => {
+                if ( !!barcodeData.text ) {
+                    this.getProcess( barcodeData.text );
+                }
+            })
+            .catch(() => {
+                this.toast.error( { title: 'Não foi possível ler o código do processo' });
+            });
     }
 
     /**

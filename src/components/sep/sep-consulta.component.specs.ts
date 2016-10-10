@@ -48,7 +48,7 @@ describe( 'SEP/sep-consulta', () => {
                 getProcessByNumber: () => { }
             };
 
-            controller = new SepConsultaController( environment.$scope, $ionicScrollDelegate, toastServiceMock, sepApiService );
+            controller = new SepConsultaController( environment.$scope, $ionicScrollDelegate, $ionicScrollDelegate, toastServiceMock, sepApiService );
         });
 
         describe( 'on instanciation', () => {
@@ -101,6 +101,16 @@ describe( 'SEP/sep-consulta', () => {
                 expect( getProcess.calledWithExactly( objCode.text ) ).to.be.true;
             });
 
+            it( 'should not get process when returned text is empty', () => {
+                let objCode = { text: '' };
+                let getProcess = sandbox.stub( controller, 'getProcess' );
+                let scan = sandbox.stub( BarcodeScanner, 'scan' ).returnsPromise();
+                scan.resolves( objCode );
+
+                controller.scanBarcode();
+
+                expect( getProcess.called ).to.be.false;
+            });
 
             it( 'should open scan with provided options', () => {
                 let scan = sandbox.stub( BarcodeScanner, 'scan' );
@@ -116,7 +126,7 @@ describe( 'SEP/sep-consulta', () => {
             });
 
             it( 'should show error message on error', () => {
-                let error = sandbox.stub( toastServiceMock, 'error' ); // replace original activate
+                let error = sandbox.stub( toastServiceMock, 'error' );
                 let scan = sandbox.stub( BarcodeScanner, 'scan' ).returnsPromise();
                 scan.rejects();
 
