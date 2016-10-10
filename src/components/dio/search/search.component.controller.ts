@@ -20,7 +20,8 @@ export class SearchController {
         'dioApiService'
     ];
 
-    public hits: Hit[] = [];
+    public lastQuery: string | undefined;
+    public hits: Hit[] | undefined;
     public searched = false;
     public hasMoreHits = false;
     public totalHits: number = 0;
@@ -75,24 +76,47 @@ export class SearchController {
     public search( filter: SearchFilter ): IPromise<SearchResult> {
         angular.extend( this.filter, filter || {}); // atualiza o filtro
 
-        if ( this.filter.pageNumber === 0 ) {
-            this.hits = [];
-            this.hasMoreHits = false;
-            this.totalHits = 0;
-        }
-
         return this.dioApiService.search( this.filter )
-            .then(( nextResults: SearchResult ) => {
-                this.totalHits = nextResults.totalHits;
-                this.hits = this.hits.concat( nextResults.hits );
-                this.hasMoreHits = nextResults.hits && nextResults.hits.length > 0;
-                return nextResults;
-            })
+            .then(( nextResults: SearchResult ) => this.onSearchSuccess( nextResults ), () => this.onSearchError() )
             .finally(() => {
                 this.searched = true;
                 this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
             });
     }
+
+    /**
+     * 
+     * 
+     * @private
+     * @param {SearchResult} nextResults
+     * @returns
+     * 
+     * @memberOf SearchController
+     */
+    private onSearchSuccess( nextResults: SearchResult ) {
+        if ( this.filter.pageNumber === 0 ) {
+            this.hits = [];
+        }
+        this.totalHits = nextResults.totalHits;
+        this.hits = this.hits!.concat( nextResults.hits );
+        this.hasMoreHits = nextResults.hits && nextResults.hits.length > 0;
+        this.lastQuery = angular.copy( this.filter.query );
+        return nextResults;
+    };
+
+    /**
+     * 
+     * 
+     * @private
+     * 
+     * @memberOf SearchController
+     */
+    private onSearchError() {
+        this.hits = undefined;
+        this.hasMoreHits = false;
+        this.lastQuery = undefined;
+        this.totalHits = 0;
+    };
 
     /**
      * Abre o filtro (popup) por data

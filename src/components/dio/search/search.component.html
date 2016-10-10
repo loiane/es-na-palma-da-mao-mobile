@@ -15,8 +15,8 @@
 	
 	<ion-content id="dio-search">
 		<md-list ng-if="vm.searched && vm.totalHits">
-			<md-subheader class="md-no-sticky">{{ ::vm.totalHits }} resultados encontrados para <span class="accent">"{{::vm.filter.query}}"</span></md-subheader>
-			<md-list-item class="md-2-line" ng-repeat="hit in vm.hits | orderBy:['-date','pageNumber']">
+			<md-subheader class="md-no-sticky">{{ vm.totalHits }} resultados encontrados para <span class="accent">"{{ vm.lastQuery }}"</span></md-subheader>
+			<md-list-item class="md-2-line" ng-repeat="hit in vm.hits">
 				<div class="md-padding">
 					<div class="md-list-item-text">
 						<h4><strong>Edição de {{ ::hit.date }}</strong> - <small>Pág. {{::hit.pageNumber}}</small></h4>

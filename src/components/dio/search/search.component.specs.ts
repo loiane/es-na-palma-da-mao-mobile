@@ -32,11 +32,15 @@ describe( 'Dio/search', () => {
             });
 
             it( 'should have an empty list of hits', () => {
-                expect( controller.hits ).to.be.deep.equal( [] );
+                expect( controller.hits ).to.be.undefined;
             });
 
             it( 'should have no more hits to show', () => {
                 expect( controller.hasMoreHits ).to.be.false;
+            });
+
+            it( 'should have no last query', () => {
+                expect( controller.lastQuery ).to.be.undefined;
             });
 
             it( 'should have searched flag === false', () => {
@@ -81,71 +85,115 @@ describe( 'Dio/search', () => {
 
         describe( 'search(filter)', () => {
 
-            let freshHits: Hit[];
-            let alreadyLoadedHits: Hit[];
-            let searchResult: SearchResult;
-            let searchApi: Sinon.SinonPromise;
+            describe( 'on success:', () => {
+                let freshHits: Hit[];
+                let alreadyLoadedHits: Hit[];
+                let searchResult: SearchResult;
+                let searchApi: Sinon.SinonPromise;
 
-            beforeEach(() => {
-                alreadyLoadedHits = <Hit[]>[ { editionUrl: 'urlA' }, { editionUrl: 'urlB' }];
-                freshHits = <Hit[]>[ { editionUrl: 'urlC' }, { editionUrl: 'urlD' }];
-                searchResult = { hits: freshHits, totalHits: 1000 };
-                searchApi = sandbox.stub( dioApiService, 'search' ).returnsPromise();
-                searchApi.resolves( searchResult );
+                beforeEach(() => {
+                    alreadyLoadedHits = <Hit[]>[ { editionUrl: 'urlA' }, { editionUrl: 'urlB' }];
+                    freshHits = <Hit[]>[ { editionUrl: 'urlC' }, { editionUrl: 'urlD' }];
+                    searchResult = { hits: freshHits, totalHits: 1000 };
+                    searchApi = sandbox.stub( dioApiService, 'search' ).returnsPromise();
+                    searchApi.resolves( searchResult );
 
-                // configure controller
-                controller.hits = alreadyLoadedHits;
+                    // configure controller
+                    controller.hits = alreadyLoadedHits;
+                });
+
+                it( 'should append returned hits to already loaded ones (if paginating)', () => {
+                    controller.filter.pageNumber = 2;
+
+                    controller.search( controller.filter );
+
+                    expect( controller.hits ).to.deep.equal( alreadyLoadedHits.concat( freshHits ) );
+                });
+
+                it( 'should replace existing hits with freshing ones (on initial load)', () => {
+                    controller.filter.pageNumber = 0;
+
+                    controller.search( controller.filter );
+
+                    expect( controller.hits ).to.deep.equal( freshHits );
+                });
+
+                it( 'should fill totalHits', () => {
+                    controller.search( controller.filter );
+
+                    expect( controller.totalHits ).to.be.equal( searchResult.totalHits );
+                });
+
+                it( 'should set searched flag to true', () => {
+                    controller.searched = false;
+
+                    controller.search( controller.filter );
+
+                    expect( controller.searched ).to.be.true;
+                });
+
+                it( 'should copy filter.query to lastQuery property', () => {
+                    controller.lastQuery = 'hoisel';
+                    controller.filter.query = 'SECOM';
+
+                    controller.search( controller.filter );
+
+                    expect( controller.filter.query ).to.be.equal( controller.lastQuery );
+                });
+
+                it( 'should have no more hits if no hits returned', () => {
+
+                    controller.search( controller.filter );
+
+                    expect( controller.hasMoreHits ).to.be.true;
+
+                    searchApi.resolves( { hits: [], totalHits: 1000 });
+
+                    controller.search( controller.filter );
+
+                    expect( controller.hasMoreHits ).to.be.false;
+                });
+
+                it( 'should broadcast scroll.infiniteScrollComplete event', () => {
+                    let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
+
+                    controller.search( controller.filter );
+
+                    expect( $broadcast.called ).to.be.true;
+                });
             });
 
-            it( 'should append returned hits to already loaded ones (if paginating)', () => {
-                controller.filter.pageNumber = 2;
+             describe( 'on error:', () => {
+                let searchApi: Sinon.SinonPromise;
 
-                controller.search( controller.filter );
+                beforeEach(() => {
+                    searchApi = sandbox.stub( dioApiService, 'search' ).returnsPromise();
+                    searchApi.rejects();
+                });
 
-                expect( controller.hits ).to.deep.equal( alreadyLoadedHits.concat( freshHits ) );
-            });
+                it( 'should unload hits', () => {
+                    controller.search( controller.filter );
 
-            it( 'should replace existing hits with freshing ones (on initial load)', () => {
-                controller.filter.pageNumber = 0;
+                    expect( controller.hits ).to.be.undefined;
+                });
 
-                controller.search( controller.filter );
+                it( 'should clear lasQuery property', () => {
+                    controller.search( controller.filter );
 
-                expect( controller.hits ).to.deep.equal( freshHits );
-            });
+                    expect( controller.lastQuery ).to.be.undefined;
+                });
 
-            it( 'should fill totalHits', () => {
-                controller.search( controller.filter );
+                it( 'should have total hits === 0', () => {
+                    controller.search( controller.filter );
 
-                expect( controller.totalHits ).to.be.equal( searchResult.totalHits );
-            });
+                    expect( controller.totalHits ).to.be.equal( 0 );
+                });
 
-            it( 'should set searched flag to true', () => {
-                controller.searched = false;
+                it( 'should has no more hits', () => {
+                    controller.search( controller.filter );
 
-                controller.search( controller.filter );
-
-                expect( controller.searched ).to.be.true;
-            });
-
-            it( 'should have no more hits if no hits returned', () => {
-
-                controller.search( controller.filter );
-
-                expect( controller.hasMoreHits ).to.be.true;
-
-                searchApi.resolves( { hits: [], totalHits: 1000 });
-
-                controller.search( controller.filter );
-
-                expect( controller.hasMoreHits ).to.be.false;
-            });
-
-            it( 'should broadcast scroll.infiniteScrollComplete event', () => {
-                let $broadcast = sandbox.spy( environment.$scope, '$broadcast' );
-
-                controller.search( controller.filter );
-
-                expect( $broadcast.called ).to.be.true;
+                    expect( controller.hasMoreHits ).to.be.false;
+                });
             });
         });
 
