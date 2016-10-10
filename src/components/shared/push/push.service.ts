@@ -80,8 +80,9 @@ export class PushService {
      * @param {*} data
      */
     public notify( data: any ): void {
-        // TODO: Save any data for later use
-        this.navigateTo( data.appData.state );
+        if ( data.appData && data.appData.state ) {
+            this.navigateTo( data.appData.state, data.appData.params );
+        }
     }
 
     /**
@@ -99,12 +100,11 @@ export class PushService {
      * Navega para o state especificado
      *
      * @param {string} stateName - o nome do state destino
-     *
+     * @param {any} routeParameters - dados a serem passados pra rota
      * @returns {void}
      */
-    public navigateTo( stateName: string ): void {
+    public navigateTo( stateName: string, routeParameters: any ): void {
         this.closeSideNav();
-        if ( this.$ionicHistory.currentStateName() !== stateName ) {
 
             this.$ionicHistory.nextViewOptions( {
                 disableAnimate: true,
@@ -113,9 +113,10 @@ export class PushService {
             });
 
             if ( this.$ionicNativeTransitions ) {
-                this.$ionicNativeTransitions.stateGo( stateName );
+            this.$ionicNativeTransitions.stateGo( stateName, routeParameters, { reload: true }, { 'type': 'fade' });
             } else {
-                this.$state.go( stateName );
+            if ( this.$ionicHistory.currentStateName() !== stateName ) {
+                this.$state.go( stateName, routeParameters );
             }
         }
     }
