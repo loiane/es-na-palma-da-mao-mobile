@@ -1,8 +1,8 @@
 <ion-view title="Notícias">
-	
 	<spinner ng-if="uiState.loading && vm.pagination.pageNumber === 1"></spinner>
-	
 	<ion-content id="state-news-list">
+		<ion-refresher on-refresh="vm.activate(true)">
+		</ion-refresher>
 		<md-toolbar class="md-hue-1 md-whiteframe-1dp">
 			<div class="md-toolbar-tools">
 				<md-button class="md-accent md-raised" ng-click="::vm.openOriginsFilter($event)">
@@ -17,13 +17,13 @@
 			<div ng-repeat="news in vm.news">
 				<md-list-item class="md-3-line" ng-click="::vm.goToNews(news.id)">
 					<md-card-title-text>
-						<span class="md-title lista-noticias">{{::news.title}}</span>
+						<span class="md-title lista-noticias">{{news.title}}</span>
 						<div>
 							<span md-colors="::{color: 'accent'}">
-									{{::news.origin}}
+									{{news.origin}}
 								</span>
 							<span class="noticia-info-origem">
-									 {{::news.date | fromNow }}
+									 {{news.date | fromNow }}
 								</span>
 						</div>
 					</md-card-title-text>
@@ -40,8 +40,7 @@
 			<remark>Tente mudar o filtro da consulta</remark>
 		</message>
 		<error-message error="uiState.error"></error-message>
-		<ion-infinite-scroll ng-if="!uiState.error && vm.availableOrigins && vm.hasMoreNews" on-infinite="vm.loadOrPaginate()"
-			distance="20%">
+		<ion-infinite-scroll immediate-check="false" ng-if="!uiState.error && vm.activated && vm.hasMoreNews && !uiState.loading" on-infinite="vm.paginate()" distance="20%">
 		</ion-infinite-scroll>
 	</ion-content>
 </ion-view>

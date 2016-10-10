@@ -31,7 +31,6 @@ body {
 
 .component-spinner{ text-align: center; padding:15px;}*/
 
-
 .spinner-container {
     position: absolute;
     left: 0;
@@ -79,8 +78,8 @@ body {
 ion-content {
     color: rgba(0,0,0,0.87);
     background-color: #fff;
-      /*height: 100%;
-  position: static;*/
+    height: 100%;
+  position: static;
 }
 
 .material-background {

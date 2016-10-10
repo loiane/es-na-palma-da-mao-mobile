@@ -244,6 +244,7 @@ export default class MenuController {
      */
     public signOut(): void {
         this.authenticationService.signOut(() => {
+            this.$rootScope.$broadcast( 'logout' );
             this.closeSideNav();
             this.$ionicHistory.nextViewOptions( {
                 disableBack: true,

@@ -14,6 +14,7 @@ export class NewsListController {
         '$mdDialog',
         'newsApiService'
     ];
+
     public availableOrigins: string[] | undefined;
     public news: News[] = [];
     public hasMoreNews = true;
@@ -36,14 +37,48 @@ export class NewsListController {
         private $state: angular.ui.IStateService,
         private $mdDialog: angular.material.IDialogService,
         private newsApiService: NewsApiService ) {
+
+        this.$scope.$on( 'logout', () => this.reset() );
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
     /**
      * Ativa o controller
      */
-    public activate(): void {
-        this.getAvailableOrigins();
+    public activate( force: boolean = false ): void {
+        if ( !this.activated || force ) {
+            this.reset();
+            this.getAvailableOrigins()
+                .then(() => this.getNews( this.filter, this.pagination ) )
+                // .then(() => this.activated = true )
+                .finally(() => {
+                    if ( force ) {
+                        this.$scope.$broadcast( 'scroll.refreshComplete' );
+                         this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+                    }
+                });
+        }
+    }
+
+    public get activated(): boolean {
+        return !!this.availableOrigins && this.news.length > 0;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf NewsListController
+     */
+    public reset(): void {
+        this.availableOrigins = undefined;
+        this.news = [];
+        this.hasMoreNews = true;
+        this.filter = {};
+        this.pagination = {
+            pageNumber: 1,
+            pageSize: 10
+        };
     }
 
     /**
@@ -69,9 +104,6 @@ export class NewsListController {
                 this.news = this.isPaginating ? this.news.concat( nextNews ) : nextNews;
                 this.hasMoreNews = ( nextNews.length === pagination.pageSize );
                 return nextNews;
-            })
-            .finally(() => {
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
             });
     }
 
@@ -82,12 +114,15 @@ export class NewsListController {
      * 
      * @memberOf NewsListController
      */
-    public loadOrPaginate(): IPromise<News[]> {
+    public paginate() {
         // só página se já existe alguma notícia carregada
         if ( this.news.length ) {
+            console.log( 'paginando' );
             this.pagination.pageNumber += 1;
+            this.getNews( this.filter, this.pagination ).finally(() => {
+                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+            });
         }
-        return this.getNews( this.filter, this.pagination );
     }
 
     /**
