@@ -155,7 +155,7 @@ export class LoginController {
             content: 'Acesse utilizando o usuário e senha ou clique para criar uma nova conta',
             ok: 'Criar conta'
         }).then(() => {
-            this.$window.open( 'https://acessocidadao.es.gov.br/Conta/VerificarCPF', '_system' );
+            this.openInAppBrowser('https://acessocidadao.es.gov.br/Conta/VerificarCPF');
         });
     }
 
@@ -180,10 +180,14 @@ export class LoginController {
      * Abre a janela(no browser) de recuperar senha do acesso cidadão.
      */
     public openUrlForgotPassword(): void {
+        this.openInAppBrowser('https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha');
+    }
+
+    private openInAppBrowser( url: string ): void {
         let platform = ionic.Platform.platform();
         let options = 'toolbar=no,location=no,clearcache=yes,clearsessioncache=yes,closebuttoncaption=Cancelar';
 
-        let browser = new InAppBrowser( 'https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha?espmplatform=' + platform, '_blank', options );
+        let browser = new InAppBrowser( url + '?espmplatform=' + platform, '_blank', options );
 
         browser.on( 'loadstart' ).subscribe(( event: InAppBrowserEvent ) => {
             if ( event.url === 'https://acessocidadao.es.gov.br/' ) {
