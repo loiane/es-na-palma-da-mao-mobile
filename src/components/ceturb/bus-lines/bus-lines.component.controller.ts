@@ -40,6 +40,7 @@ export class BusLinesController {
      * @memberOf BusLinesController
      */
     public activate(): void {
+        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
         this.filter = '';
         this.getLines();
     }
@@ -58,7 +59,7 @@ export class BusLinesController {
             .then(( [ , lines ] ) => this.mapLines( lines ) )
             .then( lines => {
                 this.filteredLines = this.lines = lines;
-            } );
+            });
     }
 
     /**
@@ -83,7 +84,7 @@ export class BusLinesController {
      * @param {string} id
      */
     public goToLine( id: string ): void {
-        this.transitionService.changeState( 'app.busInfo/:id', { id: id }, { type: 'slide' });
+        this.transitionService.changeState( 'app.busInfo/:id', { id: id }, { type: 'slide', direction: 'left' });
     }
 
     /**

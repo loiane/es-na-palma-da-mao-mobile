@@ -50,7 +50,9 @@ export class SearchController {
     /**
      * Ativa o controller
      */
-    public activate(): void { }
+    public activate(): void {
+        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
+    }
 
     /**
     * 

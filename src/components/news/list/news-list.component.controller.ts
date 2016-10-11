@@ -38,6 +38,7 @@ export class NewsListController {
         private newsApiService: NewsApiService,
         private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
+        this.$scope.$on( '$ionicView.beforeEnter', () => angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' ) );
     }
 
     /**
@@ -182,7 +183,7 @@ export class NewsListController {
     * @param {string} id
     */
     public goToNews( id: string ): void {
-        this.transitionService.changeState( 'app.news/:id', { id: id }, { type: 'slide', direction: 'right' });
+        this.transitionService.changeState( 'app.news/:id', { id: id }, { type: 'slide', direction: 'left' });
     }
 }
 

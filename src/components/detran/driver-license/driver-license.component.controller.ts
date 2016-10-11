@@ -36,6 +36,8 @@ export class DriverLicenseController {
      * 
      */
     public activate(): void {
+        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
+
         this.imgLicense = imgDriverLicense.src;
         if ( this.hasDriverLicense ) {
             this.navigateTo( 'app.driverLicenseStatus' );

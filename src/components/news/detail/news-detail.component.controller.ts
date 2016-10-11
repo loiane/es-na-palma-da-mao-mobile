@@ -28,6 +28,7 @@ export class NewsDetailController {
      * @returns {void}
      */
     public activate(): void {
+        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
         this.getNewsById( this.$stateParams[ 'id' ] );
     }
 
@@ -39,6 +40,8 @@ export class NewsDetailController {
      * @memberOf NewsDetailController
      */
     public share( news: NewsDetail ): void {
+        news.image = news.image.substr( 0, news.image.indexOf( '?' ) );
+
         SocialSharing.shareWithOptions( {
             message: news.title,
             subject: news.title,

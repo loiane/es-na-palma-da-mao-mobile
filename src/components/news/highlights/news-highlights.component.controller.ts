@@ -46,7 +46,7 @@ export class NewsHighlightsController {
      * @param {any} id
      */
     public goToNews( id ): void {
-        this.transitionService.changeState( 'app.news/:id', { id: id }, { type: 'slide', direction: 'right' });
+        this.transitionService.changeState( 'app.news/:id', { id: id }, { type: 'slide', direction: 'left' });
     }
 }
 

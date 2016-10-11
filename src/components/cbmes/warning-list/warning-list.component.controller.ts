@@ -33,6 +33,7 @@ export class WarningListController {
      * Ativa o controller
      */
     public activate(): void {
+        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
         this.getWarnings();
     }
 

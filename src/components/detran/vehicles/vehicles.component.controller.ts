@@ -43,6 +43,7 @@ export class VehiclesController {
      * 
      */
     public activate(): void {
+        angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' );
         this.detranApiService.syncVehicleData();
     }
 
@@ -137,6 +138,6 @@ export class VehiclesController {
      * 
      */
     public viewTickets( vehicle: Vehicle ) {
-        this.transitionService.changeState( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'right' });
+        this.transitionService.changeState( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'left' });
     }
 }

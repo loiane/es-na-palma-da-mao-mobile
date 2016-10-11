@@ -22,6 +22,7 @@ export class LatestController {
         private $window: IWindowService,
         private dioApiService: DioApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
+        this.$scope.$on( '$ionicView.beforeEnter', () => angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' ) );
     }
 
     /**

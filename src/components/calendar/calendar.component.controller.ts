@@ -22,6 +22,7 @@ export class CalendarController {
         private $mdDialog: angular.material.IDialogService,
         private calendarApiService: CalendarApiService ) {
         this.$scope.$on( '$ionicView.loaded', () => this.activate() );
+        this.$scope.$on( '$ionicView.beforeEnter', () => angular.element( document.querySelectorAll( 'ion-header-bar' ) ).removeClass( 'espm-header-tabs' ) );
     }
 
 
