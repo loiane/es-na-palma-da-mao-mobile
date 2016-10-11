@@ -81,6 +81,6 @@ export class DriverLicenseController {
      * 
     */
     public navigateTo( stateName: string ) {
-        this.transitionService.changeState( stateName, {}, { type: 'slide', direction: 'up' });
+        this.transitionService.changeState( stateName, {}, { type: 'slide', direction: 'up' }, true );
     }
 }
