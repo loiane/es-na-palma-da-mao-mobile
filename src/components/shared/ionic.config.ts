@@ -5,7 +5,7 @@
  *
  * @returns {void}
  */
-function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
+function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider, $compileProvider ) {
 
     // Use for change ionic spinner to android pattern.
     $ionicConfigProvider.spinner.icon( 'android' );
@@ -29,13 +29,15 @@ function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
         backInOppositeDirection: false // Takes over default back transition and state back transition to use the opposite direction transition to go back
     };
 
-    if (!ionic.Platform.isAndroid()) {
+    if ( !ionic.Platform.isAndroid() ) {
         nativeTransitionsOptions.fixedPixelsTop = 63;
     }
+
+    $compileProvider.debugInfoEnabled( false );
 
     $ionicNativeTransitionsProvider.setDefaultOptions( nativeTransitionsOptions );
 }
 
-ionicConfig.$inject = [ '$ionicConfigProvider', '$ionicNativeTransitionsProvider' ];
+ionicConfig.$inject = [ '$ionicConfigProvider', '$ionicNativeTransitionsProvider', '$compileProvider' ];
 
-export default  ionicConfig;
+export default ionicConfig;
