@@ -2,7 +2,7 @@ import SepConsultaComponent from './sep-consulta.component';
 import SepConsultaTemplate from './sep-consulta.component.html';
 import { SepApiService, Process } from './shared/index';
 import { SepConsultaController } from './sep-consulta.component.controller';
-import { environment, toastServiceMock } from '../shared/tests/index';
+import { environment, toastServiceMock, $stateParamsMock } from '../shared/tests/index';
 import { SocialSharing, BarcodeScanner } from 'ionic-native';
 
 let expect = chai.expect;
@@ -48,7 +48,7 @@ describe( 'SEP/sep-consulta', () => {
                 getProcessByNumber: () => { }
             };
 
-            controller = new SepConsultaController( environment.$scope, $ionicScrollDelegate, $ionicScrollDelegate, toastServiceMock, sepApiService );
+            controller = new SepConsultaController( environment.$scope, $ionicScrollDelegate, $stateParamsMock, toastServiceMock, sepApiService );
         });
 
         describe( 'on instanciation', () => {
@@ -63,28 +63,74 @@ describe( 'SEP/sep-consulta', () => {
         });
 
         describe( 'activate()', () => {
+            let getProcess: Sinon.SinonStub;
+            let getProcessByNumber: Sinon.SinonStub;
+
             beforeEach(() => {
-                controller.activate();
+                getProcess = sandbox.stub( controller, 'getProcess' );
+                getProcessByNumber = sandbox.stub( sepApiService, 'getProcessByNumber' );
             });
 
             it( 'should have an undefined process', () => {
+                controller.activate();
+
                 expect( controller.process ).to.be.undefined;
             });
 
             it( 'should have empty process number', () => {
+                controller.activate();
+
                 expect( controller.processNumber ).to.be.empty;
             });
 
             it( 'should have empty last process number', () => {
+                controller.activate();
+
                 expect( controller.lastProcessNumber ).to.be.empty;
             });
 
             it( 'should hot have been searched', () => {
+                controller.activate();
+
                 expect( controller.searched ).to.be.false;
             });
 
             it( 'should hide all updates', () => {
+                controller.activate();
+
                 expect( controller.showAllUpdates ).to.be.false;
+            });
+
+            it( 'should get process if has stateParam processNumber', () => {
+                $stateParamsMock[ 'processNumber' ] = '4545';
+
+                controller.activate();
+
+                delete $stateParamsMock[ 'processNumber' ];
+
+                expect( getProcess.called ).to.be.true;
+            });
+
+            it( 'should set processNumber if has stateParam processNumber', () => {
+                $stateParamsMock[ 'processNumber' ] = '4545';
+
+                controller.activate();
+
+                delete $stateParamsMock[ 'processNumber' ];
+
+                expect( controller.processNumber ).to.be.equal( 4545 );
+            });
+
+            it( 'should not get process if stateParam empty', () => {
+                controller.activate();
+
+                expect( getProcess.called ).to.be.false;
+            });
+
+            it( 'should not set processNumber if stateParam empty', () => {
+                controller.activate();
+
+                expect( controller.processNumber ).to.be.equal( undefined );
             });
         });
 
