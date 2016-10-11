@@ -1,10 +1,11 @@
 import { IScope, IPromise } from 'angular';
+import { SourcesFilterController, sourcesFilterTemplate } from '../layout/sources-filter/index';
 import { CalendarApiService } from './shared/calendar-api.service';
 import { Calendar } from './shared/models/index';
 
 export class CalendarController {
 
-    public static $inject: string[] = [ '$scope', 'calendarApiService' ];
+    public static $inject: string[] = [ '$scope', '$mdDialog', 'calendarApiService' ];
 
     public calendar: { currentDate?: Date; eventSources?: Calendar[]; } = {};
     public selectedCalendars: string[] = [];
@@ -18,6 +19,7 @@ export class CalendarController {
      * @param {CalendarApiService} calendarApiService - calendarApiService service
      */
     constructor( private $scope: IScope,
+        private $mdDialog: angular.material.IDialogService,
         private calendarApiService: CalendarApiService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -41,7 +43,8 @@ export class CalendarController {
     public getAvailableCalendars(): IPromise<string[]> {
         return this.calendarApiService.getAvailableCalendars()
             .then( calendars => {
-                this.selectedCalendars = this.availableCalendars = calendars.map( calendar => calendar.name );
+                this.availableCalendars = calendars.map( calendar => calendar.name );
+                this.selectedCalendars = angular.copy( this.availableCalendars );
                 return this.selectedCalendars;
             });
     }
@@ -92,6 +95,27 @@ export class CalendarController {
         currentCalendarDate.setHours( 0, 0, 0, 0 );
 
         return today.getTime() === currentCalendarDate.getTime();
+    }
+
+
+    /**
+   * Abre filtro(popup) por fonte da notícia
+   */
+    public openFilter(): void {
+        this.$mdDialog.show( {
+            controller: SourcesFilterController,
+            template: sourcesFilterTemplate,
+            bindToController: true,
+            controllerAs: 'vm',
+            locals: {
+                availableOrigins: this.availableCalendars,
+                selectedOrigins: this.selectedCalendars
+            }
+        })
+            .then(( filter: { origins: string[] }) => {
+                this.selectedCalendars = filter.origins;
+                this.loadCalendars( this.selectedCalendars );
+            });
     }
 }
 

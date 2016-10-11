@@ -3,9 +3,8 @@ import { NewsListController } from './news-list.component.controller';
 import { NewsApiService, News, Filter } from '../shared/index';
 import NewsListComponent from './news-list.component';
 import NewsListTemplate from './news-list.component.html';
-import sourcesFilterTemplate from './sources-filter/sources-filter.html';
 import datesFilterTemplate from './dates-filter/dates-filter.html';
-import { SourcesFilterController } from './sources-filter/sources-filter.controller';
+import { SourcesFilterController, sourcesFilterTemplate } from '../../layout/sources-filter/index';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
 import { environment, $stateMock, $mdDialogMock } from '../../shared/tests/index';
 

@@ -1,5 +1,5 @@
 import { SourcesFilterController } from './sources-filter.controller';
-import { $mdDialogMock } from '../../../shared/tests/index';
+import { $mdDialogMock } from '../../shared/tests/index';
 let expect = chai.expect;
 
 describe( 'News/news-list/sources-filter', () => {

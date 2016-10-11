@@ -3,7 +3,8 @@ import { CalendarController } from './calendar.component.controller';
 import CalendarComponent from './calendar.component';
 import CalendarTemplate from './calendar.component.html';
 import { CalendarApiService } from './shared/calendar-api.service';
-import { environment } from '../shared/tests/index';
+import { environment, $mdDialogMock } from '../shared/tests/index';
+import { SourcesFilterController, sourcesFilterTemplate } from '../layout/sources-filter/index';
 
 let expect = chai.expect;
 
@@ -33,7 +34,7 @@ describe( 'Calendar', () => {
             getAvailableCalendarsApi = sandbox.stub( calendarApiService, 'getAvailableCalendars' ).returnsPromise();
             getFullCalendarsApi = sandbox.stub( calendarApiService, 'getFullCalendars' ).returnsPromise();
 
-            controller = new CalendarController( environment.$scope, calendarApiService );
+            controller = new CalendarController( environment.$scope, $mdDialogMock, calendarApiService );
         });
 
         describe( 'on instantiation', () => {
@@ -134,7 +135,7 @@ describe( 'Calendar', () => {
 
                 controller.today();
 
-                 expect( moment( controller.calendar.currentDate ).isSame( today, 'day' ) ).to.be.true;
+                expect( moment( controller.calendar.currentDate ).isSame( today, 'day' ) ).to.be.true;
             });
         });
 
@@ -166,6 +167,48 @@ describe( 'Calendar', () => {
 
                 controller.calendar.currentDate = todayAfternoon;
                 expect( controller.isToday() ).to.be.true;
+            });
+        });
+
+        describe( 'openFilter()', () => {
+
+            let $mdDialogShow: Sinon.SinonStub;
+
+            beforeEach(() => {
+                $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
+                $mdDialogShow.returnsPromise();
+            });
+
+            it( 'should open sources filter', () => {
+                controller.availableCalendars = availableCalendarsNames;
+                controller.selectedCalendars = selectedCalendars;
+
+                controller.openFilter();
+
+                expect( $mdDialogShow.calledWithExactly( {
+                    controller: SourcesFilterController,
+                    template: sourcesFilterTemplate,
+                    bindToController: true,
+                    controllerAs: 'vm',
+                    locals: {
+                        availableOrigins: controller.availableCalendars,
+                        selectedOrigins: controller.selectedCalendars
+                    }
+                }) ).to.be.true;
+            });
+
+            describe( 'on sources filter edited:', () => {
+                it( 'should load selected calendars', () => {
+                    let sourceFilter = {
+                        origins: [ 'SEDU', 'SEFAZ', 'SEAMA' ]
+                    };
+                    $mdDialogShow.returnsPromise().resolves( sourceFilter );
+                    let loadCalendars = sandbox.stub( controller, 'loadCalendars' );
+
+                    controller.openFilter();
+
+                    expect( loadCalendars.calledWithExactly( sourceFilter.origins ) ).to.be.true;
+                });
             });
         });
     });
