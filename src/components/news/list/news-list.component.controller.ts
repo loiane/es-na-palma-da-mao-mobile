@@ -12,6 +12,8 @@ export class NewsListController {
         '$scope',
         '$state',
         '$mdDialog',
+        '$timeout',
+        '$ionicScrollDelegate',
         'newsApiService'
     ];
 
@@ -36,6 +38,8 @@ export class NewsListController {
     constructor( private $scope: IScope,
         private $state: angular.ui.IStateService,
         private $mdDialog: angular.material.IDialogService,
+        private $timeout: any,
+        private $ionicScrollDelegate: any,
         private newsApiService: NewsApiService ) {
 
         this.$scope.$on( 'logout', () => this.reset() );
@@ -47,19 +51,20 @@ export class NewsListController {
      */
     public activate( force: boolean = false ): void {
         if ( !this.activated || force ) {
-            this.reset();
+            this.hasMoreNews = true;
+            this.pagination.pageNumber = 1;
             this.getAvailableOrigins()
-                .then(() => this.getNews( this.filter, this.pagination ) )
-                // .then(() => this.activated = true )
-                .finally(() => {
-                    if ( force ) {
-                        this.$scope.$broadcast( 'scroll.refreshComplete' );
-                         this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-                    }
-                });
+                .then(() => this.getNews( this.filter, this.pagination ) );
         }
     }
 
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     * @memberOf NewsListController
+     */
     public get activated(): boolean {
         return !!this.availableOrigins && this.news.length > 0;
     }
@@ -90,20 +95,29 @@ export class NewsListController {
         return this.newsApiService.getAvailableOrigins()
             .then( origins => {
                 this.availableOrigins = origins || [];
-                this.filter.origins = angular.copy( this.availableOrigins );
+                this.filter.origins = this.filter.origins || angular.copy( this.availableOrigins );
                 return origins;
             });
     }
-
+    private carregando = false;
     /**
      * Obtém uma lista de notícias
      */
     public getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
+        console.log( 'getNews:', this.pagination.pageNumber );
+        this.carregando = true;
         return this.newsApiService.getNews( filter, pagination )
             .then( nextNews => {
                 this.news = this.isPaginating ? this.news.concat( nextNews ) : nextNews;
-                this.hasMoreNews = ( nextNews.length === pagination.pageSize );
                 return nextNews;
+            })
+            .finally( () => {
+                this.$scope.$broadcast( 'scroll.refreshComplete' );
+                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+                 this.$timeout(() => {
+                    this.carregando = false;
+                    this.$ionicScrollDelegate.$getByHandle( 'mainScroll' ).resize();
+                }, 2000 );
             });
     }
 
@@ -116,13 +130,9 @@ export class NewsListController {
      */
     public paginate() {
         // só página se já existe alguma notícia carregada
-        if ( this.news.length ) {
-            console.log( 'paginando' );
-            this.pagination.pageNumber += 1;
-            this.getNews( this.filter, this.pagination ).finally(() => {
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-            });
-        }
+        this.pagination.pageNumber += 1;
+        console.log( 'paginate page:', this.pagination.pageNumber );
+        this.getNews( this.filter, this.pagination );
     }
 
     /**
@@ -174,10 +184,8 @@ export class NewsListController {
      * Recarrega a página
      */
     public applyUserFilter( filter ): void {
-        this.hasMoreNews = true;
-        this.pagination.pageNumber = 1;
         angular.extend( this.filter, filter );
-        this.getNews( this.filter, this.pagination );
+        this.activate( true );
     }
 
 
