@@ -22,33 +22,32 @@
 	
 	<ion-content id="state-news-list">
 		<md-list>
-			<div ng-repeat="news in vm.news">
-				<md-list-item class="md-3-line" ng-click="::vm.goToNews(news.id)">
-					<md-card-title-text>
-						<span class="md-title lista-noticias">{{::news.title}}</span>
-						<div>
-							<span md-colors="::{color: 'accent'}">
-									{{::news.origin}}
+			<md-list-item ng-click="vm.goToNews(news.id)" ng-repeat="news in vm.news track by $index">
+				<md-card-title-text>
+					<span class="md-title lista-noticias">{{news.title}}</span>
+					<div>
+						<span md-colors="{color: 'accent'}">
+									{{news.origin}}
 								</span>
-							<span class="noticia-info-origem">
-									 {{::news.date | fromNow }}
+						<span class="noticia-info-origem">
+									 {{news.date | fromNow }}
 								</span>
-						</div>
-					</md-card-title-text>
-					<md-card-title-media>
-						<div class="md-media-md card-media">
-							<img alt="" ng-src="{{::news.image}}" onerror="this.style.display='none'" />
-						</div>
-					</md-card-title-media>
-				</md-list-item>
+					</div>
+				</md-card-title-text>
+				<md-card-title-media>
+					<div class="md-media-md card-media">
+						<img alt="" ng-src="{{news.image}}" onload="this.style.display='inline'" onerror="this.style.display='none'" />
+					</div>
+				</md-card-title-media>
 				<md-divider></md-divider>
-			</div>
+			</md-list-item>
 		</md-list>
 		<message ng-if="!uiState.error && vm.news && !vm.news.length" text="Nenhuma notícia encontrada">
 			<remark>Tente mudar o filtro da consulta</remark>
 		</message>
+
 		<error-message error="uiState.error"></error-message>
-		<ion-infinite-scroll ng-if="!uiState.error && vm.availableOrigins && vm.hasMoreNews" on-infinite="vm.loadOrPaginate()"
+		<ion-infinite-scroll immediate-check="false" ng-if="!uiState.error && vm.hasMoreNews" on-infinite="vm.doPaginate()"
 			distance="20%">
 		</ion-infinite-scroll>
 	</ion-content>
