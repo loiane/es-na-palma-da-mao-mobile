@@ -40,14 +40,17 @@ export class NewsDetailController {
      * @memberOf NewsDetailController
      */
     public share( news: NewsDetail ): void {
-        news.image = news.image.substr( 0, news.image.indexOf( '?' ) );
-
-        SocialSharing.shareWithOptions( {
+        let shareOptions = {
             message: news.title,
             subject: news.title,
-            files: [ news.image ],
+            // files: [ news.image ],
             url: news.url
-        });
+        };
+
+        // shareOptions.files = shareOptions.files.map(( value ) => value.indexOf( '?' ) >= 0 ? value.substr( 0, news.image.indexOf( '?' ) ) : value );
+        // shareOptions.files = shareOptions.files.map(( value ) => value.replace( 'https', 'http' ) );
+
+        SocialSharing.shareWithOptions( shareOptions );
     }
 
     /**
