@@ -7,7 +7,6 @@ export class BusLinesController {
 
     public static $inject: string[] = [
         '$scope',
-        '$state',
         'ceturbApiService',
         'ceturbStorage',
         'transitionService'
