@@ -60,11 +60,11 @@ describe( 'News/news-list', () => {
                 });
             });
 
-            it( 'should activate on $ionicView.beforeEnter event', () => {
+            it( 'should activate on $ionicView.loaded event', () => {
                 let activate = sandbox.stub( controller, 'activate' ); // replace original activate
 
                 // simulates ionic before event trigger
-                environment.onIonicBeforeEnterEvent();
+                environment.onIonicLoadedEvent();
 
                 expect( activate.called ).to.be.true;
             });

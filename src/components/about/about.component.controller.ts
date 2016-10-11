@@ -20,7 +20,7 @@ export class AboutController {
     constructor( private $scope: IScope,
                  private $window: IWindowService,
                  private teamsApiService: TeamsApiService ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+        this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
     /**

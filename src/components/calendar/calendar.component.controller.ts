@@ -21,7 +21,7 @@ export class CalendarController {
     constructor( private $scope: IScope,
         private $mdDialog: angular.material.IDialogService,
         private calendarApiService: CalendarApiService ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+        this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
 

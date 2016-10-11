@@ -21,7 +21,7 @@ export class LatestController {
     constructor( private $scope: IScope,
         private $window: IWindowService,
         private dioApiService: DioApiService ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+        this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
     /**

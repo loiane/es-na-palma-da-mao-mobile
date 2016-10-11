@@ -36,7 +36,7 @@ export class NewsListController {
         private $mdDialog: angular.material.IDialogService,
         private newsApiService: NewsApiService,
         private transitionService: TransitionService ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+        this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
     /**

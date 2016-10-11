@@ -35,7 +35,7 @@ export class DriverLicenseStatusController {
         private detranApiService: DetranApiService,
         private driverLicenseStorage: DriverLicenseStorage,
         private $mdDialog: angular.material.IDialogService ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+        this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
 

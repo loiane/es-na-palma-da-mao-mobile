@@ -33,7 +33,7 @@ export class SepConsultaController {
         private $stateParams: angular.ui.IStateParamsService,
         private toast: ToastService,
         private sepApiService: SepApiService ) {
-        this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
+        this.$scope.$on( '$ionicView.loaded', () => this.activate() );
     }
 
     /**
