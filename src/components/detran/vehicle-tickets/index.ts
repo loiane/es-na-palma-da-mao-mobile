@@ -16,9 +16,6 @@ export default angular.module( 'vehicle-tickets.component', dependencies )
                                   .state( 'app.vehicleTickets/:plate/:renavam', {
                                       url: 'detran/vehicle/tickets/:plate/:renavam',
                                       data: { title: 'Multas por Veículo' },
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       views: {
                                           content: {
                                               template: '<detran-vehicle-tickets></detran-vehicle-tickets>'

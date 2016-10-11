@@ -6,7 +6,8 @@ import NewsListTemplate from './news-list.component.html';
 import datesFilterTemplate from './dates-filter/dates-filter.html';
 import { SourcesFilterController, sourcesFilterTemplate } from '../../layout/sources-filter/index';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
-import { environment, $stateMock, $mdDialogMock } from '../../shared/tests/index';
+import { environment, $mdDialogMock } from '../../shared/tests/index';
+import { TransitionService } from '../../shared/index';
 
 let expect = chai.expect;
 
@@ -20,6 +21,7 @@ describe( 'News/news-list', () => {
         let controller: NewsListController;
         let newsApiService: NewsApiService;
         let availableOrigins = [ 'SESA', 'SEJUS', 'SEGER' ];
+        let transitionService: TransitionService;
 
         beforeEach(() => {
             environment.refresh();
@@ -27,7 +29,10 @@ describe( 'News/news-list', () => {
                 getNews: () => { },
                 getAvailableOrigins: () => { }
             };
-            controller = new NewsListController( environment.$scope, $stateMock, $mdDialogMock, newsApiService );
+            transitionService = <TransitionService><any>{
+                changeState: () => { }
+            };
+            controller = new NewsListController( environment.$scope, $mdDialogMock, newsApiService, transitionService );
         });
 
         describe( 'on instantiation', () => {
@@ -247,12 +252,12 @@ describe( 'News/news-list', () => {
 
         describe( 'goToNews( id )', () => {
             it( 'should show selected news', () => {
-                let go = sandbox.stub( $stateMock, 'go' );
+                let changeState = sandbox.stub( transitionService, 'changeState' );
                 let id = '123456';
 
                 controller.goToNews( id );
 
-                expect( go.calledWith( 'app.news/:id', { id: id }) ).to.be.true;
+                expect( changeState.calledWith( 'app.news/:id', { id: id }, { type: 'slide', direction: 'right' }) ).to.be.true;
             });
         });
 

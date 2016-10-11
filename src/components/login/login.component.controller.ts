@@ -1,5 +1,5 @@
 import { IWindowService, IPromise } from 'angular';
-import { ToastService, DialogService } from '../shared/index';
+import { ToastService, DialogService, TransitionService } from '../shared/index';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
 import { PushService } from '../shared/push/index';
 
@@ -16,13 +16,12 @@ export class LoginController {
      * @type {string[]}
      */
     public static $inject: string[] = [
-        '$state',
         'authenticationService',
         'dialog',
         'toast',
         '$window',
-        '$ionicHistory',
-        'pushService'
+        'pushService',
+        'transitionService'
     ];
 
     public processingLogin: boolean = false;
@@ -35,23 +34,20 @@ export class LoginController {
     /**
      * Creates an instance of LoginController.
      * 
-     * @param {angular.ui.IStateService} $state
      * @param {AuthenticationService} authenticationService
      * @param {DialogService} dialog
      * @param {ToastService} toast
      * @param {IWindowService} $window
-     * @param {ionic.navigation.IonicHistoryService} $ionicHistory
      * @param {PushConfig} pushConfig
      * 
      * @memberOf LoginController
      */
-    constructor( private $state: angular.ui.IStateService,
-        private authenticationService: AuthenticationService,
+    constructor( private authenticationService: AuthenticationService,
         private dialog: DialogService,
         private toast: ToastService,
         private $window: IWindowService,
-        private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private pushService: PushService ) {
+        private pushService: PushService,
+        private transitionService: TransitionService ) {
     }
 
     /**
@@ -176,12 +172,7 @@ export class LoginController {
      * Redireciona usuário para o dashboard
      */
     public goToDashboard(): void {
-        this.$ionicHistory.nextViewOptions( {
-            disableAnimate: true,
-            historyRoot: true
-        });
-
-        this.$state.go( 'app.dashboard.newsHighlights' );
+        this.transitionService.changeRootState( 'app.dashboard.newsHighlights' );
     }
 
     /**

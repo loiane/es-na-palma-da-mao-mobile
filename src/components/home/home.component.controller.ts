@@ -1,25 +1,25 @@
 import { IWindowService } from 'angular';
+import { TransitionService } from '../shared/index';
 
 export class HomeController {
 
-    public static $inject: string[] = [ '$state', '$window' ];
+    public static $inject: string[] = [ '$window', 'transitionService' ];
 
     /**
      * Creates an instance of HomeController.
      * 
-     * @param {angular.ui.IStateService} $state
      * @param {IWindowService} $window
      * @param {ISettings} settings
      */
-    constructor( private $state: angular.ui.IStateService,
-                 private $window: IWindowService ) {
+    constructor( private $window: IWindowService,
+        private transitionService: TransitionService, ) {
     }
 
     /**
      *
      */
     public navigateToLogin(): void {
-        this.$state.go( 'login' );
+        this.transitionService.changeState( 'login' );
     }
 
     /**

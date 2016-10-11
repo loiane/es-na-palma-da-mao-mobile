@@ -1,8 +1,8 @@
-import { IScope, ITimeoutService, IRootScopeService } from 'angular';
+import { IRootScopeService } from 'angular';
 
 import { AuthenticationStorageService, AcessoCidadaoClaims, AuthenticationService } from '../../shared/authentication/index';
 import defaultAvatar from './img/user.png!image';
-import { ToastService } from '../../shared/index';
+import { ToastService, TransitionService } from '../../shared/index';
 import { Route } from '../../shared/routes/index';
 import { DriverLicenseStorage } from '../../detran/shared/index';
 
@@ -13,11 +13,8 @@ export default class MenuController {
 
     public static $inject: string[] = [
         '$rootScope',
-        '$scope',
-        '$timeout',
         '$mdSidenav',
         '$ionicHistory',
-        '$state',
         '$ionicNativeTransitions',
         '$ionicPlatform',
         '$mdDialog',
@@ -27,18 +24,16 @@ export default class MenuController {
         'authenticationService',
         'authenticationStorageService',
         'toast',
-        'detranStorage'
+        'detranStorage',
+        'transitionService'
     ];
 
     /**
      * Creates an instance of MenuController.
      * 
      * @param {IRootScopeService} $rootScope
-     * @param {IScope} $scope
-     * @param {ITimeoutService} $timeout
      * @param {angular.material.ISidenavService} $mdSidenav
      * @param {ionic.navigation.IonicHistoryService} $ionicHistory
-     * @param {angular.ui.IStateService} $state
      * @param {any} $ionicNativeTransitions
      * @param {ionic.platform.IonicPlatformService} $ionicPlatform
      * @param {angular.material.IDialogService} $mdDialog
@@ -49,13 +44,11 @@ export default class MenuController {
      * @param {AuthenticationService} authenticationService
      * @param {ToastService} toast
      * @param {DriverLicenseStorage} driverLicenseStorage
+     * @param {TransitionService} transitionService
      */
     constructor( private $rootScope: IRootScopeService,
-        private $scope: IScope,
-        private $timeout: ITimeoutService,
         private $mdSidenav: angular.material.ISidenavService,
         private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private $state: angular.ui.IStateService,
         private $ionicNativeTransitions,
         private $ionicPlatform: ionic.platform.IonicPlatformService,
         private $mdDialog: angular.material.IDialogService,
@@ -65,7 +58,8 @@ export default class MenuController {
         private authenticationService: AuthenticationService,
         private authenticationStorageService: AuthenticationStorageService,
         private toast: ToastService,
-        private driverLicenseStorage: DriverLicenseStorage ) {
+        private driverLicenseStorage: DriverLicenseStorage,
+        private transitionService: TransitionService ) {
         this.activate();
     }
 
@@ -218,25 +212,7 @@ export default class MenuController {
         if ( route.menuName === 'Situação CNH' ) {
             stateName = this.hasDriverLicense ? 'app.driverLicenseStatus' : 'app.driverLicense';
         }
-        this.$timeout(() => {
-            this.closeSideNav();
-            if ( this.$ionicHistory.currentStateName() !== stateName ) {
-
-                // Only change state if has a valid token
-                this.$ionicHistory.nextViewOptions( {
-                    disableAnimate: true,
-                    disableBack: true,
-                    historyRoot: true
-                });
-                if ( this.$ionicNativeTransitions ) {
-                    this.$ionicNativeTransitions.stateGo( stateName, {}, {}, {
-                        'type': 'fade'
-                    });
-                } else {
-                    this.$state.go( stateName );
-                }
-            }
-        }, ( this.$scope.isAndroid === false ? 300 : 0 ) );
+        this.transitionService.changeRootState( stateName );
     }
 
     /**
@@ -244,12 +220,7 @@ export default class MenuController {
      */
     public signOut(): void {
         this.authenticationService.signOut(() => {
-            this.closeSideNav();
-            this.$ionicHistory.nextViewOptions( {
-                disableBack: true,
-                historyRoot: true
-            });
-            this.$state.go( 'home' );
+            this.transitionService.changeRootState( 'home' );
         });
     }
 }

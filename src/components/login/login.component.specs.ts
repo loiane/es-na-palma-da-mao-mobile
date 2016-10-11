@@ -1,7 +1,8 @@
 import { LoginController } from './login.component.controller';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
 import { PushService } from '../shared/push/index';
-import { environment, $stateMock, $windowMock, dialogServiceMock, toastServiceMock } from '../shared/tests/index';
+import { TransitionService } from '../shared/index';
+import { environment, $windowMock, dialogServiceMock, toastServiceMock } from '../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -14,6 +15,7 @@ describe( 'Login', () => {
     describe( 'Controller', () => {
         let controller: LoginController;
         let pushService: PushService;
+        let transitionService: TransitionService;
 
         // dialogs
         let dialogConfirm: Sinon.SinonStub;
@@ -48,15 +50,15 @@ describe( 'Login', () => {
                 digitsLogin() { }
             };
             pushService = <PushService>{ init() { } };
+            transitionService = <TransitionService><any>{ changeRootState: () => { } };
 
             controller = new LoginController(
-                $stateMock,
                 authenticationService,
                 dialogServiceMock,
                 toastServiceMock,
                 $windowMock,
-                environment.$ionicHistory,
-                pushService );
+                pushService,
+                transitionService );
 
             // setup stubs
             dialogConfirm = sandbox.stub( dialogServiceMock, 'confirm' );
@@ -305,7 +307,7 @@ describe( 'Login', () => {
 
                 controller.onEnterPressed();
 
-                expect( loginWithCredentials.calledWithExactly( controller.username, controller.password) ).to.be.true;
+                expect( loginWithCredentials.calledWithExactly( controller.username, controller.password ) ).to.be.true;
             });
 
             it( 'should not signin if no credentials provided', () => {
@@ -327,22 +329,12 @@ describe( 'Login', () => {
                 nextViewOptions = sandbox.stub( environment.$ionicHistory, 'nextViewOptions' );
             });
 
-            it( 'should call $ionicHistory.nextViewOptions', () => {
-
-                controller.goToDashboard();
-
-                expect( nextViewOptions.calledWithExactly( {
-                    disableAnimate: true,
-                    historyRoot: true
-                }) ).to.be.true;
-            });
-
             it( 'should redirect to dashboard', () => {
-                let go = sandbox.stub( $stateMock, 'go' );
+                let changeRootState = sandbox.stub( transitionService, 'changeRootState' );
 
                 controller.goToDashboard();
 
-                expect( go.calledWithExactly( 'app.dashboard.newsHighlights' ) ).to.be.true;
+                expect( changeRootState.calledWithExactly( 'app.dashboard.newsHighlights' ) ).to.be.true;
             });
         });
 

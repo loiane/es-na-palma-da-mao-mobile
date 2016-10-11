@@ -15,7 +15,6 @@ export default angular.module( 'news-highlights.component', dependencies )
                               .state( 'app.dashboard.newsHighlights', {
                                   url: 'news/highlights',
                                   data: {title: 'DESTAQUES'},
-                                  nativeTransitions: undefined,
                                   views: {
                                       'tab-news': {
                                           template: '<news-highlights></news-highlights>'

@@ -1,10 +1,11 @@
 import { IScope } from 'angular';
 
 import { NewsApiService, News } from '../shared/index';
+import { TransitionService } from '../../shared/index';
 
 export class NewsHighlightsController {
 
-    public static $inject: string[] = [ '$scope', 'newsApiService', '$state' ];
+    public static $inject: string[] = [ '$scope', 'newsApiService', 'transitionService' ];
 
     public highlights: News[] = [];
 
@@ -13,11 +14,11 @@ export class NewsHighlightsController {
      *
      * @param {IScope} $scope
      * @param {NewsApiService} newsApiService
-     * @param {angular.ui.IStateService} $state
+     * @param {TransitionService} transitionService
      */
     constructor( private $scope: IScope,
-                 private newsApiService: NewsApiService,
-                 private $state: angular.ui.IStateService ) {
+        private newsApiService: NewsApiService,
+        private transitionService: TransitionService ) {
 
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
@@ -45,7 +46,7 @@ export class NewsHighlightsController {
      * @param {any} id
      */
     public goToNews( id ): void {
-        this.$state.go( 'app.news/:id', {id: id} );
+        this.transitionService.changeState( 'app.news/:id', { id: id }, { type: 'slide', direction: 'right' });
     }
 }
 

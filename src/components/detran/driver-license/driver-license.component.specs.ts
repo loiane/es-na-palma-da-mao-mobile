@@ -4,8 +4,9 @@ import registerLicenseTemplate from '../shared/add-license/add-license.html';
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
 import { DriverLicenseController } from './driver-license.component.controller';
 import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared/index';
+import { TransitionService } from '../../shared/index';
 import imgDriverLicense from './img/cnh-frente.png!image';
-import { environment, $stateMock, $mdDialogMock } from '../../shared/tests/index';
+import { environment, $mdDialogMock } from '../../shared/tests/index';
 
 let expect = chai.expect;
 
@@ -19,6 +20,7 @@ describe( 'Detran/driver-license', () => {
         let detranApiService: DetranApiService;
         let controller: DriverLicenseController;
         let driverLicenseStorage: DriverLicenseStorage;
+        let transitionService: TransitionService;
 
         beforeEach(() => {
             environment.refresh();
@@ -30,14 +32,15 @@ describe( 'Detran/driver-license', () => {
                 getDriverTickets() { },
                 saveLicense() { }
             };
+            transitionService = <TransitionService><any>{
+                changeState: () => { }
+            };
             controller = new DriverLicenseController(
                 environment.$scope,
-                $stateMock,
-                environment.$ionicHistory,
-                environment.$ionicNativeTransitions,
                 detranApiService,
                 driverLicenseStorage,
-                $mdDialogMock );
+                $mdDialogMock,
+                transitionService );
         });
 
         describe( 'on instantiation', () => {
@@ -145,37 +148,12 @@ describe( 'Detran/driver-license', () => {
             });
 
             describe( 'navigateTo(state)', () => {
-                let nextViewOptions: Sinon.SinonStub;
-
-                beforeEach(() => {
-                    nextViewOptions = sandbox.stub( environment.$ionicHistory, 'nextViewOptions' );
-                });
-
-                it( 'should call $ionicHistory.nextViewOptions', () => {
+                it( 'should change state using TransitionService', () => {
+                    let changeState = sandbox.stub( transitionService, 'changeState' );
 
                     controller.navigateTo( 'someState' );
 
-                    expect( nextViewOptions.calledWithExactly( {
-                        disableBack: true,
-                        historyRoot: true
-                    }) ).to.be.true;
-                });
-
-                it( 'should navigate to state using ionic native transitions', () => {
-                    let go = sandbox.stub( $stateMock, 'go' );
-                    controller.$ionicNativeTransitions = undefined;
-
-                    controller.navigateTo( 'someState' );
-
-                    expect( go.calledWithExactly( 'someState' ) ).to.be.true;
-                });
-
-                it( 'should navigate to state using ionic native transitions ( on device )', () => {
-                    let stateGo = sandbox.stub( controller.$ionicNativeTransitions, 'stateGo' );
-
-                    controller.navigateTo( 'someState' );
-
-                    expect( stateGo.calledWithExactly( 'someState', {}, { type: 'slide', direction: 'up' }) ).to.be.true;
+                    expect( changeState.calledWithExactly( 'someState', {}, { type: 'slide', direction: 'up' }) ).to.be.true;
                 });
             });
         });

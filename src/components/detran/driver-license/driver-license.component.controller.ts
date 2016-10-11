@@ -3,13 +3,13 @@ import { DriverLicense, DriverLicenseStorage, DetranApiService } from '../shared
 import imgDriverLicense from './img/cnh-frente.png!image';
 import registerLicenseTemplate from '../shared/add-license/add-license.html';
 import { AddLicenseController } from '../shared/add-license/add-license.controller';
-
+import { TransitionService } from '../../shared/index';
 /**
  * @class DriverLicenseController
  */
 export class DriverLicenseController {
 
-    public static $inject: string[] = [ '$scope', '$state', '$ionicHistory', '$ionicNativeTransitions', 'detranApiService', 'detranStorage', '$mdDialog' ];
+    public static $inject: string[] = [ '$scope', 'detranApiService', 'detranStorage', '$mdDialog', 'transitionService' ];
 
     public imgLicense: string;
 
@@ -19,18 +19,15 @@ export class DriverLicenseController {
      * @param {IScope} $scope
      * @param {angular.ui.IStateService} $state
      * @param {any} $ionicHistory
-     * @param {any} $ionicNativeTransitions
      * @param {DetranApiService} detranApiService
      * @param {DriverLicenseStorage} driverLicenseStorage
      * @param {angular.material.IDialogService} $mdDialog
      */
     constructor( private $scope: IScope,
-        private $state: angular.ui.IStateService,
-        private $ionicHistory,
-        public $ionicNativeTransitions,
         private detranApiService: DetranApiService,
         private driverLicenseStorage: DriverLicenseStorage,
-        private $mdDialog: angular.material.IDialogService ) {
+        private $mdDialog: angular.material.IDialogService,
+        private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -82,15 +79,6 @@ export class DriverLicenseController {
      * 
     */
     public navigateTo( stateName: string ) {
-        this.$ionicHistory.nextViewOptions( {
-            disableBack: true,
-            historyRoot: true
-        });
-
-        if ( this.$ionicNativeTransitions ) {
-            this.$ionicNativeTransitions.stateGo( stateName, {}, { type: 'slide', direction: 'up' });
-        } else {
-            this.$state.go( stateName );
-        }
+        this.transitionService.changeState( stateName, {}, { type: 'slide', direction: 'up' });
     }
 }

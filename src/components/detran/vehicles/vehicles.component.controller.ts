@@ -1,6 +1,6 @@
 import { IScope } from 'angular';
 import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo } from '../shared/index';
-import { DialogService, ToastService } from '../../shared/index';
+import { DialogService, ToastService, TransitionService } from '../../shared/index';
 
 import addVehicleTemplate from './add-vehicle/add-vehicle.html';
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
@@ -13,7 +13,7 @@ import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
  */
 export class VehiclesController {
 
-    public static $inject: string[] = [ '$scope', '$mdDialog', '$state', 'detranApiService', 'toast', 'dialog', 'detranStorage' ];
+    public static $inject: string[] = [ '$scope', '$mdDialog', 'detranApiService', 'toast', 'dialog', 'detranStorage', 'transitionService' ];
 
     public editing: boolean = false;
 
@@ -22,7 +22,6 @@ export class VehiclesController {
      * 
      * @param {IScope} $scope
      * @param {angular.material.IDialogService} $mdDialog
-     * @param {angular.ui.IStateService} $state
      * @param {DetranApiService} detranApiService
      * @param {ToastService} toast
      * @param {DialogService} dialog
@@ -32,11 +31,11 @@ export class VehiclesController {
      */
     constructor( private $scope: IScope,
         private $mdDialog: angular.material.IDialogService,
-        private $state: angular.ui.IStateService,
         private detranApiService: DetranApiService,
         private toast: ToastService,
         private dialog: DialogService,
-        private vehicleStorage: VehicleStorage ) {
+        private vehicleStorage: VehicleStorage,
+        private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -138,6 +137,6 @@ export class VehiclesController {
      * 
      */
     public viewTickets( vehicle: Vehicle ) {
-        this.$state.go( 'app.vehicleTickets/:plate/:renavam', vehicle );
+        this.transitionService.changeState( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'right' });
     }
 }

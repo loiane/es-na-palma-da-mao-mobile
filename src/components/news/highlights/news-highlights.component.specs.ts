@@ -2,7 +2,8 @@ import { NewsHighlightsController } from './news-highlights.component.controller
 import { NewsApiService, News } from '../shared/index';
 import NewsHighlightsComponent from './news-highlights.component';
 import NewsHighlightsTemplate from './news-highlights.component.html';
-import { environment, $stateMock } from '../../shared/tests/index';
+import { environment } from '../../shared/tests/index';
+import { TransitionService } from '../../shared/index';
 
 let expect = chai.expect;
 
@@ -16,13 +17,15 @@ describe( 'News/news-highlights', () => {
         let controller: NewsHighlightsController;
         let newsApiService: NewsApiService;
         let highlights: News[] = <News[]>[ { title: 'Notícia A', id: '1111111' }, { title: 'Notícia B', id: '222222' }];
+        let transitionService: TransitionService;
 
         beforeEach(() => {
             environment.refresh();
             newsApiService = <NewsApiService><any>{ getHighlightNews: () => { } };
             sandbox.stub( newsApiService, 'getHighlightNews' ).returnsPromise().resolves( highlights );
+            transitionService = <TransitionService><any>{ changeState: () => { } };
 
-            controller = new NewsHighlightsController( environment.$scope, newsApiService, $stateMock );
+            controller = new NewsHighlightsController( environment.$scope, newsApiService, transitionService );
         });
 
         describe( 'on instantiation', () => {
@@ -62,12 +65,12 @@ describe( 'News/news-highlights', () => {
 
         describe( 'goToNews( id )', () => {
             it( 'should show highlight news', () => {
-                let go = sandbox.stub( $stateMock, 'go' );
+                let changeState = sandbox.stub( transitionService, 'changeState' );
                 let id = '123456';
 
                 controller.goToNews( id );
 
-                expect( go.calledWith( 'app.news/:id', { id: id }) ).to.be.true;
+                expect( changeState.calledWith( 'app.news/:id', { id: id }, { type: 'slide', direction: 'right' }) ).to.be.true;
             });
         });
     });

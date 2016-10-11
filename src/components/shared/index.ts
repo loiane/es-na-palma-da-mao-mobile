@@ -24,6 +24,7 @@ import { ionicLoadingConfig } from './ionic-loading.config';
 import pushModule from './push/index';
 import fabricModule from './fabric/index';
 import permissionsModule from './permissions/index';
+import { TransitionService } from './transition.service';
 
 let dependencies = [
     toast.name,
@@ -39,11 +40,13 @@ let dependencies = [
 
 export * from './toast/index';
 export * from './dialog/index';
+export * from './transition.service';
 
 export default angular.module( 'shared', dependencies )
     .constant( 'settings', Settings.getInstance() )
     .service( 'httpSnifferService', HttpSnifferService )
     .service( 'httpErrorSnifferService', HttpErrorSnifferService )
+    .service( 'transitionService', TransitionService )
     .config( ionicConfig )
     .config( themeConfig )
     .config( httpSnifferInterceptorConfig )

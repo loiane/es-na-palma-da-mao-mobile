@@ -16,9 +16,6 @@ export default angular.module( 'about.component', dependencies )
                 .state( 'app.about', {
                     url: 'about',
                     data: { title: 'Sobre' },
-                    nativeTransitions: {
-                        'type': 'fade'
-                    },
                     views: {
                         content: {
                             template: '<about></about>'

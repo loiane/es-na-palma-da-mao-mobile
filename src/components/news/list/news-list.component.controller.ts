@@ -4,14 +4,15 @@ import { SourcesFilterController, sourcesFilterTemplate }  from '../../layout/so
 import datesFilterTemplate from './dates-filter/dates-filter.html';
 import { DatesFilterController } from './dates-filter/dates-filter.controller';
 import { News, NewsApiService, Filter, Pagination } from '../shared/index';
+import { TransitionService } from '../../shared/index';
 
 export class NewsListController {
 
     public static $inject: string[] = [
         '$scope',
-        '$state',
         '$mdDialog',
-        'newsApiService'
+        'newsApiService',
+        'transitionService'
     ];
     public availableOrigins: string[] | undefined;
     public news: News[] = [];
@@ -27,14 +28,14 @@ export class NewsListController {
      * Creates an instance of NewsListController.
      * 
      * @param {IScope} $scope
-     * @param {angular.ui.IStateService} $state
      * @param {angular.material.IDialogService} $mdDialog
      * @param {NewsApiService} newsApiService
+     * @param {TransitionService} transitionService
      */
     constructor( private $scope: IScope,
-        private $state: angular.ui.IStateService,
         private $mdDialog: angular.material.IDialogService,
-        private newsApiService: NewsApiService ) {
+        private newsApiService: NewsApiService,
+        private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -151,6 +152,6 @@ export class NewsListController {
      * @param {string} id
      */
     public goToNews( id: string ): void {
-        this.$state.go( 'app.news/:id', { id: id });
+        this.transitionService.changeState( 'app.news/:id', { id: id }, { type: 'slide', direction: 'right' });
     }
 }

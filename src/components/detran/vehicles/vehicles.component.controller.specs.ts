@@ -2,9 +2,10 @@ import { VehiclesController } from './vehicles.component.controller';
 import VehiclesComponent from './vehicles.component';
 import VehiclesTemplate from './vehicles.component.html';
 import { Vehicle, VehicleStorage, DetranApiService, VehicleInfo, VehicleData } from '../shared/index';
+import { TransitionService } from '../../shared/index';
 import addVehicleTemplate from './add-vehicle/add-vehicle.html';
 import { AddVehicleController } from './add-vehicle/add-vehicle.controller';
-import { environment, $stateMock, $mdDialogMock, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
+import { environment, $mdDialogMock, dialogServiceMock, toastServiceMock } from '../../shared/tests/index';
 let expect = chai.expect;
 
 describe( 'Detran/vehicles', () => {
@@ -22,7 +23,6 @@ describe( 'Detran/vehicles', () => {
         let toastError: Sinon.SinonStub;
         let $mdDialogShow: Sinon.SinonStub;
         let $mdDialogShowPromise: Sinon.SinonPromise;
-        let $stateGo: Sinon.SinonStub;
 
         // storage
         let storageRemoveVehicle: Sinon.SinonStub;
@@ -34,6 +34,10 @@ describe( 'Detran/vehicles', () => {
         let getVehicleInfoApiPromise: Sinon.SinonPromise;
         let syncVehicleDataApi: Sinon.SinonStub;
         let syncVehicleDataApiPromise: Sinon.SinonPromise;
+
+        // Services
+        let transitionService: TransitionService;
+        let changeState: Sinon.SinonStub;
 
         // models
         let vehicle: Vehicle;
@@ -54,7 +58,11 @@ describe( 'Detran/vehicles', () => {
                 syncVehicleData() { }
             };
 
-            controller = new VehiclesController( environment.$scope, $mdDialogMock, $stateMock, detranApiService, toastServiceMock, dialogServiceMock, vehicleStorage );
+            transitionService = <TransitionService><any>{
+                changeState: () => { }
+            };
+
+            controller = new VehiclesController( environment.$scope, $mdDialogMock, detranApiService, toastServiceMock, dialogServiceMock, vehicleStorage, transitionService );
 
             // setup stubs
             vehicle = { plate: '123456', renavam: 333333 };
@@ -71,10 +79,11 @@ describe( 'Detran/vehicles', () => {
             $mdDialogShow = sandbox.stub( $mdDialogMock, 'show' );
             $mdDialogShowPromise = $mdDialogShow.returnsPromise();
             toastError = sandbox.stub( toastServiceMock, 'error' );
-            $stateGo = sandbox.stub( $stateMock, 'go' );
 
             getVehicleInfoApi = sandbox.stub( detranApiService, 'getVehicleInfo' );
             getVehicleInfoApiPromise = getVehicleInfoApi.returnsPromise();
+
+            changeState = sandbox.stub( transitionService, 'changeState' );
 
             syncVehicleDataApi = sandbox.stub( detranApiService, 'syncVehicleData' );
             syncVehicleDataApiPromise = syncVehicleDataApi.returnsPromise();
@@ -184,7 +193,7 @@ describe( 'Detran/vehicles', () => {
             it( 'should redirect user to "newState"', () => {
                 controller.viewTickets( vehicle );
 
-                expect( $stateGo.calledWithExactly( 'app.vehicleTickets/:plate/:renavam', vehicle ) ).to.be.true;
+                expect( changeState.calledWithExactly( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'right' }) ).to.be.true;
             });
         });
 

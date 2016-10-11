@@ -1,7 +1,8 @@
 import { HomeController } from './home.component.controller';
 import HomeComponent from './home.component';
 import HomeTemplate from './home.component.html';
-import { $stateMock, $windowMock } from '../shared/tests/index';
+import { $windowMock } from '../shared/tests/index';
+import { TransitionService } from '../shared/index';
 
 let expect = chai.expect;
 
@@ -12,18 +13,24 @@ describe( 'Home', () => {
 
     describe( 'Controller', () => {
         let controller: HomeController;
+        let transitionService: TransitionService;
+
 
         beforeEach(() => {
-            controller = new HomeController( $stateMock, $windowMock );
+            transitionService = <TransitionService><any>{
+                changeState: () => { }
+            };
+
+            controller = new HomeController( $windowMock, transitionService );
         });
 
         describe( 'navigateToLogin()', () => {
             it( 'should redirect user to login screen', () => {
-                let go = sandbox.stub( $stateMock, 'go' );
+                let changeState = sandbox.stub( transitionService, 'changeState' );
 
                 controller.navigateToLogin();
 
-                expect( go.calledWith( 'login' ) ).to.be.true;
+                expect( changeState.calledWith( 'login' ) ).to.be.true;
             });
         });
 

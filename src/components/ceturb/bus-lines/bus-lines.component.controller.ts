@@ -1,6 +1,7 @@
-import { IScope, IPromise } from 'angular';
+import { IScope } from 'angular';
 
 import { BusLine, CeturbApiService, CeturbStorage } from '../shared/index';
+import { TransitionService } from '../../shared/index';
 
 export class BusLinesController {
 
@@ -8,7 +9,8 @@ export class BusLinesController {
         '$scope',
         '$state',
         'ceturbApiService',
-        'ceturbStorage'
+        'ceturbStorage',
+        'transitionService'
     ];
 
     public filter: string;
@@ -19,14 +21,16 @@ export class BusLinesController {
      * Creates an instance of BusLinesController.
      * 
      * @param {IScope} $scope
-     * @param {angular.ui.IStateService} $state
      * @param {CeturbApiService} ceturbApiService
      * @param {CeturbStorage} ceturbStorage
+     * @param {TransitionService} transitionService
+     * 
+     * @memberOf BusLinesController
      */
     constructor( private $scope: IScope,
-        private $state: angular.ui.IStateService,
         private ceturbApiService: CeturbApiService,
-        private ceturbStorage: CeturbStorage ) {
+        private ceturbStorage: CeturbStorage,
+        private transitionService: TransitionService ) {
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -52,10 +56,10 @@ export class BusLinesController {
             this.ceturbApiService.syncFavoriteLinesData(),
             this.ceturbApiService.getLines()
         ] )
-        .then(( [ , lines ] ) => this.mapLines( lines ) )
-        .then( lines => {
-            this.filteredLines = this.lines = lines;
-        } );
+            .then(( [ , lines ] ) => this.mapLines( lines ) )
+            .then( lines => {
+                this.filteredLines = this.lines = lines;
+            } );
     }
 
     /**
@@ -80,7 +84,7 @@ export class BusLinesController {
      * @param {string} id
      */
     public goToLine( id: string ): void {
-        this.$state.go( 'app.busInfo/:id', { id: id });
+        this.transitionService.changeState( 'app.busInfo/:id', { id: id }, { type: 'slide' });
     }
 
     /**

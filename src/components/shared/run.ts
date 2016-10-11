@@ -7,6 +7,7 @@ import { ISettings } from './settings/index';
 import { CordovaPermissions } from './permissions/index';
 import { Route, statesJson } from './routes/index';
 import { PushService } from './push/index';
+import { TransitionService } from './transition.service';
 
 /**
  * 
@@ -14,8 +15,6 @@ import { PushService } from './push/index';
  * @param {*} $rootScope
  * @param {angular.ui.IStateService} $state
  * @param {ionic.platform.IonicPlatformService} $ionicPlatform
- * @param {ionic.navigation.IonicHistoryService} $ionicHistory
- * @param {*} $ionicNativeTransitions
  * @param {angular.material.IDialogService} $mdDialog
  * @param {any} $mdBottomSheet
  * @param {AuthenticationService} authenticationService
@@ -23,12 +22,11 @@ import { PushService } from './push/index';
  * @param {HttpErrorSnifferService} httpErrorSnifferService
  * @param {ISettings} settings
  * @param {CordovaPermissions} cordovaPermissions
+ * @param {TransitionService} transitionService
  */
 function run( $rootScope: any,
     $state: angular.ui.IStateService,
     $ionicPlatform: ionic.platform.IonicPlatformService,
-    $ionicHistory: ionic.navigation.IonicHistoryService,
-    $ionicNativeTransitions: any,
     $mdDialog: angular.material.IDialogService,
     $mdBottomSheet,
     authenticationService: AuthenticationService,
@@ -36,7 +34,8 @@ function run( $rootScope: any,
     httpErrorSnifferService: HttpErrorSnifferService,
     settings: ISettings,
     cordovaPermissions: CordovaPermissions,
-    pushService: PushService ) {
+    pushService: PushService,
+    transitionService: TransitionService ) {
 
     // configura locale do moment
     moment.locale( settings.locale );
@@ -58,24 +57,6 @@ function run( $rootScope: any,
         return menu;
     }
 
-    function navigateToTab( stateName: string, direction: string ): void {
-        if ( $ionicHistory.currentStateName() !== stateName ) {
-            if ( $ionicNativeTransitions ) {
-                let options: any = { type: 'slide', direction: direction };
-
-                if ( $rootScope.isAndroid ) {
-                    options.fixedPixelsTop = 93;
-                } else if ( $rootScope.isIOS ) {
-                    options.fixedPixelsBottom = 48;
-                }
-
-                $ionicNativeTransitions.stateGo( stateName, {}, {}, options );
-            } else {
-                $state.go( stateName );
-            }
-        }
-    }
-
     /**
      * Preenche o $rootScope
      *
@@ -95,8 +76,6 @@ function run( $rootScope: any,
             pendingRequests: 0,
             error: undefined
         };
-
-        $rootScope.navigateToTab = navigateToTab;
 
         // We can now watch the trafficCop service to see when there are pending
         // HTTP requests that we're waiting for.
@@ -143,10 +122,10 @@ function run( $rootScope: any,
         authenticationService.refreshTokenIfNeeded()
             .then(() => {
                 pushService.init();
-                $state.go( 'app.dashboard.newsHighlights' );
+                transitionService.changeRootState( 'app.dashboard.newsHighlights' );
             })
             .catch(() => {
-                authenticationService.signOut(() => $state.go( 'home' ) );
+                authenticationService.signOut(() => transitionService.changeRootState( 'home' ) );
             })
             .finally(() => {
                 Splashscreen.hide();
@@ -156,7 +135,7 @@ function run( $rootScope: any,
     $ionicPlatform.on( 'resume', () => {
         if ( authenticationService.hasToken ) {
             authenticationService.refreshTokenIfNeeded()
-                .catch(() => authenticationService.signOut(() => $state.go( 'home' ) ) );
+                .catch(() => authenticationService.signOut(() => transitionService.changeRootState( 'home' ) ) );
         }
     });
 }
@@ -165,8 +144,6 @@ run.$inject = [
     '$rootScope',
     '$state',
     '$ionicPlatform',
-    '$ionicHistory',
-    '$ionicNativeTransitions',
     '$mdDialog',
     '$mdBottomSheet',
     'authenticationService',
@@ -174,7 +151,8 @@ run.$inject = [
     'httpErrorSnifferService',
     'settings',
     'cordovaPermissions',
-    'pushService'
+    'pushService',
+    'transitionService'
 ];
 
 export default run;

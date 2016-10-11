@@ -14,9 +14,6 @@ export default angular.module( 'login.component', dependencies )
                               $stateProvider
                                   .state( 'login', {
                                       url: 'login',
-                                      nativeTransitions: {
-                                          'type': 'fade'
-                                      },
                                       template: '<login></login>'
                                   } );
                           }

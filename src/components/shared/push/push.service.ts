@@ -4,28 +4,23 @@ import { Push, AndroidPushOptions, IOSPushOptions, PushNotification } from 'ioni
 import { ISettings } from '../settings/index';
 import { PushUser } from './models/index';
 import { AuthenticationStorageService, AuthenticationService } from '../authentication/index';
+import { TransitionService } from '../transition.service';
 
 export class PushService {
 
     public static $inject: string[] = [
-        '$state',
-        '$ionicHistory',
-        '$ionicNativeTransitions',
         '$http',
-        '$mdSidenav',
         'settings',
         'authenticationStorageService',
-        'authenticationService'
+        'authenticationService',
+        'transitionService'
     ];
 
-    constructor( private $state: angular.ui.IStateService,
-        private $ionicHistory: ionic.navigation.IonicHistoryService,
-        private $ionicNativeTransitions,
-        private $http: IHttpService,
-        private $mdSidenav: angular.material.ISidenavService,
+    constructor( private $http: IHttpService,
         private settings: ISettings,
         private authenticationStorageService: AuthenticationStorageService,
-        private authenticationService: AuthenticationService ) {
+        private authenticationService: AuthenticationService,
+        private transitionService: TransitionService ) {
     }
 
     public init() {
@@ -85,43 +80,7 @@ export class PushService {
      */
     public notify( data: any ): void {
         if ( data.appData && data.appData.state ) {
-            this.navigateTo( data.appData.state, data.appData.params );
-        }
-    }
-
-    /**
-     *  Fecha a barra de navegação lateral
-     *  It will use with event on-swipe-left="closeSideNav()" on-drag-left="closeSideNav()"
-     *  When user swipe or drag md-sidenav to left side
-     *
-     *  @returns {void}
-     */
-    public closeSideNav(): void {
-        this.$mdSidenav( 'left' ).close();
-    }
-
-    /**
-     * Navega para o state especificado
-     *
-     * @param {string} stateName - o nome do state destino
-     * @param {any} routeParameters - dados a serem passados pra rota
-     * @returns {void}
-     */
-    public navigateTo( stateName: string, routeParameters: any ): void {
-        this.closeSideNav();
-
-        this.$ionicHistory.nextViewOptions( {
-            disableAnimate: true,
-            disableBack: true,
-            historyRoot: true
-        });
-
-        if ( this.$ionicNativeTransitions ) {
-            this.$ionicNativeTransitions.stateGo( stateName, routeParameters, { reload: true }, { 'type': 'fade' });
-        } else {
-            if ( this.$ionicHistory.currentStateName() !== stateName ) {
-                this.$state.go( stateName, routeParameters );
-            }
+            this.transitionService.changeState( data.appDatta.state, data.appData.params, {}, true, false, true );
         }
     }
 }

@@ -3,7 +3,8 @@ import { BusLinesController } from './bus-lines.component.controller';
 import BusLinesComponent from './bus-lines.component';
 import BusLinesTemplate from './bus-lines.component.html';
 import { BusLine, CeturbApiService, CeturbStorage, FavoriteLinesData } from '../shared/index';
-import { environment, $stateMock } from '../../shared/tests/index';
+import { environment } from '../../shared/tests/index';
+import { TransitionService } from '../../shared/index';
 
 let expect = chai.expect;
 
@@ -17,6 +18,7 @@ describe( 'Ceturb/bus-lines', () => {
         let controller: BusLinesController;
         let ceturbApiService: CeturbApiService;
         let ceturbStorage: CeturbStorage;
+        let transitionService: TransitionService;
 
         beforeEach(() => {
             environment.refresh();
@@ -29,7 +31,10 @@ describe( 'Ceturb/bus-lines', () => {
                 addToFavoriteLines() { },
                 removeFromFavoriteLines() { }
             };
-            controller = new BusLinesController( environment.$scope, $stateMock, ceturbApiService, ceturbStorage );
+            transitionService = <TransitionService><any>{
+                changeState: () => { }
+            };
+            controller = new BusLinesController( environment.$scope, ceturbApiService, ceturbStorage, transitionService );
         });
 
         describe( 'on instantiation', () => {
@@ -111,13 +116,13 @@ describe( 'Ceturb/bus-lines', () => {
         });
 
         describe( 'goToLine( id )', () => {
-            it( 'should redirect user to line screen', () => {
-                let go = sandbox.stub( $stateMock, 'go' );
+            it( 'should  redirect user to line screen', () => {
+                let changeState = sandbox.stub( transitionService, 'changeState' );
                 let id = 'newState';
 
                 controller.goToLine( id );
 
-                expect( go.calledWith( 'app.busInfo/:id', { id: id }) ).to.be.true;
+                expect( changeState.calledWith( 'app.busInfo/:id', { id: id }, { type: 'slide' }) ).to.be.true;
             });
         });
 
