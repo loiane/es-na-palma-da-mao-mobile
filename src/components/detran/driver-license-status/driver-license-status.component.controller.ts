@@ -43,7 +43,11 @@ export class DriverLicenseStatusController {
     /**
      * Preenche a página com dados do condutor, bem como de suas eventuais multas.
      */
-    public activate(): IPromise<any>[] {
+    public activate(): IPromise<any>[] | void {
+        if ( !this.driverLicenseStorage.isDriverLicenseValidNumber ) {
+            return;
+        }
+
         return [ this.getDriverData(), this.getDriverTickets() ];
     }
 

@@ -24,7 +24,7 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
      * @memberOf DetranStorage
      */
     constructor( private $localStorage: any,
-                 private authenticationService: AuthenticationService ) {
+        private authenticationService: AuthenticationService ) {
     }
 
 
@@ -107,6 +107,20 @@ export class DetranStorage implements DriverLicenseStorage, VehicleStorage {
             registerNumber: this.authenticationService.user.cnhNumero,
             ballot: this.authenticationService.user.cnhCedula
         };
+    }
+
+    /**
+     * 
+     * 
+     * @readonly
+     * @type {boolean}
+     * @memberOf DetranStorage
+     */
+    public get isDriverLicenseValidNumber(): boolean {
+        if ( isNaN( Number( this.driverLicense.registerNumber ) ) || isNaN( Number( this.driverLicense.ballot ) ) ) {
+            return false;
+        }
+        return true;
     }
 
     /**
