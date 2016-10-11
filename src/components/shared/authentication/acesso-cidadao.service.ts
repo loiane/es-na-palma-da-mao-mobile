@@ -253,9 +253,7 @@ export class AcessoCidadaoService {
      * Faz logout do usuário. Remove o token do localstore e os claims salvos.
      */
     public signOut( success ): void {
-        delete this.$localStorage.token;
-        delete this.$localStorage.userClaims;
-        delete this.$localStorage.tokenClaims;
+        this.$localStorage.$reset();
         success();
     }
 

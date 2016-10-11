@@ -101,8 +101,8 @@ export class AuthenticationService {
      * @returns {void}
      */
     public signOut( success: any ): void {
-        Facebook.logout().then(() => delete this.authenticationStorageService.facebookAuthResponse );
-        GooglePlus.logout().then(() => delete this.authenticationStorageService.googleAuthResponse );
+        Facebook.logout();
+        GooglePlus.logout();
         this.digitsService.logout(); // TODO: Verificar se precisa mesmo do logout do Digits
 
         return this.acessoCidadaoService.signOut( success );
