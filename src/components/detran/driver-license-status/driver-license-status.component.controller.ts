@@ -18,6 +18,7 @@ export class DriverLicenseStatusController {
      */
     public driverData: DriverData | undefined = undefined;
     public tickets: Ticket[] | undefined = undefined;
+    public isRefreshing: boolean = false;
 
     /**
      * Creates an instance of DriverLicenseStatusController.
@@ -44,6 +45,19 @@ export class DriverLicenseStatusController {
      */
     public activate(): IPromise<any>[] {
         return [ this.getDriverData(), this.getDriverTickets() ];
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf DriverLicenseStatusController
+     */
+    public doRefresh() {
+        this.isRefreshing = true;
+        this.$q.all( this.activate() )
+            .then(() => this.isRefreshing = false )
+            .finally(() => this.$scope.$broadcast( 'scroll.refreshComplete' ) );
     }
 
     /**

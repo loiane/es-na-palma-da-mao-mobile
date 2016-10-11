@@ -10,8 +10,10 @@
 			</md-button>
 		</div>
 	</ion-nav-buttons>
-	<spinner ng-if="uiState.loading"></spinner>
+	<spinner ng-if="uiState.loading && !vm.isRefreshing"></spinner>
 	<ion-content id="state-driver-license-status">
+		<ion-refresher on-refresh="vm.doRefresh()">
+		</ion-refresher>
 		<md-card ng-if="vm.driverData" class="card-driver-license" ng-class="{ 'bg-green-70': vm.licenseOk, 'bg-red-70': vm.licenseBlocked, 'bg-pink-70': vm.licenseExpired, 'bg-yellow-70': vm.licenseRenew }">
 			<md-card-header ng-hide="!vm.driverData || vm.licenseBlocked || vm.licenseRenew || vm.licenseExpired">
 				<md-card-avatar>
