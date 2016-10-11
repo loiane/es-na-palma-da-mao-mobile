@@ -3,6 +3,8 @@
 	<spinner ng-if="uiState.loading"></spinner>
 	
 	<ion-content id="news-highlights-component">
+		<ion-refresher on-refresh="vm.doRefresh()">
+		</ion-refresher>
 		<md-card ng-repeat="news in vm.highlights">
 			<img ng-src="{{::news.imageHighlight}}" class="md-card-image" alt="" onerror="this.style.display='none'">
 			<md-card-title>

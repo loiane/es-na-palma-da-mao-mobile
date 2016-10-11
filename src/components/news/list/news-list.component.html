@@ -9,7 +9,7 @@
 	<ion-content id="state-news-list" delegate-handle="mainScroll" overflow-scroll="true">
 		<ion-refresher on-refresh="vm.doRefresh()">
 		</ion-refresher>
-		<md-toolbar class="md-hue-1 md-whiteframe-1dp">
+		<!--<md-toolbar class="md-hue-1 md-whiteframe-1dp">
 			<div class="md-toolbar-tools">
 				<md-button class="md-accent md-raised" ng-click="::vm.openOriginsFilter($event)">
 					Fontes
@@ -18,14 +18,14 @@
 					Data
 				</md-button>
 			</div>
-		</md-toolbar>
+		</md-toolbar>-->
 
 		<md-list>
-			<md-list-item  ng-click="::vm.goToNews(news.id)" item-width="100%" collection-repeat="news in vm.news track by news.id">
+			<md-list-item  ng-click="vm.goToNews(news.id)" item-width="100%" ng-repeat="news in vm.news track by $index">
 				<md-card-title-text>
 					<span class="md-title lista-noticias">{{news.title}}</span>
 					<div>
-						<span md-colors="::{color: 'accent'}">
+						<span md-colors="{color: 'accent'}">
 									{{news.origin}}
 								</span>
 						<span class="noticia-info-origem">
@@ -47,7 +47,7 @@
 
 		<error-message error="uiState.error"></error-message>
 		<ion-infinite-scroll immediate-check="false" ng-if="!uiState.error && !vm.isRefreshing && vm.hasMoreNews" on-infinite="vm.doPaginate()"
-			distance="5%">
+			distance="20%">
 		</ion-infinite-scroll>
 	</ion-content>
 </ion-view>

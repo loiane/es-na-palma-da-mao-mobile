@@ -113,9 +113,9 @@ export class NewsListController {
 
                 // notify ion-content to resize after inner height has changed.
                 // so that it will trigger infinite scroll again if needed.
-                this.$timeout(() => {
-                    this.$ionicScrollDelegate.$getByHandle( 'mainScroll' ).resize();
-                });
+                // this.$timeout(() => {
+                //     this.$ionicScrollDelegate.$getByHandle( 'mainScroll' ).resize();
+                // });
 
                 // increment page for the next query
                 this.pagination.pageNumber += 1;
@@ -153,7 +153,7 @@ export class NewsListController {
         return this.getNews( this.filter, this.pagination )
             .then( nextNews => {
                 this.isPaginating = false;
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+                 this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
                 return nextNews;
             });
     }

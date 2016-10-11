@@ -5,7 +5,7 @@
  *
  * @returns {void}
  */
-function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
+function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider, $compileProvider ) {
 
     // Use for change ionic spinner to android pattern.
     $ionicConfigProvider.spinner.icon( 'android' );
@@ -33,9 +33,11 @@ function ionicConfig( $ionicConfigProvider, $ionicNativeTransitionsProvider ) {
         nativeTransitionsOptions.fixedPixelsTop = 63;
     }
 
+    $compileProvider.debugInfoEnabled(false);
+
     $ionicNativeTransitionsProvider.setDefaultOptions( nativeTransitionsOptions );
 }
 
-ionicConfig.$inject = [ '$ionicConfigProvider', '$ionicNativeTransitionsProvider' ];
+ionicConfig.$inject = [ '$ionicConfigProvider', '$ionicNativeTransitionsProvider', '$compileProvider' ];
 
 export default  ionicConfig;
