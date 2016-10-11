@@ -1,5 +1,6 @@
 export class Enviroment {
     public onIonicBeforeEnterEvent: any;
+    public onIonicLoadedEvent: any;
     public $scope: any;
     public $ionicHistory: any;
     public $ionicNativeTransitions: any;
@@ -33,6 +34,9 @@ export class Enviroment {
             $on: ( event, callback ) => {
                 if ( event === '$ionicView.beforeEnter' ) {
                     this.onIonicBeforeEnterEvent = callback;
+                }
+                if ( event === '$ionicView.loaded' ) {
+                    this.onIonicLoadedEvent = callback;
                 }
             },
             isAndroid: undefined,
