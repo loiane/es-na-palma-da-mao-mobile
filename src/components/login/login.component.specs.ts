@@ -36,7 +36,7 @@ describe( 'Login', () => {
         let facebookLoginPromise: Sinon.SinonPromise;
         let signInWithIdentity: Sinon.SinonStub;
         let signInWithIdentityPromise: Sinon.SinonPromise;
-
+        let transitionServiceClearCachePromise: Sinon.SinonPromise;
         // models
         let identity: Identity;
 
@@ -50,7 +50,10 @@ describe( 'Login', () => {
                 digitsLogin() { }
             };
             pushService = <PushService>{ init() { } };
-            transitionService = <TransitionService><any>{ changeRootState: () => { } };
+            transitionService = <TransitionService><any>{
+                changeRootState: () => { },
+                clearCache: () => {}
+            };
 
             controller = new LoginController(
                 authenticationService,
@@ -83,6 +86,7 @@ describe( 'Login', () => {
             digitsLoginPromise = sandbox.stub( authenticationService, 'digitsLogin' ).returnsPromise();
             googleLoginPromise = sandbox.stub( authenticationService, 'googleLogin' ).returnsPromise();
             facebookLoginPromise = sandbox.stub( authenticationService, 'facebookLogin' ).returnsPromise();
+            transitionServiceClearCachePromise = sandbox.stub( transitionService, 'clearCache' ).returnsPromise();
         });
 
         describe( 'on instantiation', () => {
@@ -261,6 +265,7 @@ describe( 'Login', () => {
             });
 
             it( 'should redirect user to dashboard', () => {
+                transitionServiceClearCachePromise.resolves();
                 let goToDashboard = sandbox.stub( controller, 'goToDashboard' );
 
                 controller.onAcessoCidadaoLoginSuccess();

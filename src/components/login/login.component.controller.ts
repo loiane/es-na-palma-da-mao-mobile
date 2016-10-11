@@ -129,7 +129,7 @@ export class LoginController {
         this.pushService.init();
         this.username = undefined;
         this.password = undefined;
-        this.goToDashboard();
+        this.transitionService.clearCache().then(() => this.goToDashboard() );
     }
 
     /**
