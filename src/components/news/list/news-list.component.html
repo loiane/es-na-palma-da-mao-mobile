@@ -1,5 +1,5 @@
 <ion-view title="Notícias">
-	<spinner ng-if="uiState.loading && vm.pagination.pageNumber === 1"></spinner>
+	<spinner ng-if="uiState.loading && vm.pagination.pageNumber === 1 && !vm.isRefreshing"></spinner>
 
 	<!--<div style="position:absolute; top:44px;right:0;width:170px;height:70px;z-index:9999;background-color: #fff;border: 1px solid #333;">
 	<div> has more items:{{vm.hasMoreNews}}</div>
@@ -21,7 +21,7 @@
 		</md-toolbar>
 
 		<md-list>
-			<md-list-item class="md-3-line" ng-click="::vm.goToNews(news.id)" ng-repeat="news in vm.news">
+			<md-list-item  ng-click="::vm.goToNews(news.id)" item-width="100%" collection-repeat="news in vm.news track by news.id">
 				<md-card-title-text>
 					<span class="md-title lista-noticias">{{news.title}}</span>
 					<div>
