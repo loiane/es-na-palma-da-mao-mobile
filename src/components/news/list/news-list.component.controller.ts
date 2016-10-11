@@ -12,14 +12,11 @@ export class NewsListController {
         '$scope',
         '$state',
         '$mdDialog',
-        '$timeout',
-        '$ionicScrollDelegate',
         'newsApiService'
     ];
-    private isPaginating = false;
-    private isRefreshing = false;
+
     public availableOrigins: string[] | undefined;
-    public news: News[] = [];
+    public news: News[] | undefined;
     public hasMoreNews = true;
     public filter: Filter = {};
     public pagination: Pagination = {
@@ -39,11 +36,7 @@ export class NewsListController {
     constructor( private $scope: IScope,
         private $state: angular.ui.IStateService,
         private $mdDialog: angular.material.IDialogService,
-        private $timeout: any,
-        private $ionicScrollDelegate: any,
         private newsApiService: NewsApiService ) {
-
-        this.$scope.$on( 'logout', () => this.reset() );
         this.$scope.$on( '$ionicView.beforeEnter', () => this.activate() );
     }
 
@@ -51,40 +44,10 @@ export class NewsListController {
      * Ativa o controller
      */
     public activate(): void {
-        if ( !this.activated ) {
-             console.log( 'activate()' );
-            this.getAvailableOrigins()
-                .then(() => this.getFirstPage() );
-        }
+        this.getAvailableOrigins()
+            .then(() => this.getFirstPage() );
     }
 
-    /**
-     * 
-     * 
-     * @readonly
-     * @type {boolean}
-     * @memberOf NewsListController
-     */
-    public get activated(): boolean {
-        return !!this.availableOrigins && this.news.length > 0;
-    }
-
-    /**
-     * 
-     * 
-     * 
-     * @memberOf NewsListController
-     */
-    public reset(): void {
-        this.availableOrigins = undefined;
-        this.news = [];
-        this.hasMoreNews = true;
-        this.filter = {};
-        this.pagination = {
-            pageNumber: 1,
-            pageSize: 10
-        };
-    }
 
     /**
      * Carrega lista de origins disponíveis
@@ -104,18 +67,12 @@ export class NewsListController {
      * Obtém uma lista de notícias
      */
     private getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
-         console.log( 'getNews()' );
+        console.log( 'getNews()' );
         return this.newsApiService.getNews( filter, pagination )
             .then( nextNews => {
                 // Check whether it has reached the end
                 this.hasMoreNews = nextNews.length >= this.pagination.pageSize;
-                this.news = this.isFirstPage ? nextNews : this.news.concat( nextNews );
-
-                // notify ion-content to resize after inner height has changed.
-                // so that it will trigger infinite scroll again if needed.
-                // this.$timeout(() => {
-                //     this.$ionicScrollDelegate.$getByHandle( 'mainScroll' ).resize();
-                // });
+                this.news = this.isFirstPage ? nextNews : this.news!.concat( nextNews );
 
                 // increment page for the next query
                 this.pagination.pageNumber += 1;
@@ -130,30 +87,11 @@ export class NewsListController {
      * 
      * @memberOf NewsListController
      */
-    public doRefresh() {
-        console.log( 'doRefresh()' );
-        this.isRefreshing = true;
-        this.getAvailableOrigins()
-            .then(() => this.getFirstPage() )
-            .then(() => {
-                this.isRefreshing = false;
-                this.$scope.$broadcast( 'scroll.refreshComplete' );
-            });
-    }
-
-    /**
-     * 
-     * 
-     * 
-     * @memberOf NewsListController
-     */
     public doPaginate(): IPromise<News[]> {
         console.log( 'doPaginate()' );
-        this.isPaginating = true;
         return this.getNews( this.filter, this.pagination )
             .then( nextNews => {
-                this.isPaginating = false;
-                 this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
                 return nextNews;
             });
     }
