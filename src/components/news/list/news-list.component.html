@@ -1,4 +1,20 @@
 <ion-view title="Notícias">
+		<ion-nav-buttons side="right">
+		<div id="states-calendar-component-nav-buttons">
+			<md-button class="md-icon-button"
+					   ng-click="::vm.openDateFilter($event)"
+					   aria-label="Filtrar">
+				<md-icon  md-font-icon="ion-calendar">
+				</md-icon>
+			</md-button>
+			<md-button class="md-icon-button"
+					   ng-click="::vm.openOriginsFilter($event)"
+					   aria-label="Filtrar">
+				<md-icon md-font-icon="ion-android-funnel">
+				</md-icon>
+			</md-button>
+		</div>
+	</ion-nav-buttons>
 	<spinner ng-if="uiState.loading && vm.pagination.pageNumber === 1 && !vm.isRefreshing"></spinner>
 
 	<!--<div style="position:absolute; top:44px;right:0;width:170px;height:70px;z-index:9999;background-color: #fff;border: 1px solid #333;">
@@ -35,7 +51,7 @@
 				</md-card-title-text>
 				<md-card-title-media>
 					<div class="md-media-md card-media">
-						<img alt="" ng-src="{{::news.image}}" onerror="this.style.display='none'" />
+						<img alt="" ng-src="{{news.image}}" onerror="this.style.display='none'" />
 					</div>
 				</md-card-title-media>
 				<md-divider></md-divider>

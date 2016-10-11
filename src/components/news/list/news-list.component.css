@@ -4,7 +4,16 @@
 	padding-left: 5px;
 	border-left: 1px solid rgba(0, 0, 0, 0.5);
 }
+#states-calendar-component-nav-buttons md-icon[md-font-icon] {
+	font-size: 24px;
+	color: #fff;
+}
 
+#states-calendar-component-nav-buttons .md-button.md-icon-button {
+	height: 20px;
+	line-height: 20px;
+	padding: 0 8px;
+}
 #state-news-list { background-color: #fff !important; }
 
 #state-news-list ion-infinite-scroll { background-color: #fff; }
