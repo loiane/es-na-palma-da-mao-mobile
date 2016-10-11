@@ -1,4 +1,5 @@
 import { IWindowService, IPromise } from 'angular';
+import { InAppBrowser, InAppBrowserEvent } from 'ionic-native';
 import { ToastService, DialogService, TransitionService } from '../shared/index';
 import { AuthenticationService, Identity } from '../shared/authentication/index';
 import { PushService } from '../shared/push/index';
@@ -179,6 +180,15 @@ export class LoginController {
      * Abre a janela(no browser) de recuperar senha do acesso cidadão.
      */
     public openUrlForgotPassword(): void {
-        this.$window.open( 'https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha', '_system' );
+        let platform = ionic.Platform.platform();
+        let options = 'toolbar=no,location=no,clearcache=yes,clearsessioncache=yes,closebuttoncaption=Cancelar';
+
+        let browser = new InAppBrowser( 'https://acessocidadao.es.gov.br/Conta/SolicitarReinicioSenha?espmplatform=' + platform, '_blank', options );
+
+        browser.on( 'loadstart' ).subscribe(( event: InAppBrowserEvent ) => {
+            if ( event.url === 'https://acessocidadao.es.gov.br/' ) {
+                browser.close();
+            };
+        });
     }
 }
