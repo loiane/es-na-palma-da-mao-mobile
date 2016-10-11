@@ -266,7 +266,7 @@ describe( 'News/news-list', () => {
                 controller.pagination = { pageNumber: 3 };
                 controller.filter = { origins: [ 'SESA', 'SEFAZ' ] };
 
-                controller.applyUserFilter( userFilter );
+                controller.filter( userFilter );
             });
 
             it( 'should reset pagination to first page', () => {

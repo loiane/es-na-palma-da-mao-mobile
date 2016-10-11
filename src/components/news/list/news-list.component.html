@@ -1,7 +1,13 @@
 <ion-view title="Notícias">
 	<spinner ng-if="uiState.loading && vm.pagination.pageNumber === 1"></spinner>
-	<ion-content id="state-news-list">
-		<ion-refresher on-refresh="vm.activate(true)">
+
+	<!--<div style="position:absolute; top:44px;right:0;width:170px;height:70px;z-index:9999;background-color: #fff;border: 1px solid #333;">
+	<div> has more items:{{vm.hasMoreNews}}</div>
+	<div> isRefreshing:{{vm.isRefreshing}}</div>
+	<div> scroll habilitado: {{!vm.isRefreshing && vm.hasMoreNews}}</div>
+</div>-->
+	<ion-content id="state-news-list" delegate-handle="mainScroll" overflow-scroll="true">
+		<ion-refresher on-refresh="vm.doRefresh()">
 		</ion-refresher>
 		<md-toolbar class="md-hue-1 md-whiteframe-1dp">
 			<div class="md-toolbar-tools">
@@ -13,7 +19,7 @@
 				</md-button>
 			</div>
 		</md-toolbar>
-		<div>{{vm.news.length}}-{{vm.carregando}}</div>
+
 		<md-list>
 			<md-list-item class="md-3-line" ng-click="::vm.goToNews(news.id)" ng-repeat="news in vm.news">
 				<md-card-title-text>
@@ -40,8 +46,8 @@
 		</message>
 
 		<error-message error="uiState.error"></error-message>
-		<ion-infinite-scroll immediate-check="false" ng-if="!uiState.error && !vm.carregando" on-infinite="vm.paginate()"
-			distance="1%">
+		<ion-infinite-scroll immediate-check="false" ng-if="!uiState.error && !vm.isRefreshing && vm.hasMoreNews" on-infinite="vm.doPaginate()"
+			distance="5%">
 		</ion-infinite-scroll>
 	</ion-content>
 </ion-view>

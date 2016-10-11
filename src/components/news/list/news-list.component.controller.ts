@@ -16,7 +16,8 @@ export class NewsListController {
         '$ionicScrollDelegate',
         'newsApiService'
     ];
-
+    private isPaginating = false;
+    private isRefreshing = false;
     public availableOrigins: string[] | undefined;
     public news: News[] = [];
     public hasMoreNews = true;
@@ -49,12 +50,11 @@ export class NewsListController {
     /**
      * Ativa o controller
      */
-    public activate( force: boolean = false ): void {
-        if ( !this.activated || force ) {
-            this.hasMoreNews = true;
-            this.pagination.pageNumber = 1;
+    public activate(): void {
+        if ( !this.activated ) {
+             console.log( 'activate()' );
             this.getAvailableOrigins()
-                .then(() => this.getNews( this.filter, this.pagination ) );
+                .then(() => this.getFirstPage() );
         }
     }
 
@@ -99,40 +99,89 @@ export class NewsListController {
                 return origins;
             });
     }
-    private carregando = false;
+
     /**
      * Obtém uma lista de notícias
      */
-    public getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
-        console.log( 'getNews:', this.pagination.pageNumber );
-        this.carregando = true;
+    private getNews( filter: Filter, pagination: Pagination ): IPromise<News[]> {
+         console.log( 'getNews()' );
         return this.newsApiService.getNews( filter, pagination )
             .then( nextNews => {
-                this.news = this.isPaginating ? this.news.concat( nextNews ) : nextNews;
-                return nextNews;
-            })
-            .finally( () => {
-                this.$scope.$broadcast( 'scroll.refreshComplete' );
-                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
-                 this.$timeout(() => {
-                    this.carregando = false;
+                // Check whether it has reached the end
+                this.hasMoreNews = nextNews.length >= this.pagination.pageSize;
+                this.news = this.isFirstPage ? nextNews : this.news.concat( nextNews );
+
+                // notify ion-content to resize after inner height has changed.
+                // so that it will trigger infinite scroll again if needed.
+                this.$timeout(() => {
                     this.$ionicScrollDelegate.$getByHandle( 'mainScroll' ).resize();
-                }, 2000 );
+                });
+
+                // increment page for the next query
+                this.pagination.pageNumber += 1;
+
+                return nextNews;
             });
     }
 
     /**
      * 
      * 
-     * @returns {IPromise<News[]>}
      * 
      * @memberOf NewsListController
      */
-    public paginate() {
-        // só página se já existe alguma notícia carregada
-        this.pagination.pageNumber += 1;
-        console.log( 'paginate page:', this.pagination.pageNumber );
-        this.getNews( this.filter, this.pagination );
+    public doRefresh() {
+        console.log( 'doRefresh()' );
+        this.isRefreshing = true;
+        this.getAvailableOrigins()
+            .then(() => this.getFirstPage() )
+            .then(() => {
+                this.isRefreshing = false;
+                this.$scope.$broadcast( 'scroll.refreshComplete' );
+            });
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @memberOf NewsListController
+     */
+    public doPaginate(): IPromise<News[]> {
+        console.log( 'doPaginate()' );
+        this.isPaginating = true;
+        return this.getNews( this.filter, this.pagination )
+            .then( nextNews => {
+                this.isPaginating = false;
+                this.$scope.$broadcast( 'scroll.infiniteScrollComplete' );
+                return nextNews;
+            });
+    }
+
+    /**
+     * 
+     * 
+     * @param {any} filter
+     * 
+     * @memberOf NewsListController
+     */
+    public doFilter( filter ): IPromise<News[]> {
+        console.log( 'doFilter()' );
+        angular.extend( this.filter, filter );
+        return this.getFirstPage();
+    }
+
+    /**
+    * 
+    * 
+    * @returns {IPromise<News[]>}
+    * 
+    * @memberOf NewsListController
+    */
+    private getFirstPage(): IPromise<News[]> {
+        this.hasMoreNews = true;
+        this.pagination.pageNumber = 1;
+        return this.getNews( this.filter, this.pagination );
     }
 
     /**
@@ -142,8 +191,8 @@ export class NewsListController {
      * 
      * @memberOf NewsListController
      */
-    public get isPaginating() {
-        return this.pagination.pageNumber > 1;
+    public get isFirstPage() {
+        return this.pagination.pageNumber === 1;
     }
 
     /**
@@ -160,7 +209,7 @@ export class NewsListController {
                 selectedOrigins: this.filter.origins
             }
         })
-            .then( filter => this.applyUserFilter( filter ) );
+            .then( filter => this.doFilter( filter ) );
     }
 
     /**
@@ -177,16 +226,9 @@ export class NewsListController {
                 dateMax: this.filter.dateMax
             }
         })
-            .then( filter => this.applyUserFilter( filter ) );
+            .then( filter => this.doFilter( filter ) );
     }
 
-    /**
-     * Recarrega a página
-     */
-    public applyUserFilter( filter ): void {
-        angular.extend( this.filter, filter );
-        this.activate( true );
-    }
 
 
     /**
