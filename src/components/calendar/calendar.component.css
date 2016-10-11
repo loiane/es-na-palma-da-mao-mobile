@@ -8,3 +8,13 @@
 	line-height: 20px;
 	padding: 0 8px;
 }
+
+
+.ion-calendar.dynamic:after {
+    content: attr(data-date);
+    font-size: 11px;
+    position: absolute;
+    top: 7px;
+    left: 14px;
+    font-weight: bold;
+}

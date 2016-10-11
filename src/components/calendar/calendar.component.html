@@ -6,9 +6,7 @@
 	<ion-nav-buttons side="right">
 		<div id="states-calendar-component-nav-buttons" ng-if="vm.calendar.eventSources">
 			<md-button class="md-icon-button" ng-disabled="vm.isToday()" ng-click="vm.today()" aria-label="Hoje">
-				<md-icon ng-if="isAndroid" md-font-icon="ion-android-calendar">
-				</md-icon>
-				<md-icon ng-if="isIOS" md-font-icon="ion-ios-calendar-outline">
+				<md-icon md-font-icon="ion-calendar" class="dynamic" data-date="{{::vm.calendar.currentDate.getDate()}}">
 				</md-icon>
 			</md-button>
 
