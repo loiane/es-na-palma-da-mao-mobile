@@ -70,7 +70,7 @@ describe( 'News/news-highlights', () => {
 
                 controller.goToNews( id );
 
-                expect( changeState.calledWith( 'app.news/:id', { id: id }, { type: 'slide', direction: 'right' }) ).to.be.true;
+                expect( changeState.calledWith( 'app.news/:id', { id: id }, { type: 'slide', direction: 'left' }) ).to.be.true;
             });
         });
     });

@@ -122,7 +122,7 @@ describe( 'Ceturb/bus-lines', () => {
 
                 controller.goToLine( id );
 
-                expect( changeState.calledWith( 'app.busInfo/:id', { id: id }, { type: 'slide' }) ).to.be.true;
+                expect( changeState.calledWith( 'app.busInfo/:id', { id: id }, { type: 'slide', direction: 'left' }) ).to.be.true;
             });
         });
 

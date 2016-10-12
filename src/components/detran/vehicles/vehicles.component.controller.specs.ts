@@ -193,7 +193,7 @@ describe( 'Detran/vehicles', () => {
             it( 'should redirect user to "newState"', () => {
                 controller.viewTickets( vehicle );
 
-                expect( changeState.calledWithExactly( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'right' }) ).to.be.true;
+                expect( changeState.calledWithExactly( 'app.vehicleTickets/:plate/:renavam', vehicle, { type: 'slide', direction: 'left' }) ).to.be.true;
             });
         });
 

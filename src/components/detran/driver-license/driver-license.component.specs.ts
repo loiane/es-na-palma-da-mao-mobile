@@ -153,7 +153,7 @@ describe( 'Detran/driver-license', () => {
 
                     controller.navigateTo( 'someState' );
 
-                    expect( changeState.calledWithExactly( 'someState', {}, { type: 'slide', direction: 'up' }) ).to.be.true;
+                    expect( changeState.calledWithExactly( 'someState', {}, { type: 'slide', direction: 'up' }, true ) ).to.be.true;
                 });
             });
         });

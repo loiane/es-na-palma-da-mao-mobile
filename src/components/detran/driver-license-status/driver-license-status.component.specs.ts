@@ -103,7 +103,7 @@ describe( 'Detran/driver-license-status', () => {
 
         beforeEach(() => {
             environment.refresh();
-            driverLicenseStorage = <DriverLicenseStorage>{ driverLicense: {}, hasDriverLicense: false };
+            driverLicenseStorage = <DriverLicenseStorage>{ driverLicense: {}, hasDriverLicense: false, isDriverLicenseValidNumber: false };
             detranApiService = <DetranApiService><any>{
                 getDriverData() { },
                 getDriverTickets() { },
@@ -165,12 +165,28 @@ describe( 'Detran/driver-license-status', () => {
                 controller.activate();
             });
 
-            it( 'should call getDriverData()', () => {
-                expect( getDriverDataController.calledOnce ).to.be.true;
+            it( 'should call getDriverData() if valid license numbers', () => {
+                driverLicenseStorage.isDriverLicenseValidNumber = true;
+
+                expect( getDriverDataController.notCalled ).to.be.true;
             });
 
-            it( 'should call getDriverTickets()', () => {
-                expect( getDriverTicketsController.calledOnce ).to.be.true;
+            it( 'should call getDriverTickets() if valid license numbers', () => {
+                driverLicenseStorage.isDriverLicenseValidNumber = true;
+
+                expect( getDriverTicketsController.notCalled ).to.be.true;
+            });
+
+            it( 'should not call getDriverData() if invalid license numbers', () => {
+                driverLicenseStorage.isDriverLicenseValidNumber = false;
+
+                expect( getDriverDataController.calledOnce ).to.be.false;
+            });
+
+            it( 'should not call getDriverTickets() if invalid license numbers', () => {
+                driverLicenseStorage.isDriverLicenseValidNumber = false;
+                
+                expect( getDriverTicketsController.calledOnce ).to.be.false;
             });
         });
 

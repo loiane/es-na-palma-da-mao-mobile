@@ -76,7 +76,7 @@ describe( 'News/news-detail', () => {
                 expect( shareWithOptions.calledWithExactly( {
                     message: newsDetail.title,
                     subject: newsDetail.title,
-                    files: [ newsDetail.image ],
+                    // files: [ newsDetail.image ],
                     url: newsDetail.url
                 }) ).to.be.true;
             });
