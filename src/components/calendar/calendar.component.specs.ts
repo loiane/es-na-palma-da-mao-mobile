@@ -139,6 +139,13 @@ describe( 'Calendar', () => {
             });
         });
 
+        describe( 'currentDay', () => {
+            it( 'should return the current month day', () => {
+                let monthDay = new Date().getDate();
+                expect( controller.currentDay ).to.be.equal( monthDay );
+            });
+        });
+
         describe( 'isToday()', () => {
             it( 'should check if calendar current date is today', () => {
 

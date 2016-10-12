@@ -73,6 +73,17 @@ export class CalendarController {
     }
 
     /**
+     * 
+     * 
+     * @readonly
+     * @type {number}
+     * @memberOf CalendarController
+     */
+    public get currentDay(): number {
+        return new Date().getDate();
+    }
+
+    /**
      * Altera a data do calendário para a data corrente (hoje e agora)
      *
      * @returns {void}
